@@ -1,0 +1,16 @@
+#!/bin/csh  -f
+set file1 = "lhco.lhco"
+set file2 = "lhe.lhe"
+echo $file1 > temp
+ ./plot_events < temp
+mv plots.top $file1.top
+echo $file2 >temp
+./plot_events < temp
+mv plots.top $file2.top
+echo "$file1.top" >temp
+echo "$file2.top" >>temp
+./combine-pl < temp
+rm temp
+td -d postscript $file1.top
+td -d postscript $file2.top
+td -d postscript $file1.top-$file2.top-combined.top

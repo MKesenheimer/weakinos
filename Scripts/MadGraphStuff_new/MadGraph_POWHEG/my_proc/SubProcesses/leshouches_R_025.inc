@@ -1,0 +1,10 @@
+       ICOLUP(1,           1 ,           1 )=         501
+       ICOLUP(1,           2 ,           1 )=           0
+       ICOLUP(1,           3 ,           1 )=           0
+       ICOLUP(1,           4 ,           1 )=           0
+       ICOLUP(1,           5 ,           1 )=           0
+       ICOLUP(2,           1 ,           1 )=         502
+       ICOLUP(2,           2 ,           1 )=         501
+       ICOLUP(2,           3 ,           1 )=           0
+       ICOLUP(2,           4 ,           1 )=           0
+       ICOLUP(2,           5 ,           1 )=         502

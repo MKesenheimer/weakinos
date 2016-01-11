@@ -1,0 +1,29 @@
+do each step parallel with 100 jobs
+
+Step 1a:
+ - fakevirt 1
+ - xgriditeration 1
+ - parallelstage 1
+ - ncall1 200000
+
+Step 1b:
+ - fakevirt 1
+ - xgriditeration 2
+ - parallelstage 1
+ - ncall1 200000
+
+Step 2: 
+ - fakevirt 0
+ - ncall2 300000
+ - xgriditeration 1
+ - parallelstage 2
+ - numevents 0
+ - nubound 0
+
+Step 3:
+ - nubound 100000
+ - parallelstage 3
+
+Step 4:
+ - numevents 100000
+ - parallelstage 4

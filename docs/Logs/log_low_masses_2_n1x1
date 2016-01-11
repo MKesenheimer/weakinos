@@ -1,0 +1,154 @@
+- input_orig.slha oder input_low_mass_2.slha
+- Prospino mit gleicher slha Datei
+- Änderungen von SM-Parametern in Prospino-2.1/Xvital.f90, so dass diese mit der SLHA-Datei übereinstimmen.
+
+weitere Parameter für den Vergleich:
+Prospino:
+- inlo = 1
+- isq_ng_in = 1
+- icoll_in = 1
+- energy_in = 14000
+- i_error_in = 1
+- final_state_in = 'nn'
+- ipart1_in = 1
+- ipart2_in = 7
+
+POWHEG:
+- ebeam1 = 7000
+- lhans1 = 10550
+- runningscale = 0
+- ncall1/2 = 20000
+
+Es gilt: mu_0_POWHEG = 2*mu_0_Prospino, d.h. die POWHEG-Skala muss von Hand immer um Faktor 2 niedriger gewählt werden.
+
+In diesem Test wurde geprüft, wie sich der Wirkungsquerschnitt verhält, wenn keine On-Shell Resonanzen in den reellen Korrekturen auftreten. Dazu wurde die Inputdatei input_low_mass.slha gewählt. Die Squark-Massen in dieser Datei sind gerade so gewählt, dass die Intermediate-Squark-Zustände nicht resonant werden können.
+Test an einem weiteren Parameterpunkt, input_low_mass_2.slha aus veränderter input_low_mass.slha Datei.
+
+LO:
+- input_orig.slha:
+    POWHEG  : 9.0085039243729542E-003 +-   3.7929251521258317E-006 (rensfact = 0.5)
+    PROSPINO: 9.0054138575541096E-003 +-   7.6791634552500748E-006 (scafac = 1.0)
+    
+- input_low_mass_2.slha:
+    POWHEG  : 2.3049001873503863E-002 +-   1.0386828681402814E-005 (rensfact = 0.5)
+    PROSPINO: 2.3045359020814851E-002 +-   2.0372769745232456E-005 (scafac = 1.0)
+    
+NLO:
+- input_orig.slha:
+    PROSPINO: 1.0913151366247580E-002 +-   9.7571855028150097E-006 (scafac = 0.5)
+    PROSPINO: 1.1674654681157097E-002 +-   8.9071564050219544E-006 (scafac = 1.0)
+    PROSPINO: 1.2325809853933058E-002 +-   9.0093390104347364E-006 (scafac = 2.0)
+              
+- input_low_mass.slha:
+    PROSPINO: 3.9847504026732074E-002 +-   2.8679776928172267E-005 (scafac = 0.5)
+    PROSPINO: 4.0768351879989846E-002 +-   2.7954598541571995E-005 (scafac = 1.0)
+    PROSPINO: 4.1508586203071580E-002 +-   2.7310959911509848E-005 (scafac = 2.0)
+
+####################################################################################################
+renscfact     0.5d0
+facscfact     0.5d0
+input_orig.slha
+Diagram Subtraction Method, DSUB
+
+   1.2107014619077176E-002   4.6726977060608640E-004
+   1.2349770503353520E-002   2.3446953223327824E-004
+   1.1948743173877089E-002   1.6877224135350340E-004
+   1.2142781461517866E-002   1.8227833530903308E-004   
+   1.2130747761693504E-002   1.6348722862243175E-004
+   1.2025668435728514E-002   1.7082021007192919E-004
+   1.1923554502053388E-002   1.4757409460788146E-004
+   1.1972343829858987E-002   2.1576573724843771E-004
+ tot:   1.1916895445592667E-002 +-   8.5668250633922925E-005
+ abs:   1.2013078632333635E-002 +-   8.8123643277482263E-005
+ pos:   1.1964987038963154E-002 +-   8.6484769636931464E-005
+ neg:   4.8091593370480264E-005 +-   8.5321425464921786E-006
+  powheginput keyword ubsigmadetails       absent; set to   -1000000.0000000000     
+ btilde pos.   weights:   1.1964987038963154E-002  +-   8.6484769636931464E-005
+ btilde |neg.| weights:   4.8091593370480264E-005  +-   8.5321425464921786E-006
+ btilde total (pos.-|neg.|):   1.1916895445592667E-002  +-   8.5668250633922925E-005
+  total (btilde+remnants) cross section in pb   1.1916895445592667E-002 +-   8.5668250633922925E-005
+
+####################################################################################################
+renscfact     0.5d0
+facscfact     0.5d0
+input_low_mass_2.slha
+Diagram Subtraction Method, DSUB
+
+   3.8751524204338646E-002   1.7021643454267147E-003
+   3.9794493106258676E-002   6.6438460079878059E-004
+   3.9783682740533836E-002   5.4076328332478105E-004
+   3.9741916946602937E-002   4.5253000182298749E-004   
+   4.1562625598119074E-002   5.8786420010567943E-004
+   4.0715132469038448E-002   5.7447622039959027E-004
+   4.0419911084799913E-002   5.0426392540546213E-004
+   4.0858620099079916E-002   5.7433211808930124E-004
+ tot:   4.0889072312755487E-002 +-   2.8063535262103193E-004
+ abs:   4.0889072312759497E-002 +-   2.8063535262095885E-004
+ pos:   4.0889072312757492E-002 +-   2.8063535262099544E-004
+ neg:   2.0053377552580486E-015 +-   1.6859918155468560E-015
+  powheginput keyword ubsigmadetails       absent; set to   -1000000.0000000000     
+ btilde pos.   weights:   4.0889072312757492E-002  +-   2.8063535262099544E-004
+ btilde |neg.| weights:   2.0053377552580486E-015  +-   1.6859918155468560E-015
+ btilde total (pos.-|neg.|):   4.0889072312755487E-002  +-   2.8063535262103193E-004
+  total (btilde+remnants) cross section in pb   4.0889072312755487E-002 +-   2.8063535262103193E-004
+
+
+####################################################################################################
+renscfact     0.5d0
+facscfact     0.5d0
+input_low_mass_2.slha
+No On-Shell Regularization
+
+   3.8751487182958795E-002   1.7021631024359335E-003
+   3.9794432235451059E-002   6.6438315433023875E-004
+   3.9783655493699541E-002   5.4076660253801192E-004
+   3.9741794677092261E-002   4.5253189274547932E-004 
+   4.1562528079668197E-002   5.8787856689752492E-004
+   4.0715003642410312E-002   5.7448122768535283E-004
+   4.0420009594254715E-002   5.0427406663186645E-004
+   4.0858610014551364E-002   5.7433941175244615E-004
+ tot:   4.0889037832716885E-002 +-   2.8063993609773037E-004
+ abs:   4.0889037832720895E-002 +-   2.8063993609765735E-004
+ pos:   4.0889037832718890E-002 +-   2.8063993609769389E-004
+ neg:   2.0054558430527923E-015 +-   1.6860538888487328E-015
+  powheginput keyword ubsigmadetails       absent; set to   -1000000.0000000000     
+ btilde pos.   weights:   4.0889037832718890E-002  +-   2.8063993609769389E-004
+ btilde |neg.| weights:   2.0054558430527923E-015  +-   1.6860538888487328E-015
+ btilde total (pos.-|neg.|):   4.0889037832716885E-002  +-   2.8063993609773037E-004
+  total (btilde+remnants) cross section in pb   4.0889037832716885E-002 +-   2.8063993609773037E-004
+
+  
+####################################################################################################
+renscfact     0.5d0
+facscfact     0.5d0
+input_low_mass_2.slha
+No On-Shell Regularization
+ncall1/2 = 20000
+
+   4.1337137728647402E-002   5.8989272223862682E-004
+   4.0707628456897155E-002   1.5414586599338432E-004
+   4.0472924611727044E-002   1.2458321879429529E-004
+   4.0673905029911341E-002   1.3539139392812035E-004
+  Importance sampling x grids generated and stored
+  powheginput keyword foldcsi              set to    2.0000000000000000     
+  powheginput keyword foldy                set to    2.0000000000000000     
+  powheginput keyword foldphi              set to    2.0000000000000000     
+  POWHEG: Computing pos.+|neg.|  weight contribution to inclusive cross section
+  powheginput keyword ncall2               set to    20000.000000000000     
+  powheginput keyword itmx2                set to    4.0000000000000000     
+  powheginput keyword ncall2rm             absent; set to   -1000000.0000000000     
+  powheginput keyword itmx2rm              absent; set to   -1000000.0000000000     
+  powheginput keyword stage2init           absent; set to   -1000000.0000000000     
+   4.0902150096882861E-002   1.3396904485992234E-004
+   4.0572703994532999E-002   1.2419061440119747E-004
+   4.0983950313174977E-002   1.3270378350419880E-004
+   4.0608678106094996E-002   1.2436765316856048E-004
+ tot:   4.0756916170579652E-002 +-   6.4525782790560287E-005
+ abs:   4.0766870627671564E-002 +-   6.4447182095599573E-005
+ pos:   4.0761893399125608E-002 +-   6.4294416463430722E-005
+ neg:   4.9772285459710556E-006 +-   4.9735273223218722E-006
+  powheginput keyword ubsigmadetails       absent; set to   -1000000.0000000000     
+ btilde pos.   weights:   4.0761893399125608E-002  +-   6.4294416463430722E-005
+ btilde |neg.| weights:   4.9772285459710556E-006  +-   4.9735273223218722E-006
+ btilde total (pos.-|neg.|):   4.0756916170579652E-002  +-   6.4525782790560287E-005
+  total (btilde+remnants) cross section in pb   4.0756916170579652E-002 +-   6.4525782790560287E-005

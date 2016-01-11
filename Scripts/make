@@ -1,0 +1,18 @@
+#!/bin/sh
+# kompiliert erst, wenn dropbox fertig synchronisiert hat
+
+echo ""
+#echo "dropbox status:"
+echo $(dropbox status)
+
+while [ "$(dropbox status)" != "Up to date" ]
+do
+#  echo "dropbox status:"
+  echo $(dropbox status)
+done
+
+make clean-results
+make do
+
+echo ""
+echo "done..."

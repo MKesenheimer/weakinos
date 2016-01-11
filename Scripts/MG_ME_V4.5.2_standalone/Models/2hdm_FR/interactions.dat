@@ -1,0 +1,251 @@
+#This file has been generated automatically by FeynRules 1.5.9    Date: 8. 7. 2009,    11:55
+
+# Interactions associated with FR2HDM
+w+   w-   a MGVX3   QED
+g   g   g MGVX1   QCD
+w-   w+   z MGVX5   QED
+w+   a   w-   a MGVX4   DUM0   QED QED n
+w+   a   w-   z MGVX7   DUM0   QED QED n
+g   g   T1 MGVX2   QCD a
+w+   w-   w+   w- MGVX6   DUM0   QED QED n
+w+   z   w-   z MGVX8   DUM0   QED QED n
+e-   e-   a MGVX18   QED
+m-   m-   a MGVX18   QED
+tt-   tt-   a MGVX18   QED
+e-   ve   w- MGVX24   QED
+m-   vm   w- MGVX24   QED
+tt-   vt   w- MGVX24   QED
+ve   e-   w+ MGVX24   QED
+vm   m-   w+ MGVX24   QED
+vt   tt-   w+ MGVX24   QED
+e-   e-   z MGVX43   QED
+m-   m-   z MGVX43   QED
+tt-   tt-   z MGVX43   QED
+ve   ve   z MGVX49   QED
+vm   vm   z MGVX49   QED
+vt   vt   z MGVX49   QED
+ve   e-   h+ MGVX141   QED
+vm   e-   h+ MGVX142   QED
+vt   e-   h+ MGVX143   QED
+ve   m-   h+ MGVX144   QED
+vm   m-   h+ MGVX145   QED
+vt   m-   h+ MGVX146   QED
+ve   tt-   h+ MGVX147   QED
+vm   tt-   h+ MGVX148   QED
+vt   tt-   h+ MGVX149   QED
+e-   ve   h- MGVX159   QED
+m-   ve   h- MGVX160   QED
+tt-   ve   h- MGVX161   QED
+e-   vm   h- MGVX162   QED
+m-   vm   h- MGVX163   QED
+tt-   vm   h- MGVX164   QED
+e-   vt   h- MGVX165   QED
+m-   vt   h- MGVX166   QED
+tt-   vt   h- MGVX167   QED
+e-   e-   h1 MGVX177   QED
+m-   e-   h1 MGVX178   QED
+tt-   e-   h1 MGVX179   QED
+e-   m-   h1 MGVX180   QED
+m-   m-   h1 MGVX181   QED
+tt-   m-   h1 MGVX182   QED
+e-   tt-   h1 MGVX183   QED
+m-   tt-   h1 MGVX184   QED
+tt-   tt-   h1 MGVX185   QED
+e-   e-   h2 MGVX204   QED
+m-   e-   h2 MGVX205   QED
+tt-   e-   h2 MGVX206   QED
+e-   m-   h2 MGVX207   QED
+m-   m-   h2 MGVX208   QED
+tt-   m-   h2 MGVX209   QED
+e-   tt-   h2 MGVX210   QED
+m-   tt-   h2 MGVX211   QED
+tt-   tt-   h2 MGVX212   QED
+e-   e-   h3 MGVX231   QED
+m-   e-   h3 MGVX232   QED
+tt-   e-   h3 MGVX233   QED
+e-   m-   h3 MGVX234   QED
+m-   m-   h3 MGVX235   QED
+tt-   m-   h3 MGVX236   QED
+e-   tt-   h3 MGVX237   QED
+m-   tt-   h3 MGVX238   QED
+tt-   tt-   h3 MGVX239   QED
+b   b   a MGVX15   QED
+c   c   a MGVX21   QED
+d   d   a MGVX15   QED
+s   s   a MGVX15   QED
+t   t   a MGVX21   QED
+u   u   a MGVX21   QED
+b   b   h1 MGVX168   QED
+d   b   h1 MGVX169   QED
+s   b   h1 MGVX170   QED
+c   c   h1 MGVX186   QED
+t   c   h1 MGVX187   QED
+u   c   h1 MGVX188   QED
+b   d   h1 MGVX171   QED
+d   d   h1 MGVX172   QED
+s   d   h1 MGVX173   QED
+b   s   h1 MGVX174   QED
+d   s   h1 MGVX175   QED
+s   s   h1 MGVX176   QED
+c   t   h1 MGVX189   QED
+t   t   h1 MGVX190   QED
+u   t   h1 MGVX191   QED
+c   u   h1 MGVX192   QED
+t   u   h1 MGVX193   QED
+u   u   h1 MGVX194   QED
+b   b   h2 MGVX195   QED
+d   b   h2 MGVX196   QED
+s   b   h2 MGVX197   QED
+c   c   h2 MGVX213   QED
+t   c   h2 MGVX214   QED
+u   c   h2 MGVX215   QED
+b   d   h2 MGVX198   QED
+d   d   h2 MGVX199   QED
+s   d   h2 MGVX200   QED
+b   s   h2 MGVX201   QED
+d   s   h2 MGVX202   QED
+s   s   h2 MGVX203   QED
+c   t   h2 MGVX216   QED
+t   t   h2 MGVX217   QED
+u   t   h2 MGVX218   QED
+c   u   h2 MGVX219   QED
+t   u   h2 MGVX220   QED
+u   u   h2 MGVX221   QED
+b   b   h3 MGVX222   QED
+d   b   h3 MGVX223   QED
+s   b   h3 MGVX224   QED
+c   c   h3 MGVX240   QED
+t   c   h3 MGVX241   QED
+u   c   h3 MGVX242   QED
+b   d   h3 MGVX225   QED
+d   d   h3 MGVX226   QED
+s   d   h3 MGVX227   QED
+b   s   h3 MGVX228   QED
+d   s   h3 MGVX229   QED
+s   s   h3 MGVX230   QED
+c   t   h3 MGVX243   QED
+t   t   h3 MGVX244   QED
+u   t   h3 MGVX245   QED
+c   u   h3 MGVX246   QED
+t   u   h3 MGVX247   QED
+u   u   h3 MGVX248   QED
+b   c   h- MGVX150   QED
+d   c   h- MGVX151   QED
+s   c   h- MGVX152   QED
+b   t   h- MGVX153   QED
+d   t   h- MGVX154   QED
+s   t   h- MGVX155   QED
+b   u   h- MGVX156   QED
+d   u   h- MGVX157   QED
+s   u   h- MGVX158   QED
+c   b   h+ MGVX132   QED
+t   b   h+ MGVX133   QED
+u   b   h+ MGVX134   QED
+c   d   h+ MGVX135   QED
+t   d   h+ MGVX136   QED
+u   d   h+ MGVX137   QED
+c   s   h+ MGVX138   QED
+t   s   h+ MGVX139   QED
+u   s   h+ MGVX140   QED
+d   c   w- MGVX27   QED
+s   c   w- MGVX28   QED
+b   t   w- MGVX24   QED
+d   u   w- MGVX30   QED
+s   u   w- MGVX31   QED
+t   b   w+ MGVX24   QED
+c   d   w+ MGVX36   QED
+u   d   w+ MGVX37   QED
+c   s   w+ MGVX38   QED
+u   s   w+ MGVX39   QED
+b   b   z MGVX40   QED
+c   c   z MGVX46   QED
+d   d   z MGVX40   QED
+s   s   z MGVX40   QED
+t   t   z MGVX46   QED
+u   u   z MGVX46   QED
+b   b   g GG   QCD
+c   c   g GG   QCD
+d   d   g GG   QCD
+s   s   g GG   QCD
+t   t   g GG   QCD
+u   u   g GG   QCD
+h1   h1   h1 MGVX57   QED
+h1   h1   h2 MGVX61   QED
+h1   h1   h3 MGVX71   QED
+h1   h2   h2 MGVX64   QED
+h1   h2   h3 MGVX74   QED
+h1   h3   h3 MGVX80   QED
+h-   h+   h1 MGVX55   QED
+h2   h2   h2 MGVX66   QED
+h2   h2   h3 MGVX76   QED
+h2   h3   h3 MGVX82   QED
+h-   h+   h2 MGVX59   QED
+h3   h3   h3 MGVX85   QED
+h-   h+   h3 MGVX69   QED
+h1   h1   h1   h1 MGVX58   DUM1   QED QED
+h1   h1   h1   h2 MGVX62   DUM1   QED QED
+h1   h1   h1   h3 MGVX72   DUM1   QED QED
+h1   h1   h2   h2 MGVX65   DUM1   QED QED
+h1   h1   h2   h3 MGVX75   DUM1   QED QED
+h1   h1   h3   h3 MGVX81   DUM1   QED QED
+h1   h1   h+   h- MGVX56   DUM1   QED QED
+h1   h2   h2   h2 MGVX67   DUM1   QED QED
+h1   h2   h2   h3 MGVX77   DUM1   QED QED
+h1   h2   h3   h3 MGVX83   DUM1   QED QED
+h1   h2   h+   h- MGVX60   DUM1   QED QED
+h1   h3   h3   h3 MGVX86   DUM1   QED QED
+h1   h3   h+   h- MGVX70   DUM1   QED QED
+h2   h2   h2   h2 MGVX68   DUM1   QED QED
+h2   h2   h2   h3 MGVX78   DUM1   QED QED
+h2   h2   h3   h3 MGVX84   DUM1   QED QED
+h2   h2   h+   h- MGVX63   DUM1   QED QED
+h2   h3   h3   h3 MGVX87   DUM1   QED QED
+h2   h3   h+   h- MGVX73   DUM1   QED QED
+h3   h3   h3   h3 MGVX88   DUM1   QED QED
+h3   h3   h+   h- MGVX79   DUM1   QED QED
+h+   h+   h-   h- MGVX52   DUM1   QED QED
+w+   w-   h1 MGVX102   QED
+z   z   h1 MGVX123   QED
+w+   w-   h2 MGVX104   QED
+z   z   h2 MGVX125   QED
+w+   w-   h3 MGVX107   QED
+z   z   h3 MGVX128   QED
+w+   w-   h1   h1 MGVX103   DUM1   QED QED
+z   z   h1   h1 MGVX124   DUM1   QED QED
+w+   w-   h1   h2 MGVX105   DUM1   QED QED
+z   z   h1   h2 MGVX126   DUM1   QED QED
+w+   w-   h1   h3 MGVX108   DUM1   QED QED
+z   z   h1   h3 MGVX129   DUM1   QED QED
+a   w+   h1   h- MGVX95   DUM1   QED QED
+w+   z   h1   h- MGVX119   DUM1   QED QED
+a   w-   h1   h+ MGVX89   DUM1   QED QED
+z   w-   h1   h+ MGVX116   DUM1   QED QED
+w+   w-   h2   h2 MGVX106   DUM1   QED QED
+z   z   h2   h2 MGVX127   DUM1   QED QED
+w+   w-   h2   h3 MGVX109   DUM1   QED QED
+z   z   h2   h3 MGVX130   DUM1   QED QED
+a   w+   h2   h- MGVX97   DUM1   QED QED
+w+   z   h2   h- MGVX120   DUM1   QED QED
+a   w-   h2   h+ MGVX91   DUM1   QED QED
+z   w-   h2   h+ MGVX117   DUM1   QED QED
+w+   w-   h3   h3 MGVX110   DUM1   QED QED
+z   z   h3   h3 MGVX131   DUM1   QED QED
+a   w+   h3   h- MGVX99   DUM1   QED QED
+w+   z   h3   h- MGVX121   DUM1   QED QED
+a   w-   h3   h+ MGVX93   DUM1   QED QED
+z   w-   h3   h+ MGVX118   DUM1   QED QED
+a   a   h+   h- MGVX53   DUM1   QED QED
+a   z   h+   h- MGVX111   DUM1   QED QED
+w+   w-   h+   h- MGVX101   DUM1   QED QED
+z   z   h+   h- MGVX122   DUM1   QED QED
+z   h1   h2 MGVX113   QED
+z   h1   h3 MGVX114   QED
+z   h2   h3 MGVX115   QED
+w+   h1   h- MGVX96   QED
+w+   h2   h- MGVX98   QED
+w+   h3   h- MGVX100   QED
+a   h-   h+ MGVX54   QED
+w-   h1   h+ MGVX90   QED
+w-   h2   h+ MGVX92   QED
+w-   h3   h+ MGVX94   QED
+z   h-   h+ MGVX112   QED

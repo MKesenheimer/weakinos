@@ -1,0 +1,5 @@
+L_ADD #first variable name
+NADD #2nd variable name
+MGLOW #3rd variable name
+MGUP #4th variable name
+

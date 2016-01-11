@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd ./ddbar_squaredme
+./rename_script
+cd ../uubar_squaredme
+./rename_script
+cd ../include
+./rename_script
+
+cd ..

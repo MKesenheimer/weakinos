@@ -1,0 +1,4 @@
+Binde hier die gesamte POWHEG-BOX-V2 Revision 3154 ein um einen Standalone Code erzeugen zu können.
+So kann der Benutzer wählen ob er den Sourcecode in seiner eigenen (vorinstallierten) POWHEG-BOX 
+kompilieren möchte, oder ob er, falls das nicht funktionieren sollte (da zum Beispiel einige Dateien der POWHEG-BOX
+durch ein Update geändert wurden), die alte Revision 3154 verwenden möchte, um den Code zu kompilieren.

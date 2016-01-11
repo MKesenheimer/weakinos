@@ -1,0 +1,147 @@
+*****************************************************
+*            Simple Analysis routines               *
+*                      for                          *
+*            LHE and LHCO event files               *  
+*        ---------------------------------          *
+*        Version compliant with MG_ME_V4.1          *
+*                                                   *
+*       Authors: R. Frederix and F. Maltoni         *
+*                                                   *
+*         Last Update by R.F., 13-Mar-2007          *
+*****************************************************
+
+This directory contains the source code of 
+SimpleAnalysis, a fortran program, that can be used
+for simple analysis of events and make plots
+for events both at parton level (Les Houches Format)
+and PGS4, LHC Olympics format. 
+
+This directory must be placed at the MG/ME base directory to work!
+To compile, just type: 
+
+make restore
+make
+
+To make plots of events type
+
+./plot_events file.lhe 
+
+or 
+
+./plot_events file.lhco
+
+A file plots.top is produced. This is a ascii file
+that can be intepreted and/or transformed to a postscript
+file by topdrawer (that needs to be installed
+independentently).
+
+td -d postscript plots.top
+
+As an alternative, an ascii file that can be read by
+gnuplot is produced. See the sa_card.dat to set this
+option.
+
+
+N.B. 
+Event files ARE expected to have either .lhe or .lhco
+extensions. 
+
+This directory also contains a script, combine-pl, that allows
+distributions for different event sets to be plotted
+automatically onto one graph. An example is given
+in the "script" where plots for events at parton-level
+and at the PGS level are combined into one set
+of plots to explicitly see the effects of the detector
+smearing and resolutions on the typical plots
+(p_t, eta,...).
+
+Plots are normalized as number of events/bin. 
+Events are considered of weight one if unweighted. 
+If weighted (only for lhe files), the unit
+weight corresponds to the average one. 
+Total cross section is reported in the info box.
+Total number of events and events falling in the
+plots are also given.
+
+
+Plots are for classes of particles. Classes
+are defined in the card file sa_card.dat. The syntax
+is transparent. Each particle is identified by its PDG code.
+Classes names are arbitrary. 
+Particles in the same class are ordered in pt, but this
+can be changed in the file kin_func.f to any other
+ordering function.
+
+So, for instance, by defining:
+
+jet  21  1  -1  2  -2  3  -3  4  -4  5  -5
+lept 11 -11 13 -13 15 -15
+mET  12 -12 14 -14 16 -16
+
+a jet here contains gluons and u,d,s,c,b and their antiparticles.
+For example, jet(3) is the third jet in pt.
+
+mET is the missing energy and its name is reserved.
+
+Classes can be edited at will, and given a name that
+will then appear in the plots (no spaces in the name).
+
+
+There are 13 build-in varables and 12 user-definable
+variables that can be plotted. These variables can be
+found in the file kin_func.f. To plot one of these variables
+put the corresponding name and the particles that you want to
+plot in the sa_card.dat.
+
+Some comments about the plots (format)
+1. In the file kin_func.f the functions can be found that can be        
+   plotted.                                                             
+2. With the plotting options one can set the number of plots for each   
+   of these functions.                                                  
+3. One has to specify for each variable which particles from which      
+   class are used to set the plots. Syntax:                             
+      et  2 4                                                           
+   means that the transverse energy of the first four particles in the  
+   second class will be plotted.                                        
+      mij 1 3                                                           
+      mij 2 2                                                           
+   means that for the invariant mass plots the first three particles    
+   from the first class and the first two from the second class will be 
+   used to plot the invariant mass of two particles. (10 plots)         
+4. The ordering of the particles in a class can be set with the         
+   'ordering function' in the file kin_func.f.                          
+5. Max number of plots is 200.                                          
+
+
+
+Cuts can be set on the same variables. They can be defined in the
+same sa_card.dat. The Syntax is transparent.
+
+Some comments about the cuts                                            
+1. In the file kin_func.f the functions on which cuts can be applied    
+   are given.                                                           
+2. The syntax is as follows.                                            
+     etmin 1 3 30d0                                                     
+    means that from the first class the Et of the first three particles 
+    has to be greater than 30 GeV.                                      
+                                                                        
+     etmissmin 20d0                                                     
+    means that there must be at least 20 GeV of missing Et              
+                                                                        
+     dRmin 2 1 4 3 3d0                                                  
+    means that the distance between the first particle in the second    
+    class and the first three particles in the fourth class has to be   
+    greater than 3.                                                     
+                                                                        
+     ptmax 1 3 10d0                                                     
+     ptmax 1 2 15d0                                                     
+    means that the maximum pt of the third particle in the first class  
+    has to smaller than 10 GeV, and the first two particles of this     
+    class has to be smaller than 15 GeV                                 
+3. The ordering of the particles within a class can be set with the     
+   'ordering function' in the file kin_func.f.                          
+4. For all the 'min' cuts, an event will be thrown away if the particle 
+   does not exist. On the other hand, for all the 'max' cuts the cut    
+   will be ignored if the particle does not exist                       
+   (Only dRij is an exception, for which it is the other way around)    
+

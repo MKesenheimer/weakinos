@@ -1,0 +1,269 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7769,        259]
+NotebookOptionsPosition[      6502,        210]
+NotebookOutlinePosition[      6842,        225]
+CellTagsIndexPosition[      6799,        222]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{"sigmaNLO", "=", 
+  RowBox[{"1.4580999974754007", " ", 
+   RowBox[{"10", "^", 
+    RowBox[{"-", "2"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"deltasigmaNLO", "=", 
+  RowBox[{"1.2693166925522516", " ", 
+   RowBox[{"10", "^", 
+    RowBox[{"-", "5"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"sigmaLO", "=", 
+  RowBox[{"1.1413085352358184", " ", 
+   RowBox[{"10", "^", 
+    RowBox[{"-", "2"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"deltasigmaLO", "=", 
+  RowBox[{"6.9974431579567219", " ", 
+   RowBox[{"10", "^", 
+    RowBox[{"-", "6"}]}]}]}]}], "Input",
+ CellChangeTimes->{{3.639729808775572*^9, 3.639729908403067*^9}}],
+
+Cell[BoxData["0.014580999974754007`"], "Output",
+ CellChangeTimes->{3.639729986698242*^9, 3.6397301165541697`*^9}],
+
+Cell[BoxData["0.000012693166925522518`"], "Output",
+ CellChangeTimes->{3.639729986698242*^9, 3.6397301165554247`*^9}],
+
+Cell[BoxData["0.011413085352358184`"], "Output",
+ CellChangeTimes->{3.639729986698242*^9, 3.639730116556106*^9}],
+
+Cell[BoxData["6.997443157956722`*^-6"], "Output",
+ CellChangeTimes->{3.639729986698242*^9, 3.639730116556961*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"k", "=", 
+  RowBox[{"sigmaNLO", "/", "sigmaLO"}]}]], "Input",
+ CellChangeTimes->{{3.639729970811878*^9, 3.6397299843062057`*^9}}],
+
+Cell[BoxData["1.277568643762159`"], "Output",
+ CellChangeTimes->{3.6397299877309437`*^9, 3.6397301174453907`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"deltak", "=", 
+  RowBox[{
+   RowBox[{"Sqrt", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"deltasigmaNLO", "/", "sigmaLO"}], ")"}], "^", "2"}], "+", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"sigmaNLO", "*", 
+        RowBox[{"deltasigmaLO", "/", 
+         RowBox[{"sigmaLO", "^", "2"}]}]}], ")"}], "^", "2"}]}], "]"}], " ", 
+   "1000"}]}]], "Input",
+ CellChangeTimes->{{3.639730111114296*^9, 3.6397301984328947`*^9}}],
+
+Cell[BoxData["1.3603071001846352`"], "Output",
+ CellChangeTimes->{{3.6397301848027353`*^9, 3.63973019919433*^9}}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"msdl", "=", "5.68441109"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"msdr", "=", "5.45228462"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"msul", "=", "5.61119014"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"msur", "=", "5.49259265"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mssl", "=", "5.68441109"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mssr", "=", "5.45228462"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mscl", "=", "5.61119014"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mscr", "=", "5.49259265"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"msb1", "=", "5.13065179"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"msb2", "=", "5.43726676"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mst1", "=", "3.99668493"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mst2", "=", "5.85785818"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.639826022278627*^9, 3.6398260830158653`*^9}, {
+  3.639826143567292*^9, 3.639826148456008*^9}, {3.6398262908619547`*^9, 
+  3.639826318096196*^9}, {3.639826962351122*^9, 3.639827004103382*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{"msdl", "+", "msul", "+", "mssl", "+", "mscl"}], ")"}], "/", 
+  "4"}]], "Input",
+ CellChangeTimes->{
+  3.6398265028195353`*^9, {3.639826781896796*^9, 3.639826811519754*^9}}],
+
+Cell[BoxData["5.6478006149999995`"], "Output",
+ CellChangeTimes->{3.6398268121989098`*^9, 3.639827005920669*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{"msdr", "+", "msur", "+", "mssr", "+", "mscr"}], ")"}], "/", 
+  "4"}]], "Input",
+ CellChangeTimes->{{3.6398268210080423`*^9, 3.6398268255197678`*^9}}],
+
+Cell[BoxData["5.472438635`"], "Output",
+ CellChangeTimes->{3.639826825833164*^9, 3.639827006600605*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"msq8", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+    "msdl", "+", "msul", "+", "mssl", "+", "mscl", "+", "msdr", "+", "msur", 
+     "+", "mssr", "+", "mscr"}], ")"}], "/", "8"}]}]], "Input",
+ CellChangeTimes->{{3.639826857391378*^9, 3.639826892919756*^9}}],
+
+Cell[BoxData["5.560119625`"], "Output",
+ CellChangeTimes->{3.639826863478508*^9, 3.639826894051704*^9, 
+  3.6398270072527943`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"msq10", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+    "msdl", "+", "msul", "+", "mssl", "+", "mscl", "+", "msdr", "+", "msur", 
+     "+", "mssr", "+", "mscr", "+", "msb1", "+", "msb2"}], ")"}], "/", 
+   "10"}]}]], "Input",
+ CellChangeTimes->{{3.639826911934952*^9, 3.639826941799601*^9}}],
+
+Cell[BoxData["5.504887555`"], "Output",
+ CellChangeTimes->{{3.6398269208852453`*^9, 3.639826942110181*^9}, 
+   3.639827011287611*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"sigmaLOPros", "=", 
+   RowBox[{"0.9788016", " ", 
+    RowBox[{"10", "^", 
+     RowBox[{"-", "2"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"deltaLOPros", "=", 
+   RowBox[{"0.8468", " ", 
+    RowBox[{"10", "^", 
+     RowBox[{"-", "6"}]}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6398276514393473`*^9, 3.6398277134144287`*^9}, {
+  3.639827748438027*^9, 3.639827749990562*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"relerror", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"sigmaLOPros", "+", "deltaLOPros", "-", 
+     RowBox[{"(", 
+      RowBox[{"sigmaLOPros", "-", "deltaLOPros"}], ")"}]}], ")"}], "/", 
+   RowBox[{"(", 
+    RowBox[{"sigmaLOPros", "+", "deltaLOPros", "+", 
+     RowBox[{"(", 
+      RowBox[{"sigmaLOPros", "-", "deltaLOPros"}], ")"}]}], 
+    ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.6398277200891237`*^9, 3.639827793373592*^9}}],
+
+Cell[BoxData["0.00008651395747624438`"], "Output",
+ CellChangeTimes->{3.63982779397184*^9}]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{Automatic, 506}, {107, Automatic}},
+FrontEndVersion->"10.0 for Linux x86 (64-bit) (September 9, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 643, 17, 99, "Input"],
+Cell[1226, 41, 114, 1, 32, "Output"],
+Cell[1343, 44, 117, 1, 32, "Output"],
+Cell[1463, 47, 112, 1, 32, "Output"],
+Cell[1578, 50, 113, 1, 34, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1728, 56, 153, 3, 32, "Input"],
+Cell[1884, 61, 113, 1, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2034, 67, 472, 14, 77, "Input"],
+Cell[2509, 83, 113, 1, 32, "Output"]
+}, Open  ]],
+Cell[2637, 87, 1175, 27, 275, "Input"],
+Cell[CellGroupData[{
+Cell[3837, 118, 224, 6, 32, "Input"],
+Cell[4064, 126, 112, 1, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4213, 132, 201, 5, 32, "Input"],
+Cell[4417, 139, 103, 1, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4557, 145, 285, 7, 32, "Input"],
+Cell[4845, 154, 130, 2, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5012, 161, 317, 8, 32, "Input"],
+Cell[5332, 171, 133, 2, 32, "Output"]
+}, Open  ]],
+Cell[5480, 176, 431, 12, 55, "Input"],
+Cell[CellGroupData[{
+Cell[5936, 192, 456, 12, 55, "Input"],
+Cell[6395, 206, 91, 1, 32, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

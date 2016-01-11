@@ -1,0 +1,10 @@
+Der Ordner MG_ME_V4.5.2 wurde nach /Users/kesenheimer verschoben, da an 
+diesem Ort das MadGraph-Skript schneller ist (Probleme beim Kopieren von 
+vielen kleinen Dateien über das Netzwerk).
+
+Um einen neuen Prozess 
+aufzusetzen:
+- Ordner Template kopieren und umbenennen
+- proc_card.dat in ./Cards editieren
+- in der Konsole ./bin/newprocess ausführen 
+  (davor nicht ./bin/standalone verwenden!)

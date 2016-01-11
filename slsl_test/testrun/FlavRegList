@@ -1,0 +1,72 @@
+ c~ (g  ) ==> XXXX c~      | mult=  1
+ c~  c    ==> XXXX    | uborn, mult=  1
+   2  5
+(c~  c  ) ==> XXXX g       | mult=  1
+ c~  c    ==> XXXX    | uborn, mult=  1
+   0  5
+ s~ (g  ) ==> XXXX s~      | mult=  1
+ s~  s    ==> XXXX    | uborn, mult=  1
+   2  5
+(s~  s  ) ==> XXXX g       | mult=  1
+ s~  s    ==> XXXX    | uborn, mult=  1
+   0  5
+ u~ (g  ) ==> XXXX u~      | mult=  1
+ u~  u    ==> XXXX    | uborn, mult=  1
+   2  5
+(u~  u  ) ==> XXXX g       | mult=  1
+ u~  u    ==> XXXX    | uborn, mult=  1
+   0  5
+ d~ (g  ) ==> XXXX d~      | mult=  1
+ d~  d    ==> XXXX    | uborn, mult=  1
+   2  5
+(d~  d  ) ==> XXXX g       | mult=  1
+ d~  d    ==> XXXX    | uborn, mult=  1
+   0  5
+(g  )c~   ==> XXXX c~      | mult=  1
+ c   c~   ==> XXXX    | uborn, mult=  1
+   1  5
+(g  )s~   ==> XXXX s~      | mult=  1
+ s   s~   ==> XXXX    | uborn, mult=  1
+   1  5
+(g  )u~   ==> XXXX u~      | mult=  1
+ u   u~   ==> XXXX    | uborn, mult=  1
+   1  5
+(g  )d~   ==> XXXX d~      | mult=  1
+ d   d~   ==> XXXX    | uborn, mult=  1
+   1  5
+(g  )d    ==> XXXX d       | mult=  1
+ d~  d    ==> XXXX    | uborn, mult=  1
+   1  5
+(g  )u    ==> XXXX u       | mult=  1
+ u~  u    ==> XXXX    | uborn, mult=  1
+   1  5
+(g  )s    ==> XXXX s       | mult=  1
+ s~  s    ==> XXXX    | uborn, mult=  1
+   1  5
+(g  )c    ==> XXXX c       | mult=  1
+ c~  c    ==> XXXX    | uborn, mult=  1
+   1  5
+(d   d~ ) ==> XXXX g       | mult=  1
+ d   d~   ==> XXXX    | uborn, mult=  1
+   0  5
+ d  (g  ) ==> XXXX d       | mult=  1
+ d   d~   ==> XXXX    | uborn, mult=  1
+   2  5
+(u   u~ ) ==> XXXX g       | mult=  1
+ u   u~   ==> XXXX    | uborn, mult=  1
+   0  5
+ u  (g  ) ==> XXXX u       | mult=  1
+ u   u~   ==> XXXX    | uborn, mult=  1
+   2  5
+(s   s~ ) ==> XXXX g       | mult=  1
+ s   s~   ==> XXXX    | uborn, mult=  1
+   0  5
+ s  (g  ) ==> XXXX s       | mult=  1
+ s   s~   ==> XXXX    | uborn, mult=  1
+   2  5
+(c   c~ ) ==> XXXX g       | mult=  1
+ c   c~   ==> XXXX    | uborn, mult=  1
+   0  5
+ c  (g  ) ==> XXXX c       | mult=  1
+ c   c~   ==> XXXX    | uborn, mult=  1
+   2  5

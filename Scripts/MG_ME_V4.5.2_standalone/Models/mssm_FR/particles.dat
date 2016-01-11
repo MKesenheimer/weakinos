@@ -1,0 +1,58 @@
+#This file has been generated automatically by FeynRules
+
+# Version: 1.5.8   Date: 5. 7. 2009,    12:17
+#This is a special data file which contains particles of the
+# Model.The format for entering new particles is
+#Particle codes taken from http://pdg.lbl.gov/2000/montecarlorpp.pdf
+#Name anti_Name Spin Linetype Mass Width Color Label Model
+#xxx xxxx SFV WSDC str str STO str PDG code
+
+ve ve~ F S Mnue ZERO S ve 12
+vm vm~ F S Mnum ZERO S vm 14
+vt vt~ F S Mnut ZERO S vt 16
+e- e+ F S ME ZERO S e 11
+mu- mu+ F S MM ZERO S m 13
+tau- tau+ F S MTA ZERO S tau 15
+u u~ F S MU ZERO T u 2
+c c~ F S MC ZERO T c 4
+t t~ F S MT WT T t 6
+d d~ F S MD ZERO T d 1
+s s~ F S MS ZERO T s 3
+b b~ F S MB ZERO T b 5
+n1 n1 F S Mneu1 Wneu1 S neu1 1000022
+n2 n2 F S Mneu2 Wneu2 S neu2 1000023
+n3 n3 F S Mneu3 Wneu3 S neu3 1000025
+n4 n4 F S Mneu4 Wneu4 S neu4 1000035
+x1+ x1- F S Mch1 Wch1 S ch1 1000024
+x2+ x2- F S Mch2 Wch2 S ch2 1000037
+go go F S Mglu Wglu O gluino 1000021
+sv1 sv1~ S D Msn1 Wsn1 S sn1 1000012
+sv2 sv2~ S D Msn2 Wsn2 S sn2 1000014
+sv3 sv3~ S D Msn3 Wsn3 S sn3 1000016
+sl1- sl1+ S D Msl1 Wsl1 S sl1 -1000011
+sl2- sl2+ S D Msl2 Wsl2 S sl2 -1000013
+sl3- sl3+ S D Msl3 Wsl3 S sl3 -1000015
+sl4- sl4+ S D Msl4 Wsl4 S sl4 -2000011
+sl5- sl5+ S D Msl5 Wsl5 S sl5 -2000013
+sl6- sl6+ S D Msl6 Wsl6 S sl6 -2000015
+su1 su1~ S D Musq1 Wusq1 T usq1 1000002
+su2 su2~ S D Musq2 Wusq2 T usq2 1000004
+su3 su3~ S D Musq3 Wusq3 T usq3 1000006
+su4 su4~ S D Musq4 Wusq4 T usq4 2000002
+su5 su5~ S D Musq5 Wusq5 T usq5 2000004
+su6 su6~ S D Musq6 Wusq6 T usq6 2000006
+sd1 sd1~ S D Mdsq1 Wdsq1 T dsq1 1000001
+sd2 sd2~ S D Mdsq2 Wdsq2 T dsq2 1000003
+sd3 sd3~ S D Mdsq3 Wdsq3 T dsq3 1000005
+sd4 sd4~ S D Mdsq4 Wdsq4 T dsq4 2000001
+sd5 sd5~ S D Mdsq5 Wdsq5 T dsq5 2000003
+sd6 sd6~ S D Mdsq6 Wdsq6 T dsq6 2000005
+h1 h1 S D Mh01 Wh01 S h0 25
+h2 h2 S D MH02 WH02 S H0 35
+h3 h3 S D MA0 WA0 S A0 36
+h+ h- S D MH WH S H 37
+a a V W ZERO ZERO S \gamma 22
+z z V W MZ WZ S Z 23
+w+ w- V W MW WW S W 24
+g g V C ZERO ZERO O G 21
+T1 T1 T D ZERO ZERO O T1 8000002

@@ -1,0 +1,18 @@
+POWHEG:
+- fin1  1000022
+- fin2  -1000024 
+- ebeam1 = 7000
+- lhans1 = 10550
+- runningscale = 0
+- ncall1/2 = 20000
+- itmx1/2 = 4
+- ncall1/2osres = 20000
+- itmx1/2osres = 4 
+
+DSUB_II
+mit corrfac = 1
+1.1861696066662203E-002 +-   8.0347173549611255E-005
+
+DSUB_II
+mit richtigem corrfac
+6.9992900479907111E-002 +-   2.8500715298799103E-004

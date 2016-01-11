@@ -1,0 +1,98 @@
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D4
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1680012692473776E-002 +-   2.2904452732266071E-005
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D3
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1677833889495113E-002 +-   2.2892699727913954E-005
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D2
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1636403558073702E-002 +-   2.2798804521805506E-005
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 6D1
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1651464444098229E-002 +-   2.2715763931534413E-005
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D1
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1654670822184453E-002 +-   2.3378563850944185E-005
+
+  
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D0
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1677398123429718E-002 +-   3.0548297118417475E-005
+
+
+=== NLO Ergebnis: ===
+ncall1   300000
+itmx1    4
+ncall2   500000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D-1
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1653253400877616E-002 +-   3.1624749896699642E-005
+
+=== NLO Ergebnis: ===
+ncall1   300000
+itmx1    4
+ncall2   500000
+itmx2    4
+runningscale  0
+iseed         5602
+Diagram subtraction
+wreg = 1D-2
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+total (btilde+remnants) cross section in pb   1.1618819150836174E-002 +-   4.6568358729115449E-005

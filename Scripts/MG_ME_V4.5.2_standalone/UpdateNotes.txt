@@ -1,0 +1,650 @@
+Update notes for MadGraph/MadEvent 4 (in reverse time order)
+
+
+4.5.2 (07/11/11) RF: Argument of the EPSFI term fixed in
+                 MadGraphII/dipolecolor.f file and an argument for the
+                 PDF of one of the integrated dipoles fixed. Thanks to
+                 Dorival Goncalves Netto.
+                  
+4.5.1 (18/07/11) NG (by RF): Updates for the MadDipole. Sometimes the
+                   wrong PDF was assigned to the integrated dipoles. QED version
+                   allows for external W-bosons. Furthermore there was a factor NC
+                   wrong in the QED pole terms.
+                  
+4.5.0 (13/04/11)  YT+KM (by OM): Added spin 3/2 functionality inside MadGraph (merge with the KEK branch).
+                              mssm_gravitino: 1010.4255/1101.1289 [hep-ph]
+                  
+
+-- Passing to subversion 4.5 with spin 3/2 functionality --
+
+4.4.63 (13/04/11) QL+OM+PAq: fix one helas routines linked to spin2 (ftixxx.f)
+
+4.4.62 (22/03/11) JA: Fixed wrong array limit in cluster.f, introduced in v. 4.4.59.
+
+4.4.61 (15/03/11) RF (for NG): Fixed a bug in MadDipole that used the wrong PDG code
+                      in one of the integrated dipoles.
+
+4.4.60 (11/03/11) RF (for NG): Fixed a bug in MadDipole related to the off-diagonal
+                      helicity configurations. Introduced in v4.4.49.
+
+4.4.59 (09/03/11) JA: Major revamping and speedup of clustering routines in cluster.f, 
+                      as well as fixing some bugs which gave segmentation faults for 
+                      certain processes on certain architectures.
+
+4.4.58 (21/02/11) SdV: Bug fixing: comparison s_max.lt.1d5 -->  dqrt(s_max).lt.1d5. Same for ptllmax.
+
+4.4.57 (12/01/11) JA: Add "pop-up" color indices for diquark-type resonances 
+                      in the event file. No difference is made between color
+                      sextets and color triplets.
+
+4.4.56 (03/01/11) JA: Make sure that the integration grids are cleaned before run
+                  JA: Change default scale from average of last two clustering scales to 
+                      maximum, giving more expected behavior for single production of
+                      heavy particle + light parton
+
+4.4.55 (17/12/10) SdV: Added smckm_zerobmass: equivalent to smckm model but with non massive b quark.
+
+4.4.54 (16/12/10) RF: Bug fixed in dipolcolor.f. Thanks to Pierpaolo Mastrolia.
+
+4.4.53 (13/12/10) SdV: Added sm_massivebc: equivalent to sm model but with massive c quark 
+
+4.4.52 (04/12/10) TS+JA: IMPORTANT: Fixed bug in unwgt.f. Sometimes events associated 
+                      to channels with *very small* cross sections were not produced correctly. 
+                      In some extreme cases (very large number of subprocesses giving very small
+                      cross sections), this bug occasionally lead to up to a few tens of percent
+                      downward fluctuations in the number of events associated to subprocesses 
+                      with very small overall contribution. Cross sections values for subprocesses
+                      and channels were not affected. Thanks to Alexis Kalogeropoulos for the
+                      excellent work of reporting this very-difficult-to-find problem.
+                  JA: Fixed small bug which affected selection of forced Breit-Wiegner
+                      resonances in the particular case when there was a massless s-channel 
+                      propagator in the decay of a forced onshell particle.
+                  JA: Added reset statement to symmetry.f to ensure that diagram symmetry
+                      works with all compilers.
+
+4.4.51 (30/11/10) JA: Increased allowed length of subprocess directory names to 100 in 
+                     combine_events.f
+		  SdV: Added cuts on summed lepton pT
+
+4.4.50 (18/11/10) JA: Fixed bug in addmothers.f, which always wrote the first allowed color
+                  flow for each channel to the event file, instead of MCing. Note that
+                  this does not in any way affect the cross section of event distribution,
+                  it can only affect the shower by showering MCs.
+
+4.4.49 (30/10/10) RF: Included the QED dipoles by Nico Greiner.
+
+4.4.48 (16/10/10) JA: Included also the maxflow parameter in maxamps.inc, written by MG.
+                      Modified files in Template/SubProcesses to use this instead of fixed number.
+
+4.4.47 (14/09/10) OM: include Lu Ran patch decreasing disk access. (Thanks a lot for this patch)
+
+4.4.46 (06/09/10) JA: Made sure that the cross section read by Pythia in the unweighted_events.lhe
+                      file is identical to that reported in the results.html file.
+
+4.4.45 (03/08/10) OM: Fixed bug in JVSS Helas routine (thanks to Kanzaki)
+
+4.4.44 (07/07/10) JA: Fixed bug in cluster.f which affected processes generated
+                      with MadGraph 5. Fixed mapping between ptclus and particle.
+
+4.4.43 (18/06/10) JA: Fixed 2->1 process running also without fixed scales
+                  JA: Allow run names starting with P and G (thanks Matt Buckley and Celine Degrande
+                      for reporting this bug)
+
+4.4.42 (16/06/10) RF: Fixed the 1->2 decay processes; bug was introduced in version 4.4.39.
+                  RF: Fixed bug in presetting of integration grids. Thanks to Hiroshi Yokoya for
+                      pointing out the bug
+
+4.4.41 (15/06/10) OM: Change ./bin/Passto_gfortran for bash compatibility
+                  OM+JA: Modify newprocess_mg5 in order to have a better redirection of stdout
+
+4.4.40 (01/06/10) OM: Change the reading routine of the param_card.dat. Some model had a short limit on
+		      the maximal lenght of the line (Thanks to E. Akyazi)
+
+4.4.39 (25/05/10) TS+JA: Allow integration of 2->1 processes, e.g. p p > Z.
+
+4.4.38 (13/05/10) JA: Some modifications to newprocess_mg5 and clean_template
+
+4.4.37 (06/05/10) JA & OM: Additions/modifications to allow MadEvent process directory
+                           generation with MadGraph 5
+
+4.4.36 (20/04/10) JA: Let MadGraph create file maxamps.inc, to allow any number of amplitudes in MadEvent
+                  JA: Cleanup: In particular removed include of nexternal.inc from genps.inc, and make sure
+                      there is only one version of genps.inc (in Source, linked to SubProcesses)
+
+4.4.35 (30/03/10) JA: Fixed issue with gluons interpreted as radiated from decaying tops
+                  JA: Added script run_plot for easy plot generation from MadAnalysis
+
+4.4.34 (23/03/10) RF: Added integrated dipoles to MadDipole
+
+4.4.33 (22/12/09) MH: Fixed wrong write statement in usrmod_FR, tks to J. Santiago
+
+4.4.32 (16/11/09) PDA (by OM): add some HELAS routine for graviton model (thanks to quiang li)
+
+4.4.31 (11/11/09) JA: New running mode: Multicore running (parallel mode 2) (thanks Tilman Plehn)
+                      Starts up to specified number of jobs running simultaneously in the background,
+                      to exploit multicore machines without installing batch system.
+                  JA: Fixed compile script for dynamic mode
+
+4.4.30 (21/10/09) FM (by OM): Change the check_sa in order to be able to compute decay width of particles.
+
+4.4.29 (16/10/09) OM+AP: MadWeight Version 2.5 is now stable. We strongly recommend to pass to this version.
+
+4.4.28 (2/10/09)  OM: Huge improvment for MadWeight computation. Candidate Release of MadWeight2.5 is now available.
+                  OM: fix Passto_gfortran: remove pointless warning 
+
+4.4.27 (25/09/09) PA (by OM): Fix the base on the computer at 2. In some computer the lapack failed to 
+                       find the correct bases
+
+4.4.26 (14/08/09) MH+FR team+Model authors: New FR models (*_FR): Standard Model
+                  MSSM, Generic 2HDM, Minimal Higgsless and UED. 
+                  New usrmod framework (usrmod_FR) to use with the new models.
+ 
+4.4.25 (3/08/09)  JA: Implementation of CKKW-style matching with Pythia pT-ordered showers
+                      So far only ISR; FSR given by Sherpa paradigm + suppressed for heavy final states
+                      Please note that this is still beta.
+                  JA: Choice between Durham and Pythia scheme for pT definition in MLM matching
+                      (by run_card parameter ktscheme)
+                      Choice between kT-clustering and clustering based on channel diagram (chcluster)
+                  JA: PDF reweighting for MLM matching (needed for pT-ordered Pythia showers)
+
+4.4.24 (30/06/09) TS (by RF): updated Source/dsample.f to fix a small bug in the endpoint
+                  of the integration grid which let to some value > 1
+                  OM+JA: include compatibility with LHAPDF module. Read the README for more information
+                  OM: add routine ./bin/Passto_gfortran.py in order to change the compilator to gfortran.
+
+4.4.23 (12/06/09) CD (by MH): updated wwwwn and jwwwn HELAS routines for FR 1.4
+                  MH: small fix for 2HDM full from validation of FR1.4 model
+		  JA: Included Delphes support (run_delphes, generate_events, store, Cards)
+
+4.4.22 (9/06/09)  TS (by MH): fix print statement for gfortran thanks to T. Rosten
+                  JA: Modified run_pgs to account for new version of PGS4
+
+4.4.21 (14/05/09) TS: correct instabilities present in T-channel
+
+4.4.20 (11/05/09) OM: modification of Subversion of MadWeight (now in version 2.2)
+
+4.4.19 (24/03/09) RF: Some bugfixes for MadDipole, thanks to M. Worek and M. Czakon.
+
+4.4.18 (19/03/09) JA: Improved speed of mssm, heft and sm production with variable scales
+
+4.4.17 (27/02/09) JA: Fixed minor bugs introduced in v. 4.4.16:
+                      Fixed bug with variable scales for incoming b-quarks when maxjetflavor<5
+                      Fixed bug with PDFs for antiprotons
+                      Fixed bug with variable scales with incoming none-QCD particles
+                      Changed the cut ptheavy to be active only if there are heavy particles 
+                        present
+
+4.4.16 (11/02/09) JA: Multiple changes
+                  - New treatment of PDFs by MadGraph. Now, only the PDFs for flavors actually used
+                    are evaluated, since the PDF call previously took up to 50% of the time for
+                    simple processes.
+                  - New default scale choices: variable factorization and renormalization scales,
+                    set to the central mT^2 scale after kT-clustering of the event.
+                    For single heavy particle, this corresponds to the M^2+pT^2, for pair
+                    of heavy particles it is the geometric mean of M^2+pT^2 for each particle,
+                    for massless particles it is the pT^2 of the last pair after clustering.
+                    If the last clustering is a t-channel colorless exchange (as, e.g., in WBF), 
+                    the two fact. scales are set to the last mT^2 values on either side.
+                  - These scales are overridden by scales defined in setscales.f, if they are 
+                    returned as non-0.
+                  - xqcut only acts on jet particles, as defined by maxjetflavor in the run_card
+                  - The integration grid preparation takes into account xqcut, so no pT, deltaR 
+                    or invariant mass cuts needed unless specifically wanted
+		  - New, more reasonable, default for bwcutoff (15 instead of 5) in the run_card.
+
+4.4.15 (30/01/09) MH: Fix bug in SM parameter convention for smckm model (Thanks to
+                  Claude Duhr and Priscila de Aquino). Fix bug in ZH+H- coupling (compare to
+                  AH+H-) in 2hdm and 2hdm_full, thanks to Heather Logan and Shain Davidson.
+
+4.4.14 (23/01/09) JA & TS: Modifications of grid preconditioning
+                  routines in myamp.f, to improve result for competing resonances.
+                  Bug fixed affecting simulation of resonances in shat in the presence 
+                  of competing resonances, e.g. pp>h>e+e-mu+mu-.
+
+4.4.13 (12/01/09) FR Team: Changes motivated by the development of the MSSM FR Model.
+		  Increase of default param values in params.inc for MG. Small bug correction
+		  in original mssm interactions.dat file. Correction of particular HELAS routines 
+		  jioc, jw3wn, jwwwn, w3w3n and wwwwn.
+
+4.4.12 (27/12/08) MadTeam: Bug fixed: integration grids were not
+                  systematically reset anymore since 4.3.0. This may have affected xsec
+                  calculation and event generation starting from the second run in a given
+                  process directory if particular cuts (pt,...) have been lowered in
+                  run_card.dat after a first integration, or if the PDF/collider params have
+                  been changed. In many cases, ME forced the grid reset, but not
+                  systematically.
+
+4.4.11 (09/12/08) RF: topBSM model upgrade and allow for both a prefix
+		      and new color structure (06/10/08) for the same interaction
+
+4.4.10 (25/11/08) PA: MadOnia implementation.
+
+4.4.9 (17/11/08) RF: Fixed bug in color algebra for the MadDipole package.
+                     Thanks to Axel Bredenstein for pointing this out.
+
+4.4.8 (11/11/08) OM: modification in Template for compatibility with MadWeight 2.1.5. 
+		     (See MadWeight Updates Notes for more details). 
+		     The only file modified is cuts.f (change some comment line)
+		     
+4.4.7 (10/10/08) OM+MH: Correct major bug (in refine) introduce in version 4.4.5
+                 thanks to Neil and Claude
+                  
+4.4.6 (06/10/08) TS: more general color structure, a user can add a 3 octet interaction 
+                 with the d^abc color structure using the line
+                 g g g G  QCD ^dabc^
+                 in interactions.dat
+
+4.4.5 (30/09/08) OM: Full compatibility of ME with gfortran.
+		 OM: MadWeight is running and has now is own version number/Updates notes. Major modification of MW 
+		     will be notify here anyway.
+
+4.4.4 (22/09/08) MH: Corrected small bug with spin states in qnumbers. Tks to Mario Kadastik
+
+4.4.3 (08/08/08) RF: Added MadDipole functionality for automated dipole
+		 subtraction. StandAlone version only.
+                 See the wiki-page for more details.
+
+4.4.2 (4/08/08) OM+PA: 
+	       -> MadWeight doesn't work completly 
+	       -> MadWeight reads particles.dat for full model compatibility
+	       -> include madweight specific card via a automatic generation of .inc file 
+
+4.4.1 (15/07/08) OM+PA: First step of the merge: MadWeight only
+	       -> MadGraph 4.3.0 : stable
+	       -> MadWeight : not working
+
+4.4.0 (??/??/??) JA: Added new notation to remove diagams with given s-channel
+                     propagators in for process generation.
+                     Ex:  pp > bb~W+W- $ t
+                     to remove all diagrams with t as s-channel propagator 
+                     (in order to get only single top with extra b)
+
+-- Passing to subversion 4.4  with MadWeight+MadDipole+Madonia functionality --
+
+4.3.0 (08/07/08) MG Team: Added functionality for generating and running 
+                 processes for the Grid. By setting the option gridpack
+                 to .true. in run_card.dat, an enhanced survey will be
+                 performed, and a file gridpack.tar.gz will be created.
+                 This file can then be sent to the Grid for optimized
+                 event generation on single-processor machines. Please see
+                 http://cp3wks05.fynu.ucl.ac.be/twiki/bin/view/Library/GridDevelopment
+                 for additional instructions.
+                 MG Team: Added large set of extra parameters and cuts 
+                 in run_card.dat:
+                 gridpack: (see above)
+                 bwcutoff: How many width away from the pole mass a 
+                    resonance is included in the event file. Especially
+                    important for decay chain processes, where the Breit
+                    Wigner of specified resonances is cutoff at this value
+                 maxjetflavor: How many quark flavors are affected by the
+                    jet cuts, i.e. are seen as massless quarks
+                 missing ET cuts
+                 maximum pt, invariant mass and delta R cuts
+                 minimum rapidity cuts
+                 specified pt cuts for each of the first four jets
+                 HT cuts (total jet HT and 2,3,4 jet HT)
+
+-- Passing to subversion 4.3 with grid functionality --
+
+4.2.11 (09/06/08) JA: Allow for process specific parameters in the run_card,
+                  using the syntax value = param@PID where PID is the process
+                  id set in the proc_card.dat.
+
+4.2.10 (30/05/08) RF: Added the spin-2 routines by Hagiwara et al.
+                  (0805.2554 [hep-ph]). These routines should still be used
+                  with care, in particular because the 5-point interactions
+                  are not yet there in a way that they can be automatized.
+
+4.2.9 (15/05/08) JA: Allow for arbitrary integer N in process flag @N in
+                 MG proc_card.dat 
+
+4.2.8 (09/05/08) TS: Fixed problem with phase space sampling in the process
+                 pp>bb~ by making analytical transformation of shat.
+                 JA: Fixed issue with ixxxxx.F for negative-mass initial state
+                 particles in decay processes A>BC.
+                 JA: Fixed sign of widths of Majorana fermions in mssm (need
+                 to be same as sign of mass for HELAS)
+
+4.2.7 (16/04/08) TS: Bug in tops.f afflicting certain decay chain processes 
+                 fixed. Thanks to Roberto Franceschini.
+
+4.2.6 (20/02/08) JA: Bug in readproc.f affecting certain decay processes 
+                 A>BC fixed. Max number of multiparticle labels changed to 10.
+
+4.2.5 (12/02/08) TS: correct error in format statement in scale_events.f 
+                 for cases w/ B.W. and > 100 diagrams. Thanks to Erkcan Ozcan.
+                 TS: Take into account color factor when grouping diagram. 
+                 Thanks to Roberto Franceschini for pointing out this
+                 possible issue.
+
+4.2.4 (27/01/08) MH: New (faster) version of merge.pl by Richard Corke
+                 JA: Changed ren and fact scales in matched ktjet case
+		 when last clustering is QCD s-channel to m_T.
+		 Improved ordering of channels in the batch job files to 
+		 make run time more equal for the different jobs.
+
+4.2.3 (14/01/08) JA: Fixed initial random seed to work with bash scripts
+                 Fixed bug with w mass in MSSM model, introduced in v4.1.47
+
+4.2.2 (21/12/07) JA: MG/ME completely moved from csh to bash. Modified files:
+		 MadGraphII/readproc.f
+		 Template/Source/gen_ximprove.f
+		 Template/SubProcesses/symmetry.f
+		 Template/bin: calculate_crossx clean gen_crossxhtml-pl 
+		    generate_events monitor multi_run newprocess 
+		    newprocess_sa plot put_banner qsub refine remove rmrun 
+		    run_combine standalone store sumall survey 
+
+4.2.1 (15/12/07) MH: Fix PDG mass of antitau in DECAY. Thanks to A. Strumia !
+
+4.2.0 (12/12/07) JA/TS: Included support for decay chains.
+                 Added support for 10 external particles.
+                 Changed files:
+                 MadGraphII: colors.f crossing.f driver.f fields.f readproc.f
+                 sort.f tops.f write_configs.f params.inc
+                 Template/SubProcesses: cuts.f myamp.f symmetry.f  genps.inc
+                 Template/Source: genps.inc
+                 Template/bin: newprocess
+                 Usage example: Specify decay using the syntax 
+                    ab > (c>(d>ef)g) (h>ij) k
+                 meaning that ab > chk is the central process and c and h decay
+                 further. Note that decayed particles are forced to be on the 
+                 Breit Wigner (Mass +/- 5 Gamma).
+                 JA: Fixed formatting bug in LHE files in case of 10 process 
+                 numbers
+
+-- Passing to subversion 4.2 with the inclusion of the decay chain formalism --
+
+4.1.47 (08/12/07) JA: Moved card info into <header> of LHE file using XML 
+                  tags.
+		  JA: Fixed bug in downloaded version, introduced with 
+		  v. 4.1.45 (thanks to Bob McElrath!)
+
+4.1.46 (26/11/07) RF: For the on-line plotting, MadAnalysis now used.
+
+4.1.45 (07/11/07) JA: Added possibility to specify decay processes to
+                  MadGraph and MadEvent, such as ta+>e+vevt~, instead of
+		  the normal scattering processes.
+		  In this case, none of the information in the run_card.dat
+		  is used. The scale for alpha_s is the mass of the decaying 
+		  particle.
+                  TS: Fixed bug in MadGraph when required s-channel
+                  propagator is a Majorana fermion
+
+4.1.44 (27/10/07) JA: Fixed so MadGraph writes abs(masses) in phase
+                  space also for internal propagators (since SUSY can have 
+		  negative masses)
+		  JA: Fixed grid PDF preparation in gensym when s-channel 
+		  propagator has mass < min energy of final-states
+
+4.1.43 (16/10/07) MH: Moved QNUMBERS definition to usrmod framework
+                  JA: Added automatic running of hep2lhe conversion and
+		  root file generation in run_pythia and run_pgs scripts
+		  Added extra store call in generate_events to store
+		  generation before start of Pythia and PGS runs
+		  Added cut on energy of jets, b, lepton, photon
+		  JA: Removed "wait" statement in newprocess which gave 
+		  problems for process generation on certain Linux systems
+
+4.1.42 (01/10/07) JA: Added the promised buttons to run Pythia and PGS 
+                  directly from the crossx page
+		  Added automatic LHE converstion of Pythia file in
+		  generate_events
+		  Write error message for 0 cross section
+
+4.1.41 (12/09/07) JA: Fixed bug in genps.f which sometimes gave
+                  segmentation fault for complicated processes 
+                  JA: Different process ids in the event file for the
+                  different process group numbers specified in the
+                  proc_card.dat
+
+4.1.40 (06/09/07) JA: Added possibility to specify beam polarization
+                  (between -100, completely left-handed, and 100,
+                  completely right-handed, with 0 meaning unpolarized
+                  beam) in run_card.dat
+
+4.1.39 (30/08/07) RF: Added optional parameter fixed_couplings to run_card.dat
+		  to calculate coupling 'constants' for every event. Also
+		  included a common block for the momenta so that they are
+		  available in couplings.f.
+		  Added a partial set of HELAS routines for the spin-2 (graviton)
+
+4.1.38 (27/08/07) MH: Added support for QNUMBERS (qnumbers.pl script to add
+                  info from particles.dat in the param_card section of the banner)
+                  for future compatibiliy with external generic decay routines
+                  (Les Houches 07 project)
+
+4.1.37 (22/08/07) MH: Changed default behavior if no PDF (0 and 0). Now
+                  the alpha_s value is extracted from the G value computed from
+                  the param_card and is no longer extracted from the PDF quoted 
+                  in the run_card. The default order for the running of alfas is 2.
+                  MH: Fixed conflict between same name routines open_file
+                  now the MODEL routine is called open_file_mdl
+                  MH: Remove unnecessary open_file.f in usrmod v1
+
+4.1.36 (13/08/07) JA: Fixed bug for identical particles in color structure 
+                  by diagram
+
+4.1.35 (10/08/07) TS: Major improvements to generation efficiency.
+                  Get exact number of events asked for
+                  JA: Choose color structure by diagram, which allows
+                  better sampling of very subleading color structures.
+                  Improved treatment of propagator inclusion in event 
+                  files.
+		  OM: Fixed bug in photon flux function, introduced 
+                  with v. 4.1.32
+
+4.1.34 (03/08/07) JA: Set couplings event-by-event for variable
+                  scales, to get right scale also for SUSY couplings
+                  SdV: Added WBF delta(eta) cut to run_card
+
+4.1.33 (27/06/07) JA: Addition to dsample.f to facilitate event
+                  combination when no events pass cuts in one channel
+
+4.1.32 (11/06/07) OM: Change for Matrix Element project: add an option
+                  to change the name of the read param_card.dat. 
+		  Modification in Models and in Template.
+                 
+                  Changed files:
+                  -Models/sm/couplings.f
+                  -Models/abelian_qcd/couplings.f
+                  -Models/heft/couplings.f
+                  -Models/smckm/couplings.f
+                  -Models/sm_nohiggs/couplings.f
+                  -Models/zprime/couplings.f
+                  -Models/scalar_gluon/couplings.f
+                  -Template/Source/MODEL/couplings.f
+                  -Models/mssm/couplings.f
+                  -Models/mssm/read_slha.f
+                  -Models/2hdm/lha_reading.f
+                  -Models/2hdm/rw_para.f
+                  -Models/2hdm_full/lha_reading.f
+                  -Models/2hdm_full/rw_para.f 
+                  -Models/s_2hdm_heft/lha_reading.f
+                  -Models/s_2hdm_heft/rw_para.f
+                  -Models/usrmod/couplingsvalues.f
+                  -Models/usrmod/testprog.f
+                  -Models/usrmod/Header_and_footer/rw_I.dat
+                  -Models/usrmod/Header_and_footer/couplings_header.dat
+                  -Template/Source/write_banner.f
+                  -Template/Source/combine_events.f
+                  -Template/SubProcesses/driver.f
+                  -Template/SubProcesses/symmetry.f 
+                  -Template/SubProcesses/check_sa.f
+
+
+
+4.1.31 (05/06/07) JA+TS: Removed extra output line in event files for
+                  non-matching case + improved efficiency for difficult cases
+
+4.1.30 (23/05/07) JA: Changed rescaling of alpha_s in matching so that
+		  only vertices where a jet is produced are rescaled.
+
+4.1.29 (07/05/07) MH: Better merging routine for multi_run (averaging xsec).
+                  Forbid run of more than 10000 diagrams on clusters.
+
+4.1.28 (06/04/07) MH: Added an "upload banner" option on the upload cards pages
+                  based on a new script to split a banner in cards
+
+4.1.27 (06/04/07) MH: Change 'cp' to 'cp -p' in all Template scripts to correct
+                  bug of unreflected change on couplings.f. Thanks Bob McElrath!
+                  Affected files are cpall gen_jpeg multi_run newprocess setup_model
+                  and store
+
+4.1.26 (05/04/07) MH: Added multi_run feature together with merge feature
+
+4.1.25 (28/3/07) JA: Changed Template/bin/store to renew the grid after each run,
+                 Added link to process generation log in info-default.html
+
+4.1.24 (21/3/07) JA: Added automatic compilation of MadGraph, Pythia
+                 and PGS in newprocess and generate_events
+		 Added matching flag to default run_card.dat
+
+4.1.23 (12/3/07) MH: Added multi run feature to ME
+
+4.1.22 (7/3/07) MH: Fixed compatibility issue with concat of jobs with a perl 
+                    call in refine (thanks to Qiang Li) + change name of TDPLOTS
+                    to SimpleAnalysis
+
+4.1.21 (6/3/07) JA: Re-fixed bug in Zoom_Event (unwgt.f). Thanks Steve Mrenna!
+
+4.1.20 (1/3/07) RF: Bug fixed in MadGraphII/leshouche.f for color structures
+       that include color singlets connecting to color octets. MadGraph files
+       were okay, but translation to les houches accord format was wrong.
+
+4.1.19 (16/2/07) JA: New scale choice in setscales.f:
+       - For non-fixed scales, mu_F^2 = mu_R^2 = 
+          scalefact^2*(Max(final-state mass^2)+
+                       Sum(pt^2 for jets and massless particles))
+       - For fixed scales, the scales given in run_card.dat (as before)
+       Fixed problem with second refine on systems that don't allow
+         files overwritten by the > notation.
+       Fixed problem with scratch file in combine_events.f/run_combine
+
+4.1.18 (9/2/07) JA: Restored gen_ximproved.f from version 4.1.15 due
+       to bug severly reducing event generation efficiency
+
+4.1.17 (5/2/7) FM+MH: Standalone improved, model are now really indep of ME
+
+4.1.16 (2/2/07) JA: Improved speed of combine_events.  Added "Remove
+       job" and "Reset grid" functionality to online generation
+       crossx.html
+
+4.1.15 (02/02) MH: First version of a Standalone newprocess
+
+4.1.14 (30/1/07) MH: New managment of job killing in newprocess
+       RF: Fixed bug in rw_events.f
+
+4.1.13 (23/1/07) RF: in TDPLOTS directory changed plot_events.f and added 
+       file td_card.dat
+
+4.1.12 (19/1/07) FM: plot_events.f calls to read_event made compliant
+       with the new list of arguments introduced in version 4.1 
+
+4.1.11 (18/1/07) Increased max number of particles in multiparticle
+       label to 20 in MadGraphII/params.inc and readmodel.f
+
+4.1.10 (11/1/07) Fixed PDF number for cteq6m to point to file
+       cteq6m.LHpdf instead of cteq6mE.LHgrid for Pythia run
+
+4.1.9  (6/1/07) Addition of routines for matching of jets between
+       MadEvent matrix elements and Pythia parton showers. Changes to
+       MadGraphII and Template to perform event clustering according
+       to diagrams and alpha_s (and Sudakov) reweighting.  New
+       Alpgen-like scale choices. New cut: minimum jet measure between
+       clusterable partons.
+
+       Changed or added files:
+
+       In the MadGraphII directory:
+       - driver.f
+       - particles.f
+       - write_configs.f
+       - writedsig.f
+
+       In the Template/Source directory:
+       - combine_events.f
+       - kin_functions.f
+       - rw_events.f
+       - setrun.f
+       - dgauss.f (added)
+       - setscales.f (moved to Template/SubProcesses)
+       - run.inc
+       - makefile
+
+       In the Template/SubProcesses directory:
+       - cuts.f
+       - myamp.f
+       - setcuts.f
+       - symmetry.f
+       - unwgt.f
+       - addmothers.f (added)
+       - cluster.f (added)
+       - initcluster.f (added)
+       - reweight.f (added)
+       - setscales.f (moved from Template/Source and modified)
+       - cluster.inc (added)
+       - message.inc (added)
+       - sudakov.inc (added)
+       - makefile
+
+       In the Template/bin directory:
+       - newprocess
+
+-- Passing to subversion 4.1 with the merging of the matching version with --
+-- the main branch                                                         --
+
+4.0.18 (3/1/07) MH: Modify makefiles to make TDPLOTS correctly. Remove the old
+       source files in Source. Remove "-d" tag in pbs call for pythia and pgs.
+       Run combine_event on a node.
+
+4.0.17 (3/1/07) Added TDPLOTS in the main directory. This new version
+       allows to produce topdrawer plots from lhe and lhco event files.
+       There is also a script for combining plots together.  
+
+4.0.16 (2/1/07) Removed bugfix in Zoom_Event in Template/SubProcesses/unwgt.f
+       since it gave bad results in second run
+
+4.0.15 (19/12/06) Pythia and PGS run on the cluster if requested, solve a bug
+       in deleting jobs, correct cards for ATLAS and CMS for PGS
+
+4.0.14 (18/12/06) Check in MadGraph for different final state masses
+       in multiple processes also for scalars
+
+4.0.13 (16/12/06) Let MadGraph write abs(masses) in phase space to
+       allow for negative SUSY masses
+
+4.0.12 (14/12/06) Include the MGMEVersion.txt file in the process tar-file
+
+4.0.11 (13/12/06) New pythia and pgs from LHC Olympics
+
+4.0.10 (11/12/06) Include also the DECAY directory in the downloaded bundle
+
+4.0.9  (1/12/06) FM: Allowed negative values for the cuts
+       (etmin,etamax,deltaR,s_min). If a value is negative, the
+       request is inverted. So etmin(j)=-30 means et(j)<30 and so on.
+       myamp.f modified accordingly so that if one of the cuts is
+       negative, it it treated as a zero. Files touched:
+       SubProcesses/setcuts.f SubProcesses/cuts.f SubProcesses/myamp.f
+
+4.0.8  (1/12/06) DECAY software moved from template to MG_ME
+
+4.0.7  (1/12/06) file MadGraphII/writeamp.f changed so to allow the 
+       standalone matrix.f generation option.
+
+4.0.6  (30/11/06) Fixed bug in Zoom_Event in
+       Template/SubProcesses/unwgt.f (thanks Stephen Mrenna!)
+
+4.0.5  (27/11/06) Fixed typo concerning photon initial states in
+       Template/Source/setrun.f
+
+4.0.4  (27/11/06) Fixed bug in MadGraphII/readproc.f
+
+4.0.3  (21/11/06) Fixed typo in Template/Source/DECAY/decay_couplings.f
+
+4.0.1  (20/11/06) Changed Template/SubProcesses/myamp.f to set onshell
+       resonances only within 5 widths from pole mass
+
+4.0.0  New web interface, new directory structure, new event file
+       format, new models. Changes in MadGraphII, Template, Models,
+       HELAS.  New version numbering system.

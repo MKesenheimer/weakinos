@@ -1,0 +1,116 @@
+BLOCK MODSEL           # Select model
+ 1    0                     # MSSM
+ 5    2                     # CPV
+ 6    1                     # FV
+BLOCK SMINPUTS         # SM inputs
+ 1    1.27918E2             # 1/alpha_em(MZ)
+ 2    1.16637E-5            # GF
+ 3    1.176E-1              # alphas(MZ)
+ 4    9.11876E1             # MZ
+ 5    4.2                   # mb(mb)
+ 6    1.726E2               # Mt
+ 7    1.777                 # Mtau
+ 11   5.10999E-4            # Me
+ 13   1.05658E-1            # Mmu
+ 21   5.E-3                 # Md
+ 22   2.25E-3               # Mu
+ 23   9.5E-2                # Ms
+ 24   1.25                  # mc(mc)
+BLOCK MINPAR           # Input parameters
+ 3    3.                    # TB
+BLOCK EXTPAR           # Optional input parameters
+ 0    -1                    # Minput
+ 1    1.E2                  # Re(M1)
+ 2    1.E2                  # Re(M2)
+ 3    1.E2                  # Re(M3)
+ 23   1.E2                  # Re(mu)
+ 24   4.E4                  # MA0^2
+BLOCK IMEXTPAR         # [Im] Optional input parameters
+ 23   0                     # Im(mu)
+BLOCK VCKMIN           # CKM matrix
+ 1    2.255E-1              # lambda
+ 2    8.1E-1                # A
+ 3    1.71357E-1            # rho (?)
+ 4    3.9607E-1             # eta (?)
+BLOCK MSQ2IN           # Re[m_Q^2]
+ 1  1    2.50021E5          #
+ 1  2    -8.78659E1         #
+ 1  3    2.12302E3          #
+ 2  2    2.50462E5          #
+ 2  3    -1.1107E4          #
+ 3  3    5.27158E5          #
+BLOCK IMMSQ2IN         # Im[m_Q^2]
+ 1  1    0                  #
+ 1  2    -4.13281E1         #
+ 1  3    9.82435E2          #
+ 2  2    0                  #
+ 2  3    2.27397E2          #
+ 3  3    0                  #
+BLOCK MSU2IN           # Re[m_U^2]
+ 1  1    2.5E5              #
+ 1  2    0                  #
+ 1  3    0                  #
+ 2  2    2.50014E5          #
+ 2  3    0                  #
+ 3  3    5.22999E5          #
+BLOCK IMMSU2IN         # Im[m_U^2]
+ 1  1    0                  #
+ 1  2    0                  #
+ 1  3    0                  #
+ 2  2    0                  #
+ 2  3    0                  #
+ 3  3    0                  #
+BLOCK MSD2IN           # Re[m_D^2]
+ 1  1    2.5E5              #
+ 1  2    0                  #
+ 1  3    0                  #
+ 2  2    2.50001E5          #
+ 2  3    0                  #
+ 3  3    2.51455E5          #
+BLOCK IMMSD2IN         # Im[m_D^2]
+ 1  1    0                  #
+ 1  2    0                  #
+ 1  3    0                  #
+ 2  2    0                  #
+ 2  3    0                  #
+ 3  3    0                  #
+BLOCK TUIN             # Re[TU]
+ 1  1    1.36224E-3         #
+ 1  2    1.40747E-9         #
+ 1  3    1.25693E-8         #
+ 2  1    7.81926E-7         #
+ 2  2    7.56807E-1         #
+ 2  3    1.81154E-4         #
+ 3  1    9.64205E-4         #
+ 3  2    2.50138E-2         #
+ 3  3    1.05106E2          #
+BLOCK IMTUIN           # Im[TU]
+ 1  1    0                  #
+ 1  2    -1.20113E-9        #
+ 1  3    -2.9137E-8         #
+ 2  1    6.67296E-7         #
+ 2  2    0                  #
+ 2  3    1.81599E-9         #
+ 3  1    2.23513E-3         #
+ 3  2    -2.50752E-7        #
+ 3  3    0                  #
+BLOCK TDIN             # Re[TD]
+ 1  1    9.08231E-3         #
+ 1  2    -3.19183E-6        #
+ 1  3    7.66752E-5         #
+ 2  1    -6.06448E-5        #
+ 2  2    1.72868E-1         #
+ 2  3    -7.62165E-3        #
+ 3  1    6.44071E-2         #
+ 3  2    -3.36957E-1        #
+ 3  3    1.59445E1          #
+BLOCK IMTDIN           # Im[TD]
+ 1  1    0                  #
+ 1  2    -1.50129E-6        #
+ 1  3    3.54817E-5         #
+ 2  1    2.85245E-5         #
+ 2  2    0                  #
+ 2  3    1.5604E-4          #
+ 3  1    -2.98046E-2        #
+ 3  2    -6.89863E-3        #
+ 3  3    0                  #

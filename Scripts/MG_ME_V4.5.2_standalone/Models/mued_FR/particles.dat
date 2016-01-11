@@ -1,0 +1,54 @@
+#This file has been generated automatically by FeynRules
+
+# Version: 1.4.0   Date: 15. 7. 2009,    16:23
+#This is a special data file which contains particles of the
+# Model.The format for entering new particles is
+#Particle codes taken from http://pdg.lbl.gov/2000/montecarlorpp.pdf
+#Name anti_Name Spin Linetype Mass Width Color Label Model
+#xxx xxxx SFV WSDC str str STO str PDG code
+
+n1 n1~ F S ZERO ZERO S ve 12
+n2 n2~ F S ZERO ZERO S vm 14
+n3 n3~ F S ZERO ZERO S vt 16
+e- e+ F S ZERO ZERO S e 11
+m- m+ F S MM ZERO S mu 13
+tt- tt+ F S MTA ZERO S tt 15
+u u~ F S MU ZERO T u 2
+c c~ F S MC ZERO T c 4
+t t~ F S MT WT T t 6
+d d~ F S MD ZERO T d 1
+s s~ F S MS ZERO T s 3
+b b~ F S MB ZERO T b 5
+a a V W ZERO ZERO S a 22
+z z V W MZ WZ S Z 23
+w+ w- V W MW WW S W 24
+g g V C ZERO ZERO O G 21
+h h S D MH WH S H 25
+e1l- e1l+ F S DMe DWe S E1 5100011
+m1l- m1l+ F S DMmu DWmu S M1 5100013
+t1l- t1l+ F S DMtau DWtau S T1 5100015
+n11 n11~ F S DMn1 DWn1 S Ve1 5100012
+n12 n12~ F S DMn2 DWn2 S Vm1 5100014
+n13 n13~ F S DMn3 DWn3 S Vt1 5100016
+e1r- e1r+ F S SMe SWe S Es1 6100011
+m1r- m1r+ F S SMmu SWmu S Ms1 6100013
+t1r- t1r+ F S SMtau SWtau S Ts1 6100015
+su1 su1~ F S SMu SWu T uq1S 6100002
+sc1 sc1~ F S SMc SWc T cq1S 6100004
+st1 st1~ F S SMtop ZERO T tq1S 6100006
+sd1 sd1~ F S SMd SWd T dq1S 6100001
+ss1 ss1~ F S SMs SWs T sq1S 6100003
+sb1 sb1~ F S SMb SWb T bq1S 6100005
+du1 du1~ F S DMu DWu T Uq1D 5100002
+dc1 dc1~ F S DMc DWc T Cq1D 5100004
+dt1 dt1~ F S DMtop DWtop T Tq1D 5100006
+dd1 dd1~ F S DMd DWd T Dq1D 5100001
+ds1 ds1~ F S DMs DWs T Sq1D 5100003
+db1 db1~ F S DMb DWb T Bq1D 5100005
+b1 b1 V W MB1 ZERO S B1 5100022
+z1 z1 V W MZ1 WZ1 S Z1 5100023
+w1+ w1- V W MW1 WW1 S W1 5100024
+g1 g1 V C MG1 WG1 O G1 5100021
+h1 h1 S D MH1 WH1 S H1 5100030
+T1 T1 T D ZERO ZERO O T1 8000002
+T2 T2 T D ZERO ZERO O T2 8000003

@@ -1,0 +1,133 @@
+Für den Test der Skalierung werden alle Parameter aus der SLHA-Datei
+gelesen (und nicht durch Werte in powheg.input überschrieben).
+In Born.f/Real.f wird der Schalter RESCAlE gesetzt um die Impulse
+zu reskalieren. Wahlweise kann die Reskalierung in init_couplings.f
+oder in der SLHA Datei (input_low_mass_rescale.slha) durchgeführt werden.
+
+BORN:
+unskaliert
+ s  =    6479545.6736747483     
+ t  =   -4127924.4015450543     
+ u  =   -2309259.0808560629     
+ MN =    96.688068599999994     
+ MN =    181.69647399999999     
+ MZ =    91.187600000000003     
+ born (madgraph) =    4.3650037506332131E-004
+
+ s  =    6479545.6736747483     
+ t  =   -4127924.4015450543     
+ u  =   -2309259.0808560629     
+ MN =    96.688068599999994     
+ MN =    181.69647399999999     
+ MZ =    91.187600000000003     
+ born (madgraph) =    4.3650037506332131E-004
+
+reskalieren der Massen: m*0.1:
+ s  =    64795.456736747496     
+ t  =   -41279.244015450553     
+ u  =   -23092.590808560632     
+ MN =    9.6688068600000001     
+ MN =    18.169647399999999     
+ MZ =    9.1187600000000000     
+ born (formcalc) =    4.3650037506332169E-004 (Skalierung in slha-Datei)
+
+ s  =    64795.456736747496     
+ t  =   -41279.244015450553     
+ u  =   -23092.590808560632     
+ MN =    9.6688068600000001     
+ MN =    18.169647399999999     
+ MZ =    9.1187600000000000     
+ born (formcalc) =    4.3650037506332169E-004 (Skalierung in init_couplings)
+
+ s  =    64795.456736747496     
+ t  =   -41279.244015450553     
+ u  =   -23092.590808560632     
+ MN =    9.6688068600000001     
+ MN =    18.169647399999999     
+ MZ =    9.1187600000000000     
+ born (madgraph) =    4.3650037506332229E-004 (Skalierung in slha-Datei)
+
+ s  =    64795.456736747496     
+ t  =   -41279.244015450553     
+ u  =   -23092.590808560632     
+ MN =    9.6688068600000001     
+ MN =    18.169647399999999     
+ MZ =    9.1187600000000000     
+ born (madgraph) =    4.3650037506332153E-004 (Skalierung in init_couplings)
+
+-> Born hat keine Massendimension      
+ 
+REAL
+unskaliert
+ s125 =    879494.85928208206     
+ s12  =    527577.97196018696     
+ s25  =   0.17595841564029754     
+ s15  =    351916.71136346291     
+ Real amplitude =   0.30204130414383534 
+
+reskalieren der Massen: m*0.1:
+mit Diagram Subtraction Scheme:
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =    32.848999649969016 (Skalierung in slha-Datei)
+   0.0000000000000000        18.169647399999999        9.6688068600000001        0.0000000000000000
+ 
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =    32.848999649968952  (Skalierung in init_couplings)
+   0.0000000000000000        18.169647399999999        9.6688068600000001        0.0000000000000000
+
+Quatsch:
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =                        NaN (Skalierung in slha-Datei, mit zusätzlicher skalierung von mni...)
+   0.0000000000000000        1.8169647400000000       0.96688068600000010        0.0000000000000000 
+ 
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =                        NaN  (Skalierung in init_couplings, mit zusätzlicher skalierung von mni...)
+   0.0000000000000000        1.8169647400000000       0.96688068600000010        0.0000000000000000 
+ 
+ohne Diagram Subtraction Scheme:
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =    32.848999207057560 (Skalierung in slha-Datei)
+   0.0000000000000000        18.169647399999999        9.6688068600000001        0.0000000000000000
+ 
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =    32.848999207057489 (Skalierung in init_couplings)
+   0.0000000000000000        18.169647399999999        9.6688068600000001        0.0000000000000000
+ 
+Quatsch:
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =    30.204006372399423 (Skalierung in init_couplings, mit zusätzlicher skalierung von mni...)
+    0.0000000000000000        1.8169647400000000       0.96688068600000010        0.0000000000000000 
+    
+ s125 =    8794.9485928209979     
+ s12  =    5275.7797196019092     
+ s25  =    1.7595843892336191E-003
+ s15  =    3519.1671136345321     
+ Real amplitude =    30.204006372399480 (Skalierung in slha-Datei, mit zusätzlicher skalierung von mni...)
+   0.0000000000000000        1.8169647400000000       0.96688068600000010        0.0000000000000000 
+   
+-> Real hat Massendimension -2
+
+ 
+-> Die Matrixelemente von Prospino und POWHEG haben die
+   gleiche Massendimension von -2!

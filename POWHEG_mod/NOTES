@@ -1,0 +1,10 @@
+Note: Not all of these files are used. See Makefiles.
+
+for Diagram Subtractions Scheme II (DSUB_II) the following files are necessary:
+- pwhgreweight_mod.f
+- bbinit.f
+
+
+TODO: Schreibe zu jeder Datei was grob geändert wurde und zu was diese Änderungen
+gebraucht werden. Welche Dateien/Änderungen sind essentiell für DSUB_II (->osres)
+und welche kann man vernachlässigen, wenn man DSUB_II nicht verwendet.

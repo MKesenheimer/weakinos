@@ -1,0 +1,39 @@
+MadGraph/MadEvent 4
+By Fabio Maltoni, Tim Stelzer and the CP3 development team
+
+http://madgraph.phys.ucl.ac.be/
+http://madgraph.hep.uiuc.edu/
+http://madgraph.roma2.infn.it/
+
+To set up a new process:
+------------------------
+1) Run "make" to compile MadGraph (and pythia-pgs and analysis packages, 
+if downloaded and untarred)
+
+2) Copy the Template directory to some other name, e.g. MyProcDir, in
+order to always keep a clean copy of the Template.
+
+3) Edit the file proc_card.dat in the MyProcDir/Cards directory to set
+up one or more processes to be run simultaneously. Don't forget to
+specify choice of model.
+
+4) Go to the MyProcDir directory and run bin/newprocess to set up the
+specified process. Please notice that this will replace the file
+Cards/param_card.dat by the default param_card.dat for the model.
+
+5) Check that the generation worked, using your web browser, by
+looking at index.html in the MyProcDir directory.
+
+To generate events with the process already set up:
+---------------------------------------------------
+Please see the README file in the MyProcDir directory.
+
+To set up a new process using MadGraph "stand alone" (i.e. without MadEvent)
+----------------------------------------------------------------------------
+Follow the above instructions but execute ./bin/standalone before ./bin/newprocess
+
+To use the DECAY package (DECAY directory)
+------------------------------------------
+To compile it: make
+To use it:
+./decay and follow the instructions

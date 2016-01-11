@@ -1,0 +1,52 @@
+To build the SLHA2 I/O library, enter
+
+./configure
+make
+make install
+
+The files are installed in
+
+<prefix>/lib      -- the SLHA library,
+<prefix>/bin      -- helper scripts,
+<prefix>/include  -- include files for the SLHA library,
+
+where <prefix> is by default the same as the HOSTTYPE
+environment variable (e.g. i586-linux).  To override this,
+add --prefix=<prefix> to the configure command line.
+See ./configure --help for a complete list of options.
+
+
+The library libSLHA.a provides the following routines:
+
+SLHAClear	-- clear a SLHA record,
+SLHARead	-- read a file into an SLHA record,
+SLHAWrite	-- write an SLHA record to file,
+SLHAPutInfo	-- write to the text fields of the record,
+SLHAGetInfo	-- read from the text fields of the record,
+SLHANewDecay	-- initiate setting of decay information,
+SLHAFindDecay	-- initiate appending to decay information,
+SLHAAddDecay	-- add information for a decay channel,
+SLHAGetDecay	-- read decay information for a selected channel,
+SLHADecayTable	-- read all decay information for a selected decay,
+SLHAExist	-- check whether a block is not entirely empty,
+SLHAValid	-- check whether a block consists entirely of valid data,
+SLHAPDGName	-- translate a PDG code to a particle name.
+
+Please see the manual in SLHALib2.pdf for a detailed description.
+
+
+A few demonstration programs are included in the "demo"
+subdirectory.  They are built by typing "make demo" which
+creates the executables build/copy, build/table, and 
+build/timing (these are not installed by "make install").
+
+The demos can be tested on the SLHA example files in the
+"examples" directory.
+
+
+Bug reports, suggestions for improvement, and fan mail
+should be addressed to Thomas Hahn <hahn@feynarts.de>.
+
+
+Enjoy!
+

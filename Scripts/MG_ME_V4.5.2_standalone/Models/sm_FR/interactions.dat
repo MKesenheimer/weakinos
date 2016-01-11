@@ -1,0 +1,64 @@
+#This file has been generated automatically by FeynRules 1.5.9    Date: 8. 7. 2009,    11:36
+
+# Interactions associated with Standard_Model
+w+   w-   a MGVX3   QED
+g   g   g MGVX1   QCD
+w-   w+   z MGVX5   QED
+w+   a   w-   a MGVX4   DUM0   QED QED n
+w+   a   w-   z MGVX7   DUM0   QED QED n
+g   g   T1 MGVX2   QCD a
+w+   w-   w+   w- MGVX6   DUM0   QED QED n
+w+   z   w-   z MGVX8   DUM0   QED QED n
+e-   e-   a MGVX18   QED
+m-   m-   a MGVX18   QED
+tt-   tt-   a MGVX18   QED
+e-   ve   w- MGVX24   QED
+m-   vm   w- MGVX24   QED
+tt-   vt   w- MGVX24   QED
+ve   e-   w+ MGVX24   QED
+vm   m-   w+ MGVX24   QED
+vt   tt-   w+ MGVX24   QED
+e-   e-   z MGVX43   QED
+m-   m-   z MGVX43   QED
+tt-   tt-   z MGVX43   QED
+ve   ve   z MGVX49   QED
+vm   vm   z MGVX49   QED
+vt   vt   z MGVX49   QED
+tt-   tt-   h MGVX59   QED
+b   b   a MGVX15   QED
+c   c   a MGVX21   QED
+d   d   a MGVX15   QED
+s   s   a MGVX15   QED
+t   t   a MGVX21   QED
+u   u   a MGVX21   QED
+b   b   h MGVX58   QED
+c   c   h MGVX60   QED
+t   t   h MGVX61   QED
+d   c   w- MGVX27   QED
+s   c   w- MGVX28   QED
+b   t   w- MGVX24   QED
+d   u   w- MGVX30   QED
+s   u   w- MGVX31   QED
+t   b   w+ MGVX24   QED
+c   d   w+ MGVX36   QED
+u   d   w+ MGVX37   QED
+c   s   w+ MGVX38   QED
+u   s   w+ MGVX39   QED
+b   b   z MGVX40   QED
+c   c   z MGVX46   QED
+d   d   z MGVX40   QED
+s   s   z MGVX40   QED
+t   t   z MGVX46   QED
+u   u   z MGVX46   QED
+b   b   g GG   QCD
+c   c   g GG   QCD
+d   d   g GG   QCD
+s   s   g GG   QCD
+t   t   g GG   QCD
+u   u   g GG   QCD
+h   h   h MGVX53   QED
+h   h   h   h MGVX52   DUM1   QED QED
+w+   w-   h MGVX55   QED
+z   z   h MGVX57   QED
+w+   w-   h   h MGVX54   DUM1   QED QED
+z   z   h   h MGVX56   DUM1   QED QED

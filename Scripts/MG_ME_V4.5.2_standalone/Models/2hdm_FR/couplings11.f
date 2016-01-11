@@ -1,0 +1,101 @@
+      subroutine coup11(readlha)
+
+      implicit none
+      logical readlha
+
+      include 'input.inc'
+      include 'coupl.inc'
+      include 'intparam_definition.inc'
+
+
+c Interactions associated with 11
+      if(readlha) then
+
+      MGVX57 = -6*l1*PTH113*v - 3*lR7*PTH213*v - 3*l3*PTH212*TH11*v
+     + - 3*l4*PTH212*TH11*v - 6*l5*PTH212*TH11*v - 3*l3*PTH312*TH1
+     +1*v - 3*l4*PTH312*TH11*v + 6*l5*PTH312*TH11*v - 9*lR6*PTH112
+     +*TH21*v - 3*lR7*PTH312*TH21*v
+      MGVX61 = -6*l1*PTH112*TH12*v - l3*PTH212*TH12*v - l4*PTH212*T
+     +H12*v - 2*l5*PTH212*TH12*v - l3*PTH312*TH12*v - l4*PTH312*TH
+     +12*v + 2*l5*PTH312*TH12*v - 6*lR6*TH11*TH12*TH21*v - 3*lR6*P
+     +TH112*TH22*v - 3*lR7*PTH212*TH22*v - lR7*PTH312*TH22*v - 2*l
+     +3*TH11*TH21*TH22*v - 2*l4*TH11*TH21*TH22*v - 4*l5*TH11*TH21*
+     +TH22*v - 2*l3*TH11*TH31*TH32*v - 2*l4*TH11*TH31*TH32*v + 4*l
+     +5*TH11*TH31*TH32*v - 2*lR7*TH21*TH31*TH32*v
+      MGVX71 = -6*l1*PTH112*TH13*v - l3*PTH212*TH13*v - l4*PTH212*T
+     +H13*v - 2*l5*PTH212*TH13*v - l3*PTH312*TH13*v - l4*PTH312*TH
+     +13*v + 2*l5*PTH312*TH13*v - 6*lR6*TH11*TH13*TH21*v - 3*lR6*P
+     +TH112*TH23*v - 3*lR7*PTH212*TH23*v - lR7*PTH312*TH23*v - 2*l
+     +3*TH11*TH21*TH23*v - 2*l4*TH11*TH21*TH23*v - 4*l5*TH11*TH21*
+     +TH23*v - 2*l3*TH11*TH31*TH33*v - 2*l4*TH11*TH31*TH33*v + 4*l
+     +5*TH11*TH31*TH33*v - 2*lR7*TH21*TH31*TH33*v
+      MGVX64 = -6*l1*PTH122*TH11*v - l3*PTH222*TH11*v - l4*PTH222*T
+     +H11*v - 2*l5*PTH222*TH11*v - l3*PTH322*TH11*v - l4*PTH322*TH
+     +11*v + 2*l5*PTH322*TH11*v - 3*lR6*PTH122*TH21*v - 3*lR7*PTH2
+     +22*TH21*v - lR7*PTH322*TH21*v - 6*lR6*TH11*TH12*TH22*v - 2*l
+     +3*TH12*TH21*TH22*v - 2*l4*TH12*TH21*TH22*v - 4*l5*TH12*TH21*
+     +TH22*v - 2*l3*TH12*TH31*TH32*v - 2*l4*TH12*TH31*TH32*v + 4*l
+     +5*TH12*TH31*TH32*v - 2*lR7*TH22*TH31*TH32*v
+      MGVX74 = -6*l1*TH11*TH12*TH13*v - 3*lR6*TH12*TH13*TH21*v - 3*
+     +lR6*TH11*TH13*TH22*v - l3*TH13*TH21*TH22*v - l4*TH13*TH21*TH
+     +22*v - 2*l5*TH13*TH21*TH22*v - 3*lR6*TH11*TH12*TH23*v - l3*T
+     +H12*TH21*TH23*v - l4*TH12*TH21*TH23*v - 2*l5*TH12*TH21*TH23*
+     +v - l3*TH11*TH22*TH23*v - l4*TH11*TH22*TH23*v - 2*l5*TH11*TH
+     +22*TH23*v - 3*lR7*TH21*TH22*TH23*v - l3*TH13*TH31*TH32*v - l
+     +4*TH13*TH31*TH32*v + 2*l5*TH13*TH31*TH32*v - lR7*TH23*TH31*T
+     +H32*v - l3*TH12*TH31*TH33*v - l4*TH12*TH31*TH33*v + 2*l5*TH1
+     +2*TH31*TH33*v - lR7*TH22*TH31*TH33*v - l3*TH11*TH32*TH33*v -
+     + l4*TH11*TH32*TH33*v + 2*l5*TH11*TH32*TH33*v - lR7*TH21*TH32
+     +*TH33*v
+      MGVX80 = -6*l1*PTH132*TH11*v - l3*PTH232*TH11*v - l4*PTH232*T
+     +H11*v - 2*l5*PTH232*TH11*v - l3*PTH332*TH11*v - l4*PTH332*TH
+     +11*v + 2*l5*PTH332*TH11*v - 3*lR6*PTH132*TH21*v - 3*lR7*PTH2
+     +32*TH21*v - lR7*PTH332*TH21*v - 6*lR6*TH11*TH13*TH23*v - 2*l
+     +3*TH13*TH21*TH23*v - 2*l4*TH13*TH21*TH23*v - 4*l5*TH13*TH21*
+     +TH23*v - 2*l3*TH13*TH31*TH33*v - 2*l4*TH13*TH31*TH33*v + 4*l
+     +5*TH13*TH31*TH33*v - 2*lR7*TH23*TH31*TH33*v
+      MGVX55 = -(l3*TH11*v) - lR7*TH21*v
+      MGVX66 = -6*l1*PTH123*v - 3*lR7*PTH223*v - 3*l3*PTH222*TH12*v
+     + - 3*l4*PTH222*TH12*v - 6*l5*PTH222*TH12*v - 3*l3*PTH322*TH1
+     +2*v - 3*l4*PTH322*TH12*v + 6*l5*PTH322*TH12*v - 9*lR6*PTH122
+     +*TH22*v - 3*lR7*PTH322*TH22*v
+      MGVX76 = -6*l1*PTH122*TH13*v - l3*PTH222*TH13*v - l4*PTH222*T
+     +H13*v - 2*l5*PTH222*TH13*v - l3*PTH322*TH13*v - l4*PTH322*TH
+     +13*v + 2*l5*PTH322*TH13*v - 6*lR6*TH12*TH13*TH22*v - 3*lR6*P
+     +TH122*TH23*v - 3*lR7*PTH222*TH23*v - lR7*PTH322*TH23*v - 2*l
+     +3*TH12*TH22*TH23*v - 2*l4*TH12*TH22*TH23*v - 4*l5*TH12*TH22*
+     +TH23*v - 2*l3*TH12*TH32*TH33*v - 2*l4*TH12*TH32*TH33*v + 4*l
+     +5*TH12*TH32*TH33*v - 2*lR7*TH22*TH32*TH33*v
+      MGVX82 = -6*l1*PTH132*TH12*v - l3*PTH232*TH12*v - l4*PTH232*T
+     +H12*v - 2*l5*PTH232*TH12*v - l3*PTH332*TH12*v - l4*PTH332*TH
+     +12*v + 2*l5*PTH332*TH12*v - 3*lR6*PTH132*TH22*v - 3*lR7*PTH2
+     +32*TH22*v - lR7*PTH332*TH22*v - 6*lR6*TH12*TH13*TH23*v - 2*l
+     +3*TH13*TH22*TH23*v - 2*l4*TH13*TH22*TH23*v - 4*l5*TH13*TH22*
+     +TH23*v - 2*l3*TH13*TH32*TH33*v - 2*l4*TH13*TH32*TH33*v + 4*l
+     +5*TH13*TH32*TH33*v - 2*lR7*TH23*TH32*TH33*v
+      MGVX59 = -(l3*TH12*v) - lR7*TH22*v
+      MGVX85 = -6*l1*PTH133*v - 3*lR7*PTH233*v - 3*l3*PTH232*TH13*v
+     + - 3*l4*PTH232*TH13*v - 6*l5*PTH232*TH13*v - 3*l3*PTH332*TH1
+     +3*v - 3*l4*PTH332*TH13*v + 6*l5*PTH332*TH13*v - 9*lR6*PTH132
+     +*TH23*v - 3*lR7*PTH332*TH23*v
+      MGVX69 = -(l3*TH13*v) - lR7*TH23*v
+      MGVX58 = -6*l1*PTH114 - 6*l3*PTH112*PTH212 - 6*l4*PTH112*PTH2
+     +12 - 12*l5*PTH112*PTH212 - 6*l2*PTH214 - 6*l3*PTH112*PTH312 
+     +- 6*l4*PTH112*PTH312 + 12*l5*PTH112*PTH312 - 12*l2*PTH212*PT
+     +H312 - 6*l2*PTH314 - 12*lR7*PTH213*TH11 - 12*lR6*PTH113*TH21
+     + - 12*lR7*PTH312*TH11*TH21
+      MGVX62 = -6*l1*PTH113*TH12 - 3*lR7*PTH213*TH12 - 3*l3*PTH212*
+     +TH11*TH12 - 3*l4*PTH212*TH11*TH12 - 6*l5*PTH212*TH11*TH12 - 
+     +3*l3*PTH312*TH11*TH12 - 3*l4*PTH312*TH11*TH12 + 6*l5*PTH312*
+     +TH11*TH12 - 9*lR6*PTH112*TH12*TH21 - 3*lR7*PTH312*TH12*TH21 
+     +- 3*lR6*PTH113*TH22 - 6*l2*PTH213*TH22 - 9*lR7*PTH212*TH11*T
+     +H22 - 3*lR7*PTH312*TH11*TH22 - 3*l3*PTH112*TH21*TH22 - 3*l4*
+     +PTH112*TH21*TH22 - 6*l5*PTH112*TH21*TH22 - 6*l2*PTH312*TH21*
+     +TH22 - 6*l2*PTH313*TH32 - 3*l3*PTH112*TH31*TH32 - 3*l4*PTH11
+     +2*TH31*TH32 + 6*l5*PTH112*TH31*TH32 - 6*l2*PTH212*TH31*TH32 
+     +- 6*lR7*TH11*TH21*TH31*TH32
+
+      endif
+
+      return
+      end

@@ -1,0 +1,3 @@
+c      Input values....
+      double precision L_MG
+      common /USR_PARAM/  L_MG

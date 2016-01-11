@@ -1,0 +1,760 @@
+#This file has been generated automatically by FeynRules
+# Version: 1.5.8   Date: 5. 7. 2009,    12:17
+Block DSQMIX
+  1 1  0.00000000E+00  # RRd11
+  1 2  0.00000000E+00  # RRd12
+  1 3  9.3873789600000E-01  # RRd13
+  1 4  0.00000000E+00  # RRd14
+  1 5  0.00000000E+00  # RRd15
+  1 6  3.4463192500000E-01  # RRd16
+  2 1  0.00000000E+00  # RRd21
+  2 2  0.00000000E+00  # RRd22
+  2 3  -3.446319250000E-01  # RRd23
+  2 4  0.00000000E+00  # RRd24
+  2 5  0.00000000E+00  # RRd25
+  2 6  9.3873789600000E-01  # RRd26
+  3 1  0.00000000E+00  # RRd31
+  3 2  0.00000000E+00  # RRd32
+  3 3  0.00000000E+00  # RRd33
+  3 4  0.00000000E+00  # RRd34
+  3 5  1.0000000000000E+00  # RRd35
+  3 6  0.00000000E+00  # RRd36
+  4 1  0.00000000E+00  # RRd41
+  4 2  0.00000000E+00  # RRd42
+  4 3  0.00000000E+00  # RRd43
+  4 4  1.0000000000000E+00  # RRd44
+  4 5  0.00000000E+00  # RRd45
+  4 6  0.00000000E+00  # RRd46
+  5 1  1.0000000000000E+00  # RRd51
+  5 2  0.00000000E+00  # RRd52
+  5 3  0.00000000E+00  # RRd53
+  5 4  0.00000000E+00  # RRd54
+  5 5  0.00000000E+00  # RRd55
+  5 6  0.00000000E+00  # RRd56
+  6 1  0.00000000E+00  # RRd61
+  6 2  1.0000000000000E+00  # RRd62
+  6 3  0.00000000E+00  # RRd63
+  6 4  0.00000000E+00  # RRd64
+  6 5  0.00000000E+00  # RRd65
+  6 6  0.00000000E+00  # RRd66
+Block FRALPHA
+  1  -1.138252100000E-01  # alp
+Block FRYD
+  1  0.00000000E+00  # yukd1
+  2  0.00000000E+00  # yukd2
+  3  1.3884020600000E-01  # yukd3
+Block FRYE
+  1  0.00000000E+00  # yukl1
+  2  0.00000000E+00  # yukl2
+  3  1.0089081000000E-01  # yukl3
+Block FRYU
+  1  0.00000000E+00  # yuku1
+  2  0.00000000E+00  # yuku2
+  3  8.9284455000000E-01  # yuku3
+Block GAUGE
+  1  3.6096684700000E-01  # gp
+  2  6.4648221000000E-01  # gw
+  3  1.1017867900000E+00  # ggs
+Block HMIX
+  1  3.5768097700000E+02  # RMU
+  2  9.7486240300000E+00  # tb
+  3  2.4489454900000E+02  # vev
+  4  1.6643906500000E+05  # MA2
+Block IMDSQMIX
+  1 1  0.00000000E+00  # IRd11
+  1 2  0.00000000E+00  # IRd12
+  1 3  0.00000000E+00  # IRd13
+  1 4  0.00000000E+00  # IRd14
+  1 5  0.00000000E+00  # IRd15
+  1 6  0.00000000E+00  # IRd16
+  2 1  0.00000000E+00  # IRd21
+  2 2  0.00000000E+00  # IRd22
+  2 3  0.00000000E+00  # IRd23
+  2 4  0.00000000E+00  # IRd24
+  2 5  0.00000000E+00  # IRd25
+  2 6  0.00000000E+00  # IRd26
+  3 1  0.00000000E+00  # IRd31
+  3 2  0.00000000E+00  # IRd32
+  3 3  0.00000000E+00  # IRd33
+  3 4  0.00000000E+00  # IRd34
+  3 5  0.00000000E+00  # IRd35
+  3 6  0.00000000E+00  # IRd36
+  4 1  0.00000000E+00  # IRd41
+  4 2  0.00000000E+00  # IRd42
+  4 3  0.00000000E+00  # IRd43
+  4 4  0.00000000E+00  # IRd44
+  4 5  0.00000000E+00  # IRd45
+  4 6  0.00000000E+00  # IRd46
+  5 1  0.00000000E+00  # IRd51
+  5 2  0.00000000E+00  # IRd52
+  5 3  0.00000000E+00  # IRd53
+  5 4  0.00000000E+00  # IRd54
+  5 5  0.00000000E+00  # IRd55
+  5 6  0.00000000E+00  # IRd56
+  6 1  0.00000000E+00  # IRd61
+  6 2  0.00000000E+00  # IRd62
+  6 3  0.00000000E+00  # IRd63
+  6 4  0.00000000E+00  # IRd64
+  6 5  0.00000000E+00  # IRd65
+  6 6  0.00000000E+00  # IRd66
+Block IMHMIX
+  1  0.00000000E+00  # IMU
+Block IMMSD2
+  1 1  0.00000000E+00  # ImDR11
+  1 2  0.00000000E+00  # ImDR12
+  1 3  0.00000000E+00  # ImDR13
+  2 1  0.00000000E+00  # ImDR21
+  2 2  0.00000000E+00  # ImDR22
+  2 3  0.00000000E+00  # ImDR23
+  3 1  0.00000000E+00  # ImDR31
+  3 2  0.00000000E+00  # ImDR32
+  3 3  0.00000000E+00  # ImDR33
+Block IMMSE2
+  1 1  0.00000000E+00  # ImER11
+  1 2  0.00000000E+00  # ImER12
+  1 3  0.00000000E+00  # ImER13
+  2 1  0.00000000E+00  # ImER21
+  2 2  0.00000000E+00  # ImER22
+  2 3  0.00000000E+00  # ImER23
+  3 1  0.00000000E+00  # ImER31
+  3 2  0.00000000E+00  # ImER32
+  3 3  0.00000000E+00  # ImER33
+Block IMMSL2
+  1 1  0.00000000E+00  # ImLL11
+  1 2  0.00000000E+00  # ImLL12
+  1 3  0.00000000E+00  # ImLL13
+  2 1  0.00000000E+00  # ImLL21
+  2 2  0.00000000E+00  # ImLL22
+  2 3  0.00000000E+00  # ImLL23
+  3 1  0.00000000E+00  # ImLL31
+  3 2  0.00000000E+00  # ImLL32
+  3 3  0.00000000E+00  # ImLL33
+Block IMMSOFT
+  1  0.00000000E+00  # IMx1
+  2  0.00000000E+00  # IMx2
+  3  0.00000000E+00  # IMx3
+Block IMMSQ2
+  1 1  0.00000000E+00  # ImQL11
+  1 2  0.00000000E+00  # ImQL12
+  1 3  0.00000000E+00  # ImQL13
+  2 1  0.00000000E+00  # ImQL21
+  2 2  0.00000000E+00  # ImQL22
+  2 3  0.00000000E+00  # ImQL23
+  3 1  0.00000000E+00  # ImQL31
+  3 2  0.00000000E+00  # ImQL32
+  3 3  0.00000000E+00  # ImQL33
+Block IMMSU2
+  1 1  0.00000000E+00  # ImUR11
+  1 2  0.00000000E+00  # ImUR12
+  1 3  0.00000000E+00  # ImUR13
+  2 1  0.00000000E+00  # ImUR21
+  2 2  0.00000000E+00  # ImUR22
+  2 3  0.00000000E+00  # ImUR23
+  3 1  0.00000000E+00  # ImUR31
+  3 2  0.00000000E+00  # ImUR32
+  3 3  0.00000000E+00  # ImUR33
+Block IMNMIX
+  1 1  0.00000000E+00  # INN11
+  1 2  0.00000000E+00  # INN12
+  1 3  0.00000000E+00  # INN13
+  1 4  0.00000000E+00  # INN14
+  2 1  0.00000000E+00  # INN21
+  2 2  0.00000000E+00  # INN22
+  2 3  0.00000000E+00  # INN23
+  2 4  0.00000000E+00  # INN24
+  3 1  0.00000000E+00  # INN31
+  3 2  0.00000000E+00  # INN32
+  3 3  0.00000000E+00  # INN33
+  3 4  0.00000000E+00  # INN34
+  4 1  0.00000000E+00  # INN41
+  4 2  0.00000000E+00  # INN42
+  4 3  0.00000000E+00  # INN43
+  4 4  0.00000000E+00  # INN44
+Block IMSELMIX
+  1 1  0.00000000E+00  # IRl11
+  1 2  0.00000000E+00  # IRl12
+  1 3  0.00000000E+00  # IRl13
+  1 4  0.00000000E+00  # IRl14
+  1 5  0.00000000E+00  # IRl15
+  1 6  0.00000000E+00  # IRl16
+  2 1  0.00000000E+00  # IRl21
+  2 2  0.00000000E+00  # IRl22
+  2 3  0.00000000E+00  # IRl23
+  2 4  0.00000000E+00  # IRl24
+  2 5  0.00000000E+00  # IRl25
+  2 6  0.00000000E+00  # IRl26
+  3 1  0.00000000E+00  # IRl31
+  3 2  0.00000000E+00  # IRl32
+  3 3  0.00000000E+00  # IRl33
+  3 4  0.00000000E+00  # IRl34
+  3 5  0.00000000E+00  # IRl35
+  3 6  0.00000000E+00  # IRl36
+  4 1  0.00000000E+00  # IRl41
+  4 2  0.00000000E+00  # IRl42
+  4 3  0.00000000E+00  # IRl43
+  4 4  0.00000000E+00  # IRl44
+  4 5  0.00000000E+00  # IRl45
+  4 6  0.00000000E+00  # IRl46
+  5 1  0.00000000E+00  # IRl51
+  5 2  0.00000000E+00  # IRl52
+  5 3  0.00000000E+00  # IRl53
+  5 4  0.00000000E+00  # IRl54
+  5 5  0.00000000E+00  # IRl55
+  5 6  0.00000000E+00  # IRl56
+  6 1  0.00000000E+00  # IRl61
+  6 2  0.00000000E+00  # IRl62
+  6 3  0.00000000E+00  # IRl63
+  6 4  0.00000000E+00  # IRl64
+  6 5  0.00000000E+00  # IRl65
+  6 6  0.00000000E+00  # IRl66
+Block IMSNUMIX
+  1 1  0.00000000E+00  # IRn11
+  1 2  0.00000000E+00  # IRn12
+  1 3  0.00000000E+00  # IRn13
+  2 1  0.00000000E+00  # IRn21
+  2 2  0.00000000E+00  # IRn22
+  2 3  0.00000000E+00  # IRn23
+  3 1  0.00000000E+00  # IRn31
+  3 2  0.00000000E+00  # IRn32
+  3 3  0.00000000E+00  # IRn33
+Block IMTD
+  1 1  0.00000000E+00  # Itd11
+  1 2  0.00000000E+00  # Itd12
+  1 3  0.00000000E+00  # Itd13
+  2 1  0.00000000E+00  # Itd21
+  2 2  0.00000000E+00  # Itd22
+  2 3  0.00000000E+00  # Itd23
+  3 1  0.00000000E+00  # Itd31
+  3 2  0.00000000E+00  # Itd32
+  3 3  0.00000000E+00  # Itd33
+Block IMTE
+  1 1  0.00000000E+00  # Ite11
+  1 2  0.00000000E+00  # Ite12
+  1 3  0.00000000E+00  # Ite13
+  2 1  0.00000000E+00  # Ite21
+  2 2  0.00000000E+00  # Ite22
+  2 3  0.00000000E+00  # Ite23
+  3 1  0.00000000E+00  # Ite31
+  3 2  0.00000000E+00  # Ite32
+  3 3  0.00000000E+00  # Ite33
+Block IMTU
+  1 1  0.00000000E+00  # Itu11
+  1 2  0.00000000E+00  # Itu12
+  1 3  0.00000000E+00  # Itu13
+  2 1  0.00000000E+00  # Itu21
+  2 2  0.00000000E+00  # Itu22
+  2 3  0.00000000E+00  # Itu23
+  3 1  0.00000000E+00  # Itu31
+  3 2  0.00000000E+00  # Itu32
+  3 3  0.00000000E+00  # Itu33
+Block IMUMIX
+  1 1  0.00000000E+00  # IUU11
+  1 2  0.00000000E+00  # IUU12
+  2 1  0.00000000E+00  # IUU21
+  2 2  0.00000000E+00  # IUU22
+Block IMUSQMIX
+  1 1  0.00000000E+00  # IRu11
+  1 2  0.00000000E+00  # IRu12
+  1 3  0.00000000E+00  # IRu13
+  1 4  0.00000000E+00  # IRu14
+  1 5  0.00000000E+00  # IRu15
+  1 6  0.00000000E+00  # IRu16
+  2 1  0.00000000E+00  # IRu21
+  2 2  0.00000000E+00  # IRu22
+  2 3  0.00000000E+00  # IRu23
+  2 4  0.00000000E+00  # IRu24
+  2 5  0.00000000E+00  # IRu25
+  2 6  0.00000000E+00  # IRu26
+  3 1  0.00000000E+00  # IRu31
+  3 2  0.00000000E+00  # IRu32
+  3 3  0.00000000E+00  # IRu33
+  3 4  0.00000000E+00  # IRu34
+  3 5  0.00000000E+00  # IRu35
+  3 6  0.00000000E+00  # IRu36
+  4 1  0.00000000E+00  # IRu41
+  4 2  0.00000000E+00  # IRu42
+  4 3  0.00000000E+00  # IRu43
+  4 4  0.00000000E+00  # IRu44
+  4 5  0.00000000E+00  # IRu45
+  4 6  0.00000000E+00  # IRu46
+  5 1  0.00000000E+00  # IRu51
+  5 2  0.00000000E+00  # IRu52
+  5 3  0.00000000E+00  # IRu53
+  5 4  0.00000000E+00  # IRu54
+  5 5  0.00000000E+00  # IRu55
+  5 6  0.00000000E+00  # IRu56
+  6 1  0.00000000E+00  # IRu61
+  6 2  0.00000000E+00  # IRu62
+  6 3  0.00000000E+00  # IRu63
+  6 4  0.00000000E+00  # IRu64
+  6 5  0.00000000E+00  # IRu65
+  6 6  0.00000000E+00  # IRu66
+Block IMVCKM
+  1 1  0.00000000E+00  # ICKM11
+  1 2  0.00000000E+00  # ICKM12
+  1 3  -7.339352310000E-02  # ICKM13
+  2 1  -6.418082620000E-03  # ICKM21
+  2 2  -9.126956350000E-03  # ICKM22
+  2 3  0.00000000E+00  # ICKM23
+  3 1  -4.172658540000E-02  # ICKM31
+  3 2  -5.933808370000E-02  # ICKM32
+  3 3  0.00000000E+00  # ICKM33
+Block IMVMIX
+  1 1  0.00000000E+00  # IVV11
+  1 2  0.00000000E+00  # IVV12
+  2 1  0.00000000E+00  # IVV21
+  2 2  0.00000000E+00  # IVV22
+Block MSD2
+  1 1  2.7368467400000E+05  # RmDR11
+  1 2  0.00000000E+00  # RmDR12
+  1 3  0.00000000E+00  # RmDR13
+  2 1  0.00000000E+00  # RmDR21
+  2 2  2.7368467400000E+05  # RmDR22
+  2 3  0.00000000E+00  # RmDR23
+  3 1  0.00000000E+00  # RmDR31
+  3 2  0.00000000E+00  # RmDR32
+  3 3  2.7026196900000E+05  # RmDR33
+Block MSE2
+  1 1  1.8630628700000E+04  # RmER11
+  1 2  0.00000000E+00  # RmER12
+  1 3  0.00000000E+00  # RmER13
+  2 1  0.00000000E+00  # RmER21
+  2 2  1.8630628700000E+04  # RmER22
+  2 3  0.00000000E+00  # RmER23
+  3 1  0.00000000E+00  # RmER31
+  3 2  0.00000000E+00  # RmER32
+  3 3  1.7967640600000E+04  # RmER33
+Block MSL2
+  1 1  3.8155670000000E+04  # RmLL11
+  1 2  0.00000000E+00  # RmLL12
+  1 3  0.00000000E+00  # RmLL13
+  2 1  0.00000000E+00  # RmLL21
+  2 2  3.8155670000000E+04  # RmLL22
+  2 3  0.00000000E+00  # RmLL23
+  3 1  0.00000000E+00  # RmLL31
+  3 2  0.00000000E+00  # RmLL32
+  3 3  3.7828676900000E+04  # RmLL33
+Block MSOFT
+  1  1.0139653400000E+02  # RMx1
+  2  1.9150424100000E+02  # RMx2
+  3  5.8826303100000E+02  # RMx3
+  21  3.2337494300000E+04  # MHu2
+  22  -1.288001340000E+05  # MHd2
+Block MSQ2
+  1 1  2.9983670100000E+05  # RmQL11
+  1 2  0.00000000E+00  # RmQL12
+  1 3  0.00000000E+00  # RmQL13
+  2 1  0.00000000E+00  # RmQL21
+  2 2  2.9983670100000E+05  # RmQL22
+  2 3  0.00000000E+00  # RmQL23
+  3 1  0.00000000E+00  # RmQL31
+  3 2  0.00000000E+00  # RmQL32
+  3 3  2.4876536700000E+05  # RmQL33
+Block MSU2
+  1 1  2.8038210600000E+05  # RmUR11
+  1 2  0.00000000E+00  # RmUR12
+  1 3  0.00000000E+00  # RmUR13
+  2 1  0.00000000E+00  # RmUR21
+  2 2  2.8038210600000E+05  # RmUR22
+  2 3  0.00000000E+00  # RmUR23
+  3 1  0.00000000E+00  # RmUR31
+  3 2  0.00000000E+00  # RmUR32
+  3 3  1.7913707200000E+05  # RmUR33
+Block NMIX
+  1 1  9.8636443000000E-01  # RNN11
+  1 2  -5.311035530000E-02  # RNN12
+  1 3  1.4643399500000E-01  # RNN13
+  1 4  -5.311861170000E-02  # RNN14
+  2 1  9.9350535800000E-02  # RNN21
+  2 2  9.4494929900000E-01  # RNN22
+  2 3  -2.698467200000E-01  # RNN23
+  2 4  1.5615069800000E-01  # RNN24
+  3 1  -6.033880020000E-02  # RNN31
+  3 2  8.7700485400000E-02  # RNN32
+  3 3  6.9587749300000E-01  # RNN33
+  3 4  7.1022698400000E-01  # RNN34
+  4 1  -1.165071320000E-01  # RNN41
+  4 2  3.1073901700000E-01  # RNN42
+  4 3  6.4922596000000E-01  # RNN43
+  4 4  -6.843778230000E-01  # RNN44
+Block SELMIX
+  1 1  0.00000000E+00  # RRl11
+  1 2  0.00000000E+00  # RRl12
+  1 3  2.8248719000000E-01  # RRl13
+  1 4  0.00000000E+00  # RRl14
+  1 5  0.00000000E+00  # RRl15
+  1 6  9.5927107100000E-01  # RRl16
+  2 1  0.00000000E+00  # RRl21
+  2 2  0.00000000E+00  # RRl22
+  2 3  0.00000000E+00  # RRl23
+  2 4  1.0000000000000E+00  # RRl24
+  2 5  0.00000000E+00  # RRl25
+  2 6  0.00000000E+00  # RRl26
+  3 1  0.00000000E+00  # RRl31
+  3 2  0.00000000E+00  # RRl32
+  3 3  0.00000000E+00  # RRl33
+  3 4  0.00000000E+00  # RRl34
+  3 5  1.0000000000000E+00  # RRl35
+  3 6  0.00000000E+00  # RRl36
+  4 1  0.00000000E+00  # RRl41
+  4 2  1.0000000000000E+00  # RRl42
+  4 3  0.00000000E+00  # RRl43
+  4 4  0.00000000E+00  # RRl44
+  4 5  0.00000000E+00  # RRl45
+  4 6  0.00000000E+00  # RRl46
+  5 1  1.0000000000000E+00  # RRl51
+  5 2  0.00000000E+00  # RRl52
+  5 3  0.00000000E+00  # RRl53
+  5 4  0.00000000E+00  # RRl54
+  5 5  0.00000000E+00  # RRl55
+  5 6  0.00000000E+00  # RRl56
+  6 1  0.00000000E+00  # RRl61
+  6 2  0.00000000E+00  # RRl62
+  6 3  9.5927107100000E-01  # RRl63
+  6 4  0.00000000E+00  # RRl64
+  6 5  0.00000000E+00  # RRl65
+  6 6  -2.824871900000E-01  # RRl66
+Block SMINPUTS
+  1  1.2793400000000E+02  # aEWM1
+  2  1.1663700000000E-05  # Gf
+  3  1.1800000000000E-01  # aS
+  4  9.1187600000000E+01  # MMZ
+Block SNUMIX
+  1 1  0.00000000E+00  # RRn11
+  1 2  0.00000000E+00  # RRn12
+  1 3  1.0000000000000E+00  # RRn13
+  2 1  0.00000000E+00  # RRn21
+  2 2  1.0000000000000E+00  # RRn22
+  2 3  0.00000000E+00  # RRn23
+  3 1  1.0000000000000E+00  # RRn31
+  3 2  0.00000000E+00  # RRn32
+  3 3  0.00000000E+00  # RRn33
+Block TD
+  1 1  0.00000000E+00  # Rtd11
+  1 2  0.00000000E+00  # Rtd12
+  1 3  0.00000000E+00  # Rtd13
+  2 1  0.00000000E+00  # Rtd21
+  2 2  0.00000000E+00  # Rtd22
+  2 3  0.00000000E+00  # Rtd23
+  3 1  0.00000000E+00  # Rtd31
+  3 2  0.00000000E+00  # Rtd32
+  3 3  -1.106937420000E+02  # Rtd33
+Block TE
+  1 1  0.00000000E+00  # Rte11
+  1 2  0.00000000E+00  # Rte12
+  1 3  0.00000000E+00  # Rte13
+  2 1  0.00000000E+00  # Rte21
+  2 2  0.00000000E+00  # Rte22
+  2 3  0.00000000E+00  # Rte23
+  3 1  0.00000000E+00  # Rte31
+  3 2  0.00000000E+00  # Rte32
+  3 3  -2.540197270000E+01  # Rte33
+Block TU
+  1 1  0.00000000E+00  # Rtu11
+  1 2  0.00000000E+00  # Rtu12
+  1 3  0.00000000E+00  # Rtu13
+  2 1  0.00000000E+00  # Rtu21
+  2 2  0.00000000E+00  # Rtu22
+  2 3  0.00000000E+00  # Rtu23
+  3 1  0.00000000E+00  # Rtu31
+  3 2  0.00000000E+00  # Rtu32
+  3 3  -4.447524570000E+02  # Rtu33
+Block UMIX
+  1 1  9.1683485900000E-01  # RUU11
+  1 2  -3.992666290000E-01  # RUU12
+  2 1  3.9926662900000E-01  # RUU21
+  2 2  9.1683485900000E-01  # RUU22
+Block USQMIX
+  1 1  0.00000000E+00  # RRu11
+  1 2  0.00000000E+00  # RRu12
+  1 3  5.5364496000000E-01  # RRu13
+  1 4  0.00000000E+00  # RRu14
+  1 5  0.00000000E+00  # RRu15
+  1 6  8.3275282000000E-01  # RRu16
+  2 1  0.00000000E+00  # RRu21
+  2 2  0.00000000E+00  # RRu22
+  2 3  0.00000000E+00  # RRu23
+  2 4  1.0000000000000E+00  # RRu24
+  2 5  0.00000000E+00  # RRu25
+  2 6  0.00000000E+00  # RRu26
+  3 1  0.00000000E+00  # RRu31
+  3 2  0.00000000E+00  # RRu32
+  3 3  0.00000000E+00  # RRu33
+  3 4  0.00000000E+00  # RRu34
+  3 5  1.0000000000000E+00  # RRu35
+  3 6  0.00000000E+00  # RRu36
+  4 1  0.00000000E+00  # RRu41
+  4 2  1.0000000000000E+00  # RRu42
+  4 3  0.00000000E+00  # RRu43
+  4 4  0.00000000E+00  # RRu44
+  4 5  0.00000000E+00  # RRu45
+  4 6  0.00000000E+00  # RRu46
+  5 1  1.0000000000000E+00  # RRu51
+  5 2  0.00000000E+00  # RRu52
+  5 3  0.00000000E+00  # RRu53
+  5 4  0.00000000E+00  # RRu54
+  5 5  0.00000000E+00  # RRu55
+  5 6  0.00000000E+00  # RRu56
+  6 1  0.00000000E+00  # RRu61
+  6 2  0.00000000E+00  # RRu62
+  6 3  8.3275282000000E-01  # RRu63
+  6 4  0.00000000E+00  # RRu64
+  6 5  0.00000000E+00  # RRu65
+  6 6  -5.536449600000E-01  # RRu66
+Block VCKM
+  1 1  5.7303259500000E-01  # RCKM11
+  1 2  8.1489189100000E-01  # RCKM12
+  1 3  4.6885402900000E-02  # RCKM13
+  2 1  -8.125921150000E-01  # RCKM21
+  2 2  5.6270175700000E-01  # RCKM22
+  2 3  1.5144733200000E-01  # RCKM23
+  3 1  9.7700563700000E-02  # RCKM31
+  3 2  -1.253540120000E-01  # RCKM32
+  3 3  9.8462117400000E-01  # RCKM33
+Block VMIX
+  1 1  9.7255783500000E-01  # RVV11
+  1 2  -2.326612490000E-01  # RVV12
+  2 1  2.3266124900000E-01  # RVV21
+  2 2  9.7255783500000E-01  # RVV22
+Block MASS
+  2000015  2.0686780500000E+02  # Msl6
+  2000013  2.0291569000000E+02  # Msl5
+  2000011  2.0291569000000E+02  # Msl4
+  1000015  1.4410279900000E+02  # Msl3
+  1000013  1.4410279900000E+02  # Msl2
+  1000011  1.3449086400000E+02  # Msl1
+  1  0.00000000E+00  # MD
+  2  0.00000000E+00  # MU
+  3  0.00000000E+00  # MS
+  4  0.00000000E+00  # MC
+  5  4.8899165100000E+00  # MB
+  6  1.7500000000000E+02  # MT
+  11  0.00000000E+00  # ME
+  12  0.00000000E+00  # Mnue
+  13  0.00000000E+00  # MM
+  14  0.00000000E+00  # Mnum
+  15  1.7770000000000E+00  # MTA
+  16  0.00000000E+00  # Mnut
+  23  9.1187600000000E+01  # MZ
+  24  7.9829013114276E+01  # MW
+  25  1.1089905700000E+02  # Mh01
+  35  3.9996011600000E+02  # MH02
+  36  3.9958391700000E+02  # MA0
+  37  4.0787901200000E+02  # MH
+  1000001  5.1306517900000E+02  # Mdsq1
+  1000002  3.9966849300000E+02  # Musq1
+  1000003  5.4372667600000E+02  # Mdsq2
+  1000004  5.4925926500000E+02  # Musq2
+  1000005  5.4522846200000E+02  # Mdsq3
+  1000006  5.4925926500000E+02  # Musq3
+  1000012  1.8470846400000E+02  # Msn1
+  1000014  1.8525832600000E+02  # Msn2
+  1000016  1.8525832600000E+02  # Msn3
+  1000021  6.0771370400000E+02  # Mglu
+  1000022  9.6688068600000E+01  # Mneu1
+  1000023  1.8108815700000E+02  # Mneu2
+  1000024  1.8169647400000E+02  # Mch1
+  1000025  -3.637560270000E+02  # Mneu3
+  1000035  3.8172938200000E+02  # Mneu4
+  1000037  3.7993932000000E+02  # Mch2
+  2000001  5.4522846200000E+02  # Mdsq4
+  2000002  5.6111901400000E+02  # Musq4
+  2000003  5.6844110900000E+02  # Mdsq5
+  2000004  5.6111901400000E+02  # Musq5
+  2000005  5.6844110900000E+02  # Mdsq6
+  2000006  5.8578581800000E+02  # Musq6
+DECAY  2000015  2.6990609600000E-01  # Wsl6
+DECAY  2000013  2.1612162600000E-01  # Wsl5
+DECAY  2000011  2.1612162600000E-01  # Wsl4
+DECAY  1000015  8.0156629400000E-01  # Wsl3
+DECAY  1000013  1.1529729200000E+00  # Wsl2
+DECAY  1000011  1.4832726800000E-01  # Wsl1
+DECAY  6  1.5619498300000E+00  # WT
+DECAY  23  2.4114331600000E+00  # WZ
+DECAY  24  2.0028219600000E+00  # WW
+DECAY  25  1.9861079900000E-03  # Wh01
+DECAY  35  5.7480138900000E-01  # WH02
+DECAY  36  6.3217848800000E-01  # WA0
+DECAY  37  5.4696281300000E-01  # WH
+DECAY  1000001  3.7362760100000E+00  # Wdsq1
+DECAY  1000002  2.0215957800000E+00  # Wusq1
+DECAY  1000003  1.1529729200000E+00  # Wdsq2
+DECAY  1000004  2.5858507900000E+00  # Wusq2
+DECAY  1000005  2.4868951000000E+00  # Wdsq3
+DECAY  1000006  2.8581230800000E-01  # Wusq3
+DECAY  1000012  1.4751897700000E-01  # Wsn1
+DECAY  1000014  1.4988163400000E-01  # Wsn2
+DECAY  1000016  1.4988163400000E-01  # Wsn3
+DECAY  1000021  5.5067543800000E+00  # Wglu
+DECAY  1000022  0.00000000E+00  # Wneu1
+DECAY  1000023  2.0777004800000E-02  # Wneu2
+DECAY  1000024  1.7041450300000E-02  # Wch1
+DECAY  1000025  1.9159849500000E+00  # Wneu3
+DECAY  1000035  5.4771953900000E+00  # Wneu4
+DECAY  1000037  5.3127877200000E+00  # Wch2
+DECAY  2000001  5.4771953900000E+00  # Wdsq4
+DECAY  2000002  5.3127877200000E+00  # Wusq4
+DECAY  2000003  2.8581230800000E-01  # Wdsq5
+DECAY  2000004  2.1368216100000E-01  # Wusq5
+DECAY  2000005  2.1368216100000E-01  # Wdsq6
+DECAY  2000006  7.3731327500000E+00  # Wusq6
+
+#===========================================================
+# QUANTUM NUMBERS OF NEW STATE(S) (NON SM PDG CODE) IF ANY
+#===========================================================
+
+Block QNUMBERS 1000022  # n1
+        1 0  # 3 times electric charge
+        2 2  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000023  # n2
+        1 0  # 3 times electric charge
+        2 2  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000025  # n3
+        1 0  # 3 times electric charge
+        2 2  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000035  # n4
+        1 0  # 3 times electric charge
+        2 2  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000024  # x1+
+        1 3  # 3 times electric charge
+        2 2  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000037  # x2+
+        1 3  # 3 times electric charge
+        2 2  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000021  # go
+        1 0  # 3 times electric charge
+        2 2  # number of spin states (2S+1)
+        3 8  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000012  # sv1
+        1 0  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000014  # sv2
+        1 0  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000016  # sv3
+        1 0  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS -1000011  # sl1-
+        1 -3  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS -1000013  # sl2-
+        1 -3  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS -1000015  # sl3-
+        1 -3  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS -2000011  # sl4-
+        1 -3  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS -2000013  # sl5-
+        1 -3  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS -2000015  # sl6-
+        1 -3  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000002  # su1
+        1 2  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000004  # su2
+        1 2  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000006  # su3
+        1 2  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 2000002  # su4
+        1 2  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 2000004  # su5
+        1 2  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 2000006  # su6
+        1 2  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000001  # sd1
+        1 -1  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000003  # sd2
+        1 -1  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 1000005  # sd3
+        1 -1  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 2000001  # sd4
+        1 -1  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 2000003  # sd5
+        1 -1  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 2000005  # sd6
+        1 -1  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 3  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 35  # h2
+        1 0  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 36  # h3
+        1 0  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 37  # H+
+        1 3  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 1  # Particle/Antiparticle distinction (0=own anti)

@@ -1,0 +1,129 @@
+********************************************************************************
+*                                                                              *
+*                      h   h  ooo  w     w ttttttt ooo                         *
+*                      h   h o   o w     w    t   o   o                        *
+*                      hhhhh o   o w  w  w    t   o   o                        *
+*                      h   h o   o w  w  w    t   o   o                        *
+*                      h   h  ooo   ww ww     t    ooo                         *
+*                                                                              *
+*                                                                              *
+*                         Use MadGraph's usrmod v2...?                         *
+*                                                                              *
+*                     M. Herquet - Nikhef (TH Department)                      *
+*                                                                              *
+********************************************************************************
+
+IMPORTANT WARNING for users of older usrmod versions: starting with version 2,
+the usrmod script has been deeply redesigned for various reasons (see 'What's
+new ?' below). It is _not_ compatible with the previous usrmod versions, neither
+it is with the former MG model directory structures. It is only compatible with
+the model files produced with or following the conventions of the MG interface
+to the FeynRules Feynman rule generator (see http://feynrules.phys.ucl.ac.be),
+starting with version 1.3 and above.
+
+Table of contents:
+-----------------
+
+    1) Introduction
+    2) What's new compare to previous versions ?
+    3) Step-by-step how-to
+    4) Advanced tips and tricks
+    5) Parsing library and database format reference 
+    
+Introduction
+------------
+This program should be seen as the successor of the original usrmod model written
+by Simon de Visscher in 2006 to deal with user defined MG models using the SM as a
+basis. Thanks to the implementation of new BSM models using the FR package, and to
+the uniformisation of conventions for model files, the usrmod version 2 allows the
+user to start from _any_ existing MG model and to implement (almost) _any_ desired
+change, incl. adding/modifying/removing particles, interactions and external
+parameters.
+
+What's new ?
+------------
+
+Step-by-step how-to
+-------------------
+
+To create a new MG model using usrmod v2, all you need is a valid MG model
+(FeynRules format):
+
+1) Copy the original model directory to a new location, e.g:
+cp -R my_model new_model
+
+2) Go to this model directory, e.g.
+cd new_model
+
+3) Create a usrmod "archive" to record the initial state of the model, e.g.
+../usrmod/usrmod.py save
+
+4) Modify the files:
+particles.dat: to add or remove particles, or to modify particle properties
+interactions.dat: to add or remove interactions, or to modify interactions
+                  properties
+ident_card.dat: to add, remove or modify external parameters read by MG in
+                the param_card.dat
+
+5) Use the usrmod "create" mode to create a consistent set of Fortran files
+for your new model:
+../usrmod/usrmod.py create
+and give a look to the output to see if it makes sense.
+
+6) Edit the couplings??.inc files to modify coupling expressions.
+Definitions of the newly created couplings are all grouped in the last of these
+files. Be CAREFUL that, according to the MG model conventions, only the coupling
+expressions contained in the couplings1.inc file are re-evaluated even if a new LHA
+file is not read, e.g. if the renormalization scale only is modified. By default,
+the USRMOD will never create a new coupling in this file (but you can of course move one
+manually).
+
+7) Edit the default parameter values in the param_card.dat file
+
+8) Type "make testprog" and "./testprog" to test your model compiles properly.
+
+9) If you are satisfied with your modifications, save them like in 3). If not,
+go back to 4) (but all changes in 6) and 7) will be lost!). If you want to start
+from a "fresh" copy of the model files, type
+../usrmod/usrmod.py restore
+
+Tips and tricks
+---------------
+
+Q: "How to get some inline help ?"
+A: ../usrmod/usrmod.py -h
+
+Q: "How to use another model directory than the current path ?"
+A: Use the -p option
+
+Q: "How to save multiple steps during model creation ?"
+A: Use the -f option while saving/creating/restoring to create/use different
+archive files. Beware the size of each of these binary archive file is
+roughly equal to the total size of the model directory!
+
+Q: "How to get more information about what's going one when the script is
+running ?"
+A: Use the -v verbose option, useful for debugging. Always use this when reporting
+a bug.
+
+Q: "How can I add an internal parameter ?"
+A: Simply edit directly the input.inc file and maybe "param_write.inc" if you want
+to see this parameter value in the standard logs. No other file should be modified.
+
+Q: "How can I add a new interaction with an unsupported type, e.g FFFF ?"
+A: Hack manually the _ref_types variable in the Interaction Python class defined
+in the hepobjects module. But be aware that MG/HELAS only supports a limited set of
+Lorentz structure for the interactions.
+
+Q: "Why some interactions/parameters are modified when I only edit the particle
+list ?"
+A: The usrmod v2 scripts run various internal consistency checks. For example, a
+particle cannot be added w/o adding the corresponding mass and width parameters,
+if a particle is removed, the associated interactions are also automaticaly
+removed, ... Because of this, modifying one file can have an impact on the
+other ones.
+
+Q: "Who should I congratulate/blame for this wonderful/horrible piece of code ?"
+A: All comments can be sent to mherquet@nikhef.nl
+
+

@@ -1,0 +1,118 @@
+#!/bin/bash
+
+if [[  ! -d ./bin  ]]; then
+    cd ../
+    if [[ ! -d ./bin ]]; then
+	echo "Error: store must be executed from the main, or bin directory"
+	exit
+    fi
+fi
+
+main=`pwd`
+maddir=$main/../MadGraphII/
+
+echo 'Cleaning...'
+rm -f $main/Source/HELAS/*  >& /dev/null
+rm -f $main/Source/MODEL/*  >& /dev/null
+
+echo 'Setup model...'
+$main/bin/setup_model-pl
+
+cp -rf $main/../HELAS/* $main/Source/DHELAS/
+
+if [[ ! -e $maddir/mg2_clB ]]; then
+  echo "No mg2_clB executable found. Running make."
+  cd $maddir
+  make mg2_clB
+  cd $main
+fi
+if [[ ! -e $maddir/mg2_real ]]; then
+  echo "No mg2_real executable found. Running make."
+  cd $maddir
+  make mg2_real
+  cd $main
+fi
+
+cd $main/SubProcesses/
+
+rm -f nexternal.inc >& /dev/null
+rm -f proc_label >& /dev/null
+rm -f proc_number >& /dev/null
+rm -f b_sf_???_???.* >& /dev/null
+rm -f b_cl_???_???.* >& /dev/null
+rm -f leshouche_???_???.inc >& /dev/null
+rm -f coloramps_???_???.inc >& /dev/null
+rm -f sborn_sf_???.* >& /dev/null
+rm -f sborn_cl_???.* >& /dev/null
+rm -f sborn_proc.* >& /dev/null
+rm -f proc_log_born.txt >& /dev/null
+
+rm -f realmtrx_???.f >& /dev/null
+rm -f realmtrx_???.ps >& /dev/null
+rm -f leshouche_???.inc >& /dev/null
+rm -f coloramps_???.inc >& /dev/null
+rm -f proc_label_real >& /dev/null
+rm -f proc_number_real >& /dev/null
+rm -f proc_log_real.txt >& /dev/null
+
+rm -f nlegborn.h >& /dev/null
+rm -f init_processes.f >& /dev/null
+
+
+echo '0' > proc_number
+echo '0' > proc_number_real
+touch proc_label
+touch proc_label_real
+
+echo 'Generating Borns...'
+$main/../MadGraphII/mg2_clB <../Cards/proc_card.dat > proc_log_born.txt
+
+echo 'Writing main subroutine for Born'
+gfortran -o write_proc_labels write_proc_labels.f
+./write_proc_labels
+
+echo 'Generating Reals...'
+$main/../MadGraphII/mg2_real <../Cards/proc_card.dat > proc_log_real.txt
+
+echo 'Writing main subroutine for reals'
+gfortran -o write_proc_labels_real write_proc_labels_real.f
+./write_proc_labels_real
+
+export XFFLAGS='-O2'
+if ! [ a$1 = a ]
+then
+    case a$1 in
+    a-g) export XFFLAGS='-ggdb -ffpe-trap=invalid,zero,overflow,underflow' ;;
+    a-pg) export XFFLAGS='-pg' ;;
+    esac
+fi
+
+# commented wrt the original version 26/3/2013
+#echo 'Creating HELAS library (this might take some time)'
+#cd $main/Source/DHELAS
+#make
+#cd $main
+#if [[ ! -e $main/lib/libdhelas3.a ]] ; then
+#    echo 'ERROR in compilation of HELAS library'
+#    echo 'go to ./MadGraph_POWHEG/my_proc/Source/DHELAS/ and compile by hand'
+#fi
+
+# commented wrt the original version 26/3/2013
+#echo 'Creating Model library'
+#cd $main/Source/MODEL
+#make
+#cd $main
+#if [[ ! -e $main/lib/libmodel.a ]] ; then
+#    echo 'ERROR in compilation of model library'
+#    echo 'go to ./MadGraph_POWHEG/my_proc/Source/MODEL/ and compile by hand'
+#fi
+
+# commented wrt the original version 26/3/2013
+#echo 'Creating Process library (this might take some time)'
+#cd $main/SubProcesses
+#make
+#cd $main
+#if [[ ! -e $main/lib/libmodel.a ]] ; then
+#    echo 'ERROR in compilation of process library'
+#    echo 'go to ./MadGraph_POWHEG/my_proc/SubProcesses/ and compile by hand'
+#fi

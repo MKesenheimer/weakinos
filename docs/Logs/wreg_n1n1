@@ -1,0 +1,89 @@
+=== LO Ergebnis: ===
+ncall1   100000
+itmx1    5
+ncall2   100000
+itmx2    4
+runningscale  0
+bornonly     1
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.1578844724761670E-002 +-   7.2757308991247095E-006
+  
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram removal type I
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.4830165726251886E-002 +-   2.9604163866573129E-005
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram removal type II
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.5302209738245113E-002 +-   3.3974748593977572E-004
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 60D0
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.4835439353529821E-002 +-   3.3762584857228931E-005
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 10D0
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.4929287257287805E-002 +-   5.4054264785431443E-005
+  
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D0
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.4990223085662406E-002 +-   1.1253773772009403E-004
+
+=== NLO Ergebnis: ===
+ncall1   10000
+itmx1    4
+ncall2   10000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D-1
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.5287318571478832E-002 +-   9.5075824983564523E-004
+
+=== NLO Ergebnis: ===
+ncall1   100000
+itmx1    4
+ncall2   100000
+itmx2    4
+runningscale  0
+Diagram subtraction
+wreg = 1D-2
+wdl,wdr,wul,wur=0d0
+incomingflavor 4 (d+u+s+c)
+  total cross section in pb   1.4568865524786163E-002 +-   5.0268719068419438E-004

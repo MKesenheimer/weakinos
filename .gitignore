@@ -1,0 +1,9 @@
+*~
+.nfs*
+*.o
+.dropbox*
+*.eps
+*.top
+*.DS_Store
+*.DSYM*
+*.a
