@@ -130,7 +130,13 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         call set_ebe_couplings
         
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
-        call set_channel(chan,i,j,k,mi,mj,mk,mij)
+        ! TODO: remove
+        !call set_channel_old(chan,p,i,j,k,mi,mj,mk,mij) ! this is probably wrong, see off_to_on.f
+        !print*,chan,i,j,k,mi,mj,mk,mij
+        call set_channel(chan,i,j,k,mi,mj,mk,mij) ! OK, but better check again!
+        ! TODO: remove
+        !print*,chan,i,j,k,mi,mj,mk,mij
+        !print*
         
         ! calculate the invariants
         s125 = momsum3sq(p(0:3,1),p(0:3,2),p(0:3,5)) ! invariant mass of particle 1 + 2 + 5

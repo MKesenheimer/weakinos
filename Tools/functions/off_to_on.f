@@ -319,6 +319,70 @@ c rescaled by this correction factor
       end  
 c############### end function corrfac ##################################
 
+c TODO: remove!
+c This is probably wrong, because the masses are not set correctly.
+c For example it is always mi=mx1 and mk=mn1..., which is not ok.
+c But better check a third time!
+c############### subroutine set_channel ################################
+c this subroutine sets the indices i,j,k and the masses mi,mj,mk,mij
+c in dependence of the chan-identifier.
+c the arrays osresID, osreslegs and osresM must be initialized in
+c init_couplings and in init_processes.
+c
+c                        mi
+c                        / 
+c   ____      !         /
+c  |    |  sij=mij^2   /
+c  | s  |--------------
+c  |____|\             \
+c         \             \
+c          \             \
+c          mk            mj
+
+      subroutine set_channel_old(chan,p,i,j,k,mi,mj,mk,mij)
+        implicit none
+        
+#include "PhysPars.h"
+#include "nexternal.inc"
+#include "nlegborn.h"
+#include "pwhg_math.h"
+#include "pwhg_kn.h"
+#include "osres.h"
+
+        ! momenta from PS-generator
+        double precision p(0:3,nexternal)
+        ! variable to determine the channel
+        character*4 chan
+        ! indices
+        integer i,j,k, ichan
+        ! masses
+        double precision mij, mi, mj, mk
+        double precision momsq, momsum2sq, momsum3sq, dotp
+        external momsq, momsum2sq, momsum3sq, dotp
+        
+        do ichan=1,nosres
+          if(chan.eq.osresID(ichan)) then
+            i = osreslegs(ichan,1)
+            j = osreslegs(ichan,2)
+            k = osreslegs(ichan,3)
+            mij = osresM(ichan)
+            mi = dsqrt(dabs(momsq(p(:,i))))
+            mj = dsqrt(dabs(momsq(p(:,j))))
+            mk = dsqrt(dabs(momsq(p(:,k))))
+            goto 10
+          endif
+        enddo
+
+ 10     continue
+
+#ifdef DEBUGQ
+        print*,"chan",chan
+        print*,"i,j,k",i,j,k
+        print*,"mij,mi,mj,mk",mij,mi,mj,mk
+#endif
+      end
+c############### end subroutine set_channel ############################
+
 c############### subroutine set_channel ################################
 c this subroutine sets the indices i,j,k and the masses mi,mj,mk,mij
 c in dependence of the chan-identifier.
@@ -388,7 +452,7 @@ c          mk            mj
 #endif
       end
 c############### end subroutine set_channel ############################
-      
+
 c############### subroutine PDFreweight ################################
 c this subroutine is used in ST_wtch_DS (Wt-production) to rescale
 c the on-shell counter terms
