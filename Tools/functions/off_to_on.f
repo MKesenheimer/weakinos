@@ -385,9 +385,9 @@ c############### end subroutine set_channel ############################
 
 c############### subroutine set_channel ################################
 c this subroutine sets the indices i,j,k and the masses mi,mj,mk,mij
-c in dependence of the chan-identifier.
-c the arrays osresID, osreslegs and osresM must be initialized in
-c init_couplings and in init_processes.
+c in dependence of the chan-identifier (NOTE: chan must be a
+c character-string). The arrays osresID, osreslegs and osresM must
+c be initialized in init_couplings and in init_processes.
 c
 c                        mi
 c                        / 
@@ -442,6 +442,12 @@ c          mk            mj
         enddo
 
  10     continue
+
+        ! checks
+        if(i.eq.0 .or. j.eq.0 .or. k.eq.0) then
+          print*,"inset_channel: got strang values for i,j,k:",i,j,k
+          stop
+        endif
 
 #ifdef DEBUGQ
         print*,"chan",chan

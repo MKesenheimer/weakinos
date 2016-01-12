@@ -35,6 +35,9 @@ c keep this order
 
         integer sigosres,imode
         double precision retval,retval0,xx(ndiminteg),ww1
+        ! debug
+        double precision yy(ndiminteg)
+        integer i
         integer ifirst,ichan,j
         double precision xjac
         ! temporary results for calc. of resonant contributions
@@ -70,8 +73,6 @@ c keep this order
           ! first create a momentum-config where the particles i and j are
           ! tan-mapped on a resonant squark
           call real_osres_phsp(xx,ichan)
-          ! DEBUG:
-          !call real_phsp(xx)
           xjac = kn_jacborn*ww1*hc2
           call sigreal_osres(xjac,sigosres_contr,
      &                      rad_osres_arr(:,ichan),ichan)         

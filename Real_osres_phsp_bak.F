@@ -8,14 +8,14 @@ c############### subroutine real_osres_phsp ############################
 c the following subroutine creates a phase-space for 2 -> 3 with
 c a tan-mapping for the invariant mass between particles i and j is used
 c to calculate the resonant contributions with intermediate resonant squarks.
-c The numer "chan" is an additional channel identifier "chan" which
+c The numer "ichan" is an additional channel identifier "ichan" which
 c selects the resonance specified in init_processes.F.
 c Only perform a tan-mapping if there is a (possible) resonance, 
 c otherwise: flat sampling in sij
 c
 c if the phase-space is to be restricted: this effects only t1 
 c -> do so by modifying the jacobian kn_jacborn.
-      subroutine real_osres_phsp(xrealosres,chan)
+      subroutine real_osres_phsp(xrealosres,ichan)
         implicit none
         
 #include "PhysPars.h"
@@ -38,25 +38,24 @@ c -> do so by modifying the jacobian kn_jacborn.
         double precision cosTh23,phib,t1
         double precision t1max,t1min
         double precision cosTh1
-        double precision mi,mj,mk,mij
         double precision vec(3),beta,norm
-        integer chan,i,j,k
+        double precision mi,mj,mk,mij
+        integer ichan,i,j,k
         double precision kaellenSqrt
         external kaellenSqrt
         double precision tiny
         parameter (tiny = 1d-12)
         
         ! check the channel identifier
-        if( chan.gt.nosres ) then
-          print*,"wrong channel number: ", chan
+        if( ichan.gt.nosres ) then
+          print*,"wrong channel number: ", ichan
           stop
         endif
 
-        ! set the mass of the intermediate particle, selected by chan
-        !mij = osresM(chan)
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
-        call set_channel(chan,i,j,k,mi,mj,mk,mij)
-        
+        call set_channel(osresID(ichan),i,j,k,mi,mj,mk,mij)
+
+
         ! reset the jacobian
         jaco = 1D0
         ! create the IS-kinematics:
@@ -150,8 +149,8 @@ c -> do so by modifying the jacobian kn_jacborn.
         ! now we have p1 (or p2) in the CMS:
         ! depending on which particles form the resonant pair,
         ! either set p3 or p4 (the spectator)
-        specnum = osreslegs(chan,3)
-        resnum  = osreslegs(chan,1)
+        specnum = osreslegs(ichan,3)
+        resnum  = osreslegs(ichan,1)
         
         kn_cmpreal(0,specnum) = dsqrt(par_Fin1mass**2+absp_cms**2)
         kn_cmpreal(1,specnum) = absp_cms*dsqrt(1D0-cosTh1**2)!*dcos(phi1)

@@ -59,6 +59,7 @@ c and the Jacobi factor for the phase space volume
         kn_cmpborn(1,1) =  0d0
         kn_cmpborn(2,1) =  0d0
         kn_cmpborn(3,1) =  kn_cmpborn(0,1)
+        
         kn_cmpborn(0,2) =  kn_cmpborn(0,1)
         kn_cmpborn(1,2) =  0d0
         kn_cmpborn(2,2) =  0d0
