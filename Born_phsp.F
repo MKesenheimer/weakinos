@@ -141,21 +141,21 @@ c psgen=3:     flat in log tau (second choice)
         ! output, local variables:
         double precision taumin,taumax,tau,y,x1,x2,s,jac,tmp
         integer psgen
-        
-        ! select phase space importance sampling
-        psgen = 3
 
         ! min and max values of tau
         taumin = minmass**2/sbeams
         taumax = 1d0
         
+        ! select phase space importance sampling
+        psgen = 3
+
         ! map xx(1) to tau = x1*x2
         ! with condition:
         ! (m3+m4)**2 <= sborn <= sbeams
         if(psgen.eq.0)then
           ! Sampling flat in 1/tau
-          tmp  = 1.0d0/taumax+xx(1)*(1d0/taumin-1d0/taumax)
-          tau  = 1.0d0/tmp
+          tmp  = 1d0/taumax+xx(1)*(1d0/taumin-1d0/taumax)
+          tau  = 1d0/tmp
           jac  = jac*tau**2*(1d0/taumin-1d0/taumax)
         elseif(psgen.eq.1) then
           ! Sampling flat in tau
@@ -182,7 +182,7 @@ c psgen=3:     flat in log tau (second choice)
         ! map xx(2) to rapidity y
         ! with condition:
         ! 1/2*log(tau) <= y <= -1/2*log(tau)
-        y   = -(1-2*xx(2))*dlog(tau)/2
+        y   = -(1D0-2D0*xx(2))*dlog(tau)/2D0
         jac = jac*dlog(tau) ! changed sign in respect to dislepton here
 
         ! calculate parton momentum fractions

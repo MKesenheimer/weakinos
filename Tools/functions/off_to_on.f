@@ -131,6 +131,7 @@ c          pk
         ! Catani-Seymour reshuffling for the 2->2-kinematic
         ! see paper "The Dipole Formalism for Next-to-Leading
         ! Order QCD Calculations with Massive Partons" hep-ph/0201036.
+        
         ! set aux. momenta
         do mu = 0,3
           p12(mu) = p(mu,1) + p(mu,2) ! Q(mu) in CS-paper
@@ -143,7 +144,10 @@ c          pk
         ratio = kaellenSqrt(s,mij**2,mk**2)/kaellenSqrt(s,sij,mk**2)
         do mu = 0,3
           pk_tilde(mu)  = ratio*(pk(mu)-dotp(p12,pk)/s*p12(mu))
-     &                    +(s+mk**2-mij**2)/(2*s)*p12(mu)     
+     &                    +(s+mk**2-mij**2)/(2*s)*p12(mu)
+          ! TODO: muss hier nicht pk_tilde stehen?
+          !print*,"TODO in off_to_on"
+          !stop
           pij_tilde(mu) = p12(mu)-pk(mu)
         enddo
         
