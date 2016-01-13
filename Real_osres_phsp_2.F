@@ -43,7 +43,7 @@ c -> do so by modifying the jacobian kn_jacborn.
         double precision cosTh,sinTh,phi
         double precision cosThki,sinThki
         double precision sikmax,sikmin
-        double precision vec(3),beta,norm,ni_cms(3)
+        double precision vec(3),beta,norm
         double precision mi,mj,mk,mij
 !         ! indices
         integer ichan,i,j,k
@@ -182,11 +182,24 @@ c -> do so by modifying the jacobian kn_jacborn.
         sinThki = dsqrt(1D0-cosThki**2)
         
         ! reject numerically unstable values
-        if(abs(cosThki).gt.(1D0-tiny)) then
+        if(abs(cosThki).gt.1D0) then
           kn_jacborn = 0D0
           return
         endif
-
+        
+        ! build the 4-momenta in CMS of incoming particles
+        ! integrate out the dependency of phi -> apply later jac = 2*pi
+        ! TODO:
+        kn_cmpreal(0,k) = Ek
+        kn_cmpreal(1,k) = Pk*sinThki ! falsch, das ist der Winkel zwischen k und i und nicht zwischen k und der z-Achse
+        kn_cmpreal(2,k) = 0D0
+        kn_cmpreal(3,k) = Pk*cosThki
+        
+        ! calculate the vectors pi & pj in their restframe Rij:
+        EiRij = (sij+mi**2-mj**2)/(2D0*dsqrt(sij))
+        EjRij = (sij+mj**2-mi**2)/(2D0*dsqrt(sij))
+        PiRij = kaellenSqrt(sij,mi**2,mj**2)/(2D0*dsqrt(sij))
+        
         ! integration over phi:
         phi = 2D0*m_pi*xrealosres(5)
         jac = jac*2D0*m_pi
@@ -196,28 +209,25 @@ c -> do so by modifying the jacobian kn_jacborn.
         sinTh = dsqrt(1D0-cosTh**2)
         jac = 2D0*jac
         
-        ! build the 4-momenta in CMS of incoming particles
-        kn_cmpreal(0,k) = Ek
-        kn_cmpreal(1,k) = Pk*sinTh*dcos(phi)
-        kn_cmpreal(2,k) = Pk*sinTh*dsin(phi)
-        kn_cmpreal(3,k) = Pk*cosTh
-
-        kn_cmpreal(0,i) = Ei
-        kn_cmpreal(1,i) = Pi*(sinTh*dcos(phi))
-        kn_cmpreal(2,i) = Pi*(sinTh*dsin(phi)*cosThki-cosTh*sinThki)
-        kn_cmpreal(3,i) = Pi*(sinTh*dsin(phi)*sinThki+cosTh*cosThki)
-
-        kn_cmpreal(0,j) = Ej
-        kn_cmpreal(1,j) = -(kn_cmpreal(1,i)+kn_cmpreal(1,k))
-        kn_cmpreal(2,j) = -(kn_cmpreal(2,i)+kn_cmpreal(2,k))
-        kn_cmpreal(3,j) = -(kn_cmpreal(3,i)+kn_cmpreal(3,k))
-
-#ifdef DEBUG
-        print*,"pi",kn_cmpreal(:,i)
-        print*,"pj",kn_cmpreal(:,j)
-        print*,"pk",kn_cmpreal(:,k)
-        print*
-#endif
+        ! build the vectors pi & pj in Rij
+        ! it is kn_Rijpreal(i) + kn_Rijpreal(j) = (sqrt(sij),0,0,0)
+        kn_Rijpreal(0,i) = EiRij
+        kn_Rijpreal(1,i) = PiRij*sinTh*dcos(phi)
+        kn_Rijpreal(2,i) = PiRij*sinTh*dsin(phi)
+        kn_Rijpreal(3,i) = PiRij*cosTh
+        
+        kn_Rijpreal(0,j) =  EjRij
+        kn_Rijpreal(1,j) = -kn_Rijpreal(1,i)
+        kn_Rijpreal(2,j) = -kn_Rijpreal(2,i)
+        kn_Rijpreal(3,j) = -kn_Rijpreal(3,i)
+        
+        ! boost them back into CMS and keep the direction of particle k
+        do iter = 1,3
+          vec(iter) = -kn_cmpreal(iter,k)/Pk
+        enddo
+        beta = Pk/Ek
+        call mboost(1,vec,beta,kn_Rijpreal(0:3,i),kn_cmpreal(0:3,i))
+        call mboost(1,vec,beta,kn_Rijpreal(0:3,j),kn_cmpreal(0:3,j))
 
         ! check four-momentum conservation
         call check_4conservation(kn_cmpreal,nlegreal)
