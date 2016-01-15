@@ -254,7 +254,8 @@ endif
 ### USER Files ###
 USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
        init_processes.o init_couplings.o Reals_osres.o \
-       Real_osres_phsp.o sigosres.o
+       Real_osres_phsp.o sigosres.o \
+       phi1_2.o phi1_2m_bw.o phi1_2m_nobw.o phi3m0.o
 
 ### Functions in Tools/functions/
 FUNC = hep2pwg.o funcprocess.o Print.o funcbasic.o off_to_on.o

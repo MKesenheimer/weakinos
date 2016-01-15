@@ -16,7 +16,10 @@ c +2: x1 x2
 c -1: azimuthal-integration
 
         integer ndiminteg
-        parameter (ndiminteg=(nlegreal-2)*3-4+2-1)
+        !parameter (ndiminteg=(nlegreal-2)*3-4+2-1)
+        
+        ! debug
+        parameter (ndiminteg=10)
 
         integer maxprocborn,maxprocreal,maxflow
         parameter (maxprocborn=999,maxprocreal=999,maxflow=10)

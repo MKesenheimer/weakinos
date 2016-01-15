@@ -266,7 +266,7 @@ c     set process id using slepton types
         enddo
 
 
-#ifdef DEBUG
+#ifdef DEBUGQ
         flst_nborn = 1
         flst_nreal = 1
         flst_born(1,1) = -4
