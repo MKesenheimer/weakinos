@@ -153,7 +153,7 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         ! the quark is on-shell subtract the divergent part) 
         ! -> Prospino scheme 1211.0286
         if( (s12.ge.(mij+mk)**2) .and. (mij.ge.(mi+mj)) ) then
-          call off_to_on(p,i,j,k,mij,p_os)                        ! off_to_on the momenta p to on-shell momenta p_os        
+          call off_to_on(p,chan,p_os)                             ! off_to_on the momenta p to on-shell momenta p_os        
           bwratio = (mij*wreg)**2/((sij-mij**2)**2+(mij*wreg)**2) ! calculate the ratio of the breit wigner functions
           call sreal_proc_res(p_os,rflav,chan,ampCT)              ! new routine to calculate only the resonant matrix elements
           ampCT = bwratio*ampCT                                   ! multiply with the breit-wigner ratio

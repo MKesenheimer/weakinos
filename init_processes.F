@@ -201,13 +201,6 @@ c     set process id using slepton types
           enddo
         enddo
 
-#ifdef DEBUG
-           print*,' born processes',flst_nborn
-           do j=1,flst_nborn
-              print*,(flst_born(k,j),k=1,nlegborn)
-           enddo
-#endif
-
         ! real subprocesses
         flst_nreal=0
         do i1=-max_flav,max_flav
@@ -271,7 +264,29 @@ c     set process id using slepton types
             enddo
           enddo
         enddo
+
+
+#ifdef DEBUG
+        flst_nborn = 1
+        flst_nreal = 1
+        flst_born(1,1) = -4
+        flst_born(2,1) =  3
+        flst_born(3,1) = 1000022
+        flst_born(4,1) = -1000024
+        flst_real(1,1) = -4
+        flst_real(2,1) =  0
+        flst_real(3,1) = 1000022
+        flst_real(4,1) = -1000024
+        flst_real(5,1) = -3
+#endif
         
+#ifdef DEBUG
+           print*,' born processes',flst_nborn
+           do j=1,flst_nborn
+              print*,(flst_born(k,j),k=1,nlegborn)
+           enddo
+#endif
+
 #ifdef DEBUG
         print*,' real processes',flst_nreal
         do j=1,flst_nreal
@@ -279,7 +294,7 @@ c     set process id using slepton types
         enddo
 #endif
 
-#if defined(DSUB_II) || defined(DSUB_II_TEST)
+#if defined(DSUB_I) || defined(DSUB_II) || defined(DSUB_II_TEST)
         ! setup the flavor list of on-shell resonant diagrams
         call init_processes_osres
 #ifdef DEBUG
@@ -329,7 +344,6 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         ! reset the number of on-shell resonant diagrams
         flst_nosres = 0
         ! fill the flavor list with on-shell resonant diagrams
-#if defined(DSUB_II) || defined(DSUB_II_TEST)
         do i1=1,flst_nreal
           if((flst_real(1,i1).eq.0.or.flst_real(2,i1).eq.0)
      &       .and.flst_realres(nlegreal,i1).eq.0) then ! only for production-channels
@@ -413,8 +427,30 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
 
         ! the rest of the variables defined in osres.h are set
         ! in init_couplings.f
-#endif
 
+#ifdef DEBUGQ
+        osresID(1) = "dl35"
+        osresID(2) = "dl35"
+        osresID(3) = "dl35"
+        osresID(4) = "dl35"
+        
+        osreslegs(1,1) = 3
+        osreslegs(1,2) = 5
+        osreslegs(1,3) = 4
+        
+        osreslegs(2,1) = 3
+        osreslegs(2,2) = 5
+        osreslegs(2,3) = 4
+        
+        osreslegs(3,1) = 3
+        osreslegs(3,2) = 5
+        osreslegs(3,3) = 4
+        
+        osreslegs(4,1) = 3
+        osreslegs(4,2) = 5
+        osreslegs(4,3) = 4
+#endif
+        
       end
 
 c############### end subroutine init_osres #############################

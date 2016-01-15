@@ -846,7 +846,6 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         integer i
         double precision test(nosres)
 
-#if defined(DSUB_II) || defined(DSUB_II_TEST)
         osresM(1) = mdl
         osresM(2) = mdl
         osresM(3) = mul
@@ -880,6 +879,16 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         enddo 
         stop
 #endif
+
+#ifdef DEBUGQ
+        osresM(1) = mdl
+        osresM(2) = mdl
+        osresM(3) = mdl
+        osresM(4) = mdl
+        osresW(1) = WDLR
+        osresW(2) = WDLR
+        osresW(3) = WDLR
+        osresW(4) = WDLR
 #endif
         
       end

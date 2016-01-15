@@ -283,14 +283,14 @@ c the interference term and the off-shell contributions
       ! part) -> Prospino scheme 1211.0286
       ! S35 = MUL^2, m3 = MNI, m5 = 0D0
       if( (S.ge.(MUL+MXJ)**2) .and. (MUL.ge.dabs(MNI))) then
-        !off_to_on(p,i,j,k,mij,p_OS)
-        call off_to_on(p,3,5,4,MUL,p_OS)                          ! off_to_on the momenta p to on-shell momenta p_OS        
+        !off_to_on(p,chan,p_OS)
+        call off_to_on(p,"ul35",p_OS)                          ! off_to_on the momenta p to on-shell momenta p_OS        
         RATIO35L = (MUL*WREG)**2/((S35-MUL**2)**2+(MUL*WREG)**2)  ! calculate the ratio of the breit wigner functions
         COUNTER35L = RATIO35L*MATRIX_GD_NIXJU_RES(p_OS,NHEL,IC,"ul35") ! generate the counter term
       endif
       ! S45 = MDL^2, m4 = MXJ, m5 = 0D0
       if( (S.ge.(MDL+dabs(MNI))**2) .and. (MDL.ge.MXJ)) then
-        call off_to_on(p,4,5,3,MDL,p_OS)
+        call off_to_on(p,"dl45",p_OS)
         RATIO45L = (MDL*WREG)**2/((S45-MDL**2)**2+(MDL*WREG)**2)
         COUNTER45L = RATIO45L*MATRIX_GD_NIXJU_RES(p_OS,NHEL,IC,"dl45")
       endif

@@ -13,7 +13,7 @@ c if there are undecayed resonances, we need extra variables to pilot
 c the resonance's masses
 c -4: (p,E) conservation 
 c +2: x1 x2 
-c -1: azimuthal-integration  
+c -1: azimuthal-integration
 
         integer ndiminteg
         parameter (ndiminteg=(nlegreal-2)*3-4+2-1)

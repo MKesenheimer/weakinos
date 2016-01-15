@@ -40,7 +40,7 @@ c          |
 c          |
 c          pk
 
-      subroutine off_to_on(p,i,j,k,mij,p_OS)
+      subroutine off_to_on(p,chan,p_OS)
         implicit none
 
 #include "nexternal.inc"
@@ -52,6 +52,7 @@ c          pk
         ! mass at resonance, mass of particle i,j,k
         double precision mij, mi, mj, mk
         ! channel index (which particle should get resonant to mij)
+        character*4 chan
         ! if you choose i=3, j=5, k=4: particle 3 and 5 will generate
         ! the resonance with the intermediate particle with mass mij
         integer i,j,k
@@ -60,8 +61,6 @@ c          pk
         external kaellenSqrt
         double precision momsq, momsum2sq, momsum3sq, dotp
         external momsq, momsum2sq, momsum3sq, dotp
-        integer levi_civita
-        external levi_civita
         ! constants
         double precision m_pi
         parameter (m_pi = 4.D0*datan(1.D0))
@@ -92,12 +91,8 @@ c          pk
         ! abs. momentum in x-y-plane
         double precision pxy
         
-        ! tests
-        if( levi_civita(i-2,j-2,k-2) .eq. 0 ) then
-          print*, "error in subroutine off_to_on"
-          print*, "i,j,k must be in [3,4,5]"
-          stop
-        endif
+        ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
+        call set_channel(chan,i,j,k,mi,mj,mk,mij)
         
         if( nexternal .ne. 5) then
           print*, "error in subroutine off_to_on"
@@ -107,12 +102,8 @@ c          pk
         
         ! check momentum conservation
         call check_4conservation(p,nexternal)
-
-        ! TODO: use subroutine set_channel
-        ! set invariant masses
-        mi = dsqrt(dabs(momsq(p(:,i))))
-        mj = dsqrt(dabs(momsq(p(:,j))))
-        mk = dsqrt(dabs(momsq(p(:,k))))        
+        
+        ! set invariant masses       
         s  = momsum2sq(p(:,1),p(:,2))   ! Q2 in CS-paper
         sqrtS = dsqrt(S)
         sij = momsum2sq(p(:,i),p(:,j))
@@ -128,7 +119,7 @@ c          pk
           stop
         endif
         
-        ! Catani-Seymour reshuffling for the 2->2-kinematic
+        ! Catani-Seymour reshuffling for the 2->3-kinematic
         ! see paper "The Dipole Formalism for Next-to-Leading
         ! Order QCD Calculations with Massive Partons" hep-ph/0201036.
         
@@ -145,10 +136,7 @@ c          pk
         do mu = 0,3
           pk_tilde(mu)  = ratio*(pk(mu)-dotp(p12,pk)/s*p12(mu))
      &                    +(s+mk**2-mij**2)/(2*s)*p12(mu)
-          ! TODO: muss hier nicht pk_tilde stehen?
-          !print*,"TODO in off_to_on"
-          !stop
-          pij_tilde(mu) = p12(mu)-pk(mu)
+          pij_tilde(mu) = p12(mu)-pk_tilde(mu)
         enddo
         
         ! boost into the rest frame Rij of particle i and j
@@ -270,9 +258,9 @@ c          pk
               print*,"got strange value for p_OS..."
               print*,"p1",p(:,1)
               print*,"p2",p(:,2)
-              print*,"p3",p(:,3)
-              print*,"p4",p(:,4)
-              print*,"p5",p(:,5)
+              print*,"pi",p(:,i)
+              print*,"pj",p(:,j)
+              print*,"pk",p(:,k)
               print*,"p1_OS",p_OS(:,1)
               print*,"p2_OS",p_OS(:,2)
               print*,"pi_OS",p_OS(:,i)
@@ -421,6 +409,8 @@ c          mk            mj
         double precision mij, mi, mj, mk
         double precision momsq, momsum2sq, momsum3sq, dotp
         external momsq, momsum2sq, momsum3sq, dotp
+        integer levi_civita
+        external levi_civita
         
         do ichan=1,nosres
           if(chan.eq.osresID(ichan)) then
@@ -449,10 +439,20 @@ c          mk            mj
 
         ! checks
         if(i.eq.0 .or. j.eq.0 .or. k.eq.0) then
-          print*,"inset_channel: got strang values for i,j,k:",i,j,k
+          print*,"chan ",chan
+          print*,"osreslegs(1)",osreslegs(:,1)
+          print*,"osreslegs(2)",osreslegs(:,2)
+          print*,"osreslegs(3)",osreslegs(:,3)
+          print*,"in set_channel: got strang values for i,j,k:",i,j,k
           stop
         endif
 
+        if( levi_civita(i-2,j-2,k-2) .eq. 0 ) then
+          print*, "error in subroutine off_to_on"
+          print*, "i,j,k must be in [3,4,5]"
+          stop
+        endif
+        
 #ifdef DEBUGQ
         print*,"chan",chan
         print*,"i,j,k",i,j,k
