@@ -1,2 +1,0 @@
-Die Datei ./MadGraphII/writeamp.f wurde für meine Zwecke angepasst (kurz und schmerzlos alles auskommentiert was nicht notwendig ist. Das geht womöglich eleganter...). Wenn die Standalone Version von MadGraph wieder verwendet werden soll muss diese Datei wieder durch die Datei writeamp_bak.f ersetzt werden.
-Die Änderungen waren notwendig, damit die Amplituden mit der POWHEG-BOX-V2 verwendet werden können.
