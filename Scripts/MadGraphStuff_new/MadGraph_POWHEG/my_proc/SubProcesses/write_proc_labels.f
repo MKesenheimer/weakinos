@@ -441,8 +441,6 @@
       write (14,*) '     integer maxprocborn,maxprocreal'
       write (14,*) '     parameter (maxprocborn=999,maxprocreal=999)'
       write (14,*) '     '
-      write (14,*) '     parameter '//
-     $     '(maxalr=maxprocreal*nlegreal*(nlegreal-1)/2)'
       close(14)
 
       open (unit=15,file='init_processes.f',status='unknown')
@@ -665,4 +663,3 @@
       enddo
       
       end
-

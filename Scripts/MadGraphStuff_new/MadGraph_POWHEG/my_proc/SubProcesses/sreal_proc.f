@@ -8,94 +8,94 @@
       
       call convert_to_string(nexternal,legs,str,lstr)
       
-      if (str.eq."-11100002210000230") then
+      if (str.eq."-11100002210000220") then
          call srealmtrx_001(p,wgt)
          goto 20
-      elseif (str.eq."-1010000221000023-1") then
+      elseif (str.eq."-1010000221000022-1") then
          call srealmtrx_002(p,wgt)
          goto 20
-      elseif (str.eq."1-1100002210000230") then
+      elseif (str.eq."1-1100002210000220") then
          call srealmtrx_003(p,wgt)
          goto 20
-      elseif (str.eq."10100002210000231") then
+      elseif (str.eq."10100002210000221") then
          call srealmtrx_004(p,wgt)
          goto 20
-      elseif (str.eq."-22100002210000230") then
+      elseif (str.eq."-22100002210000220") then
          call srealmtrx_005(p,wgt)
          goto 20
-      elseif (str.eq."-2010000221000023-2") then
+      elseif (str.eq."-2010000221000022-2") then
          call srealmtrx_006(p,wgt)
          goto 20
-      elseif (str.eq."2-2100002210000230") then
+      elseif (str.eq."2-2100002210000220") then
          call srealmtrx_007(p,wgt)
          goto 20
-      elseif (str.eq."20100002210000232") then
+      elseif (str.eq."20100002210000222") then
          call srealmtrx_008(p,wgt)
          goto 20
-      elseif (str.eq."-44100002210000230") then
+      elseif (str.eq."-44100002210000220") then
          call srealmtrx_009(p,wgt)
          goto 20
-      elseif (str.eq."-4010000221000023-4") then
+      elseif (str.eq."-4010000221000022-4") then
          call srealmtrx_010(p,wgt)
          goto 20
-      elseif (str.eq."4-4100002210000230") then
+      elseif (str.eq."4-4100002210000220") then
          call srealmtrx_011(p,wgt)
          goto 20
-      elseif (str.eq."40100002210000234") then
+      elseif (str.eq."40100002210000224") then
          call srealmtrx_012(p,wgt)
          goto 20
-      elseif (str.eq."-33100002210000230") then
+      elseif (str.eq."-33100002210000220") then
          call srealmtrx_013(p,wgt)
          goto 20
-      elseif (str.eq."-3010000221000023-3") then
+      elseif (str.eq."-3010000221000022-3") then
          call srealmtrx_014(p,wgt)
          goto 20
-      elseif (str.eq."3-3100002210000230") then
+      elseif (str.eq."3-3100002210000220") then
          call srealmtrx_015(p,wgt)
          goto 20
-      elseif (str.eq."30100002210000233") then
+      elseif (str.eq."30100002210000223") then
          call srealmtrx_016(p,wgt)
          goto 20
-      elseif (str.eq."-55100002210000230") then
+      elseif (str.eq."-55100002210000220") then
          call srealmtrx_017(p,wgt)
          goto 20
-      elseif (str.eq."-5010000221000023-5") then
+      elseif (str.eq."-5010000221000022-5") then
          call srealmtrx_018(p,wgt)
          goto 20
-      elseif (str.eq."5-5100002210000230") then
+      elseif (str.eq."5-5100002210000220") then
          call srealmtrx_019(p,wgt)
          goto 20
-      elseif (str.eq."50100002210000235") then
+      elseif (str.eq."50100002210000225") then
          call srealmtrx_020(p,wgt)
          goto 20
-      elseif (str.eq."0-110000221000023-1") then
+      elseif (str.eq."0-110000221000022-1") then
          call srealmtrx_021(p,wgt)
          goto 20
-      elseif (str.eq."01100002210000231") then
+      elseif (str.eq."01100002210000221") then
          call srealmtrx_022(p,wgt)
          goto 20
-      elseif (str.eq."0-210000221000023-2") then
+      elseif (str.eq."0-210000221000022-2") then
          call srealmtrx_023(p,wgt)
          goto 20
-      elseif (str.eq."02100002210000232") then
+      elseif (str.eq."02100002210000222") then
          call srealmtrx_024(p,wgt)
          goto 20
-      elseif (str.eq."0-410000221000023-4") then
+      elseif (str.eq."0-410000221000022-4") then
          call srealmtrx_025(p,wgt)
          goto 20
-      elseif (str.eq."04100002210000234") then
+      elseif (str.eq."04100002210000224") then
          call srealmtrx_026(p,wgt)
          goto 20
-      elseif (str.eq."0-310000221000023-3") then
+      elseif (str.eq."0-310000221000022-3") then
          call srealmtrx_027(p,wgt)
          goto 20
-      elseif (str.eq."03100002210000233") then
+      elseif (str.eq."03100002210000223") then
          call srealmtrx_028(p,wgt)
          goto 20
-      elseif (str.eq."0-510000221000023-5") then
+      elseif (str.eq."0-510000221000022-5") then
          call srealmtrx_029(p,wgt)
          goto 20
-      elseif (str.eq."05100002210000235") then
+      elseif (str.eq."05100002210000225") then
          call srealmtrx_030(p,wgt)
          goto 20
       endif
@@ -181,7 +181,7 @@
       
       call convert_to_string(nexternal,legs,str,lstr)
       
-      if (str.eq."-11100002210000230") then
+      if (str.eq."-11100002210000220") then
          include "leshouches_R_001.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
@@ -189,7 +189,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2001(i)
          enddo
          goto 20
-      elseif (str.eq."-1010000221000023-1") then
+      elseif (str.eq."-1010000221000022-1") then
          include "leshouches_R_002.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
@@ -197,7 +197,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2002(i)
          enddo
          goto 20
-      elseif (str.eq."1-1100002210000230") then
+      elseif (str.eq."1-1100002210000220") then
          include "leshouches_R_003.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
@@ -205,7 +205,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2003(i)
          enddo
          goto 20
-      elseif (str.eq."10100002210000231") then
+      elseif (str.eq."10100002210000221") then
          include "leshouches_R_004.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
@@ -213,7 +213,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2004(i)
          enddo
          goto 20
-      elseif (str.eq."-22100002210000230") then
+      elseif (str.eq."-22100002210000220") then
          include "leshouches_R_005.inc"
          iflow=nint(jamp2005(0))
          jamp2cum(0)=0d0
@@ -221,7 +221,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2005(i)
          enddo
          goto 20
-      elseif (str.eq."-2010000221000023-2") then
+      elseif (str.eq."-2010000221000022-2") then
          include "leshouches_R_006.inc"
          iflow=nint(jamp2006(0))
          jamp2cum(0)=0d0
@@ -229,7 +229,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2006(i)
          enddo
          goto 20
-      elseif (str.eq."2-2100002210000230") then
+      elseif (str.eq."2-2100002210000220") then
          include "leshouches_R_007.inc"
          iflow=nint(jamp2007(0))
          jamp2cum(0)=0d0
@@ -237,7 +237,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2007(i)
          enddo
          goto 20
-      elseif (str.eq."20100002210000232") then
+      elseif (str.eq."20100002210000222") then
          include "leshouches_R_008.inc"
          iflow=nint(jamp2008(0))
          jamp2cum(0)=0d0
@@ -245,7 +245,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2008(i)
          enddo
          goto 20
-      elseif (str.eq."-44100002210000230") then
+      elseif (str.eq."-44100002210000220") then
          include "leshouches_R_009.inc"
          iflow=nint(jamp2009(0))
          jamp2cum(0)=0d0
@@ -253,7 +253,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2009(i)
          enddo
          goto 20
-      elseif (str.eq."-4010000221000023-4") then
+      elseif (str.eq."-4010000221000022-4") then
          include "leshouches_R_010.inc"
          iflow=nint(jamp2010(0))
          jamp2cum(0)=0d0
@@ -261,7 +261,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2010(i)
          enddo
          goto 20
-      elseif (str.eq."4-4100002210000230") then
+      elseif (str.eq."4-4100002210000220") then
          include "leshouches_R_011.inc"
          iflow=nint(jamp2011(0))
          jamp2cum(0)=0d0
@@ -269,7 +269,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2011(i)
          enddo
          goto 20
-      elseif (str.eq."40100002210000234") then
+      elseif (str.eq."40100002210000224") then
          include "leshouches_R_012.inc"
          iflow=nint(jamp2012(0))
          jamp2cum(0)=0d0
@@ -277,7 +277,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2012(i)
          enddo
          goto 20
-      elseif (str.eq."-33100002210000230") then
+      elseif (str.eq."-33100002210000220") then
          include "leshouches_R_013.inc"
          iflow=nint(jamp2013(0))
          jamp2cum(0)=0d0
@@ -285,7 +285,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2013(i)
          enddo
          goto 20
-      elseif (str.eq."-3010000221000023-3") then
+      elseif (str.eq."-3010000221000022-3") then
          include "leshouches_R_014.inc"
          iflow=nint(jamp2014(0))
          jamp2cum(0)=0d0
@@ -293,7 +293,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2014(i)
          enddo
          goto 20
-      elseif (str.eq."3-3100002210000230") then
+      elseif (str.eq."3-3100002210000220") then
          include "leshouches_R_015.inc"
          iflow=nint(jamp2015(0))
          jamp2cum(0)=0d0
@@ -301,7 +301,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2015(i)
          enddo
          goto 20
-      elseif (str.eq."30100002210000233") then
+      elseif (str.eq."30100002210000223") then
          include "leshouches_R_016.inc"
          iflow=nint(jamp2016(0))
          jamp2cum(0)=0d0
@@ -309,7 +309,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2016(i)
          enddo
          goto 20
-      elseif (str.eq."-55100002210000230") then
+      elseif (str.eq."-55100002210000220") then
          include "leshouches_R_017.inc"
          iflow=nint(jamp2017(0))
          jamp2cum(0)=0d0
@@ -317,7 +317,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2017(i)
          enddo
          goto 20
-      elseif (str.eq."-5010000221000023-5") then
+      elseif (str.eq."-5010000221000022-5") then
          include "leshouches_R_018.inc"
          iflow=nint(jamp2018(0))
          jamp2cum(0)=0d0
@@ -325,7 +325,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2018(i)
          enddo
          goto 20
-      elseif (str.eq."5-5100002210000230") then
+      elseif (str.eq."5-5100002210000220") then
          include "leshouches_R_019.inc"
          iflow=nint(jamp2019(0))
          jamp2cum(0)=0d0
@@ -333,7 +333,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2019(i)
          enddo
          goto 20
-      elseif (str.eq."50100002210000235") then
+      elseif (str.eq."50100002210000225") then
          include "leshouches_R_020.inc"
          iflow=nint(jamp2020(0))
          jamp2cum(0)=0d0
@@ -341,7 +341,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2020(i)
          enddo
          goto 20
-      elseif (str.eq."0-110000221000023-1") then
+      elseif (str.eq."0-110000221000022-1") then
          include "leshouches_R_021.inc"
          iflow=nint(jamp2021(0))
          jamp2cum(0)=0d0
@@ -349,7 +349,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2021(i)
          enddo
          goto 20
-      elseif (str.eq."01100002210000231") then
+      elseif (str.eq."01100002210000221") then
          include "leshouches_R_022.inc"
          iflow=nint(jamp2022(0))
          jamp2cum(0)=0d0
@@ -357,7 +357,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2022(i)
          enddo
          goto 20
-      elseif (str.eq."0-210000221000023-2") then
+      elseif (str.eq."0-210000221000022-2") then
          include "leshouches_R_023.inc"
          iflow=nint(jamp2023(0))
          jamp2cum(0)=0d0
@@ -365,7 +365,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2023(i)
          enddo
          goto 20
-      elseif (str.eq."02100002210000232") then
+      elseif (str.eq."02100002210000222") then
          include "leshouches_R_024.inc"
          iflow=nint(jamp2024(0))
          jamp2cum(0)=0d0
@@ -373,7 +373,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2024(i)
          enddo
          goto 20
-      elseif (str.eq."0-410000221000023-4") then
+      elseif (str.eq."0-410000221000022-4") then
          include "leshouches_R_025.inc"
          iflow=nint(jamp2025(0))
          jamp2cum(0)=0d0
@@ -381,7 +381,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2025(i)
          enddo
          goto 20
-      elseif (str.eq."04100002210000234") then
+      elseif (str.eq."04100002210000224") then
          include "leshouches_R_026.inc"
          iflow=nint(jamp2026(0))
          jamp2cum(0)=0d0
@@ -389,7 +389,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2026(i)
          enddo
          goto 20
-      elseif (str.eq."0-310000221000023-3") then
+      elseif (str.eq."0-310000221000022-3") then
          include "leshouches_R_027.inc"
          iflow=nint(jamp2027(0))
          jamp2cum(0)=0d0
@@ -397,7 +397,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2027(i)
          enddo
          goto 20
-      elseif (str.eq."03100002210000233") then
+      elseif (str.eq."03100002210000223") then
          include "leshouches_R_028.inc"
          iflow=nint(jamp2028(0))
          jamp2cum(0)=0d0
@@ -405,7 +405,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2028(i)
          enddo
          goto 20
-      elseif (str.eq."0-510000221000023-5") then
+      elseif (str.eq."0-510000221000022-5") then
          include "leshouches_R_029.inc"
          iflow=nint(jamp2029(0))
          jamp2cum(0)=0d0
@@ -413,7 +413,7 @@
             jamp2cum(i)=jamp2cum(i-1)+jamp2029(i)
          enddo
          goto 20
-      elseif (str.eq."05100002210000235") then
+      elseif (str.eq."05100002210000225") then
          include "leshouches_R_030.inc"
          iflow=nint(jamp2030(0))
          jamp2cum(0)=0d0

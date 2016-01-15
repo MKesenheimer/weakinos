@@ -33,7 +33,7 @@
 #*********************************************************************
 # Begin PROCESS # This is TAG. Do not modify this line
 
-p p > n1 n2 j @0       # Third Process
+p p > n1 n1 j @0       # Third Process
 QCD=1             # Max QCD couplings
 QED=2
 end_coup           # End the couplings input

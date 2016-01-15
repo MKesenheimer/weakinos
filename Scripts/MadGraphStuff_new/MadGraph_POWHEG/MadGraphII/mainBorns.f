@@ -513,6 +513,7 @@ c         print*,'here grpahs',graphs(0,0)
          if (graphs(0,0) .eq. 0) then
 c          print*, 'No graphs for this process', (iline(i),i=1,iline(0))
             print*, 'No dipols found for this configuraton', (iline(i),i=1,iline(0))
+            notfound=notfound+1
             close(58,status='delete')
 c     no graphs for this dipol config. -> remove it from the list
             do l=dipol,nr
@@ -531,7 +532,6 @@ c     no graphs for this dipol config. -> remove it from the list
                nrs=nrs-1
             endif
          else
-            notfound=notfound+1
             print*,'There are ',graphs(0,0),' graphs.'
             graphcolor(0,0,0)=graphs(0,0) !Number of graphs
             print*,' '
@@ -600,7 +600,7 @@ c$$$      call writedsig(iline(0),22,.false.)
       close(25,status='delete')
       close(26,status='delete')
 
-      if (notfound.gt.0) then
+      if (notfound.eq.0) then
          open (unit=62,file='proc_label',status='old',access='append')
          write (buffer,'(2i5,2i10)')proc_number,iline(0),
      &        info_p(5,inverse(iline(1))),info_p(5,inverse(iline(2)))

@@ -1,6 +1,6 @@
  # orderfile.lh
  # Created by POWHEG-BOX
- # Date 10/06/2015; time 11:33:03
+ # Date 15/01/2016; time 11:08:02
 
  MatrixElementSquareType CHaveraged
  CorrectionType          QCD

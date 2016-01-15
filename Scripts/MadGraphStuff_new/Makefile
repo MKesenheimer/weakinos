@@ -16,7 +16,7 @@ OBJ=obj-$(COMPILER)
 OBJDIR:=$(OBJ)
 
 ifeq ("$(COMPILER)","gfortran")	
-F77=gfortran -fno-automatic -ffixed-line-length-none -J$(OBJ) -I$(OBJ)
+F77=gfortran -fno-automatic -J$(OBJ) -I$(OBJ)
 ## -fbounds-check sometimes causes a weird error due to non-lazy evaluation
 ## of boolean in gfortran.
 #FFLAGS= -Wall -Wimplicit-interface -fbounds-check
@@ -53,12 +53,13 @@ GOSAMLIBS=$(shell cd GoSamlib ; echo *.f *.f90 ' ' | sed 's/qlonshellcutoff.f// 
 
 PWD=$(shell pwd)
 WDNAME=$(shell basename $(PWD))
-VPATH= ./:../:$(OBJDIR):./GoSamlib/
+VPATH= ./:../Version-pre2-1/progress:../Version-pre2-1/:../:$(OBJDIR):./GoSamlib/
 
 INCLUDE0=$(PWD)
 INCLUDE1=$(PWD)/include
+INCLUDE1.2=$(shell dirname $(PWD))/Version-pre2-1/include
 INCLUDE2=$(shell dirname $(PWD))/include
-FF=$(F77) $(FFLAGS) $(FPE) $(OPT) $(DEBUG) -I$(INCLUDE0) -I$(INCLUDE1) -I$(INCLUDE2)
+FF=$(F77) $(FFLAGS) $(FPE) $(OPT) $(DEBUG) -I$(INCLUDE0) -I$(INCLUDE1) -I$(INCLUDE1.2) -I$(INCLUDE2)
 
 INCLUDE =$(wildcard ../include/*.h *.h include/*.h)
 
@@ -86,13 +87,13 @@ ifeq ("$(ANALYSIS)","YOURPROCESS")
 FASTJET_CONFIG=$(shell which fastjet-config)
 LIBSFASTJET += $(shell $(FASTJET_CONFIG) --libs --plugins ) -lstdc++
 FJCXXFLAGS+= $(shell $(FASTJET_CONFIG) --cxxflags)
-PWHGANAL=pwhg_bookhist-multi.o pwhg_analysis.o
+PWHGANAL=pwhg_bookhist-new.o pwhg_analysis.o
 ## Also add required Fastjet drivers to PWHGANAL (examples are reported)
 #PWHGANAL+= fastjetsisconewrap.o fastjetktwrap.o fastjetCDFMidPointwrap.o fastjetD0RunIIConewrap.o fastjetfortran.o
 #PWHGANAL+= fastjetsisconewrap.o fastjetktwrap.o fastjetfortran.o
 PWHGANAL+=  fastjetfortran.o
 else
-PWHGANAL=pwhg_bookhist-multi.o pwhg_analysis-dummy.o
+PWHGANAL=pwhg_bookhist-new.o pwhg_analysis-dummy.o
 endif
 
 
@@ -129,9 +130,6 @@ LIBDIRMG=$(OBJ)
 LINKMGLIBS =  -L$(LIBDIRMG)  -lmadgraph -lmodel -ldhelas3 
 
 MADLIBS=libdhelas3.a libmadgraph.a libmodel.a
-
-# Get SVN info for SVN version stamping code
-$(shell ../svnversion/svnversion.sh>/dev/null)
 
 # target to generate LHEF output
 pwhg_main:gosamlib.a $(PWHG) $(MADLIBS)
@@ -196,11 +194,10 @@ veryclean:
 	rm -f $(OBJ)/*.o $(OBJ)/*.mod $(OBJ)/*.a pwhg_main lhef_analysis main-HERWIG-lhef	\
 	main-PYTHIA-lhef *.a DHELAS/*.o Madlib/*.o MODEL/*.o GoSamlib.lst
 
+# target to generate object directory if it does not exist
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
 ##########################################################################
 
 include GoSamlib/Makefile.virt.dep
-
-# Dependencies of SVN version stamp code
-pwhg_main.o: svn.version
-lhefwrite.o: svn.version
-
