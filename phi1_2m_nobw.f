@@ -1,3 +1,4 @@
+c kopiert von Projekt POWHEG-BOX-V2/VBF_Z_Z
       subroutine phi1_2m_nobw(m2,x3,xth,xphi,s3min,p1,p2,p3,wt)
 c     massive particle p1 decaying into p2 mass m2 and p3 mass-squared s3.
 c     with invariant mass of particle three s3 integrated over.
@@ -7,7 +8,7 @@ c     ds2 d^4 p2 d^4 p3 (2 pi)^4 delta(p1-p2-p3)/(2 pi)^6
 c     delta(p2^2-s2) delta(p3^2-s3)
       implicit none
 #include "pwhg_math.h"
-      double precision p1(4),p2(4),p3(4),p3cm(4)
+      double precision p1(0:3),p2(0:3),p3(0:3),p3cm(0:3)
       double precision x3,xth,xphi,costh,sinth,phi,cphi,sphi
       double precision wt,wt0,w3
       double precision s3max,s3min,one,two 
@@ -19,7 +20,7 @@ c     delta(p2^2-s2) delta(p3^2-s3)
       parameter(wt0=one/8d0/pi)
 
       wt=0d0
-      s1=p1(4)**2-p1(1)**2-p1(2)**2-p1(3)**2  
+      s1=p1(0)**2-p1(1)**2-p1(2)**2-p1(3)**2  
       if (s1 .lt. 0d0) then 
          write(*,*) 's1 < 0', s1 
          wt = 0d0 
@@ -57,23 +58,23 @@ c     delta(p2^2-s2) delta(p3^2-s3)
       lambda=dsqrt(lambda)
       wt=wt0*w3*lambda/s1
 
-      p3cm(4)=m1/two*(s1+s3-s2)/s1
+      p3cm(0)=m1/two*(s1+s3-s2)/s1
       p3cm(1)=m1/two*lambda/s1*sinth*sphi
       p3cm(2)=m1/two*lambda/s1*sinth*cphi
       p3cm(3)=m1/two*lambda/s1*costh
       call boost(m1,p1,p3cm,p3)
-      do j=1,4
+      do j=0,3
       p2(j)=p1(j)-p3(j)
       enddo
-      if (  (p1(4) .lt. 0d0) 
-     & .or. (p2(4) .lt. 0d0) 
-     & .or. (p3(4) .lt. 0d0)) then  
-      write(6,*) 'p1(4)',p1(4)
-      write(6,*) 'p2(4)',p2(4)
-      write(6,*) 'p3(4)',p3(4)
-      write(6,*) 'p1sq',p1(4)**2-p1(1)**2-p1(2)**2-p1(3)**2,s1
-      write(6,*) 'p2sq',p2(4)**2-p2(1)**2-p2(2)**2-p2(3)**2,s2
-      write(6,*) 'p3sq',p3(4)**2-p3(1)**2-p3(2)**2-p3(3)**2,s3
+      if (  (p1(0) .lt. 0d0) 
+     & .or. (p2(0) .lt. 0d0) 
+     & .or. (p3(0) .lt. 0d0)) then  
+      write(6,*) 'E1',p1(0)
+      write(6,*) 'E2',p2(0)
+      write(6,*) 'E3',p3(0)
+      write(6,*) 'p1sq',p1(0)**2-p1(1)**2-p1(2)**2-p1(3)**2,s1
+      write(6,*) 'p2sq',p2(0)**2-p2(1)**2-p2(2)**2-p2(3)**2,s2
+      write(6,*) 'p3sq',p3(0)**2-p3(1)**2-p3(2)**2-p3(3)**2,s3
       write(6,*) 'in phi1_2m.f'
       endif
       return

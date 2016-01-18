@@ -73,8 +73,8 @@ c keep this order
           ! first create a momentum-config where the particles i and j are
           ! tan-mapped on a resonant squark
           !call real_osres_phsp(xx,ichan)
-          ! phase space that uses only powheg routines
-          call real_osres_phsp_pwg(xx,ichan)
+          ! phase space that builds the 2->3 PS by using only 1->2 sub PS
+          call real_osres_phsp_wboosts(xx,ichan)
           
           xjac = kn_jacborn*ww1*hc2
           call sigreal_osres(xjac,sigosres_contr,

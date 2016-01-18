@@ -12,11 +12,11 @@ c The numer "ichan" is an additional channel identifier "ichan" which
 c selects the resonance specified in init_processes.F.
 c Only perform a tan-mapping if there is a (possible) resonance, 
 c otherwise: flat sampling in sij
-c this subroutine uses subroutines defined in phi1_2.f (with boosts).
+c this subroutine uses only POWHEG routines.
 c
 c if the phase-space is to be restricted: this effects only sik 
 c -> do so by modifying the jacobian kn_jacborn.
-      subroutine real_osres_phsp_wboosts(xx,ichan)
+      subroutine real_osres_phsp_pwg(xx,ichan)
         implicit none
         
 #include "PhysPars.h"
@@ -31,17 +31,35 @@ c -> do so by modifying the jacobian kn_jacborn.
         double precision tau,taumin,taumax
         double precision y,tmp
         ! mandelstams
-        double precision s12
-        double precision sijmin
+        double precision s12,sij,sik,sjk
+        double precision sjkmax,sjkmin
+        double precision sijmin,sijmax
+        ! map sij to tan if sij is resonant
+        double precision arctan,arctanmin,arctanmax
         ! jacobian
         double precision jac
+        ! energies and momenta
+        double precision Ei,Ej,Ek,Pi,Pj,Pk
+        ! angles
+        double precision cosTh,sinTh
+        double precision cosXi,sinXi,eta
+        ! boost
+        double precision vec(3),beta
         double precision mi,mj,mk,mij
         ! indices
         integer ichan,i,j,k
-        ! variables for pwg routines phi1_2
-        double precision jc1,jc2,pij(4),p12(4)
-        ! boost
-        double precision vec(3),beta
+        integer iter, nu
+        ! external functions
+        double precision kaellenSqrt
+        external kaellenSqrt
+        ! constants
+        double precision m_pi
+        parameter (m_pi = 4.D0*datan(1.D0))
+        double precision tiny
+        parameter (tiny = 1d-12)
+        
+        ! variables for pwg routines phi1_2, phi1_2m_bw, phi1_2m_nobw...
+        double precision ttmp,jc1,jc2,xth,pij(4),p12(4)
         
         ! check the channel identifier
         if( ichan.gt.nosres .or. ichan.lt.0) then
@@ -130,12 +148,11 @@ c -> do so by modifying the jacobian kn_jacborn.
         p12 = kn_cmpreal(:,1)+kn_cmpreal(:,2)
         sijmin = (mi+mj)**2
         
-        ! phase space for decay p12 -> pk + pij (with breit wigner)
-        call phi1_2m_bw(xx(3),xx(4),xx(5),sijmin,mk,mij,WREG,p12,
-     &                  kn_cmpreal(:,k),pij,jc1)
-        ! phase space for decay pij -> pi + pj
-        call phi1_2m(xx(6),xx(7),mi,mj,pij,kn_cmpreal(:,i),
-     &               kn_cmpreal(:,j),jc2)
+        ! p12 -> pk + pij
+        call phi1_2m_bw(mk,xx(3),xx(4),xx(5),sijmin,p12,kn_cmpreal(:,k),pij,mij,WREG,jc1)
+        
+        ! pij -> pi + pj
+        call phi3m(mi,mj,xx(6),xx(7),pij,kn_cmpreal(:,i),kn_cmpreal(:,j),jc2)
         
         jac = jac*jc1*jc2
      
@@ -167,7 +184,7 @@ c -> do so by modifying the jacobian kn_jacborn.
         endif  
 
       end
-c############### end subroutine real_osres_phsp_wboosts ################
+c############### end subroutine real_osres_phsp_pwg ####################
 
 c############### subroutine real_osres_phsp ############################
 c the following subroutine creates a phase-space for 2 -> 3 with
