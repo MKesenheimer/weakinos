@@ -1,3 +1,36 @@
  c~ (g  ) ==>  n1    x1-   s~       | mult=  1
  c~  s    ==>  n1    x1-      | uborn, mult=  1
    2  5
+(c~  s  ) ==>  n1    x1-   g        | mult=  1
+ c~  s    ==>  n1    x1-      | uborn, mult=  1
+   0  5
+ u~ (g  ) ==>  n1    x1-   d~       | mult=  1
+ u~  d    ==>  n1    x1-      | uborn, mult=  1
+   2  5
+(u~  d  ) ==>  n1    x1-   g        | mult=  1
+ u~  d    ==>  n1    x1-      | uborn, mult=  1
+   0  5
+(g  )c~   ==>  n1    x1-   s~       | mult=  1
+ s   c~   ==>  n1    x1-      | uborn, mult=  1
+   1  5
+(g  )u~   ==>  n1    x1-   d~       | mult=  1
+ d   u~   ==>  n1    x1-      | uborn, mult=  1
+   1  5
+(g  )d    ==>  n1    x1-   u        | mult=  1
+ u~  d    ==>  n1    x1-      | uborn, mult=  1
+   1  5
+(g  )s    ==>  n1    x1-   c        | mult=  1
+ c~  s    ==>  n1    x1-      | uborn, mult=  1
+   1  5
+(d   u~ ) ==>  n1    x1-   g        | mult=  1
+ d   u~   ==>  n1    x1-      | uborn, mult=  1
+   0  5
+ d  (g  ) ==>  n1    x1-   u        | mult=  1
+ d   u~   ==>  n1    x1-      | uborn, mult=  1
+   2  5
+(s   c~ ) ==>  n1    x1-   g        | mult=  1
+ s   c~   ==>  n1    x1-      | uborn, mult=  1
+   0  5
+ s  (g  ) ==>  n1    x1-   c        | mult=  1
+ s   c~   ==>  n1    x1-      | uborn, mult=  1
+   2  5

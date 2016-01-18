@@ -73,7 +73,7 @@ smartsig       1     ! (default 1) remember equal amplitudes (0 do not remember)
 #hdamp        100d0  ! damping factor h**2/(pt2+h**2) to separate real contributions between Sudakov and remnants
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
 
-iseed         5602  ! initialize random number sequence
+iseed         5402  ! (default 5602) initialize random number sequence
 #pdfreweight    1     ! (default 0) write extra pdf infos on LHEF
 #manyseeds      1    ! (default 0) allow for the generation of different statistically independent samples (see Docs/Manyseeds.pdf) 
 #xgriditeration 1    ! identifier for grid generation
