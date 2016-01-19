@@ -1,5 +1,86 @@
 c copied and modified from POWHEG-BOX-V2/VBF_Z_Z
 
+c############### subroutine x1x2phspace ################################
+c uses the two random numbers provided in xx
+c to generate the fraction of the beam momentum
+c for the two partons entering the Born process,
+c calculates the partonic Mandelstam variable s
+c and the Jacobi factor for the phase space volume
+c Parameter to select phase space importance sampling (always flat in y):
+c psgen=0:     flat in 1/tau
+c psgen=1:     flat in tau
+c psgen=2:     flat in log tau
+c psgen=3:     flat in log tau (second choice)
+      subroutine x1x2phspace(sbeams,minmass,xx,x1,x2,s,jac)
+        implicit none
+
+        ! input:
+        double precision sbeams,minmass,xx(2)
+        ! output, local variables:
+        double precision taumin,taumax,tau,y,x1,x2,s,jac,tmp
+        integer psgen
+
+        ! reset jacobian
+        jac = 1D0
+
+        ! min and max values of tau
+        taumin = minmass**2/sbeams
+        taumax = 1d0
+        
+        ! select phase space importance sampling
+        psgen = 3
+
+        ! map xx(1) to tau = x1*x2
+        ! with condition:
+        ! (m3+m4)**2 <= sborn <= sbeams
+        if(psgen.eq.0)then
+          ! Sampling flat in 1/tau
+          tmp  = 1d0/taumax+xx(1)*(1d0/taumin-1d0/taumax)
+          tau  = 1d0/tmp
+          jac  = jac*tau**2*(1d0/taumin-1d0/taumax)
+        elseif(psgen.eq.1) then
+          ! Sampling flat in tau
+          tau  = taumin + xx(1)*(taumax-taumin)
+          jac  = jac*(taumax-taumin)
+        elseif(psgen.eq.2) then
+          ! Flat in log(tau)
+          tau = taumin*dexp(xx(1)*dlog(taumax/taumin))
+          jac = jac*tau*dabs(dlog(taumax/taumin))
+        elseif(psgen.eq.3) then
+          ! Flat in log(tau) (second choice, default for dislepton)
+          tau = dexp(dlog(taumin)*(1-xx(1)**2))
+          jac = jac*tau*dabs(dlog(taumin))*2*xx(1)
+        else
+         print*, 'Wrong psgen in Born_phsp.F'
+         stop
+        endif        
+
+#ifdef DEBUG1
+        print*,"tau = ", tau
+        print*,"jac = ", jac
+#endif
+
+        ! map xx(2) to rapidity y
+        ! with condition:
+        ! 1/2*log(tau) <= y <= -1/2*log(tau)
+        y   = -(1D0-2D0*xx(2))*dlog(tau)/2D0
+        jac = jac*dlog(tau)
+
+        ! calculate parton momentum fractions
+        ! and partonic s
+        s  = sbeams*tau
+        x1 = dsqrt(tau)*dexp(y)
+        x2 = tau/x1
+
+#ifdef DEBUG1
+        print*,"y   = ", y
+        print*,"jac = ", jac
+#endif
+      
+      end
+
+c############### end subroutine x1x2phspace ############################
+
 c############### subroutine phi1_2m ####################################
 c massive particle p0 in rest frame decaying into p1 with mass m1 
 c and p2 with mass m2. Vectors returned p1 and p2 are in the frame in
@@ -9,12 +90,15 @@ c factor of (2*pi)^4 included in definition of phase space.
 c Expression evaluated is 
 c d^4 p1 d^4 p2 (2 pi)^4 delta(p0-p1-p2)/(2 pi)^6
 c delta(p2^2) delta(p3^2)
+c if you don't want to integrate over the azimuthal degree of freedom
+c just set xphi to zero - the jacobian will be still correct.
       subroutine phi1_2m(xth,xphi,m1,m2,p0,p1,p2,jac)
         implicit none
         ! masses of decaying particles
         double precision m1,m2
         ! integration variables
         double precision xth,xphi
+        double precision xexp
         ! momenta of incoming particle
         double precision p0(0:3)
         ! momenta of outgoing particles
@@ -22,11 +106,11 @@ c delta(p2^2) delta(p3^2)
         ! momenta in CMS
         double precision p1_cms(0:3),p2_cms(0:3)
         ! angles
-        double precision phi,costh,sinth
+        double precision phi,cosTh,sinTh
         ! energies abs. momenta and invariants
-        double precision E1,E2,P1abs,P2abs,s,sqrts
+        double precision E1,E2,Pabs,s,sqrts
         ! jacobian
-        double precision jac0,jac
+        double precision jac
         ! variables for boosting into rest frame
         double precision beta, vec(1:3),norm
         ! functions
@@ -37,39 +121,45 @@ c delta(p2^2) delta(p3^2)
         parameter (m_pi = 4.D0*datan(1.D0))
         ! indices
         integer i
-        parameter(jac0=1D0/8D0/m_pi)
-        jac=0D0
+
+        ! reset the jacobian
+        jac = 1D0
 
         s = dotp(p0,p0)
-        if (s .lt. 0D0) then
-         print*, "warning in phi1_2m: s is less than zero, s =",s
-         print*, " => s set to 0 with jacobian 0"
+        ! sort out bad phase space points
+        if (s .le. (m1+m2)**2) then
+         print*, "warning: s is less than the sum of provided masses "//
+     &           "m1 and m2"
+         print*, "s, (m1+m2)**2 =",s,(m1+m2)**2
+         print*, " => set s to 0 with jacobian 0"
          s   = 0D0
          jac = 0D0
+         return
         endif
-
         sqrts = dsqrt(s)
-        costh = 2D0*xth-1D0    
-        sinth = dsqrt(1D0-costh**2)
-        phi   = 2D0*m_pi*xphi
 
-        jac = jac0
+        ! choose here sampling exponent for theta integration
+        xexp  = 1D0
+        cosTh = 1D0-2D0*xth**xexp
+        sinTh = dsqrt(1D0-cosTh**2)
+        jac   = -jac*2D0*xexp*xth**(xexp-1D0)
+
+        phi   = 2D0*m_pi*xphi
+        !jac   = jac*2D0*m_pi
 
         E1 = (s+m1**2-m2**2)/(2D0*sqrts)
         E2 = (s+m2**2-m1**2)/(2D0*sqrts)
-        P1abs = kaellenSqrt(s,m1**2,m2**2)/(2D0*sqrts)
-        P2abs = kaellenSqrt(s,m2**2,m1**2)/(2D0*sqrts)
+        Pabs = kaellenSqrt(s,m1**2,m2**2)/(2D0*sqrts)
         
         p1_cms(0) = E1
-        p1_cms(1) = P1abs*sinth*dsin(phi)
-        p1_cms(2) = P1abs*sinth*dcos(phi)
-        p1_cms(3) = P1abs*costh
+        p1_cms(1) = Pabs*sinTh*dcos(phi)
+        p1_cms(2) = Pabs*sinTh*dsin(phi)
+        p1_cms(3) = Pabs*cosTh
 
         p2_cms(0) = E2
-        p2_cms(1) = -P2abs*sinth*dsin(phi)
-        p2_cms(2) = -P2abs*sinth*dcos(phi)
-        p2_cms(3) = -P2abs*costh
-
+        p2_cms(1) = -p1_cms(1)
+        p2_cms(2) = -p1_cms(2)
+        p2_cms(3) = -p1_cms(3)
         
         ! call boost(sqrts,p0,p1_cms,p1)
         ! new: use existing POWHEG-routines
@@ -82,9 +172,13 @@ c delta(p2^2) delta(p3^2)
           call mboost(1,vec,beta,p1_cms(0:3),p1(0:3))
           call mboost(1,vec,beta,p2_cms(0:3),p2(0:3))
         else
-          p2(:) = p2_cms(:)
-          p1(:) = p1_cms(:)
-        endif 
+          do i = 0,3
+            p2(i) = p2_cms(i)
+            p1(i) = p1_cms(i)
+          enddo
+        endif
+
+        jac = jac*Pabs/(8d0*m_pi*sqrts)
 
         ! filter unphysical momenta configurations
         if ( p2(0) .lt. 0D0 .and. p2(0) .gt. -1D-10 ) jac = 0D0  
@@ -116,6 +210,8 @@ c delta(p1^2-m1) delta(p2^2-s2)
       subroutine phi1_2m_bw(x2,xth,xphi,s2min,m1,bwmass,bwwidth,
      & p0,p1,p2,jac)
         implicit none
+        ! masses of decaying particles
+        double precision m1,m2
         ! integration variables
         double precision x2,xth,xphi
         double precision xexp
@@ -128,11 +224,11 @@ c delta(p1^2-m1) delta(p2^2-s2)
         ! momenta in CMS
         double precision p2_cms(0:3),p1_cms(0:3)
         ! angles
-        double precision costh,sinth,phi,cphi,sphi
+        double precision phi,cosTh,sinTh
         ! energies abs. momenta and invariants
-        double precision E1,E2,P1abs,P2abs,s,sqrts,m1,m2,s1,s2
+        double precision E1,E2,Pabs,s,sqrts,s1,s2
         ! jacobians
-        double precision jac,jac0,jac1,xjac,rtxth
+        double precision jac,jc1
         ! variables for boosting into rest frame
         double precision beta,vec(1:3),norm
         ! breit wigner
@@ -145,73 +241,79 @@ c delta(p1^2-m1) delta(p2^2-s2)
         ! constants
         double precision m_pi
         parameter (m_pi = 4.D0*datan(1.D0))
-        parameter(jac0=1D0/8D0/m_pi)
-        jac   = 0D0
-        xjac  = 1D0
-        rtxth = 1D0
-        
-        s    = dotp(p0,p0)
-        if (s .lt. 0D0) then 
-          print*,"s <0" 
-          s = 0D0 
-          jac = 0D0 
+
+        ! reset the jacobian
+        jac = 1D0
+        jc1 = 1D0
+
+        s = dotp(p0,p0)
+        ! sort out bad phase space points
+        if (s .le. 0D0) then
+         print*, "warning: s is less than zero"
+         print*, "s =",s
+         print*, " => set s to 0 with jacobian 0"
+         s   = 0D0
+         jac = 0D0
+         return
         endif
-        
         sqrts = dsqrt(s)
+
+        ! choose here sampling exponent for theta integration
+        xexp  = 1D0
+        cosTh = 1D0-2D0*xth**xexp
+        sinTh = dsqrt(1D0-cosTh**2)
+        jac   = -jac*2D0*xexp*xth**(xexp-1D0)
+
+        phi   = 2D0*m_pi*xphi
+        !jac   = jac*2D0*m_pi
+
+        ! integration borders
         s1    = m1**2
         s2max = (m1-sqrts)**2
-        
+
+        ! sort out bad phase space points
         if (s2min .gt. s2max) then 
-          print*,"warning: s2min should be smaller s2max"
+          print*,"warning: s2min should be smaller than s2max"
           s2min = s2max 
-          jac = 0D0 
+          jac   = 0D0
+          return
         endif
 
-        call breitw(x2,s2min,s2max,bwmass,bwwidth,s2,jac1) 
+        call breitw(x2,s2min,s2max,bwmass,bwwidth,s2,jc1)
         m2 = dsqrt(s2)
-
-        ! choose here sampling exponent
-        xexp  = 1D0 
-        rtxth = xth**xexp 
-        xjac  = 1D0/(xexp*xth**(xexp-1D0))
-
-        costh = 2D0*rtxth-1D0        
-        phi   = 2D0*m_pi*xphi
-        sinth = dsqrt(1D0-costh**2)
-        cphi  = dcos(phi)
-        sphi  = dsin(phi)
 
         E1 = (s+m1**2-m2**2)/(2D0*sqrts)
         E2 = (s+m2**2-m1**2)/(2D0*sqrts)
-        P1abs = kaellenSqrt(s,m1**2,m2**2)/(2D0*sqrts)
-        P2abs = kaellenSqrt(s,m2**2,m1**2)/(2D0*sqrts)
+        Pabs = kaellenSqrt(s,m1**2,m2**2)/(2D0*sqrts)
         
-        p2_cms(0) = E2
-        p2_cms(1) = P1abs*sinth*sphi
-        p2_cms(2) = P1abs*sinth*cphi
-        p2_cms(3) = P1abs*costh
-
         p1_cms(0) = E1
-        p1_cms(1) = -P2abs*sinth*sphi
-        p1_cms(2) = -P2abs*sinth*cphi
-        p1_cms(3) = -P2abs*costh
-        
-        jac = jac0*jac1*2D0*P1abs/sqrts/xjac
+        p1_cms(1) = Pabs*sinTh*dcos(phi)
+        p1_cms(2) = Pabs*sinTh*dsin(phi)
+        p1_cms(3) = Pabs*cosTh
+
+        p2_cms(0) = E2
+        p2_cms(1) = -p1_cms(1)
+        p2_cms(2) = -p1_cms(2)
+        p2_cms(3) = -p1_cms(3)
                 
-        !call boost(sqrts,p0,p2_cms,p2)
+        ! call boost(sqrts,p0,p1_cms,p1)
         ! new: use existing POWHEG-routines
         norm = dsqrt(p0(1)**2 + p0(2)**2 + p0(3)**2)
-        if(norm .ne. 0D0) then
+        if(norm.ne.0D0) then
           do i = 1,3
             vec(i) = p0(i)/norm
           enddo
           beta = norm/p0(0)
-          call mboost(1,vec,beta,p2_cms(0:3),p2(0:3))
           call mboost(1,vec,beta,p1_cms(0:3),p1(0:3))
+          call mboost(1,vec,beta,p2_cms(0:3),p2(0:3))
         else
-          p2(:) = p2_cms(:)
-          p1(:) = p1_cms(:)
-        endif  
+          do i = 0,3
+            p2(i) = p2_cms(i)
+            p1(i) = p1_cms(i)
+          enddo
+        endif
+
+        jac = jac*jc1*Pabs/(8d0*m_pi*sqrts)
 
         ! filter unphysical momenta configurations
         if ( p2(0) .lt. 0D0 .and. p2(0) .gt. -1D-10 ) jac = 0D0  
@@ -242,6 +344,9 @@ c jac is the jacobian between integration in msq and integration in x1
         ! constants
         double precision m_pi
         parameter (m_pi = 4.D0*datan(1.D0))
+
+        ! reset jacobian
+        jac = 1D0
         
         ! in case the maximum msq is very small
         ! just generate linearly for safety

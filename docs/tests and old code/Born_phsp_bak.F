@@ -57,7 +57,7 @@ c and the Jacobi factor for the phase space volume
         ! the squared CM energy of the Born process sborn
         ! and the jacobi factor of the PS volume
         call x1x2phspace(kn_sbeams,kn_minmass,xborn(1),kn_xb1,kn_xb2,
-     &                   kn_sborn,jac)
+     &                   kn_sborn,jac) ! OK!
         kn_jacborn = kn_jacborn*jac
 
         ! center of mass momenta
@@ -78,6 +78,8 @@ c and the Jacobi factor for the phase space volume
         ! calculates the Jacobi factor for the phase space volume
         ! we don't want to integrate over phi, so we provide 0 for xphi
         ! (see phi1_2.f)
+        ! TODO: remove
+        !call twobody0(xborn(3),0D0,kn_masses(3),kn_masses(4),p12,kn_cmpborn(:,3),kn_cmpborn(:,4),jac)
         call phi1_2m(xborn(3),0D0,kn_masses(3),kn_masses(4),p12,
      &               kn_cmpborn(:,3),kn_cmpborn(:,4),jac)
         kn_jacborn = kn_jacborn*jac
@@ -94,7 +96,7 @@ c and the Jacobi factor for the phase space volume
         ! boost kn_cmpborn (CM) -> kn_pborn (lab. frame)
         call mboost(nlegborn-2,vec,beta,kn_cmpborn(0,3),kn_pborn(0,3))
 
-        do nu=0,3
+        do nu=0,3 ! OK!
            kn_pborn(nu,1) = kn_xb1*kn_beams(nu,1)
            kn_pborn(nu,2) = kn_xb2*kn_beams(nu,2)
         enddo
@@ -126,6 +128,99 @@ c and the Jacobi factor for the phase space volume
       end
 
 c############### end subroutine born_phsp ##############################
+
+c TODO: remove
+c############### subroutine twobody0 ###################################
+c uses the random number provided in xx
+c to generate four-momenta in the cms frame
+c for the particles produced in the Born process,
+c calculates the Jacobi factor for the phase space volume
+c sampling flat in cos(theta)
+      subroutine twobody0(xx1,xx2,m1,m2,p0,p1,p2,jac)
+        implicit none
+
+#include "pwhg_math.h"
+
+        ! input: random variable,, masses of outgoing particles
+        double precision xx1,xx2,p0(0:3),m1,m2
+        ! output: momenta of outgoing particles, jacobian
+        double precision p1_cms(0:3),p2_cms(0:3),p1(0:3),p2(0:3),jac
+        ! local variables: absoulute momentum, invariant mass, 
+        ! cosine, sine theta, kaellen-function, energy of outgoing particles
+        double precision s,sqrts,phi,cosTh,sinTh,E1,E2,k
+        ! variables for boosting into rest frame
+        double precision beta, vec(1:3),norm
+        ! indices
+        integer i
+        ! functions
+        double precision kaellenSqrt,dotp
+        external kaellenSqrt,dotp
+
+        jac = 1D0
+
+        ! invariant mass
+        s = dotp(p0,p0)
+        sqrts = dsqrt(s)
+
+        ! sort out bad phase space points
+        ! should never be reached since taumin = (m1+m2)**2/sbeams
+        if(sqrts.le.(m1+m2)) then
+           jac = 0D0
+           return
+        endif
+
+        ! calculate absolute of 3-momenta and energies
+        ! in center of mass frame of outgoing particles
+        E1 = (s+m1**2-m2**2)/(2d0*sqrts)
+        E2 = (s+m2**2-m1**2)/(2d0*sqrts)
+        k  = kaellenSqrt(s,m1**2,m2**2)/(2d0*sqrts)
+
+        ! map random variable xx1 to cos and sin
+        cosTh = 1d0-2d0*xx1
+        sinTh = dsqrt(dabs(1-cosTh**2))
+        jac  = -jac*2d0
+
+        phi = 2d0*pi*xx2
+        !jac = jac*2d0*pi
+
+        ! set up 4-momenta in center of mass frame of outgoing particles
+        p1_cms(0) = E1
+        p1_cms(1) = k*sinTh*dcos(phi)
+        p1_cms(2) = k*sinTh*dsin(phi)
+        p1_cms(3) = k*cosTh
+
+        p2_cms(0) = E2
+        p2_cms(1) = -p1_cms(1)
+        p2_cms(2) = -p1_cms(2)
+        p2_cms(3) = -p1_cms(3)
+
+        norm = dsqrt(p0(1)**2 + p0(2)**2 + p0(3)**2)
+        if(norm.ne.0D0) then
+          do i = 1,3
+            vec(i) = p0(i)/norm
+          enddo
+          beta = norm/p0(0)
+          call mboost(1,vec,beta,p1_cms(0:3),p1(0:3))
+          call mboost(1,vec,beta,p2_cms(0:3),p2(0:3))
+        else
+          do i = 0,3
+            p1(i) = p1_cms(i)
+            p2(i) = p2_cms(i)
+          enddo
+        endif 
+
+        ! Achtung: in dislepton stand hier 2*p1(0) statt m=sqrt(s)
+        ! das macht für m1=m2 keinen Unterschied, allerdings schon für
+        ! Teilchen die unterschiedlich schwer sind!
+        jac = jac*k/(8d0*pi*sqrts)
+
+        ! Außerdem wurde hier ein Vorzeichen vergessen (*)
+        ! was sich allerdings mit einem falschen Vorzeichen in
+        ! x1x2phsp weghob.
+
+      end
+
+c############### subroutine twobody0 ###################################
 
 c############### subroutine born_suppression ###########################
       subroutine born_suppression(fact)

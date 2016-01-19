@@ -35,11 +35,11 @@ c -> do so by modifying the jacobian kn_jacborn.
         double precision sijmin
         ! jacobian
         double precision jac
-        double precision minmass,mi,mj,mk,mij
+        double precision mi,mj,mk,mij
         ! indices
         integer ichan,i,j,k
         ! variables for pwg routines phi1_2
-        double precision pij(4),p12(4)
+        double precision jc1,jc2,pij(4),p12(4)
         ! boost
         double precision vec(3),beta
         
@@ -52,17 +52,69 @@ c -> do so by modifying the jacobian kn_jacborn.
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
         call set_channel(osresID(ichan),i,j,k,mi,mj,mk,mij)
         
-        ! reset the jacobians
+#ifdef DEBUGQ
+        print*,osresID(ichan),i,j,k,mi,mj,mk,mij
+#endif
+        
+        ! reset the jacobian
         jac = 1D0
-        kn_jacreal = 1D0
 
-        minmass = mi+mj+mk
-        ! generate the x1-x2-phase space
-        call x1x2phspace(kn_sbeams,minmass,xx(1:2),kn_x1,kn_x2,
-     &                   kn_sreal,jac)
-        kn_jacreal = kn_jacreal*jac
-        ! for convenience
-        s12 = kn_sreal
+        ! do not restrict the integration over IS when performing the 
+        ! subtraction: simply attach a theta-function like 
+        ! sqrt(shat)-par_Fin1mass-mij when performing the subtraction
+        taumin = (mi+mj+mk)**2/kn_sbeams ! OK
+        taumax = 1D0
+        
+        ! select phase space importance sampling
+        psgen = 3
+
+        ! map xx(1) to tau = x1*x2
+        ! with condition:
+        ! (m3+m4+m5)**2 <= sborn <= sbeams
+        if(psgen.eq.0)then
+          ! Sampling flat in 1/tau
+          tmp  = 1d0/taumax+xx(1)*(1d0/taumin-1d0/taumax)
+          tau  = 1d0/tmp
+          jac  = jac*tau**2*(1d0/taumin-1d0/taumax)
+        elseif(psgen.eq.1) then
+          ! Sampling flat in tau
+          tau  = taumin + xx(1)*(taumax-taumin)
+          jac  = jac*(taumax-taumin)
+        elseif(psgen.eq.2) then
+          ! Flat in log(tau)
+          tau = taumin*dexp(xx(1)*dlog(taumax/taumin))
+          jac = jac*tau*dabs(dlog(taumax/taumin))
+        elseif(psgen.eq.3) then
+          ! Flat in log(tau) (second choice, default for dislepton)
+          tau = dexp(dlog(taumin)*(1-xx(1)**2))
+          jac = jac*tau*dabs(dlog(taumin))*2*xx(1)
+        else
+         print*, "Wrong psgen in Real_osres_phsp.F"
+         stop
+        endif        
+
+#ifdef DEBUGQ
+        print*,"tau = ", tau
+        print*,"jac = ", jac
+#endif
+
+        ! map xx(2) to rapidity y
+        ! with condition:
+        ! 1/2*log(tau) <= y <= -1/2*log(tau)
+        y   = -(1D0-2D0*xx(2))*dlog(tau)/2D0
+        jac = jac*dlog(tau)
+
+        ! calculate parton momentum fractions
+        ! and partonic s
+        kn_x1 = dsqrt(tau)*dexp(y)
+        kn_x2 = tau/kn_x1
+        kn_sreal  = kn_sbeams*tau
+        s12 = kn_sreal ! for convenience
+
+#ifdef DEBUGQ
+        print*,"y   = ", y
+        print*,"jac = ", jac
+#endif
 
         ! kinematics of IS-particles already fixed in partonic CMS:
         kn_cmpreal(0,1) = dsqrt(s12)/2D0
@@ -80,23 +132,27 @@ c -> do so by modifying the jacobian kn_jacborn.
         
         ! phase space for decay p12 -> pk + pij (with breit wigner)
         call phi1_2m_bw(xx(3),xx(4),xx(5),sijmin,mk,mij,WREG,p12,
-     &                  kn_cmpreal(:,k),pij,jac)
-        kn_jacreal = kn_jacreal*jac
-
+     &                  kn_cmpreal(:,k),pij,jc1)
         ! phase space for decay pij -> pi + pj
         call phi1_2m(xx(6),xx(7),mi,mj,pij,kn_cmpreal(:,i),
-     &               kn_cmpreal(:,j),jac)
-        kn_jacreal = kn_jacreal*jac
+     &               kn_cmpreal(:,j),jc2)
         
-        ! physical phase space jacobian (already in phi1_2)
-        !kn_jacreal = kn_jacreal*1D0
+        jac = jac*jc1*jc2
+     
+        ! check four-momentum conservation
+        if( jac .ne. 0D0) then 
+          call check_4conservation(kn_cmpreal,nlegreal)
+        endif  
+
+        ! physical phase space jacobian
+        jac = jac*1D0
 
         ! flux factors
-        kn_jacreal = kn_jacreal/(2D0*s12)
-
+        jac = jac/(2D0*s12)
+        
         ! do not introduce a new jacobian-variable
         ! -> should be unique
-        kn_jacborn = kn_jacreal
+        kn_jacborn = jac
 
         ! Boost to the LAB frame:
         beta = (kn_x1-kn_x2)/(kn_x1+kn_x2)
@@ -153,7 +209,7 @@ c -> do so by modifying the jacobian kn_jacborn.
         double precision cosXi,sinXi,eta
         ! boost
         double precision vec(3),beta
-        double precision minmass,mi,mj,mk,mij
+        double precision mi,mj,mk,mij
         ! indices
         integer ichan,i,j,k
         integer iter, nu
@@ -179,17 +235,65 @@ c -> do so by modifying the jacobian kn_jacborn.
         print*,osresID(ichan),i,j,k,mi,mj,mk,mij
 #endif
         
-        ! reset the jacobians
+        ! reset the jacobian
         jac = 1D0
-        kn_jacreal = 1D0
 
-        minmass = mi+mj+mk
-        ! generate the x1-x2-phase space
-        call x1x2phspace(kn_sbeams,minmass,xx(1:2),kn_x1,kn_x2,
-     &                   kn_sreal,jac)
-        kn_jacreal = kn_jacreal*jac
-        ! for convenience
-        s12 = kn_sreal
+        ! do not restrict the integration over IS when performing the 
+        ! subtraction: simply attach a theta-function like 
+        ! sqrt(shat)-par_Fin1mass-mij when performing the subtraction
+        taumin = (mi+mj+mk)**2/kn_sbeams ! OK
+        taumax = 1D0
+        
+        ! select phase space importance sampling
+        psgen = 3
+
+        ! map xx(1) to tau = x1*x2
+        ! with condition:
+        ! (m3+m4+m5)**2 <= sborn <= sbeams
+        if(psgen.eq.0)then
+          ! Sampling flat in 1/tau
+          tmp  = 1d0/taumax+xx(1)*(1d0/taumin-1d0/taumax)
+          tau  = 1d0/tmp
+          jac  = jac*tau**2*(1d0/taumin-1d0/taumax)
+        elseif(psgen.eq.1) then
+          ! Sampling flat in tau
+          tau  = taumin + xx(1)*(taumax-taumin)
+          jac  = jac*(taumax-taumin)
+        elseif(psgen.eq.2) then
+          ! Flat in log(tau)
+          tau = taumin*dexp(xx(1)*dlog(taumax/taumin))
+          jac = jac*tau*dabs(dlog(taumax/taumin))
+        elseif(psgen.eq.3) then
+          ! Flat in log(tau) (second choice, default for dislepton)
+          tau = dexp(dlog(taumin)*(1-xx(1)**2))
+          jac = jac*tau*dabs(dlog(taumin))*2*xx(1)
+        else
+         print*, "Wrong psgen in Real_osres_phsp.F"
+         stop
+        endif        
+
+#ifdef DEBUGQ
+        print*,"tau = ", tau
+        print*,"jac = ", jac
+#endif
+
+        ! map xx(2) to rapidity y
+        ! with condition:
+        ! 1/2*log(tau) <= y <= -1/2*log(tau)
+        y   = -(1D0-2D0*xx(2))*dlog(tau)/2D0
+        jac = jac*dlog(tau)
+
+        ! calculate parton momentum fractions
+        ! and partonic s
+        kn_x1 = dsqrt(tau)*dexp(y)
+        kn_x2 = tau/kn_x1
+        kn_sreal  = kn_sbeams*tau
+        s12 = kn_sreal ! for convenience
+
+#ifdef DEBUGQ
+        print*,"y   = ", y
+        print*,"jac = ", jac
+#endif
 
         ! kinematics of IS-particles already fixed in partonic CMS:
         kn_cmpreal(0,1) = dsqrt(s12)/2D0
@@ -212,15 +316,15 @@ c -> do so by modifying the jacobian kn_jacborn.
           arctan = (arctanmax-arctanmin)*xx(3)+arctanmin
           sij = mij**2+mij*WREG*dtan(arctan)
           ! include extra-jacobian from tan-mapping
-          kn_jacreal = kn_jacreal*(arctanmax-arctanmin)*mij*WREG/dcos(arctan)**2
+          jac = jac*(arctanmax-arctanmin)*mij*WREG/dcos(arctan)**2
         else
           sij = (sijmax-sijmin)*xx(3)+sijmin
-          kn_jacreal = kn_jacreal*(sijmax-sijmin)
+          jac = jac*(sijmax-sijmin)
         endif
 
         ! avoid unstable sij-values...
         if(sijmin+tiny.gt.sij .or. sijmax-tiny.lt.sij) then
-          kn_jacreal = 0D0
+          jac = 0D0
           return
         endif
 
@@ -232,7 +336,7 @@ c -> do so by modifying the jacobian kn_jacborn.
      &           *(sij+mj**2-mi**2)+kaellenSqrt(sij,s12,mk**2)
      &           *kaellenSqrt(sij,mj**2,mi**2))/sij
         sjk = (sjkmax-sjkmin)*xx(4)+sjkmin
-        kn_jacreal = kn_jacreal*(sjkmax-sjkmin)
+        jac = jac*(sjkmax-sjkmin)
 
         ! use mandelstam relations to calculate sjk
         sik = s12-sjk-sij+mi**2+mj**2+mk**2
@@ -259,14 +363,14 @@ c -> do so by modifying the jacobian kn_jacborn.
         ! integration over cosTh
         cosTh = 2D0*xx(5)-1D0
         sinTh = dsqrt(1D0-cosTh**2)
-        kn_jacreal = 2D0*kn_jacreal
+        jac = 2D0*jac
 
         ! integration over eta
         eta = 2D0*m_pi*xx(6)
-        kn_jacreal = kn_jacreal*2D0*m_pi
+        jac = jac*2D0*m_pi
 
         ! phi is already integrated out
-        kn_jacreal = kn_jacreal*2D0*m_pi
+        jac = jac*2D0*m_pi
         
         ! build the 4-momenta in CMS of incoming particles
         kn_cmpreal(0,k) = Ek
@@ -297,14 +401,14 @@ c -> do so by modifying the jacobian kn_jacborn.
         call check_4conservation(kn_cmpreal,nlegreal)
 
         ! physical phase space jacobian
-        kn_jacreal = kn_jacreal*(1/8D0)*(1/(2D0*m_pi)**5)*(1/(4D0*s12))
+        jac = jac*(1/8D0)*(1/(2D0*m_pi)**5)*(1/(4D0*s12))
 
         ! flux factors
-        kn_jacreal = kn_jacreal/(2D0*s12)
+        jac = jac/(2D0*s12)
         
         ! do not introduce a new jacobian-variable
         ! -> should be unique
-        kn_jacborn = kn_jacreal
+        kn_jacborn = jac
 
         ! Boost to the LAB frame:
         beta = (kn_x1-kn_x2)/(kn_x1+kn_x2)
