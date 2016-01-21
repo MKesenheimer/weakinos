@@ -82,8 +82,8 @@ c -> do so by modifying the jacobian kn_jacborn.
         p12 = kn_cmpreal(:,1)+kn_cmpreal(:,2)
         sijmin = (mi+mj)**2
         
-        ! phase space for decay p12 -> pk + pij (with breit wigner)
-        call R2phsp_bw(xx(3),xx(4),xx(5),sijmin,mk,mij,WREG,p12,
+        ! phase space for decay p12 -> pk + pij (1 = with breit wigner)
+        call R2phsp_s2(1,xx(3),xx(4),xx(5),sijmin,mk,mij,WREG,p12,
      &                  kn_cmpreal(:,k),pij,jac)
         kn_jacreal = kn_jacreal*jac
 

@@ -242,11 +242,9 @@ c just set xphi to zero - the jacobian will be still correct.
       end
 c############### end subroutine R2phsp #################################
 
-c############### subroutine R2phsp_bw ##################################
-c This routine differs from R2phsp in that s2 is always generated
-c according to a Breit-Wigner described by the additional
-c arguments bwmass and bwwidth.
-c massive particle p0 decaying into p1 mass m1 and p2 mass-squared s2.
+c############### subroutine R2phsp_s2 ##################################
+c This routine differs from R2phsp in that s2 is integrated over.
+c Massive particle p0 decaying into p1 mass m1 and p2 mass-squared s2.
 c with invariant mass of particle three s2 integrated over.
 c s2min is the minimum value of s2.
 c Vectors returned p1 and p2 are in the same frame as p0 is supplied.
@@ -255,12 +253,14 @@ c Expression evaluated is
 c R2(s) = ds2 d^3p1/(2 E1) d^3p2/(2 E2) delta^4(p0 - p1 - p2) 
 c delta(p2^2-s2)
 c Parameter to select phase space importance sampling:
-c psgen=0:     flat in s2
+c psgen=0:     flat in s2 (bwmass and bwwidth is not required)
 c psgen=1:     breit wigner in s2
 c psgen=2:     breit wigner in s2 and flat below resonance
-      subroutine R2phsp_bw(x2,xth,xphi,s2min,m1,bwmass,bwwidth,
-     & p0,p1,p2,jac)
+      subroutine R2phsp_s2(psgen,x2,xth,xphi,s2min,m1,bwmass,bwwidth,
+     &                     p0,p1,p2,jac)
         implicit none
+        ! parameter to select the PS sampling for s2
+        integer psgen
         ! masses of decaying particles
         double precision m1,m2
         ! integration variables
@@ -286,8 +286,6 @@ c psgen=2:     breit wigner in s2 and flat below resonance
         double precision bwmass,bwwidth
         ! indices
         integer i
-        ! parameter to select the PS sampling for s2
-        integer psgen
         ! functions
         double precision kaellenSqrt,dotp
         external kaellenSqrt,dotp
@@ -337,7 +335,10 @@ c psgen=2:     breit wigner in s2 and flat below resonance
         ! 0 = flat
         ! 1 = breit wigner (default)
         ! 2 = breit wigner and flat below resonance
-        psgen = 1
+        if( psgen .lt. 0 .or. psgen .gt. 2) then
+          print*,"error in R2phsp_s2: unknown psgen: ", psgen
+          stop
+        endif
         if( (psgen.ne.0) .and. ((psgen.eq.1) .or. 
      &       (s.ge.(bwmass+m1)**2.and.psgen.eq.2)) ) then
           call breitw(x2,s2min,s2max,bwmass,bwwidth,s2,jc1)
@@ -397,7 +398,7 @@ c psgen=2:     breit wigner in s2 and flat below resonance
           jac = 0D0
         endif
       end
-c############### end subroutine R2phsp_bw ##############################
+c############### end subroutine R2phsp_s2 ##############################
 
 c############### subroutine breitw #####################################
 c Given a number 0<x<1 generate a mass-squared msq and a jacobian jac 
