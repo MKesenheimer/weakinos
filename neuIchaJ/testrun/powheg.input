@@ -45,7 +45,7 @@ itmx1    1           ! number of iterations for initializing the integration gri
 ncall2   2000        ! number of calls for computing the integral and finding upper bound
 itmx2    1           ! number of iterations for computing the integral and finding upper bound
 ncall1osres 200000    ! number of calls for initializing the integration grid of on-shell resonances (only required for DSUB_II)
-itmx1osres  4       ! number of iterations for initializing the integration grid of on-shell resonances (only required for DSUB_II)
+itmx1osres  4        ! number of iterations for initializing the integration grid of on-shell resonances (only required for DSUB_II)
 ncall2osres 200000    ! number of calls for computing the integral of on-shell resonances (only required for DSUB_II)
 itmx2osres  4        ! number of iterations for computing the integral of on-shell resonances (only required for DSUB_II)
 foldcsi  2           ! number of folds on csi integration

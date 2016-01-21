@@ -47,10 +47,6 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         double precision MassNi, MassXj
         ! kinematics
         double precision s125, s12, s25, s15, s35, s45
-        ! cut on the onvariant mass sij
-        logical doradcut
-        double precision theta_dl35, theta_ul35, theta_dl45, theta_ul45
-        double precision delta_cut
         ! initialization variables
         logical verbose
         logical init_real
@@ -119,83 +115,6 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
           enddo
         !endif
 #endif
-
-        ! ==- cut on invariant mass when in radiation-phase -==
-        ! We investigated that there are many negative events generated
-        ! close to the resonant region. We introduced a cut on the 
-        ! invariant mass Sqrt(sij) of the intermediate squark to avoid
-        ! negative amplitudes squared. We don't have to do this
-        ! in the DR-I case.
-        doradcut = flg_rad ! cut only in radiation-phase
-#ifdef DR_I
-        doradcut = .false.
-#endif
-
-        if(doradcut) then
-          ! reset the temp. variables
-          theta_dl35 = 0D0
-          theta_ul35 = 0D0
-          theta_dl45 = 0D0
-          theta_ul45 = 0D0
-          delta_cut = 1D0
-          
-          ! load process dependent masses      
-          MassNi = par_Fin1mass
-          MassXj = par_Fin2mass
-          
-          call increasecnt('total calls to real-routine in rad-gen')
-
-          ! we need to cut only in case of on-shell-resonances!
-          ! u-g-channel
-          if((((abs(rflav(1)).eq.2).and.(abs(rflav(2)).eq.0)) .or. 
-     &       ((abs(rflav(2)).eq.2).and.(abs(rflav(1)).eq.0)) .or. 
-     &       ((abs(rflav(1)).eq.4).and.(abs(rflav(2)).eq.0)) .or. 
-     &       ((abs(rflav(2)).eq.4).and.(abs(rflav(1)).eq.0))) ) then
-            ! s35 = mdl^2, m3 = mni, m5 = 0D0
-            if((s12.ge.(mdl+MassXj)**2).and.(mdl.ge.dabs(MassNi))) then
-              ! calculate the argument of the theta function
-              theta_dl35 = dabs(mdl-dsqrt(s35))-delta_cut
-            endif
-            ! s45 = mul^2, m4 = MassXj, m5 = 0d0
-            if((s12.ge.(mul+dabs(MassNi))**2).and.(mul.ge.MassXj)) then
-              ! calculate the argument of the theta function
-              theta_ul45 = dabs(mul-dsqrt(s45))-delta_cut
-            endif
-          elseif((((abs(rflav(1)).eq.1).and.(abs(rflav(2)).eq.0)) .or. 
-     &       ((abs(rflav(2)).eq.1).and.(abs(rflav(1)).eq.0)) .or. 
-     &       ((abs(rflav(1)).eq.3).and.(abs(rflav(2)).eq.0)) .or. 
-     &       ((abs(rflav(2)).eq.3).and.(abs(rflav(1)).eq.0))) ) then
-            ! s35 = mul^2, m3 = mni, m5 = 0D0
-            if((s12.ge.(mul+MassXj)**2).and.(mul.ge.dabs(MassNi))) then
-              ! calculate the argument of the theta function
-              theta_ul35 = dabs(mul-dsqrt(s35))-delta_cut
-            endif
-            ! s45 = mdl^2, m4 = MassXj, m5 = 0d0
-            if((s12.ge.(mdl+dabs(MassNi))**2).and.(mdl.ge.MassXj)) then
-              ! calculate the argument of the theta function
-              theta_dl45 = dabs(mdl-dsqrt(s45))-delta_cut
-            endif
-          endif
-        
-          ! theta functions
-          if((theta_dl35.le.0D0) .and. (ampreal.le.0.d0)) then
-            ampreal = 1D-20
-            call increasecnt('radiation in on-shell-res. region vetoed')
-          endif
-          if((theta_ul35.le.0D0) .and. (ampreal.le.0.d0)) then
-            ampreal = 1D-20
-            call increasecnt('radiation in on-shell-res. region vetoed')
-          endif
-          if((theta_dl45.le.0D0) .and. (ampreal.le.0.d0)) then
-            ampreal = 1D-20
-            call increasecnt('radiation in on-shell-res. region vetoed')
-          endif
-          if((theta_ul45.le.0D0) .and. (ampreal.le.0.d0)) then
-            ampreal = 1D-20
-            call increasecnt('radiation in on-shell-res. region vetoed')
-          endif
-        endif
-        
         
         if (verbose) then
           print*, "process = ", rflav

@@ -72,11 +72,10 @@ c keep this order
         do ichan=1,nosres
           ! first create a momentum-config where the particles i and j are
           ! tan-mapped on a resonant squark
-          !call real_osres_phsp(xx,ichan)
           ! phase space that builds the 2->3 PS by using only 1->2 sub PS
-          call real_osres_phsp_wboosts(xx,ichan)
+          call real_osres_phsp(xx,ichan)
           
-          xjac = kn_jacborn*ww1*hc2
+          xjac = kn_jacreal*ww1*hc2
           call sigreal_osres(xjac,sigosres_contr,
      &                      rad_osres_arr(:,ichan),ichan)         
           call transfersign(rad_osres_arr(:,ichan),
@@ -90,9 +89,10 @@ c keep this order
         ! retval0 = 0D0
         
 #ifdef DEBUGQ
-         print*,"siosres.f:87: retval",retval
+         print*,"retval",retval
          print*,"sigosres_contr",sigosres_contr
          print*,"xjac",xjac
+         print*
          !stop
 #endif
       end
@@ -216,7 +216,8 @@ c make sure to avoid 0-amplitudes correctly
         integer nmomset,lset,lsetpr,iret,j,k
         double precision res(nmomset,*),cprop,rat
 
-        ! added this section ->
+        ! added this section
+        !===============================================================
         if(lset.eq.1) then
           do j=1,nmomset
             if(res(j,lset).ne.0) then
@@ -229,10 +230,11 @@ c make sure to avoid 0-amplitudes correctly
           cprop  = 0D0
           return
         endif
-        ! <-
+        !===============================================================
 
         do j=1,lset-1
-          ! added this section ->
+          ! added this section
+          !=============================================================
           ! if the res of the amp-routine is 0:
           ! make sure not to divide by 0 (is independent of momentum-config):
           if(res(1,lset).eq.0) then
@@ -242,7 +244,7 @@ c make sure to avoid 0-amplitudes correctly
             return
           endif
           if(res(1,j).eq.0D0) goto 10 !no need to compare to a 0-result
-          ! <-
+          !=============================================================
 
           rat = res(1,lset)/res(1,j)
           do k=1,nmomset
@@ -260,11 +262,8 @@ c make sure to avoid 0-amplitudes correctly
  10       continue
         enddo
         iret = -1
-
       end
-      
 c############### end subroutine compare_vecs_osres #####################
-
 
 c############### subroutine addupweightsosres ##########################
 c the following routines are similar to the btilde-case...
@@ -331,9 +330,11 @@ c keep this order
           etotnegosres(j) = etotnegosres(j) + dtotnegosres(j)**2
 
           sigosres = sigosres + dtotabsosres(i)
-
         enddo
 
+#ifdef DEBUGQ
+        print*,"sigosres",sigosres
+#endif
       end
 
 c############### end subroutine addupweightsosres ######################

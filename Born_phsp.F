@@ -15,6 +15,7 @@ c and the Jacobi factor for the phase space volume
 #include "PhysPars.h"
 #include "nlegborn.h"
 #include "pwhg_kn.h"
+#include "pwhg_math.h"
 
         ! input:
         double precision xborn(ndiminteg-3)
@@ -78,9 +79,12 @@ c and the Jacobi factor for the phase space volume
         ! calculates the Jacobi factor for the phase space volume
         ! we don't want to integrate over phi, so we provide 0 for xphi
         ! (see phi1_2.f)
-        call phi1_2m(xborn(3),0D0,kn_masses(3),kn_masses(4),p12,
+        call R2phsp(xborn(3),0D0,kn_masses(3),kn_masses(4),p12,
      &               kn_cmpborn(:,3),kn_cmpborn(:,4),jac)
         kn_jacborn = kn_jacborn*jac
+        
+        ! physical phase space jacobian ((2*Pi)**(3n-4), n=2)
+        kn_jacborn = kn_jacborn/(2D0*pi)**2
 
         ! velocity of subsystem in laboratory frame
         beta = (kn_xb1-kn_xb2)/(kn_xb1+kn_xb2)

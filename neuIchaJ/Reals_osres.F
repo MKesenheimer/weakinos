@@ -56,13 +56,17 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         ! masses
         double precision MassNi, MassNj, MassXi, MassXj
         double precision mij, mi, mj, mk
+        ! cut on the onvariant mass sij
+        logical doradcut
+        double precision theta
+        double precision delta_cut
         ! indices
         integer i,j,k
         ! initialization variables
         logical verbose
         logical init_real
         data init_real/.true./
-#ifdef DEBUGQ
+#ifdef DEBUG
 #define DEBUG1
         ! debugging
         integer counter
@@ -165,11 +169,44 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         ! calculate the total resonant amplitude and substract the
         ! on-shell counter terms -> no on-shell resonances anymore
         ampreal = (+amp-ampCT)
+        
+        ! ==- cut on invariant mass when in radiation-phase -==
+        ! We investigated that there are many negative events generated
+        ! close to the resonant region. We introduced a cut on the 
+        ! invariant mass Sqrt(sij) of the intermediate squark to avoid
+        ! negative amplitudes squared. We don't have to do this
+        ! in the DR-I case.
+        doradcut = flg_rad ! cut only in radiation-phase
+#ifdef DR_I
+        doradcut = .false.
+#endif
 
-#ifdef DEBUGQ
-        ampreal = ampreal*1D-6
+        if(doradcut) then
+
+#ifdef DEBUG
+          print*,"in Reals_osres.f. TODO: check rad_cut"
+          stop
 #endif
         
+          ! reset the temp. variables
+          theta = 0D0
+          delta_cut = 1D0
+
+          call increasecnt('total calls to real-routine in rad-gen')
+
+          ! we need to cut only in case of on-shell-resonances!
+          if( (s12.ge.(mij+mk)**2) .and. (mij.ge.(mi+mj)) ) then
+            theta = dabs(mij-dsqrt(sij))-delta_cut
+          endif  
+        
+          ! theta function
+          if((theta.le.0D0) .and. (ampreal.le.0.d0)) then
+            ampreal = 1D-20
+            call increasecnt('radiation in on-shell-res. region vetoed')
+          endif
+        endif  
+        ! ==- end cut on invariant mass when in radiation-phase -==
+ 
         if (verbose) then
           print*, "process = ", rflav
           print*, "chan = ", chan

@@ -1,4 +1,49 @@
-c copied and modified from POWHEG-BOX-V2/VBF_Z_Z
+c the definitions used here are according to Byckling & Kajantie,
+c ISBN 0 471 12885 6 (the best book for kinematics and phase space)
+c
+c you can use the subroutines defined here to generate any phase space
+c you want:
+c
+c
+c 
+c P_b \                  / P_n         / P_n-1           / P_2
+c      \           ____ /        ___  /            ____ /
+c       \         |    |        |    |            |    |
+c        \________| R2 |________| R2 |________..._| R2 |_____ P_1
+c        /  p=K_n |____|  K_n-1 |____|  K_n-2     |____|
+c       /
+c      /
+c P_a /
+c
+c              _(M_n-m_n)^2
+c             |
+c R_n(Mn^2) = | d(M_n-1)^2 R_2(K_n; (K_n-1)^2, P_n^2) R_n-1((M_n-1)^2)
+c            _|
+c          (mu_n-1)^2
+c
+c 
+c where:
+c                                                                           _
+c                                                                          |
+c R_2(K_n;(K_n-1)^2, P_n^2) = kaellenSqrt(K_n^2,(k_n-1)^2,P_n^2)/(8 K_n^2) | dOmega_n 
+c                                                                         _|
+c
+c K_i  = P_1 + P_2 + ... + P_i
+c mu_i = m_1 + m_2 + ... + m_i
+c (M_n-1)^2 = (P_a + P_b - P_n)
+c 
+c and:
+c
+c sigma_n = 1/F I_n(s)
+c F = 2 kaellenSqrt(m_a^2,m_b^2,s) (2*Pi)^(3n-4)
+c I_n = 1/(2 S_za + 1) 1/(2 S_zb + 1) R_n(s)  Sum_pol |M|^2 (for unpolarized particles)
+c I_n = R_n(s) |M|^2 (for polarized particles)
+c
+c Notes: The flux factor F and the spin factors should be supplied in
+c your phase space routines Born_phsp or Real_osres_phsp if not already 
+c done by the POWHEG-BOX.
+
+
 
 c############### subroutine x1x2phspace ################################
 c uses the two random numbers provided in xx
@@ -9,8 +54,8 @@ c and the Jacobi factor for the phase space volume
 c Parameter to select phase space importance sampling (always flat in y):
 c psgen=0:     flat in 1/tau
 c psgen=1:     flat in tau
-c psgen=2:     flat in log tau
-c psgen=3:     flat in log tau (second choice)
+c psgen=2:     flat in log tau with arbitrary exponent
+c psgen=3:     flat in tan tau with arbitrary exponent 
       subroutine x1x2phspace(sbeams,minmass,xx,x1,x2,s,jac)
         implicit none
 
@@ -18,7 +63,10 @@ c psgen=3:     flat in log tau (second choice)
         double precision sbeams,minmass,xx(2)
         ! output, local variables:
         double precision taumin,taumax,tau,y,x1,x2,s,jac,tmp
+        double precision tanmax,tanmin
         integer psgen
+        ! choose the exponent for logarithmic sampling
+        double precision xexp
 
         ! reset jacobian
         jac = 1D0
@@ -28,7 +76,7 @@ c psgen=3:     flat in log tau (second choice)
         taumax = 1d0
         
         ! select phase space importance sampling
-        psgen = 3
+        psgen = 2
 
         ! map xx(1) to tau = x1*x2
         ! with condition:
@@ -43,13 +91,10 @@ c psgen=3:     flat in log tau (second choice)
           tau  = taumin + xx(1)*(taumax-taumin)
           jac  = jac*(taumax-taumin)
         elseif(psgen.eq.2) then
-          ! Flat in log(tau)
-          tau = taumin*dexp(xx(1)*dlog(taumax/taumin))
-          jac = jac*tau*dabs(dlog(taumax/taumin))
-        elseif(psgen.eq.3) then
-          ! Flat in log(tau) (second choice, default for dislepton)
-          tau = dexp(dlog(taumin)*(1-xx(1)**2))
-          jac = jac*tau*dabs(dlog(taumin))*2*xx(1)
+          ! Flat in log(tau) with arbitrary exponent
+          xexp = 2D0
+          tau = taumax*dexp(dlog(taumin/taumax)*(1-xx(1)**xexp))
+          jac = jac*tau*xexp*xx(1)**(xexp-1)*dlog(taumin/taumax)
         else
          print*, 'Wrong psgen in Born_phsp.F'
          stop
@@ -78,21 +123,18 @@ c psgen=3:     flat in log tau (second choice)
 #endif
       
       end
-
 c############### end subroutine x1x2phspace ############################
 
-c############### subroutine phi1_2m ####################################
+c############### subroutine R2phsp #####################################
 c massive particle p0 in rest frame decaying into p1 with mass m1 
 c and p2 with mass m2. Vectors returned p1 and p2 are in the frame in
 c which p0 is supplied.
-c Result is 1/8/pi * 2|p|/sqrts * domega/(4*pi)
-c factor of (2*pi)^4 included in definition of phase space.
+c Result is R2(s) = 1/4 * |p|/sqrts * domega
 c Expression evaluated is 
-c d^4 p1 d^4 p2 (2 pi)^4 delta(p0-p1-p2)/(2 pi)^6
-c delta(p2^2) delta(p3^2)
+c R2(s) = d^3p1/(2 E1) d^3p2/(2 E2) delta^4(p0 - p1 - p2)
 c if you don't want to integrate over the azimuthal degree of freedom
 c just set xphi to zero - the jacobian will be still correct.
-      subroutine phi1_2m(xth,xphi,m1,m2,p0,p1,p2,jac)
+      subroutine R2phsp(xth,xphi,m1,m2,p0,p1,p2,jac)
         implicit none
         ! masses of decaying particles
         double precision m1,m2
@@ -113,14 +155,16 @@ c just set xphi to zero - the jacobian will be still correct.
         double precision jac
         ! variables for boosting into rest frame
         double precision beta, vec(1:3),norm
+        ! indices
+        integer i
         ! functions
         double precision kaellenSqrt,dotp
         external kaellenSqrt,dotp
         ! constants
         double precision m_pi
         parameter (m_pi = 4.D0*datan(1.D0))
-        ! indices
-        integer i
+        double precision tiny
+        parameter (tiny = 1d-6)
 
         ! reset the jacobian
         jac = 1D0
@@ -140,12 +184,12 @@ c just set xphi to zero - the jacobian will be still correct.
 
         ! choose here sampling exponent for theta integration
         xexp  = 1D0
-        cosTh = 1D0-2D0*xth**xexp
-        sinTh = dsqrt(1D0-cosTh**2)
-        jac   = -jac*2D0*xexp*xth**(xexp-1D0)
+        cosTh = 2D0*xth**xexp-1D0
+        sinTh = dsqrt(dabs(1D0-cosTh**2))
+        jac   = jac*2D0*xexp*xth**(xexp-1D0)
 
         phi   = 2D0*m_pi*xphi
-        !jac   = jac*2D0*m_pi
+        jac   = jac*2D0*m_pi
 
         E1 = (s+m1**2-m2**2)/(2D0*sqrts)
         E2 = (s+m2**2-m1**2)/(2D0*sqrts)
@@ -178,36 +222,43 @@ c just set xphi to zero - the jacobian will be still correct.
           enddo
         endif
 
-        jac = jac*Pabs/(8d0*m_pi*sqrts)
+        ! physical phase space jacobian
+        jac = jac*Pabs/(4D0*sqrts)
 
         ! filter unphysical momenta configurations
-        if ( p2(0) .lt. 0D0 .and. p2(0) .gt. -1D-10 ) jac = 0D0  
-        if ( p1(0) .lt. 0D0 .and. p1(0) .gt. -1D-10 ) jac = 0D0 
+        if ( p2(0) .lt. 0D0 .and. p2(0) .gt. -tiny ) jac = 0D0  
+        if ( p1(0) .lt. 0D0 .and. p1(0) .gt. -tiny ) jac = 0D0 
         
         ! tests
         if (((p0(0).lt.0D0).or.(p1(0).lt.0D0).or.(p2(0).lt.0D0))
      &       .and.jac.ne.0D0 ) then
-          print*,"error in phi3m"
+          print*,"warning: one of E1,E2,E3 is less than zero"
           print*,"p0",p0(0),p0(0)**2-p0(1)**2-p0(2)**2-p0(3)**2,s
           print*,"p1",p1(0),p1(0)**2-p1(1)**2-p1(2)**2-p1(3)**2
           print*,"p2",p2(0),p2(0)**2-p2(1)**2-p2(2)**2-p2(3)**2
-          stop
+          print*," => set jacobian 0"
+          jac = 0D0
         endif
       end
-c############### end subroutine phi1_2m ################################
+c############### end subroutine R2phsp #################################
 
-c############### subroutine phi1_2m_bw #################################
-c This routine differs from phi1_2m in that s2 is always generated
+c############### subroutine R2phsp_bw ##################################
+c This routine differs from R2phsp in that s2 is always generated
 c according to a Breit-Wigner described by the additional
 c arguments bwmass and bwwidth.
 c massive particle p0 decaying into p1 mass m1 and p2 mass-squared s2.
 c with invariant mass of particle three s2 integrated over.
 c s2min is the minimum value of s2.
 c Vectors returned p1 and p2 are in the same frame as p0 is supplied.
+c Result is R2(s) = 1/4 * |p|/sqrts * domega
 c Expression evaluated is 
-c ds2 d^4 p1 d^4 p2 (2 pi)^4 delta(p0-p1-p2)/(2 pi)^6
-c delta(p1^2-m1) delta(p2^2-s2)
-      subroutine phi1_2m_bw(x2,xth,xphi,s2min,m1,bwmass,bwwidth,
+c R2(s) = ds2 d^3p1/(2 E1) d^3p2/(2 E2) delta^4(p0 - p1 - p2) 
+c delta(p2^2-s2)
+c Parameter to select phase space importance sampling:
+c psgen=0:     flat in s2
+c psgen=1:     breit wigner in s2
+c psgen=2:     breit wigner in s2 and flat below resonance
+      subroutine R2phsp_bw(x2,xth,xphi,s2min,m1,bwmass,bwwidth,
      & p0,p1,p2,jac)
         implicit none
         ! masses of decaying particles
@@ -235,12 +286,16 @@ c delta(p1^2-m1) delta(p2^2-s2)
         double precision bwmass,bwwidth
         ! indices
         integer i
+        ! parameter to select the PS sampling for s2
+        integer psgen
         ! functions
         double precision kaellenSqrt,dotp
         external kaellenSqrt,dotp
         ! constants
         double precision m_pi
         parameter (m_pi = 4.D0*datan(1.D0))
+        double precision tiny
+        parameter (tiny = 1d-6)
 
         ! reset the jacobian
         jac = 1D0
@@ -260,16 +315,16 @@ c delta(p1^2-m1) delta(p2^2-s2)
 
         ! choose here sampling exponent for theta integration
         xexp  = 1D0
-        cosTh = 1D0-2D0*xth**xexp
-        sinTh = dsqrt(1D0-cosTh**2)
-        jac   = -jac*2D0*xexp*xth**(xexp-1D0)
+        cosTh = 2D0*xth**xexp-1D0
+        sinTh = dsqrt(dabs(1D0-cosTh**2))
+        jac   = jac*2D0*xexp*xth**(xexp-1D0)
 
         phi   = 2D0*m_pi*xphi
-        !jac   = jac*2D0*m_pi
+        jac   = jac*2D0*m_pi
 
         ! integration borders
         s1    = m1**2
-        s2max = (m1-sqrts)**2
+        s2max = (sqrts-m1)**2
 
         ! sort out bad phase space points
         if (s2min .gt. s2max) then 
@@ -278,9 +333,20 @@ c delta(p1^2-m1) delta(p2^2-s2)
           jac   = 0D0
           return
         endif
-
-        call breitw(x2,s2min,s2max,bwmass,bwwidth,s2,jc1)
-        m2 = dsqrt(s2)
+        
+        ! 0 = flat
+        ! 1 = breit wigner (default)
+        ! 2 = breit wigner and flat below resonance
+        psgen = 1
+        if( (psgen.ne.0) .and. ((psgen.eq.1) .or. 
+     &       (s.ge.(bwmass+m1)**2.and.psgen.eq.2)) ) then
+          call breitw(x2,s2min,s2max,bwmass,bwwidth,s2,jc1)
+        else
+          s2  = (s2max-s2min)*x2+s2min
+          jc1 = (s2max-s2min)
+        endif
+        m2  = dsqrt(s2)
+        jac = jac*jc1
 
         E1 = (s+m1**2-m2**2)/(2D0*sqrts)
         E2 = (s+m2**2-m1**2)/(2D0*sqrts)
@@ -313,23 +379,25 @@ c delta(p1^2-m1) delta(p2^2-s2)
           enddo
         endif
 
-        jac = jac*jc1*Pabs/(8d0*m_pi*sqrts)
+        ! physical phase space jacobian
+        jac = jac*Pabs/(4D0*sqrts)
 
         ! filter unphysical momenta configurations
-        if ( p2(0) .lt. 0D0 .and. p2(0) .gt. -1D-10 ) jac = 0D0  
-        if ( p1(0) .lt. 0D0 .and. p1(0) .gt. -1D-10 ) jac = 0D0 
+        if ( p2(0) .lt. 0D0 .and. p2(0) .gt. -tiny ) jac = 0D0  
+        if ( p1(0) .lt. 0D0 .and. p1(0) .gt. -tiny ) jac = 0D0 
         
         ! tests
         if (((p0(0).lt.0D0).or.(p1(0).lt.0D0).or.(p2(0).lt.0D0))
      &       .and.jac.ne.0D0 ) then
-          print*,"error in phi3m"
+          print*,"warning: one of E1,E2,E3 is less than zero"
           print*,"p0",p0(0),p0(0)**2-p0(1)**2-p0(2)**2-p0(3)**2,s
           print*,"p1",p1(0),p1(0)**2-p1(1)**2-p1(2)**2-p1(3)**2
           print*,"p2",p2(0),p2(0)**2-p2(1)**2-p2(2)**2-p2(3)**2
-          stop
+          print*," => set jacobian 0"
+          jac = 0D0
         endif
       end
-c############### end subroutine phi1_2m_bw #############################
+c############### end subroutine R2phsp_bw ##############################
 
 c############### subroutine breitw #####################################
 c Given a number 0<x<1 generate a mass-squared msq and a jacobian jac 
@@ -369,7 +437,6 @@ c jac is the jacobian between integration in msq and integration in x1
 
         msq = rmass**2+rmass*rwidth*tanx
         !bw = (1D0+tanx**2)*rmass**2*rwidth**2
-        jac = (xmax-xmin)*rmass*rwidth*(1D0+tanx**2)
-        return
+        jac = (xmax-xmin)*rmass*rwidth*(1D0+tanx**2) ! OK
       end
 c############### end subroutine breitw #################################
