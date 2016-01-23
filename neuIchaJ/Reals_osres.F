@@ -22,7 +22,6 @@ c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 &
 c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
 c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
 c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4 & 5
-
       subroutine  setosresreal(p,rflav,chan,ampreal)
         implicit none
 
@@ -50,7 +49,7 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         double precision corrfac
         external corrfac
         ! kinematics
-        double precision s125, s12, s25, s15, sij
+        double precision s12, sij
         ! breit-wigner ratios
         double precision bwratio
         ! masses
@@ -62,6 +61,8 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         double precision delta_cut
         ! indices
         integer i,j,k
+        ! check 4-momentum conservation
+        logical lresult
         ! initialization variables
         logical verbose
         logical init_real
@@ -123,7 +124,7 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
 #endif
 
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn+1)
+        call check_4conservation(p, nlegborn+1, 1, lresult)
         
         ! reset the breit-wigner ratios
         bwratio = 1d0
@@ -134,20 +135,11 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         call set_ebe_couplings
         
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
-        ! TODO: remove
-        !call set_channel_old(chan,p,i,j,k,mi,mj,mk,mij) ! this is probably wrong, see off_to_on.f
-        !print*,chan,i,j,k,mi,mj,mk,mij
         call set_channel(chan,i,j,k,mi,mj,mk,mij) ! OK, but better check again!
-        ! TODO: remove
-        !print*,chan,i,j,k,mi,mj,mk,mij
-        !print*
-        
+
         ! calculate the invariants
-        s125 = momsum3sq(p(0:3,1),p(0:3,2),p(0:3,5)) ! invariant mass of particle 1 + 2 + 5
         s12  = momsum2sq(p(0:3,1),p(0:3,2)) ! invariant mass of particle 1 + 2
-        s25  = momsum2sq(p(0:3,2),p(0:3,5)) ! invariant mass ofparticle 2 + 5
-        s15  = momsum2sq(p(0:3,1),p(0:3,5)) ! invariant mass of particle 1 + 5
-        sij  = momsum2sq(p(0:3,i),p(0:3,j))
+        sij  = momsum2sq(p(0:3,i),p(0:3,j)) ! invariant mass of particle i + j
 
         ! this is |M_R(res)|**2 (still with on-shell resonances)
         call sreal_proc_res(p,rflav,chan,amp)

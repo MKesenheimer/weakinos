@@ -35,10 +35,8 @@ c keep this order
 
         integer sigosres,imode
         double precision retval,retval0,xx(ndiminteg),ww1
-        ! debug
         double precision yy(ndiminteg)
-        integer i
-        integer ifirst,ichan,j
+        integer ifirst,ichan,idi
         double precision xjac
         ! temporary results for calc. of resonant contributions
         double precision sigosres_contr
@@ -59,8 +57,8 @@ c keep this order
 
         call setscalesbtilde
         ! we need the last random-numbers for the radiation-generation
-        do j=1,ndiminteg
-          rad_xradosres(j) = xx(j)
+        do idi=1,ndiminteg
+          rad_xradosres(idi) = xx(idi)
         enddo
         
         ! reset result
@@ -74,7 +72,6 @@ c keep this order
           ! tan-mapped on a resonant squark
           ! phase space that builds the 2->3 PS by using only 1->2 sub PS
           call real_osres_phsp(xx,ichan)
-          
           xjac = kn_jacreal*ww1*hc2
           call sigreal_osres(xjac,sigosres_contr,
      &                      rad_osres_arr(:,ichan),ichan)         
@@ -370,7 +367,6 @@ c set all new totals concerning regulars/remnants/osres to zero
           totnegosres(j)  = 0D0
           etotnegosres(j) = 0D0
         enddo
-
       end
 
 c############### end subroutine addupweightsosres ######################
@@ -420,5 +416,4 @@ c keep this order
           rad_etotnegosres(j) = calc_error(totnegosres(j),
      &                                     etotnegosres(j),ncalls)
         enddo
-
       end

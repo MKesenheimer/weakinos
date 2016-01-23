@@ -39,9 +39,11 @@ c -> do so by modifying the jacobian kn_jacborn.
         ! indices
         integer ichan,i,j,k
         ! variables for pwg routines phi1_2
-        double precision pij(4),p12(4)
+        double precision pij(0:3),p12(0:3)
         ! boost
         double precision vec(3),beta
+        ! check 4-momentum conservation
+        logical lresult
         ! constants
         double precision m_pi
         parameter (m_pi = 4.D0*datan(1.D0))
@@ -102,7 +104,7 @@ c -> do so by modifying the jacobian kn_jacborn.
 
         ! TODO: remove
         ! do not introduce a new jacobian-variable
-        ! -> should be unique
+        ! -> should be ok
         !kn_jacborn = kn_jacreal
 
         ! Boost to the LAB frame:
@@ -113,8 +115,11 @@ c -> do so by modifying the jacobian kn_jacborn.
         call mboost(nlegreal,vec,beta,kn_cmpreal(0,1),kn_preal(0,1))
 
         ! check four-momentum conservation
-        if( jac .ne. 0D0) then
-          call check_4conservation(kn_preal,nlegreal)
+        if( kn_jacreal .ne. 0D0) then
+          call check_4conservation(kn_preal,nlegreal,2,lresult)
+          ! if momenta are not conserved, set jacobian to zero but 
+          ! continue with the calculation
+          if(.not.lresult) kn_jacreal = 0D0
         endif  
       end
 c############### end subroutine real_osres_phsp ########################

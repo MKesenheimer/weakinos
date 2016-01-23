@@ -32,6 +32,8 @@ c parton parton -> weakino weakino
         integer j,k,nmu,nnu
         ! kinematics: mandelstam variables, quark masses, weakino masses
         double precision s, t, u, MassQ1, MassQ2, MassF1, MassF2
+        ! check 4-momentum conservation
+        logical lresult
         ! phase space
         double precision ex, ey, ez, psNorm
         ! function to calculate the squared momentum sum
@@ -69,7 +71,7 @@ c parton parton -> weakino weakino
         endif
 
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn)
+        call check_4conservation(p, nlegborn, 1, lresult)
         
         !if(verbose) then
           ! calculate kinematics only for debug purpose

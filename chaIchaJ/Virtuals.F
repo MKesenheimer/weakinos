@@ -44,6 +44,8 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
         ! kinematics
         double precision s, t, u
         double precision MassQ1, MassQ2, MassF1, MassF2
+        ! check 4-momentum conservation
+        logical lresult
         ! status
         logical verbose
         logical init_virtual
@@ -97,7 +99,7 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
         endif
         
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn)
+        call check_4conservation(p, nlegborn, 1, lresult)
 
         if(verbose) then
           ! calculate kinematics only for debug purpose

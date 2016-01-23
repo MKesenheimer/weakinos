@@ -90,6 +90,8 @@ c          pk
         double precision cosQ, phi
         ! abs. momentum in x-y-plane
         double precision pxy
+        ! check 4-momentum conservation
+        logical lresult
         
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
         call set_channel(chan,i,j,k,mi,mj,mk,mij)
@@ -101,15 +103,15 @@ c          pk
         endif
         
         ! check momentum conservation
-        call check_4conservation(p,nexternal)
+        call check_4conservation(p,nexternal,1,lresult)
         
         ! set invariant masses       
-        s  = momsum2sq(p(:,1),p(:,2))   ! Q2 in CS-paper
+        s     = momsum2sq(p(:,1),p(:,2))   ! Q2 in CS-paper
         sqrtS = dsqrt(S)
-        sij = momsum2sq(p(:,i),p(:,j))
+        sij   = momsum2sq(p(:,i),p(:,j))
         
         ! check if theta function was properly used
-        if( sqrtS - mij - mk .lt. 0D0) then
+        if(sqrtS - mij - mk .lt. 0D0) then
           print*, "error in subroutine off_to_on"
           print*, "intermediate particle is not on-shell"
           print*, "mi,mj,mk =", mi, mj, mk
@@ -271,10 +273,12 @@ c          pk
           enddo
         enddo
         
+        ! check four momentum conservation
+        call check_4conservation(p_OS,nlegreal,1,lresult)
       end
 c############### end subroutine off_to_on ##############################
 
-c############### function corrfac #####################################
+c############### function corrfac ######################################
 c the remapping requires a change in the PS integration
 c and every counter term which uses the on-shell momenta should be
 c rescaled by this correction factor
@@ -292,16 +296,16 @@ c rescaled by this correction factor
         double precision kaellenSqrt
         external kaellenSqrt
         
-        corrfac = (sij*kaellenSqrt(mij**2,shat,mk**2)
+        corrfac = (sij*kaellenSqrt(shat,mij**2,mk**2)
      &                     *kaellenSqrt(mij**2,mi**2,mj**2))
-     &                 /(mij*kaellenSqrt(sij**2,shat,mk**2)
-     &                     *kaellenSqrt(sij**2,mi**2,mj**2))
+     &           /(mij**2*kaellenSqrt(shat,sij,mk**2)
+     &                     *kaellenSqrt(sij,mi**2,mj**2))
 
 #ifdef DSUB_II_TEST
         corrfac = 1D0
 #endif
 
-#ifdef DEBUG
+#ifdef DEBUGQ
         corrfac = 1D0
 #endif
 
@@ -310,70 +314,6 @@ c rescaled by this correction factor
 #endif
       end  
 c############### end function corrfac ##################################
-
-c TODO: remove!
-c This is probably wrong, because the masses are not set correctly.
-c For example it is always mi=mx1 and mk=mn1..., which is not ok.
-c But better check a third time!
-c############### subroutine set_channel ################################
-c this subroutine sets the indices i,j,k and the masses mi,mj,mk,mij
-c in dependence of the chan-identifier.
-c the arrays osresID, osreslegs and osresM must be initialized in
-c init_couplings and in init_processes.
-c
-c                        mi
-c                        / 
-c   ____      !         /
-c  |    |  sij=mij^2   /
-c  | s  |--------------
-c  |____|\             \
-c         \             \
-c          \             \
-c          mk            mj
-
-      subroutine set_channel_old(chan,p,i,j,k,mi,mj,mk,mij)
-        implicit none
-        
-#include "PhysPars.h"
-#include "nexternal.inc"
-#include "nlegborn.h"
-#include "pwhg_math.h"
-#include "pwhg_kn.h"
-#include "osres.h"
-
-        ! momenta from PS-generator
-        double precision p(0:3,nexternal)
-        ! variable to determine the channel
-        character*4 chan
-        ! indices
-        integer i,j,k, ichan
-        ! masses
-        double precision mij, mi, mj, mk
-        double precision momsq, momsum2sq, momsum3sq, dotp
-        external momsq, momsum2sq, momsum3sq, dotp
-        
-        do ichan=1,nosres
-          if(chan.eq.osresID(ichan)) then
-            i = osreslegs(ichan,1)
-            j = osreslegs(ichan,2)
-            k = osreslegs(ichan,3)
-            mij = osresM(ichan)
-            mi = dsqrt(dabs(momsq(p(:,i))))
-            mj = dsqrt(dabs(momsq(p(:,j))))
-            mk = dsqrt(dabs(momsq(p(:,k))))
-            goto 10
-          endif
-        enddo
-
- 10     continue
-
-#ifdef DEBUGQ
-        print*,"chan",chan
-        print*,"i,j,k",i,j,k
-        print*,"mij,mi,mj,mk",mij,mi,mj,mk
-#endif
-      end
-c############### end subroutine set_channel ############################
 
 c############### subroutine set_channel ################################
 c this subroutine sets the indices i,j,k and the masses mi,mj,mk,mij
@@ -467,7 +407,6 @@ c############### subroutine PDFreweight ################################
 c this subroutine is used in ST_wtch_DS (Wt-production) to rescale
 c the on-shell counter terms
 c -- is not used in current version --
-
       subroutine PDFreweight(flav1,flav2,x1,x2,x1p,x2p,PDFfactor)
         implicit none
         ! flavor of incoming particles

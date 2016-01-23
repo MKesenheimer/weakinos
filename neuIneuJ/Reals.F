@@ -29,6 +29,8 @@ c average over incoming helicites
         double precision momsum3sq, momsum2sq
         ! kinematics
         double precision s125, s12, s25, s15
+        ! check 4-momentum conservation
+        logical lresult
         ! initialization variables
         logical verbose
         logical init_real
@@ -64,7 +66,7 @@ c average over incoming helicites
         endif
         
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn+1)
+        call check_4conservation(p, nlegborn+1, 1, lresult)
         
         if(verbose) then
           ! calculate kinematics only for debugging purpose

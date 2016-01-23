@@ -29,6 +29,8 @@ c average over incoming helicites
         double precision momsum3sq, momsum2sq
         ! kinematics
         double precision s125, s12, s25, s15
+        ! check 4-momentum conservation
+        logical lresult
         ! initialization variables
         logical verbose
         logical init_real
@@ -64,7 +66,7 @@ c average over incoming helicites
         endif
         
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn+1)
+        call check_4conservation(p, nlegborn+1, 1, lresult)
         
         if(verbose) then
           ! calculate kinematics only for debugging purpose
@@ -74,8 +76,6 @@ c average over incoming helicites
           s15  = momsum2sq(p(0:3,1),p(0:3,5)) ! invariant mass of particle 1 + 5
         endif
         
-        ! check four momentum conservation
-        call check_4conservation(p, nlegreal)
         call set_ebe_couplings
         call sreal_proc(p,rflav,amp)
 

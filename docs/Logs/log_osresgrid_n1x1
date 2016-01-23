@@ -1,0 +1,78 @@
+- input_orig.slha
+- ebeam1 = 7000
+- lhans1 = 10550
+- runningscale = 0
+- ncall1/2 = 2000
+- itmx1/2 = 4
+- 
+- itmx1osres = 8
+- itmx2osres = 6
+
+Es gilt: mu_0_POWHEG = 2*mu_0_Prospino, d.h. die POWHEG-Skala muss von Hand immer um Faktor 2 niedriger gewählt werden.
+
+In diesem Test wurden die On-Shell-Resonanten Beiträge mit sehr hoher Präzision berechnet. 
+Importance Sampling für den reellen Phasenraum:
+- log in tau (x1x2phspace, psgen = 2)
+- flach in sij (phi1_2m_bw, psgen = 1)
+
+Der Korrekturfaktor in off_to_on wurde auf 1 gesetzt (somit sollte gleiches Ergebnis wie mit DSUB_II_TEST berechnet werden):
+DSUB_II_TEST
+LO:
+        9.0105322974665652E-003 +-   3.9502090014234206E-006 (ncall = 200000, Seed = 5402)
+        9.0158646474149534E-003 +-   4.0692274853752877E-006 (ncall = 200000, Seed = 5602)
+NLO:
+        1.1893664657313844E-002 +-   7.0713548609320270E-005 (Seed = 5402)
+        1.1781734707938266E-002 +-   7.8628087029035366E-005 (Seed = 5602)
+        (der kleine Unterschied zu den vorrigen Rechnungen ist in Ordnung da das Importance Sampling geändert wurde)
+
+Physikalischer Jakobian (Achtung: falsch, dieser wurde korrigiert): Pabs/(8d0*m_pi*sqrts)*Pabs/(8d0*m_pi*sqrts)*1/(2*s)
+DSUB_II:
+NLO:
+        1.2026873102282301E-002 +-   6.1997502372178047E-005 (ncall1/2osres = 20000000, Seed = 5402)
+        davon osres-Beitrag:  
+        3.8026288244118715E-004  +-   7.1296597705198945E-006
+
+Neuer physikalischer Jacobian: Pabs/(4d0*sqrts)*Pabs/(4d0*sqrts)*1/(2*s) 1/(2*Pi)^5, wobei für die xPhi-Integration jetzt ebenfalls der richtige Jacobian verwendet wird (vorher wurde hier pro R2phsp-Routine ein 2*Pi weggelassen).
+Insgesamt unterscheidet sich dieser Jacobian vom alten nur um den Faktor 2*Pi. Der Flussfaktor 2*s muss für den Phasenraum der On-Shell-Beiträge im Gegensatz zum Born-Phasenraum hinzugenommen werden, da er in sigosres.f nicht dabei ist.
+DSUB_II:
+NLO:
+        1.1722962909412011E-002 +-   6.6640545254861700E-005 (ncall1/2osres = 2000000, Seed = 5402)
+        davon osres-Beitrag: 
+        5.9303568791043126E-005  +-   6.0242810300835802E-007
+
+
+Ergebnis ohne On-Shell Beiträge:
+NLO:
+        1.1681971578576391E-002  +-   1.5195457275950345E-005 (ncall1/2 = 20000, Seed = 5602, psgen = 0)
+        1.1721117095625877E-002  +-   6.4205790409431714E-006 (ncall1/2 = 200000, Seed = 5602, psgen = 0)
+        1.1703617628103775E-002  +-   6.1388708231299106E-006 (ncall1/2 = 200000, Seed = 5402, psgen = 0)
+
+mit korrektem Korrekturfaktor und korrektem Jacobian:
+DSUB_II:
+NLO:
+        1.1761765864818408E-002 +-   6.2324935987128184E-005 (ncall1/2osres = 2000000, Seed = 5602)
+        davon btilde-Beitrag
+        1.1678317707939537E-002  +-   6.2323156306390607E-005
+        davon osres-Beitrag:
+        8.3448156878871674E-005  +-   7.5273880253283576E-007
+
+        1.1761325180001357E-002 +-   6.6365316291019748E-005 (ncall1/2osres = 2000000, Seed = 5402)
+        davon btilde-Beitrag:
+        1.1677527325800590E-002  +-   6.6364509555200921E-005
+        davon osres-Beitrag: 
+        8.3797854200767693E-005  +-   5.1036272217055749E-007
+
+        1.1810091374319922E-002 +-   1.8387746249621798E-005 (ncall = 20000, ncall1/2osres = 2000000, Seed = 5602)
+        davon btilde-Beitrag
+        1.1726574385380016E-002  +-   1.8381548113447264E-005
+        davon osres-Beitrag: 
+        8.3516988939905611E-005  +-   7.6642575026628493E-007
+
+testrun_3, testplots
+  (ncall = 20000, ncall1/2osres = 20000000, Seed = 5402, log(tau), bw(s2))
+        davon btilde-Beitrag:
+        davon osres-Beitrag: 
+        
+        
+testrun_2, corrfac = 1D0, testplots
+  (ncall = 2000, ncall1/2osres = 20000000, Seed = 5602, log(tau), flat(s2))

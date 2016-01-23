@@ -26,6 +26,8 @@ c and the Jacobi factor for the phase space volume
         double precision MassQ1, MassQ2, MassF1, MassF2
         double precision p12(0:3)
         integer nu
+        ! check 4-momentum conservation
+        logical lresult
 
         ! reset the jacobians
         jac = 1D0
@@ -104,7 +106,8 @@ c and the Jacobi factor for the phase space volume
         enddo
 
         ! check four momentum conservation
-        call check_4conservation(kn_pborn,nlegborn)
+        call check_4conservation(kn_pborn,nlegborn,2,lresult)
+        if(.not.lresult) kn_jacborn = 0D0
 
 #ifdef DEBUG1
         print*,"bjorken x:"

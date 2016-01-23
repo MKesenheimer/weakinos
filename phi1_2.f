@@ -10,7 +10,7 @@ c P_b \                  / P_n         / P_n-1           / P_2
 c      \           ____ /        ___  /            ____ /
 c       \         |    |        |    |            |    |
 c        \________| R2 |________| R2 |________..._| R2 |_____ P_1
-c        /  p=K_n |____|  K_n-1 |____|  K_n-2     |____|
+c        /  P=K_n |____|  K_n-1 |____|  K_n-2     |____|
 c       /
 c      /
 c P_a /
@@ -30,7 +30,7 @@ c                                                                         _|
 c
 c K_i  = P_1 + P_2 + ... + P_i
 c mu_i = m_1 + m_2 + ... + m_i
-c (M_n-1)^2 = (P_a + P_b - P_n)
+c (M_n-1)^2 = (P - P_n), P = P_a + P_b
 c 
 c and:
 c
@@ -83,9 +83,9 @@ c psgen=3:     flat in tan tau with arbitrary exponent
         ! (m3+m4)**2 <= sborn <= sbeams
         if(psgen.eq.0)then
           ! Sampling flat in 1/tau
-          tmp  = 1d0/taumax+xx(1)*(1d0/taumin-1d0/taumax)
+          tmp  = 1d0/taumin+xx(1)*(1d0/taumax-1d0/taumin)
           tau  = 1d0/tmp
-          jac  = jac*tau**2*(1d0/taumin-1d0/taumax)
+          jac  = jac*tau**2*(1d0/taumax-1d0/taumin)
         elseif(psgen.eq.1) then
           ! Sampling flat in tau
           tau  = taumin + xx(1)*(taumax-taumin)
@@ -333,7 +333,7 @@ c psgen=2:     breit wigner in s2 and flat below resonance
         endif
         
         ! 0 = flat
-        ! 1 = breit wigner (default)
+        ! 1 = breit wigner
         ! 2 = breit wigner and flat below resonance
         if( psgen .lt. 0 .or. psgen .gt. 2) then
           print*,"error in R2phsp_s2: unknown psgen: ", psgen

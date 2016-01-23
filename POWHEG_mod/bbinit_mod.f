@@ -418,7 +418,7 @@ c MK: added
       integer iret1,iret2,iun
       ! CH, MK: changed
       !=================================================================
-      real * 8 sigbtl,errbtl,sigrm,errrm,sigsp,errsp
+      real * 8 sigbtl,errbtl,sigrm,errrm,sigos,erros
       real * 8 btilde,sigremnant,sigosres,totneg
       integer ncall1,ncall1rm,ncall2,ncall2rm,ncall1osres,ncall2osres
       integer itmx1,itmx1rm,itmx1osres,itmx2,itmx2rm,itmx2osres
@@ -541,7 +541,7 @@ c     add finalized remnant contributions in histograms
             ! CH: changes: see integration of sigremnant
             call mint(sigosres,ndiminteg,ncall2osres,itmx2osres,
      1        ifoldosres,imode,iun,xgridosres,xintosres,xaccosres,
-     2        nhitsosres,ymaxosres,ymaxratosres,sigsp,errsp)
+     2        nhitsosres,ymaxosres,ymaxratosres,sigos,erros)
             if(flg_storemintupb) call stopstoremintupb
 c add finalized remnant contributions in histograms
             call pwhgaddout
@@ -808,7 +808,7 @@ c MK: added
       character * 40 mergelabels
       integer lprefix
       common/cpwgprefix/pwgprefix,lprefix
-      real * 8 sigbtl,errbtl,sigrm,errrm,sigsp,errsp ! CH, MK: added
+      real * 8 sigbtl,errbtl,sigrm,errrm,sigos,erros ! CH, MK: added
       real * 8 random,powheginput
       logical savewithnegweights
       external btilde,sigremnant,random,powheginput,sigosres ! CH, MK: added
@@ -1001,7 +1001,7 @@ c ********** CALL to mint for remnants
          flg_btilde=.false.
          call mint(sigosres,ndiminteg,ncall1osres,itmx1osres,ifoldosres,imode,
      1        iun,xgridosres,xintosres,xaccosres,nhitsosres,
-     1        ymaxosres,ymaxratosres,sigsp,errsp)
+     1        ymaxosres,ymaxratosres,sigos,erros)
          flg_btilde=.true.
 c **********
          call regridplotclose

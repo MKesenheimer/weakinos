@@ -36,6 +36,8 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
         double precision MassQ1, MassQ2, MassS1, MassS2
         ! Loops
         integer i,j,k
+        ! check 4-momentum conservation
+        logical lresult
         ! status
         logical verbose
         logical init_virtual
@@ -88,7 +90,7 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
         endif
         
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn)
+        call check_4conservation(p, nlegborn, 1, lresult)
         call set_ebe_couplings
         ! load process dependent masses and reload Formcalc parameters
         ! (this resets the Formcalc masses to their original values)

@@ -47,6 +47,8 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         double precision MassNi, MassXj
         ! kinematics
         double precision s125, s12, s25, s15, s35, s45
+        ! check 4-momentum conservation
+        logical lresult
         ! initialization variables
         logical verbose
         logical init_real
@@ -82,7 +84,7 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         endif
         
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn+1)
+        call check_4conservation(p, nlegborn+1, 1, lresult)
         
         ! calculate the invariants
         s125 = momsum3sq(p(0:3,1),p(0:3,2),p(0:3,5)) ! invariant mass of particle 1 + 2 + 5

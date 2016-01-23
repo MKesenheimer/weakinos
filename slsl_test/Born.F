@@ -33,6 +33,8 @@ c parton parton -> slepton slepton
         double precision momsq, momsum3sq, momsum2sq
         ! calculate the relative error between formcalc and madgraph borns
         double precision fborn, mborn
+        ! check 4-momentum conservation
+        logical lresult
         ! initialization variables 
         logical verbose
         logical init_born
@@ -78,7 +80,7 @@ c parton parton -> slepton slepton
         endif
         
         ! check four momentum conservation
-        call check_4conservation(p, nlegborn)
+        call check_4conservation(p,nlegborn,1,lresult)
 
 #ifdef DEBUGQ
         verbose = .true.
