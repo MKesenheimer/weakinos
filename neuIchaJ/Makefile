@@ -4,7 +4,7 @@
 # General Conventions for Makefiles
 SHELL = /bin/sh
 .SUFFIXES:
-.SUFFIXES: .c .f .F .cc .cpp .h .inc .o .a
+.SUFFIXES: .c .f .F .cc .cpp .h .hh .inc .o .a
 
 ########################################################################
 ## Flags

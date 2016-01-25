@@ -73,8 +73,13 @@ c psgen=3:     flat in tan tau with arbitrary exponent
 
         ! min and max values of tau
         taumin = minmass**2/sbeams
-        taumax = 1d0
-        
+        taumax = 1D0
+
+#ifdef DEBUGQ
+#define DEBUG1
+        xx(1) = 1D0
+#endif        
+
         ! select phase space importance sampling
         psgen = 2
 
@@ -82,34 +87,40 @@ c psgen=3:     flat in tan tau with arbitrary exponent
         ! with condition:
         ! (m3+m4)**2 <= sborn <= sbeams
         if(psgen.eq.0)then
-          ! Sampling flat in 1/tau
-          tmp  = 1d0/taumin+xx(1)*(1d0/taumax-1d0/taumin)
-          tau  = 1d0/tmp
-          jac  = jac*tau**2*(1d0/taumax-1d0/taumin)
+          ! Sampling flat in 1/tau with arbitrary exponent
+          xexp = 0.5D0
+          tmp  = 1D0/taumin+xx(1)**xexp*(1D0/taumax-1D0/taumin)
+          tau  = 1D0/tmp
+          jac  = -jac*xexp*tau**2*(1D0/taumax-1D0/taumin)*
+     &                xx(1)**(xexp-1)
         elseif(psgen.eq.1) then
-          ! Sampling flat in tau
-          tau  = taumin + xx(1)*(taumax-taumin)
-          jac  = jac*(taumax-taumin)
+          ! Sampling flat in tau with arbitrary exponent
+          xexp = 4D0
+          tau  = taumin + xx(1)**xexp*(taumax-taumin)
+          jac  = jac*xexp*xx(1)**(xexp-1)*(taumax-taumin)
         elseif(psgen.eq.2) then
           ! Flat in log(tau) with arbitrary exponent
           xexp = 2D0
           tau = taumax*dexp(dlog(taumin/taumax)*(1-xx(1)**xexp))
-          jac = jac*tau*xexp*xx(1)**(xexp-1)*dlog(taumin/taumax)
+          jac = -jac*tau*xexp*xx(1)**(xexp-1)*dlog(taumin/taumax)
         else
          print*, 'Wrong psgen in Born_phsp.F'
          stop
         endif        
 
 #ifdef DEBUG1
+        print*,"taumin", taumin
+        print*,"taumax", taumax
         print*,"tau = ", tau
         print*,"jac = ", jac
+        stop
 #endif
 
         ! map xx(2) to rapidity y
         ! with condition:
         ! 1/2*log(tau) <= y <= -1/2*log(tau)
-        y   = -(1D0-2D0*xx(2))*dlog(tau)/2D0
-        jac = jac*dlog(tau)
+        y   = (1D0-2D0*xx(2))*dlog(tau)/2D0
+        jac = -jac*dlog(tau)
 
         ! calculate parton momentum fractions
         ! and partonic s
