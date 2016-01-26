@@ -133,3 +133,279 @@ cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
  ====================================================
 
  Z mass          =    91.187600000000003     
+ W mass          =    79.829013099999997     
+ Z width         =    2.4114331600000001     
+ W width         =    2.0028219599999999     
+ 1/alpha         =    127.93400000000000     
+
+ final state masses =    96.688068599999994     
+                         181.69647399999999     
+
+ ====================================================
+              init LoopTools                         
+ ====================================================
+   FF 2.0, a package to evaluate one-loop integrals
+ written by G. J. van Oldenborgh, NIKHEF-H, Amsterdam
+ ====================================================
+ for the algorithms used see preprint NIKHEF-H 89/17,
+ 'New Algorithms for One-loop Integrals', by G.J. van
+ Oldenborgh and J.A.M. Vermaseren, published in 
+ Zeitschrift fuer Physik C46(1990)425.
+ ====================================================
+
+  **** Minimum maxalr allowed:           12  *********
+  **** Number of born graphs:             4
+  **** Number of real graphs:            12
+  **** Number of regular regions:           0
+  powheginput keyword softtest             absent; set to   -1000000.0000000000     
+  powheginput keyword colltest             absent; set to   -1000000.0000000000     
+  powheginput keyword runningscale         set to    0.0000000000000000     
+
+ ====================================================
+ Factorization and renormalization scales:
+ using fixed scale and
+ sum of neutralino masses for muref
+ muref =    278.38454259999997     
+ muren = muref *   0.50000000000000000     
+ mufac = muref *   0.50000000000000000     
+ ====================================================
+
+ === Init born... ===
+ process:           -4           3     1000022    -1000024
+ s  =    9766093.5331658386     
+ t  =   -8120168.7146852855     
+ u  =   -1603562.6272069216     
+ born (madgraph) =    5.2326035981982357E-004
+
+ RM48 INITIALIZED:      5602           4         0
+ RM48IN SKIPPING OVER               4
+
+ === Init real... ===
+ process =           -4           0     1000022    -1000024          -3
+ s125 =    27906790.563692007     
+ s12  =    18586866.306320596     
+ s25  =    6281155.5432887869     
+ s15  =    3038768.7140826238     
+ Real amplitude =   -1.7420559915498851E-008
+
+ real =   -1.7420559915498851E-008
+ real =    7.4753126023181963E-009
+ real =    5.1979965480082171E-009
+ real =    1.5345944169473898E-008
+ real =    3.0275957277804411E-009
+ RM48 INITIALIZED:      5602           7         0
+ RM48IN SKIPPING OVER               7
+ Writing realequiv file...
+ Done
+ RM48 INITIALIZED:      5602           7         0
+ RM48IN SKIPPING OVER               7
+ Writing realequivregions file...
+ Done
+  powheginput keyword olddij               absent; set to   -1000000.0000000000     
+  powheginput keyword charmthrpdf          absent; set to   -1000000.0000000000     
+  powheginput keyword bottomthrpdf         absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:      5602           0         0
+ Writing bornequiv file...
+ Done
+  POWHEG:  
+  Check of soft/collinear limits performed
+  Results in file pwhg_checklimits
+ [DEBUG:44] checking differences in tot_arr
+ [DEBUG] no differences
+  powheginput keyword parallelstage        absent; set to   -1000000.0000000000     
+  powheginput keyword use-old-grid         set to    0.0000000000000000     
+ [DEBUG:64] checking differences in tot_arr
+ [DEBUG] no differences
+ [DEBUG:72] checking differences in tot_arr
+ [DEBUG] no differences
+ [DEBUG:834] checking differences in tot_arr
+ [DEBUG] no differences
+ [DEBUG:866] checking differences in tot_arr
+ [DEBUG] no differences
+
+  POWHEG: initialization
+  Computing the integral of the absolute value
+  of the cross section to set up the adaptive grid
+  powheginput keyword ncall1               set to    20000.000000000000     
+  powheginput keyword ncall1rm             absent; set to   -1000000.0000000000     
+  powheginput keyword ncall1osres          set to    20000000.000000000     
+  powheginput keyword itmx1                set to    4.0000000000000000     
+  powheginput keyword itmx1rm              absent; set to   -1000000.0000000000     
+  powheginput keyword itmx1osres           set to    6.0000000000000000     
+  result +- errtot (picobarn) for each iteration
+  powheginput keyword fixedgrid            absent; set to   -1000000.0000000000     
+  powheginput keyword btildeborn           absent; set to   -1000000.0000000000     
+  powheginput keyword btildevirt           absent; set to   -1000000.0000000000     
+  powheginput keyword btildecoll           absent; set to   -1000000.0000000000     
+  powheginput keyword btildereal           absent; set to   -1000000.0000000000     
+
+ === Init virtual... ===
+ process:           -4           3     1000022    -1000024
+ s     =    4180534.9134185826     
+ t     =   -1730089.1778866409     
+ u     =   -2408083.5442583105     
+ AlphaS         =   0.11091234170160563     
+ muren2         =    19374.488389652801     
+ born           =    2.3472650625274869E-004
+ 2*Born*Virtual =   -3.2647208247542974E-003
+
+ RM48 INITIALIZED:      5602          14         0
+ RM48IN SKIPPING OVER              14
+ Writing virtequiv file...
+ Done
+  powheginput keyword btlscalereal         absent; set to   -1000000.0000000000     
+  powheginput keyword btlscalect           absent; set to   -1000000.0000000000     
+   1.1878686160886196E-002   1.3940224120965666E-004
+   1.2123745638077403E-002   7.7663330597338532E-005
+   1.2188004600629625E-002   6.0879079286149306E-005
+   1.2096914968557314E-002   5.2119777837488362E-005
+ [DEBUG:929] checking differences in tot_arr
+ [DEBUG] no differences
+ [DEBUG:981] checking differences in tot_arr
+ [DEBUG] no differences
+
+ === Init resonant real... ===
+ Computing the integral of the remnant cross section consisting of 
+ remaining terms from on-shell resonant reals, incl. on-shell-subtraction 
+ to set up the adaptive grid
+ process =           -4           0     1000022    -1000024          -3
+ chan = dl35
+ s12  =    13764564.596327066     
+ on-shell resonant Real amplitude =    9.5335057674304187E-012
+
+ real_osres =    9.5335057674304187E-012
+ real_osres =    9.8215605252901459E-010
+ real_osres =    5.8657407401403160E-011
+ real_osres =    4.7467903432026446E-011
+ real_osres =    1.0033090577717373E-010
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829252        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829252        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+   8.3907915896678156E-005   1.1151068322332991E-006
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829270        9348.5826095983048     
+  => set s to 0 with jacobian 0
+   8.3683867228877745E-005   4.6316230153444069E-007
+ Warning: four momentum not conserved.
+ Sum p in  =    743.48512261528344        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    743.48512253854165        6.6762595452019013E-010  -1.8538059975981014E-010  -1.7204229152412154E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    743.48512261528344        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    743.48512253854165        6.6762595452019013E-010  -1.8538059975981014E-010  -1.7204229152412154E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    743.48512261528344        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    743.48512253854165        6.6762595452019013E-010  -1.8538059975981014E-010  -1.7204229152412154E-009
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829289        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829270        9348.5826095983048     
+  => set s to 0 with jacobian 0
+   8.3375635524171246E-005   5.0582724318313289E-007
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829252        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ Warning: four momentum not conserved.
+ Sum p in  =    667.93219431034208        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    667.93219448975469        2.9760940378764644E-009   1.0739427125372458E-009   6.0463634099505725E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    667.93219431034208        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    667.93219448975469        2.9760940378764644E-009   1.0739427125372458E-009   6.0463634099505725E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    667.93219431034208        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    667.93219448975469        2.9760940378764644E-009   1.0739427125372458E-009   6.0463634099505725E-009
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ Warning: four momentum not conserved.
+ Sum p in  =    702.44564622495511        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    702.44564607784309       -1.3471321835822891E-008  -1.6233883570748731E-008  -3.7596521451632725E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    702.44564622495511        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    702.44564607784309       -1.3471321835822891E-008  -1.6233883570748731E-008  -3.7596521451632725E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    702.44564622495511        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    702.44564607784309       -1.3471321835822891E-008  -1.6233883570748731E-008  -3.7596521451632725E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    702.44564622495511        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    702.44564635220956        1.3003869980821037E-008   1.5670579500692838E-008   3.6292249205871485E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    702.44564622495511        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    702.44564635220956        1.3003869980821037E-008   1.5670579500692838E-008   3.6292249205871485E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    702.44564622495511        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    702.44564635220956        1.3003869980821037E-008   1.5670579500692838E-008   3.6292249205871485E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    664.97301581481156        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    664.97301603478763        3.2737546007410856E-009   4.8520121254114201E-009  -1.2311431873968104E-008
+ Warning: four momentum not conserved.
+ Sum p in  =    664.97301581481156        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    664.97301603478763        3.2737546007410856E-009   4.8520121254114201E-009  -1.2311431873968104E-008
+ Warning: four momentum not conserved.
+ Sum p in  =    664.97301581481156        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    664.97301603478763        3.2737546007410856E-009   4.8520121254114201E-009  -1.2311431873968104E-008
+ Warning: four momentum not conserved.
+ Sum p in  =    747.72155851287960        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    747.72155870082133        1.1692506518556911E-008  -2.9217517294455320E-011   3.8619134556938661E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    747.72155851287960        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    747.72155870082133        1.1692506518556911E-008  -2.9217517294455320E-011   3.8619134556938661E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    747.72155851287960        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    747.72155870082133        1.1692506518556911E-008  -2.9217517294455320E-011   3.8619134556938661E-009
+   8.3265922418918168E-005   3.8463911732215613E-007
+ Warning: four momentum not conserved.
+ Sum p in  =    750.96440602427413        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    750.96440610521302        2.1211121747910511E-010   1.2091412315839989E-009   1.7641212934904615E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    750.96440602427413        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    750.96440610521302        2.1211121747910511E-010   1.2091412315839989E-009   1.7641212934904615E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    750.96440602427413        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    750.96440610521302        2.1211121747910511E-010   1.2091412315839989E-009   1.7641212934904615E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    743.58026106872205        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    743.58026093945796       -1.3099565876473207E-009  -1.5643024653400062E-009   2.6427926513861166E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    743.58026106872205        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    743.58026093945796       -1.3099565876473207E-009  -1.5643024653400062E-009   2.6427926513861166E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    743.58026106872205        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    743.58026093945796       -1.3099565876473207E-009  -1.5643024653400062E-009   2.6427926513861166E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    665.18262222530961        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    665.18262232156360       -2.0984742832297343E-009  -1.2338503552200564E-009   5.5423754474759335E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    665.18262222530961        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    665.18262232156360       -2.0984742832297343E-009  -1.2338503552200564E-009   5.5423754474759335E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    665.18262222530961        0.0000000000000000        0.0000000000000000        0.0000000000000000     

@@ -6,7 +6,7 @@ LHAPDF 6.1.5 loading /home/hepuser/kesenheimer/local/share/LHAPDF/cteq66/cteq66_
 cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
   found input file powheg.input
   opened powheg.input
-  powheginput keyword testplots            absent; set to   -1000000.0000000000     
+  powheginput keyword testplots            set to    1.0000000000000000     
   powheginput keyword numevts              set to    0.0000000000000000     
   powheginput keyword storemintupb         absent; set to   -1000000.0000000000     
   powheginput keyword fastbtlbound         absent; set to   -1000000.0000000000     
@@ -25,7 +25,7 @@ cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
   powheginput keyword bornonly             absent; set to   -1000000.0000000000     
   powheginput keyword LOevents             absent; set to   -1000000.0000000000     
   powheginput keyword novirtual            absent; set to   -1000000.0000000000     
-  powheginput keyword iseed                set to    5402.0000000000000     
+  powheginput keyword iseed                set to    5602.0000000000000     
   powheginput keyword rand1                absent; set to   -1000000.0000000000     
   powheginput keyword rand2                absent; set to   -1000000.0000000000     
   powheginput keyword iupperisr            absent; set to   -1000000.0000000000     
@@ -34,7 +34,7 @@ cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
   powheginput keyword storeinfo_rwgt       absent; set to   -1000000.0000000000     
   powheginput keyword compute_rwgt         absent; set to   -1000000.0000000000     
   powheginput keyword minlo                absent; set to   -1000000.0000000000     
- RM48 INITIALIZED:      5402           0         0
+ RM48 INITIALIZED:      5602           0         0
   powheginput keyword par_diexp            absent; set to   -1000000.0000000000     
   powheginput keyword par_dijexp           absent; set to   -1000000.0000000000     
   powheginput keyword par_2gsupp           absent; set to   -1000000.0000000000     
@@ -172,39 +172,39 @@ cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
 
  === Init born... ===
  process:           -4           3     1000022    -1000024
- s  =    4308431.5199372852     
- t  =   -3427481.6392079717     
- u  =   -838587.68945568253     
- born (madgraph) =    4.3280889517209164E-004
+ s  =    9766093.5331658386     
+ t  =   -8120168.7146852855     
+ u  =   -1603562.6272069216     
+ born (madgraph) =    5.2326035981982357E-004
 
- RM48 INITIALIZED:      5402           4         0
+ RM48 INITIALIZED:      5602           4         0
  RM48IN SKIPPING OVER               4
 
  === Init real... ===
  process =           -4           0     1000022    -1000024          -3
- s125 =    33616086.839280739     
- s12  =    20336847.716938134     
- s25  =    9551949.3926083092     
- s15  =    3727289.7297342969     
- Real amplitude =   -1.8846654889803884E-011
+ s125 =    27906790.563692007     
+ s12  =    18586866.306320596     
+ s25  =    6281155.5432887869     
+ s15  =    3038768.7140826238     
+ Real amplitude =   -1.7420559915498851E-008
 
- real =   -1.8846654889803884E-011
- real =    5.7286763839968310E-009
- real =    4.8095469549879760E-007
- real =    3.1669937135414863E-009
- real =    7.9682670221207416E-009
- RM48 INITIALIZED:      5402           7         0
+ real =   -1.7420559915498851E-008
+ real =    7.4753126023181963E-009
+ real =    5.1979965480082171E-009
+ real =    1.5345944169473898E-008
+ real =    3.0275957277804411E-009
+ RM48 INITIALIZED:      5602           7         0
  RM48IN SKIPPING OVER               7
  Writing realequiv file...
  Done
- RM48 INITIALIZED:      5402           7         0
+ RM48 INITIALIZED:      5602           7         0
  RM48IN SKIPPING OVER               7
  Writing realequivregions file...
  Done
   powheginput keyword olddij               absent; set to   -1000000.0000000000     
   powheginput keyword charmthrpdf          absent; set to   -1000000.0000000000     
   powheginput keyword bottomthrpdf         absent; set to   -1000000.0000000000     
- RM48 INITIALIZED:      5402           0         0
+ RM48 INITIALIZED:      5602           0         0
  Writing bornequiv file...
  Done
   POWHEG:  
@@ -226,12 +226,12 @@ cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
   POWHEG: initialization
   Computing the integral of the absolute value
   of the cross section to set up the adaptive grid
-  powheginput keyword ncall1               set to    200000.00000000000     
+  powheginput keyword ncall1               set to    20000.000000000000     
   powheginput keyword ncall1rm             absent; set to   -1000000.0000000000     
-  powheginput keyword ncall1osres          set to    2000.0000000000000     
+  powheginput keyword ncall1osres          set to    20000000.000000000     
   powheginput keyword itmx1                set to    4.0000000000000000     
   powheginput keyword itmx1rm              absent; set to   -1000000.0000000000     
-  powheginput keyword itmx1osres           set to    1.0000000000000000     
+  powheginput keyword itmx1osres           set to    6.0000000000000000     
   result +- errtot (picobarn) for each iteration
   powheginput keyword fixedgrid            absent; set to   -1000000.0000000000     
   powheginput keyword btildeborn           absent; set to   -1000000.0000000000     
@@ -241,24 +241,24 @@ cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
 
  === Init virtual... ===
  process:           -4           3     1000022    -1000024
- s     =    5463494.9727409817     
- t     =   -2508450.0506344284     
- u     =   -2912682.7308329218     
+ s     =    4180534.9134185826     
+ t     =   -1730089.1778866409     
+ u     =   -2408083.5442583105     
  AlphaS         =   0.11091234170160563     
  muren2         =    19374.488389652801     
- born           =    2.7557687141222204E-004
- 2*Born*Virtual =   -4.7233633114236069E-003
+ born           =    2.3472650625274869E-004
+ 2*Born*Virtual =   -3.2647208247542974E-003
 
- RM48 INITIALIZED:      5402          14         0
+ RM48 INITIALIZED:      5602          14         0
  RM48IN SKIPPING OVER              14
  Writing virtequiv file...
  Done
   powheginput keyword btlscalereal         absent; set to   -1000000.0000000000     
   powheginput keyword btlscalect           absent; set to   -1000000.0000000000     
-   1.2140727199521754E-002   4.7565718483247957E-005
-   1.2157760817627815E-002   2.1187310960363801E-005
-   1.2121402586752287E-002   1.7914475694694395E-005
-   1.2174803118072968E-002   2.9801683170449006E-005
+   1.1878686160886196E-002   1.3940224120965666E-004
+   1.2123745638077403E-002   7.7663330597338532E-005
+   1.2188004600629625E-002   6.0879079286149306E-005
+   1.2096914968557314E-002   5.2119777837488362E-005
  [DEBUG:929] checking differences in tot_arr
  [DEBUG] no differences
  [DEBUG:981] checking differences in tot_arr
@@ -270,67 +270,46 @@ cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
  to set up the adaptive grid
  process =           -4           0     1000022    -1000024          -3
  chan = dl35
- s12  =    7938469.0368708521     
- on-shell resonant Real amplitude =    4.6759151911310577E-011
+ s12  =    13764564.596327066     
+ on-shell resonant Real amplitude =    9.5335057674304187E-012
 
- real_osres =    4.6759151911310577E-011
- real_osres =    5.9542609022482998E-011
- real_osres =    3.6729184341212571E-011
- real_osres =    2.8948914727205800E-011
- real_osres =    1.2655023961888721E-010
- RM48 INITIALIZED:      5402    11200014         0
- RM48IN SKIPPING OVER        11200014
- RM48 INITIALIZED:      5402    11200014         0
- RM48IN SKIPPING OVER        11200014
- RM48 INITIALIZED:      5402    11200014         0
- RM48IN SKIPPING OVER        11200014
- RM48 INITIALIZED:      5402    11200014         0
- RM48IN SKIPPING OVER        11200014
-   9.5479412295686427E-005   1.9626389297948697E-004
- [DEBUG:1013] checking differences in tot_arr
- [DEBUG] no differences
-  Importance sampling x grids generated and stored
- [DEBUG:81] checking differences in tot_arr
- [DEBUG] no differences
-  powheginput keyword foldcsi              set to    2.0000000000000000     
-  powheginput keyword foldy                set to    2.0000000000000000     
-  powheginput keyword foldphi              set to    2.0000000000000000     
- [DEBUG:128] checking differences in tot_arr
- [DEBUG] no differences
-  POWHEG: Computing pos.+|neg.|  weight contribution to inclusive cross section
-  powheginput keyword ncall2               set to    200000.00000000000     
-  powheginput keyword itmx2                set to    4.0000000000000000     
-  powheginput keyword ncall2rm             absent; set to   -1000000.0000000000     
-  powheginput keyword itmx2rm              absent; set to   -1000000.0000000000     
-  powheginput keyword ncall2osres          set to    2000.0000000000000     
-  powheginput keyword itmx2osres           set to    1.0000000000000000     
-  powheginput keyword stage2init           absent; set to   -1000000.0000000000     
-   1.1808832893034391E-002   1.2319615053917009E-005
-   1.1830399124099028E-002   1.3203578510963660E-005
-   1.1829675914480553E-002   1.2776843068275194E-005
-   1.1839368686039265E-002   1.2992951163851597E-005
- tot:   1.1705595464215169E-002 +-   6.4539830212531914E-006
- abs:   1.1827069154413150E-002 +-   6.4137275039931703E-006
- pos:   1.1766332309314178E-002 +-   5.8968729691792922E-006
- neg:   6.0736845098974310E-005 +-   2.5732834768850039E-006
-  powheginput keyword ubsigmadetails       absent; set to   -1000000.0000000000     
- btilde pos.   weights:   1.1766332309314178E-002  +-   5.8968729691792922E-006
- btilde |neg.| weights:   6.0736845098974310E-005  +-   2.5732834768850039E-006
- btilde total (pos.-|neg.|):   1.1705595464215169E-002  +-   6.4539830212531914E-006
-  POWHEG: Computing 
- remaining terms from on-shell R, incl. on-shell-subtraction
-   3.7964132277446992E-004   2.7717432525255800E-004
- real_osres pos.   weights:   5.0115119628027190E-004  +-   2.7697406252634557E-004
- real_osres |neg.| weights:   1.2150987350580132E-004  +-   4.3008466496604507E-005
- real_osres total (pos.-|neg.|):   3.7964132277447014E-004  +-   2.8128245246963933E-004
-  total (btilde+remnants+regulars+osresR) cross section in pb   1.2085236786989639E-002 +-   2.1230049432040634E-004
-  negative weight fraction:   1.4638607851159148E-002
- [DEBUG:134] checking differences in tot_arr
- [DEBUG] no differences
- [DEBUG:178] checking differences in tot_arr
- [DEBUG] no differences
-  powheginput keyword nubound              set to    0.0000000000000000     
-  powheginput keyword iymax                set to    1.0000000000000000     
-  powheginput keyword icsimax              set to    1.0000000000000000     
-  powheginput keyword xupbound             set to    2.0000000000000000     
-  ubound set =0, cannot proceed
+ real_osres =    9.5335057674304187E-012
+ real_osres =    9.8215605252901459E-010
+ real_osres =    5.8657407401403160E-011
+ real_osres =    4.7467903432026446E-011
+ real_osres =    1.0033090577717373E-010
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:      5602     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829252        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829252        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829234        9348.5826095983048     
+  => set s to 0 with jacobian 0
+   8.3907915896678156E-005   1.1151068322332991E-006
+ warning: s is less than the sum of provided masses m1 and m2
+ s, (m1+m2)**2 =   9348.5826095829270        9348.5826095983048     
+  => set s to 0 with jacobian 0
+   8.3683867228877745E-005   4.6316230153444069E-007
+ Warning: four momentum not conserved.
