@@ -1,8 +1,0 @@
- btilde pos.   weights:   1.1766332309314178E-002  +-   5.8968729691792922E-006
- btilde |neg.| weights:   6.0736845098974310E-005  +-   2.5732834768850039E-006
- btilde Total (pos.-|neg.|):   1.1705595464215169E-002  +-   6.4539830212531914E-006
- real_osres pos.   weights:   5.0115119628027190E-004  +-   2.7697406252634557E-004
- real_osres |neg.| weights:   1.2150987350580132E-004  +-   4.3008466496604507E-005
- real_osres total (pos.-|neg.|):   3.7964132277447014E-004  +-   2.8128245246963933E-004
-  total (btilde+remnants+regulars+osresR) cross section in pb   1.2085236786989639E-002 +-   2.1230049432040634E-004
-  negative weight fraction:   1.4638607851159148E-002
