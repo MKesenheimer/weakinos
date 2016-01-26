@@ -6,7 +6,7 @@
 args=""
 ldflags=""
 objs=""
-libs="-lpthread"
+libs="-lpthread -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0 -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0/../../.. -lgfortran -lSystem -lgcc_ext.10.5 -lquadmath -lm -lgcc_ext.10.5 -lSystem -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0 -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0/../../.. -lgfortran -lSystem -lgcc_ext.10.5 -lquadmath -lm -lgcc_ext.10.5 -lSystem"
 compileonly=""
 
 cc="${REALCC:-cc}"

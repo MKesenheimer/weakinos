@@ -1,3 +1,6 @@
+In diesem Test wurden die On-Shell-Resonanten Beiträge mit sehr hoher Präzision berechnet. 
+
+Falls nicht anders angegeben:
 - input_orig.slha
 - ebeam1 = 7000
 - lhans1 = 10550
@@ -6,13 +9,10 @@
 - itmx = 4
 - itmx1osres = 8
 - itmx2osres = 6
+- WREG = 1D0
 
-Es gilt: mu_0_POWHEG = 2*mu_0_Prospino, d.h. die POWHEG-Skala muss von Hand immer um Faktor 2 niedriger gewählt werden.
-
-In diesem Test wurden die On-Shell-Resonanten Beiträge mit sehr hoher Präzision berechnet. 
-Importance Sampling für den reellen Phasenraum:
-- log in tau (x1x2phspace, psgen = 2)
-- flach in sij (phi1_2m_bw, psgen = 1)
+Hinweise:
+- In x1x2phspace wurden nachträglich die Vorzeichen der Jacobian und die Reihenfolge der Integrationsgrenzen geändert. D.h. insgesamt sollte sich nichts an der Integration geändert haben. Die Ergebnisse mit den korrigierten Vorzeichen sind mit (*) markiert und stimmen größtenteils mit den vorigen Ergebnissen überein.
 
 Vergleich, alte Rechnung (ohne Korrekturfaktor und extra Integration der On-Shell Beiträge):
 DSUB_II_TEST
@@ -20,12 +20,15 @@ LO:
         9.0105322974665652E-003 +-   3.9502090014234206E-006 (ncall = 200000, Seed = 5402, log(tau))
         9.0158646474149534E-003 +-   4.0692274853752877E-006 (ncall = 200000, Seed = 5602, log(tau))
 NLO:
-        1.1893664657313844E-002 +-   7.0713548609320270E-005 (ncall = 2000, Seed = 5402, log(tau))
-        1.1781734707938266E-002 +-   7.8628087029035366E-005 (ncall = 2000, Seed = 5602, log(tau))
-        1.1781764375776781E-002 +-   7.8631132572848193E-005 (ncall = 2000, Seed = 5602, log(tau))
+        1.1836337710731453E-002  +-   7.0309296352142540E-005 (ncall = 2000, Seed = 5602, log(tau), (*))
+        1.1893664657313844E-002  +-   7.0713548609320270E-005 (ncall = 2000, Seed = 5402, log(tau))
+        1.1781734707938266E-002  +-   7.8628087029035366E-005 (ncall = 2000, Seed = 5602, log(tau))
+        1.1781764375776781E-002  +-   7.8631132572848193E-005 (ncall = 2000, Seed = 5602, log(tau))
         1.1754241146579946E-002  +-   1.9746803585064231E-005 (ncall = 20000, Seed = 5602, log(tau))
+        1.1760755557613632E-002  +-   2.0407557815225190E-005 (ncall = 20000, Seed = 5602, log(tau), (*))
         1.1781216228177134E-002  +-   6.8017653182721860E-006 (ncall = 200000, Seed = 5602, log(tau))
-        (der kleine Unterschied zu den vorrigen Rechnungen ist in Ordnung da das Importance Sampling geändert wurde)
+        1.1771295875274755E-002  +-   6.4358616875821650E-006 (ncall = 200000, Seed = 5602, log(tau), (*))
+        (der kleine Unterschied zu den vorigen Rechnungen ist in Ordnung da das Importance Sampling geändert wurde)
         
 DSUB_II_TEST mit Korrekturfaktor corrfac
 NLO: 
@@ -44,7 +47,7 @@ Neuer physikalischer Jacobian: Pabs/(4d0*sqrts)*Pabs/(4d0*sqrts)*1/(2*s) 1/(2*Pi
 Insgesamt unterscheidet sich dieser Jacobian vom alten nur um den Faktor 2*Pi. Der Flussfaktor 2*s muss für den Phasenraum der On-Shell-Beiträge im Gegensatz zum Born-Phasenraum hinzugenommen werden, da er in sigosres.f nicht dabei ist.
 DSUB_II:
 NLO:
-        -> Desktop/runs/testrun_corr1
+        -> Desktop/runs/testrun_1_corr1
         1.1849952833311257E-002 +-   6.4388202759713039E-005 (ncall = 2000, ncallosres = 20000000, Seed = 5602, log(tau), flat(s2))
         davon btilde-Beitrag:
         1.1791075979345004E-002  +-   6.4387346323369321E-005
@@ -52,8 +55,15 @@ NLO:
         5.8876853966253434E-005  +-   5.1338804981912637E-007
         (das ist das selbe Ergebnis wie für DSUB_II_TEST)
         
-        -> testrun_3 (aktuelle Rechnung)
-         (ncall = 2000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2))
+        -> Desktop/runs/testrun_2_corr1
+        1.1792527081879922E-002 +-   6.4530549065392958E-005 (ncall = 2000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2))
+        davon btilde-Beitrag:
+        1.1733389447797258E-002  +-   6.4530482343428173E-005
+        davon osres-Beitrag:
+        5.9137634082663247E-005  +-   1.4754465349205801E-007
+
+        -> testrun_7 (aktuelle Rechnung, capriccio)
+         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), (*))
         davon btilde-Beitrag:
         
         davon osres-Beitrag:
@@ -61,18 +71,29 @@ NLO:
 
 Ergebnis ohne On-Shell Beiträge (nur btilde):
 NLO:
+        1.1756998057657706E-002  +-   6.2590788160477173E-005 (ncall = 2000, Seed = 5602, log(tau), (*))
+        1.1749108589928142E-002  +-   6.4553813973695727E-005 (ncall = 2000, Seed = 5602, log(tau), (*))
         1.1723503062933505E-002  +-   1.9574893832993307E-005 (ncall = 20000, Seed = 5402, log(tau))
-        1.1705052325715639E-002  +-   1.9994410015180711E-005 (ncall = 20000, Seed = 5602, log(tau), korrigierte Vorzeichen in x1x2phspace) 
-        1.1721117095625877E-002  +-   6.4205790409431714E-006 (ncall = 200000, Seed = 5602, log(tau)) testrun_2 nochmal Vergleichsrechnung da in x1x2phspace noch einmal die Vorzeichen geändert wurden (wurde nach testrun_3 und 4 gestartet)
+        1.1705052325715639E-002  +-   1.9994410015180711E-005 (ncall = 20000, Seed = 5602, log(tau), (*)) 
+        1.1721117095625877E-002  +-   6.4205790409431714E-006 (ncall = 200000, Seed = 5602, log(tau)) 
+        1.1786072590131765E-002  +-   6.9866292849417847E-006 (ncall = 200000, Seed = 5602, log(tau), (*))
+        1.1705595464215169E-002  +-   6.4539830212531914E-006 (ncall = 200000, Seed = 5402, log(tau), (*))
+
 
 mit korrektem Korrekturfaktor und korrektem Jacobian:
 DSUB_II:
 NLO:
-        1.1761765864818408E-002 +-   6.2324935987128184E-005 (ncall = 2000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2)) testrun_1 nochmal Vergleichsrechnung da in x1x2phspace noch einmal die Vorzeichen geändert wurden (wurde nach testrun_3 und 4 gestartet)
+        1.1761765864818408E-002 +-   6.2324935987128184E-005 (ncall = 2000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2))
         davon btilde-Beitrag
         1.1678317707939537E-002  +-   6.2323156306390607E-005
         davon osres-Beitrag:
         8.3448156878871674E-005  +-   7.5273880253283576E-007
+
+        1.1733194149665468E-002 +-   6.2508893023685740E-005 (ncall = 2000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), (*))
+        davon btilde-Beitrag
+        1.1649848914420918E-002  +-   6.2506786126330442E-005
+        davon osres-Beitrag:
+        8.3345235244550655E-005  +-   7.9574968496875209E-007
 
         1.1761325180001357E-002 +-   6.6365316291019748E-005 (ncall = 2000, ncallosres = 2000000, Seed = 5402, log(tau), bw(s2))
         davon btilde-Beitrag:
@@ -86,16 +107,24 @@ NLO:
         davon osres-Beitrag: 
         8.3516988939905611E-005  +-   7.6642575026628493E-007
         
-        -> Desktop/runs/testrun_DSUB_II
+        -> Desktop/runs/testrun_1_DSUB_II
         1.1813799975270553E-002 +-   1.9503856459095921E-005 (ncall = 20000, ncallosres = 20000000, Seed = 5402, log(tau), bw(s2))
         davon btilde-Beitrag:
         1.1730296428819556E-002  +-   1.9503542382383184E-005
         davon osres-Beitrag: 
         8.3503546450997885E-005  +-   1.7799444839728096E-007
         
-        -> testrun_4 (aktuelle Rechnung)
-         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), flat(s2))
+        -> Desktop/runs/testrun_2_DSUB_II
+        1.1820251631384022E-002 +-   1.7716192531930067E-005 (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), flat(s2))
+        davon btilde-Beitrag:
+        1.1736236151826240E-002  +-   1.7709577106079673E-005
+        davon osres-Beitrag:
+        8.4015479557782483E-005  +-   7.4514298490912982E-007
+
+        -> testrun_5 (aktuelle Rechnung)
+         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), (*))
         davon btilde-Beitrag:
         
-        davon osres-Beitrag: 
+        davon osres-Beitrag:
+        
         

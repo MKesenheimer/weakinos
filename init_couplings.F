@@ -76,10 +76,9 @@ c requires encoded process ID in lprup(1)
         call set_general_couplings(id_fin1,id_fin2)
         ! set remaining FormCalc parameters
         call set_formcalc_params
-#if defined(DSUB_II) || defined(DSUB_II_TEST)
+
         ! set the parameters for treating the on-shell resonances
         call set_osres_params
-#endif
         
         ! check if the MadGraph parameters are the same as the ones
         ! used by FormCalc

@@ -307,6 +307,7 @@ c rescaled by this correction factor
 
 #ifdef DEBUGQ
         corrfac = 1D0
+        !corrfac = corrfac**(-1D0)
 #endif
 
 #ifdef DEBUGQ
@@ -398,48 +399,7 @@ c          mk            mj
         print*,"i,j,k",i,j,k
         print*,"mij,mi,mj,mk",mij,mi,mj,mk
         print*,"par_FinMasses",par_Fin1mass,par_Fin2mass
-        stop
+        !stop
 #endif
       end
 c############### end subroutine set_channel ############################
-
-c############### subroutine PDFreweight ################################
-c this subroutine is used in ST_wtch_DS (Wt-production) to rescale
-c the on-shell counter terms
-c -- is not used in current version --
-      subroutine PDFreweight(flav1,flav2,x1,x2,x1p,x2p,PDFfactor)
-        implicit none
-        ! flavor of incoming particles
-        integer flav1,flav2
-        ! original x
-        double precision x1,x2
-        ! reshuffled x
-        double precision x1p,x2p
-        ! relativ factor between original and reshuffled pdfs
-        double precision PDFfactor
-        ! original pdfs
-        double precision pdf1(-6:6),pdf2(-6:6)
-        ! reshuffled pdfs
-        double precision pdf1p(-6:6),pdf2p(-6:6)
-      
-        ! old values (non reshuffled kinematics)
-        call pdfcall(1,x1,pdf1)
-        call pdfcall(2,x2,pdf2)
-
-        ! new values (reshuffled kinematics)
-        call pdfcall(1,x1p,pdf1p)
-        call pdfcall(2,x2p,pdf2p)
-
-
-        ! if the PDF's factor associated to the original (non reshuffled)
-        ! kinematics vanishes (or it is very small), then in this point no 
-        ! local subtraction is needed because original PDF already vanishes!)
-        ! Assign the special value -1 to PDF factor. See the effect of this in
-        ! setreal subroutine.
-        if((pdf1(flav1).lt.1d-6).or.(pdf2(flav2).lt.1d-6)) then
-          PDFfactor=-1
-        else
-          PDFfactor=pdf1p(flav1)*pdf2p(flav2)/pdf1(flav1)/pdf2(flav2)
-        endif
-      end
-c############### end subroutine PDFreweight ############################

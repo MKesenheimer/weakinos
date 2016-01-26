@@ -141,6 +141,7 @@ USRFLAGS += -D NEGLECT_SWIDTH
 #   integrated seperately in sigosres.f and is included at a later point
 #   to the main result.
 #USRFLAGS += -D DR_I
+#USRFLAGS += -D DR_II
 #USRFLAGS += -D DSUB_I
 #USRFLAGS += -D DSUB_II_TEST
 USRFLAGS += -D DSUB_II
