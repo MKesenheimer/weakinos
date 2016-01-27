@@ -271,7 +271,7 @@ FORMCALC = VecSet.o
 PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o	\
 	test_Sudakov.o pt2maxreg.o maxrat.o Bornzerodamp.o		\
 	random.o boostrot.o bra_ket_subroutines.o			\
-	init_phys.o powheginput.o pdfcalls.o sigcollremn.o		\
+	init_phys.o powheginput.o sigcollremn.o		\
 	pwhg_bookhist-multi.o pwhg_analysis_driver.o checkmomzero.o	\
 	setstrongcoupl.o integrator.o newunit.o mwarn.o		\
 	sigcollsoft.o validflav.o decidemerging.o          		\
@@ -282,7 +282,8 @@ PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
 	sigborn.o sigreal.o sigsoftvirt_mod.o			\
 	sigvirtual.o bbinit_mod.o LesHouches.o 		\
 	LesHouchesreg.o gen_index.o lhefwrite.o		\
-	gen_radiation.o sigremnants_mod.o pwhgreweight_mod.o
+	gen_radiation.o sigremnants_mod.o pwhgreweight_mod.o \
+	pdfcalls_mod.o 
 
 ### LHEF ###
 # analyze LHEF output
