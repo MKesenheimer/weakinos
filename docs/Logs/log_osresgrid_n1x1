@@ -113,6 +113,13 @@ NLO:
         davon osres-Beitrag:
         8.6133074078866641E-005  +-   1.0696330846053326E-006
 
+        -> testrun_3 (livanto)
+         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), WREG=0.1, (*))
+        davon btilde-Beitrag
+        
+        davon osres-Beitrag:
+
+
         -> Desktop/runs/testrun_5_DSUB_II_WREG10
         1.1778155734930055E-002 +-   1.6307100958697384E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=10, (*))
         davon btilde-Beitrag
