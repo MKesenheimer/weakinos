@@ -55,7 +55,9 @@ c definitions
         double precision rad_osres_totarr(2,ntot_osres,cnosres)
 
         ! common blocks
-        common/pwhg_add_rad/rad_osres_arr, rad_osres_sign
+        ! doubles
+        common/pwhg_add_rad/rad_osres_arr
+        common/pwhg_add_rad/rad_xradosres
         common/pwhg_add_rad/rad_totosres, rad_etotosres
         common/pwhg_add_rad/rad_totabsosres, rad_etotabsosres
         common/pwhg_add_rad/rad_totpososres, rad_etotpososres
@@ -75,8 +77,9 @@ c definitions
         common/pwhg_add_rad/rad_totremgen, rad_etotremgen
 
         common/pwhg_add_rad/rad_totarr, rad_osres_totarr
-
-        common/pwhg_add_rad/rad_xradosres
+        
+        ! integers
+        common/pwhg_add_rad/rad_osres_sign
         common/pwhg_add_rad/rad_reg_sign
         common/pwhg_add_rad/rad_damp_rem_sign
         common/pwhg_add_rad/rad_realosres
