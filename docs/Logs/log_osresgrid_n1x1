@@ -62,7 +62,12 @@ NLO:
         davon osres-Beitrag:
         5.9137634082663247E-005  +-   1.4754465349205801E-007
         
-
+        -> testrun_2 (aktuelle Rechnung)
+         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), (*))
+        davon btilde-Beitrag:
+        
+        davon osres-Beitrag:
+        
 Ergebnis ohne On-Shell Beiträge (nur btilde):
 NLO:
         1.1756998057657706E-002  +-   6.2590788160477173E-005 (ncall = 2000, Seed = 5602, log(tau), (*))
@@ -143,7 +148,7 @@ NLO:
         davon osres-Beitrag:
         8.3758604562392166E-005  +-   2.1334832593594663E-007
 
-        -> testrun_5 (aktuelle Rechnung)
+        -> testrun_1 (aktuelle Rechnung)
          (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), (*))
         davon btilde-Beitrag:
         

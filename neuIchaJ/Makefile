@@ -46,7 +46,7 @@ PDFSTATIC = none
 #STATICLIBSLHAPDF = /opt/lib/libLHAPDF.a
 
 ## choose analysis: none, default
-ANALYSIS = default
+ANALYSIS = none
 
 ## path to LHAPDF config executable
 LHAPDF_CONFIG = lhapdf-config
