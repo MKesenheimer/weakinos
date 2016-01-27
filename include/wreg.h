@@ -3,7 +3,7 @@ c last modified by MK, date
 
 #if defined(DSUB_I) || defined(DSUB_II) || defined(DSUB_II_TEST)
       double precision WREG  ! regulator to suppress the resonant diagrams
-      parameter (WREG=1D-1)   ! in a gauge-invariant way (default 1D0)
+      parameter (WREG=1D0)   ! in a gauge-invariant way (default 1D0)
 #define WDLR WREG
 #define WDRR WREG
 #define WULR WREG
