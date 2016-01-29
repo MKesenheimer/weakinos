@@ -95,7 +95,7 @@ c -> do so by modifying the jacobian kn_jacborn.
         kn_jacreal = kn_jacreal*jac
         
         ! physical phase space jacobian ((2*Pi)**(3n-4), n=3)
-        kn_jacreal = kn_jacreal/(2D0*m_pi)**5
+        kn_jacreal = kn_jacreal/(2D0*m_pi)**5 
 
         ! flux factor (the flux factor is included for the born
         ! amplitude in sigborn, but it is not implemented

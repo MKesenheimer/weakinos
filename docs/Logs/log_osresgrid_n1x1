@@ -62,12 +62,13 @@ NLO:
         davon osres-Beitrag:
         5.9137634082663247E-005  +-   1.4754465349205801E-007
         
-        -> testrun_2 (aktuelle Rechnung)
-         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), (*))
+        -> Desktop/runs/testrun_2_corr1
+        1.1791682182187010E-002 +-   1.8990578705034508E-005 (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), (*))
         davon btilde-Beitrag:
-        
+        1.1732587599366618E-002  +-   1.8990046584543992E-005
         davon osres-Beitrag:
-        
+        5.9094582820391626E-005  +-   2.2557679649562077E-007
+
 Ergebnis ohne On-Shell Beiträge (nur btilde):
 NLO:
         1.1756998057657706E-002  +-   6.2590788160477173E-005 (ncall = 2000, Seed = 5602, log(tau), (*))
@@ -106,34 +107,6 @@ NLO:
         davon osres-Beitrag: 
         8.3516988939905611E-005  +-   7.6642575026628493E-007
 
-        -> Desktop/runs/testrun_4_DSUB_II_WREG01
-        1.1735569135870500E-002 +-   9.2626433688192892E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=0.1, (*))
-        davon btilde-Beitrag
-        1.1649436061791633E-002  +-   9.2623876462756983E-005
-        davon osres-Beitrag:
-        8.6133074078866641E-005  +-   1.0696330846053326E-006
-
-        -> testrun_3 (livanto)
-         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), WREG=0.1, (*))
-        davon btilde-Beitrag
-        
-        davon osres-Beitrag:
-
-
-        -> Desktop/runs/testrun_5_DSUB_II_WREG10
-        1.1778155734930055E-002 +-   1.6307100958697384E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=10, (*))
-        davon btilde-Beitrag
-        1.1704211768465382E-002  +-   1.6306195298886159E-005
-        davon osres-Beitrag:
-        7.3943966464672120E-005  +-   2.6935041881340436E-007
-
-        -> Desktop/runs/testrun_3_DSUB_II_WREG100
-        1.1775577917302210E-002 +-   1.6295220882068497E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=100, (*))
-        davon btilde-Beitrag
-        1.1730789763332824E-002  +-   1.6294865827326397E-005
-        davon osres-Beitrag:
-        4.4788153969386352E-005  +-   1.6497778973722522E-007
-
         -> Desktop/runs/testrun_1_DSUB_II
         1.1813799975270553E-002 +-   1.9503856459095921E-005 (ncall = 20000, ncallosres = 20000000, Seed = 5402, log(tau), bw(s2))
         davon btilde-Beitrag:
@@ -154,11 +127,57 @@ NLO:
         1.1727828911558921E-002  +-   1.8979166792945624E-005
         davon osres-Beitrag:
         8.3758604562392166E-005  +-   2.1334832593594663E-007
-
-        -> testrun_1 (aktuelle Rechnung)
-         (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), (*))
+        
+        
+DSUB_II, wobei in den reellen Amplituden auch die Interferenzterme der OS-Terme abgezogen wurden (MATRIX_RES(...,"allr"))
+        (der osres-Beitrag wurde von vorigen Rechnungen kopiert, da dieser hier unverändert bleibt) 
+        1.1812711604921760E-002  +-   1.8971397939582535E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), (*))
         davon btilde-Beitrag:
-        
+        1.1729194615981854E-002  +-   1.8955910195802396E-005
         davon osres-Beitrag:
+        8.3516988939905611E-005  +-   7.6642575026628493E-007
+
         
+DSUB_II, wobei in den reellen Amplituden alle resonanten Amplituden auf null gesetzt wurden (DR_I)
+        (der osres-Beitrag wurde von vorigen Rechnungen kopiert, da dieser hier unverändert bleibt) 
+        1.1899154865346069E-002  +-   1.6400547628288413E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), (*))
+        davon btilde-Beitrag:
+        1.1815637876406165E-002  +-   1.6382629644751343E-005
+        davon osres-Beitrag:
+        8.3516988939905611E-005  +-   7.6642575026628493E-007
+
         
+DSUB_II, Abhängigkeit von WREG:
+        -> Desktop/runs/testrun_1_WREG01
+        1.1735569135870500E-002 +-   9.2626433688192892E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=0.1, (*))
+        davon btilde-Beitrag
+        1.1649436061791633E-002  +-   9.2623876462756983E-005
+        davon osres-Beitrag:
+        8.6133074078866641E-005  +-   1.0696330846053326E-006
+        
+        -> Desktop/runs/testrun_4_WREG01
+        1.1821465813253844E-002 +-   3.5537333370806643E-005 (ncall = 20000, ncallosres = 20000000, Seed = 5602, log(tau), bw(s2), WREG=0.1, (*))
+        davon btilde-Beitrag
+        1.1734947698502600E-002  +-   3.5536900273668134E-005
+        davon osres-Beitrag:
+        8.6518114751244301E-005  +-   2.8186826534768371E-007
+        
+        1.1810091374319922E-002 +-   1.8387746249621798E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=1.0)
+        davon btilde-Beitrag
+        1.1726574385380016E-002  +-   1.8381548113447264E-005
+        davon osres-Beitrag: 
+        8.3516988939905611E-005  +-   7.6642575026628493E-007
+
+        -> Desktop/runs/testrun_2_WREG10
+        1.1778155734930055E-002 +-   1.6307100958697384E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=10, (*))
+        davon btilde-Beitrag
+        1.1704211768465382E-002  +-   1.6306195298886159E-005
+        davon osres-Beitrag:
+        7.3943966464672120E-005  +-   2.6935041881340436E-007
+
+        -> Desktop/runs/testrun_3_DSUB_II_WREG100
+        1.1775577917302210E-002 +-   1.6295220882068497E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), WREG=100, (*))
+        davon btilde-Beitrag
+        1.1730789763332824E-002  +-   1.6294865827326397E-005
+        davon osres-Beitrag:
+        4.4788153969386352E-005  +-   1.6497778973722522E-007
