@@ -1,0 +1,22 @@
+Usage: runparallel.sh [OPTIONS]
+Mandatory arguments:
+  -d, --directory <name>   specify the subdirectory relative to working
+                           directory where to execute the program and where 
+                           to look for powheg.input
+  -e, --executable <name>  the relative path of the executable
+  -p, --parallel #         number of parallel jobs to submit
+  
+Optional arguments:
+  -h, --help         print this help message
+  -i, --info         show informations
+  --ncall1 #         overwrite the parameter ncall1 in powheg.input
+  --ncall2 #         overwrite the parameter ncall2 in powheg.input
+  --ncall1osres #    overwrite the parameter ncall1osres in powheg.input
+  --ncall2osres #    overwrite the parameter ncall1osres in powheg.input
+  --itmx1 #          overwrite the parameter itmx1 in powheg.input   
+  --itmx2 #          overwrite the parameter itmx2 in powheg.input
+  --itmx1osres #     overwrite the parameter itmx1osres in powheg.input   
+  --itmx2osres #     overwrite the parameter itmx2osres in powheg.input
+  -c, --clean        clean directory before running POWHEG
+  -o, --offset #     supply an offset for extracting the seeds from seeds.dat
+  --genevents # #    generate the upper bound and events       

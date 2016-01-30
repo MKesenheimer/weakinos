@@ -283,7 +283,7 @@ echo "  starting $JOBS job(s)..."
 for i in `seq 1 $JOBS`; do
    NSEED=$((i+NSEEDOFFSET))
    echo "  job $i with nseed $NSEED"
-   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > powheg_step1a_$i.output 2>&1 &
+   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step1a_$i.output 2>&1 &
 done
 
 for job in `jobs -p`
@@ -304,7 +304,7 @@ echo "  starting $JOBS job(s)..."
 for i in `seq 1 $JOBS`; do
    NSEED=$((i+NSEEDOFFSET))
    echo "  job $i with nseed $NSEED"
-   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > powheg_step1b_$i.output 2>&1 &
+   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step1b_$i.output 2>&1 &
 done
 
 for job in `jobs -p`
@@ -330,7 +330,7 @@ echo "  starting $JOBS job(s)..."
 for i in `seq 1 $JOBS`; do
    NSEED=$((i+NSEEDOFFSET))
    echo "  job $i with nseed $NSEED"
-   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > powheg_step2_$i.output 2>&1 &
+   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step2_$i.output 2>&1 &
 done
 
 for job in `jobs -p`
@@ -355,7 +355,7 @@ then
   for i in `seq 1 $JOBS`; do
      NSEED=$((i+NSEEDOFFSET))
      echo "  job $i with nseed $NSEED"
-     nohup nice -n $NICENESS $EXEPATH <<< $NSEED > powheg_step3_$i.output 2>&1 &
+     nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step3_$i.output 2>&1 &
   done
 
   for job in `jobs -p`
@@ -376,7 +376,7 @@ then
   for i in `seq 1 $JOBS`; do
      NSEED=$((i+NSEEDOFFSET))
      echo "  job $i with nseed $NSEED"
-     nohup nice -n $NICENESS $EXEPATH <<< $NSEED > powheg_step4_$i.output 2>&1 &
+     nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step4_$i.output 2>&1 &
   done
 
   for job in `jobs -p`

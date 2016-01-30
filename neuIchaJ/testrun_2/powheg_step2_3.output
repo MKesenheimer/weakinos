@@ -1,0 +1,376 @@
+==== LHAPDF6 USING DEFAULT-TYPE LHAGLUE INTERFACE ====
+LHAPDF 6.1.5 loading /home/hepuser/kesenheimer/local/share/LHAPDF/cteq66/cteq66_0000.dat
+cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
+==== LHAPDF6 USING DEFAULT-TYPE LHAGLUE INTERFACE ====
+LHAPDF 6.1.5 loading /home/hepuser/kesenheimer/local/share/LHAPDF/cteq66/cteq66_0000.dat
+cteq66 PDF set, member #0, version 1; LHAPDF ID = 10550
+  found input file powheg.input
+  opened powheg.input
+  powheginput keyword testplots            set to    1.0000000000000000     
+  powheginput keyword numevts              set to    0.0000000000000000     
+  powheginput keyword storemintupb         absent; set to   -1000000.0000000000     
+  powheginput keyword fastbtlbound         absent; set to   -1000000.0000000000     
+  powheginput keyword manyseeds            set to    1.0000000000000000     
+ enter which seed
+  powheginput keyword flg_debug            absent; set to   -1000000.0000000000     
+  powheginput keyword withnegweights       absent; set to   -1000000.0000000000     
+  powheginput keyword bornsuppfact         absent; set to   -1000000.0000000000     
+  powheginput keyword ptsupp               absent; set to   -1000000.0000000000     
+  powheginput keyword doublefsr            absent; set to   -1000000.0000000000     
+  powheginput keyword smartsig             set to    1.0000000000000000     
+  powheginput keyword withsubtr            absent; set to   -1000000.0000000000     
+  powheginput keyword hfact                absent; set to   -1000000.0000000000     
+  powheginput keyword withdamp             absent; set to   -1000000.0000000000     
+  powheginput keyword bornzerodamp         absent; set to   -1000000.0000000000     
+  powheginput keyword hdamp                absent; set to   -1000000.0000000000     
+  powheginput keyword bornonly             absent; set to   -1000000.0000000000     
+  powheginput keyword LOevents             absent; set to   -1000000.0000000000     
+  powheginput keyword novirtual            absent; set to   -1000000.0000000000     
+  powheginput keyword iseed                absent; set to   -1000000.0000000000     
+  powheginput keyword rand1                absent; set to   -1000000.0000000000     
+  powheginput keyword rand2                absent; set to   -1000000.0000000000     
+  powheginput keyword iupperisr            absent; set to   -1000000.0000000000     
+  powheginput keyword iupperfsr            absent; set to   -1000000.0000000000     
+  powheginput keyword pdfreweight          absent; set to   -1000000.0000000000     
+  powheginput keyword storeinfo_rwgt       absent; set to   -1000000.0000000000     
+  powheginput keyword compute_rwgt         absent; set to   -1000000.0000000000     
+  powheginput keyword minlo                absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:  54217137           0         0
+  powheginput keyword par_diexp            absent; set to   -1000000.0000000000     
+  powheginput keyword par_dijexp           absent; set to   -1000000.0000000000     
+  powheginput keyword par_2gsupp           absent; set to   -1000000.0000000000     
+  powheginput keyword ih1                  set to    1.0000000000000000     
+  powheginput keyword ih2                  set to    1.0000000000000000     
+  powheginput keyword lhans1               set to    10550.000000000000     
+  powheginput keyword lhans2               set to    10550.000000000000     
+  check: alpha_s(Mz)=  0.11798160000000001     
+  alpha_s order (0,1,2):            1
+  Lambda 5 is   0.22600015483267408     
+  LHA value is   0.19200000000000000     
+  powheginput keyword ebeam1               set to    7000.0000000000000     
+  powheginput keyword ebeam2               set to    7000.0000000000000     
+  powheginput keyword bornktmin            absent; set to   -1000000.0000000000     
+  powheginput keyword ptsqmin              absent; set to   -1000000.0000000000     
+  powheginput keyword charmthr             absent; set to   -1000000.0000000000     
+  powheginput keyword bottomthr            absent; set to   -1000000.0000000000     
+  powheginput keyword renscfact            set to   0.50000000000000000     
+  powheginput keyword facscfact            set to   0.50000000000000000     
+  powheginput keyword evenmaxrat           absent; set to   -1000000.0000000000     
+  powheginput keyword incomingflavors      set to    4.0000000000000000     
+  powheginput keyword fakevirtuals         set to    0.0000000000000000     
+  powheginput keyword fin1                 set to    1000022.0000000000     
+  powheginput keyword fin2                 set to   -1000024.0000000000     
+
+ ====================================================
+         neutralino/chargino pair production         
+       final states:      1000022    -1000024
+                                                     
+              q                         n1           
+               \                       /             
+                \                     /              
+                 \                   /               
+                  \       Z/W       /                
+                   ~~~~~~~~~~~~~~~~~                 
+                  /                 \                
+                 /                   \               
+                /                     \              
+               /                       \             
+              q*                        x1-          
+                                                     
+ ====================================================
+
+  number of incoming flavors:            4
+  encoded final states to process ID:      -124122
+  born processes           4
+          -4           3     1000022    -1000024
+          -2           1     1000022    -1000024
+           1          -2     1000022    -1000024
+           3          -4     1000022    -1000024
+  real processes          12
+          -4           0     1000022    -1000024          -3
+          -4           3     1000022    -1000024           0
+          -2           0     1000022    -1000024          -1
+          -2           1     1000022    -1000024           0
+           0          -4     1000022    -1000024          -3
+           0          -2     1000022    -1000024          -1
+           0           1     1000022    -1000024           2
+           0           3     1000022    -1000024           4
+           1          -2     1000022    -1000024           0
+           1           0     1000022    -1000024           2
+           3          -4     1000022    -1000024           0
+           3           0     1000022    -1000024           4
+  on-shell resonant real processes           8
+          -4           0     1000022    -1000024          -3
+          -2           0     1000022    -1000024          -1
+           0          -4     1000022    -1000024          -3
+           0          -2     1000022    -1000024          -1
+           0           1     1000022    -1000024           2
+           0           3     1000022    -1000024           4
+           1           0     1000022    -1000024           2
+           3           0     1000022    -1000024           4
+ extracted from process ID:      -124122
+ the final state pair:      1000022 ,     -1000024
+  powheginput keyword SLHA                 set to "input_suspect2.slha"
+ note: ignoring alpha_s value given in SLHA file
+ extracted from process ID:      -124122
+ the final state pair:      1000022 ,     -1000024
+ Note (PhysPars): neglecting u,d,c,s-quark masses
+ Note (PhysPars): neglecting b-quark mass
+  powheginput keyword SLHA                 set to "input_suspect2.slha"
+ read model file input_suspect2.slha                                                                       
+ Note (MadGraph): neglecting bottom quark mass
+  READ_LES_HOUCHES: done, all inputs read 
+ checking for parameters in powheg.input
+ (if given, they override SLHA SM parameters)
+  powheginput keyword inv_alpha            absent; set to   -1000000.0000000000     
+  powheginput keyword Zmass                absent; set to   -1000000.0000000000     
+  powheginput keyword Wmass                absent; set to   -1000000.0000000000     
+  powheginput keyword Zwidth               absent; set to   -1000000.0000000000     
+  powheginput keyword Wwidth               absent; set to   -1000000.0000000000     
+ Note (FormCalc): no CKM mixing
+
+ ====================================================
+              set POWHEG parameters                  
+ ====================================================
+
+ Z mass          =    91.186999999999998     
+ W mass          =    80.526662200000004     
+ Z width         =    2.4114331600000001     
+ W width         =    2.0028219599999999     
+ 1/alpha         =    127.93400000000000     
+
+ final state masses =    51.412015500000003     
+                         90.489011399999995     
+
+ ====================================================
+              init LoopTools                         
+ ====================================================
+   FF 2.0, a package to evaluate one-loop integrals
+ written by G. J. van Oldenborgh, NIKHEF-H, Amsterdam
+ ====================================================
+ for the algorithms used see preprint NIKHEF-H 89/17,
+ 'New Algorithms for One-loop Integrals', by G.J. van
+ Oldenborgh and J.A.M. Vermaseren, published in 
+ Zeitschrift fuer Physik C46(1990)425.
+ ====================================================
+
+  **** Minimum maxalr allowed:           12  *********
+  **** Number of born graphs:             4
+  **** Number of real graphs:            12
+  **** Number of regular regions:           0
+  powheginput keyword softtest             absent; set to   -1000000.0000000000     
+  powheginput keyword colltest             absent; set to   -1000000.0000000000     
+  powheginput keyword runningscale         set to    0.0000000000000000     
+
+ ====================================================
+ Factorization and renormalization scales:
+ using fixed scale and
+ sum of neutralino masses for muref
+ muref =    141.90102690000001     
+ muren = muref *   0.50000000000000000     
+ mufac = muref *   0.50000000000000000     
+ ====================================================
+
+ === Init born... ===
+ process:           -4           3     1000022    -1000024
+ s  =    4643575.8238712726     
+ t  =   -1861749.2693805452     
+ u  =   -2770995.0979688051     
+ born (madgraph) =    2.6185894812046225E-004
+
+ RM48 INITIALIZED:  54217137           4         0
+ RM48IN SKIPPING OVER               4
+
+ === Init real... ===
+ process =           -4           0     1000022    -1000024          -3
+ s125 =    21020563.006911580     
+ s12  =    12304495.528156949     
+ s25  =    2450723.1519795554     
+ s15  =    6265344.3267750703     
+ Real amplitude =    7.1589355065177025E-008
+
+ real =    7.1589355065177025E-008
+ real =    3.7348515699362883E-010
+ real =    4.4218923094861919E-008
+ real =    1.7336216690995310E-007
+ real =    3.9784231431276075E-008
+ RM48 INITIALIZED:  54217137           7         0
+ RM48IN SKIPPING OVER               7
+ Writing realequiv file...
+ Done
+ RM48 INITIALIZED:  54217137           7         0
+ RM48IN SKIPPING OVER               7
+ Writing realequivregions file...
+ Done
+  powheginput keyword olddij               absent; set to   -1000000.0000000000     
+  powheginput keyword charmthrpdf          absent; set to   -1000000.0000000000     
+  powheginput keyword bottomthrpdf         absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:  54217137           0         0
+ Writing bornequiv file...
+ Done
+  POWHEG:  
+  Check of soft/collinear limits performed
+  Results in file pwhg_checklimits
+ [DEBUG:44] checking differences in tot_arr
+ [DEBUG] no differences
+  powheginput keyword parallelstage        set to    2.0000000000000000     
+  powheginput keyword use-old-grid         set to    1.0000000000000000     
+  loading xg2    iteration file
+  Opened pwggridinfo-btl-xg2-0001.dat                                                                        
+  Opened pwggridinfo-btl-xg2-0002.dat                                                                        
+  Opened pwggridinfo-btl-xg2-0003.dat                                                                        
+  Opened pwggridinfo-btl-xg2-0004.dat                                                                        
+  Opened pwggridinfo-osres-xg2-0001.dat                                                                      
+  Opened pwggridinfo-osres-xg2-0002.dat                                                                      
+  Opened pwggridinfo-osres-xg2-0003.dat                                                                      
+  Opened pwggridinfo-osres-xg2-0004.dat                                                                      
+  powheginput keyword foldcsi              set to    2.0000000000000000     
+  powheginput keyword foldy                set to    2.0000000000000000     
+  powheginput keyword foldphi              set to    2.0000000000000000     
+ RM48 INITIALIZED:        12           0         0
+  POWHEG: Computing pos.+|neg.|  weight contribution to inclusive cross section
+  powheginput keyword ncall2               set to    20000.000000000000     
+  powheginput keyword itmx2                set to    4.0000000000000000     
+  powheginput keyword ncall2rm             absent; set to   -1000000.0000000000     
+  powheginput keyword itmx2rm              absent; set to   -1000000.0000000000     
+  powheginput keyword ncall2osres          set to    2000000.0000000000     
+  powheginput keyword itmx2osres           set to    8.0000000000000000     
+  powheginput keyword stage2init           absent; set to   -1000000.0000000000     
+  powheginput keyword fixedgrid            absent; set to   -1000000.0000000000     
+  powheginput keyword btildeborn           absent; set to   -1000000.0000000000     
+  powheginput keyword btildevirt           absent; set to   -1000000.0000000000     
+  powheginput keyword btildecoll           absent; set to   -1000000.0000000000     
+  powheginput keyword btildereal           absent; set to   -1000000.0000000000     
+
+ === Init virtual... ===
+ process:           -4           3     1000022    -1000024
+ s     =    7346761.5687973099     
+ t     =   -1793094.3689173171     
+ u     =   -5542835.7433580738     
+ AlphaS         =   0.12263202088274254     
+ muren2         =    5033.9753588186313     
+ born           =    3.7559973870141607E-004
+ 2*Born*Virtual =   -1.5535450684273300E-002
+
+ RM48 INITIALIZED:        12          14         0
+ RM48IN SKIPPING OVER              14
+ Writing virtequiv file...
+ Done
+  powheginput keyword btlscalereal         absent; set to   -1000000.0000000000     
+  powheginput keyword btlscalect           absent; set to   -1000000.0000000000     
+   3.0526917151771622        7.7574625256708980E-003
+   3.0678479388323785        8.3442566516551443E-003
+   3.0848806957866763        8.5263366255573046E-003
+   3.0657016659435019        7.9929026895033100E-003
+ tot:   3.0651586112704723      +-   4.0963644903188705E-003
+ abs:   3.0677805039349231      +-   4.0805634895287983E-003
+ pos:   3.0664695576026948      +-   4.0769692873959531E-003
+ neg:   1.3109463322244881E-003 +-   3.0646638386749565E-004
+  powheginput keyword ubsigmadetails       absent; set to   -1000000.0000000000     
+ btilde pos.   weights:   3.0664695576026948       +-   4.0769692873959531E-003
+ btilde |neg.| weights:   1.3109463322244881E-003  +-   3.0646638386749565E-004
+ btilde total (pos.-|neg.|):   3.0651586112704723       +-   4.0963644903188705E-003
+  POWHEG: Computing 
+ remaining terms from on-shell R, incl. on-shell-subtraction
+
+ === Init resonant real... ===
+ Computing the integral of the remnant cross section consisting of 
+ remaining terms from on-shell resonant reals, incl. on-shell-subtraction 
+ to set up the adaptive grid
+ process =           -4           0     1000022    -1000024          -3
+ chan = dl35
+ s12  =    19507540.112842325     
+ on-shell resonant Real amplitude =    5.3671573209804815E-011
+
+ real_osres =    5.3671573209804815E-011
+ real_osres =    8.3173403971352056E-011
+ real_osres =    2.4276356670800353E-011
+ real_osres =    1.4116299197470389E-009
+ real_osres =    1.0539605978795550E-011
+ RM48 INITIALIZED:        12     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:        12     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:        12     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ RM48 INITIALIZED:        12     1120014         0
+ RM48IN SKIPPING OVER         1120014
+ Warning: four momentum not conserved.
+ Sum p in  =    460.36167501309336        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    460.36167507836473        1.5418004650769035E-009  -3.7832137422810774E-010  -2.2387780518329237E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    460.36167501309336        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    460.36167507836473        1.5418004650769035E-009  -3.7832137422810774E-010  -2.2387780518329237E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    460.36167501309336        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    460.36167507836473        1.5418004650769035E-009  -3.7832137422810774E-010  -2.2387780518329237E-010
+   1.2254514950883761E-003   2.1824075665476759E-005
+   1.2385066741320576E-003   1.8003874004665055E-005
+   1.2229348955101703E-003   1.9837240168380273E-005
+   1.2355458586840527E-003   1.9020805451085332E-005
+ Warning: four momentum not conserved.
+ Sum p in  =    444.34180031294949        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    444.34180042640742       -8.3323214994379668E-009   8.6736520188424038E-009  -9.4298258090930176E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    444.34180031294949        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    444.34180042640742       -8.3323214994379668E-009   8.6736520188424038E-009  -9.4298258090930176E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    444.34180031294949        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    444.34180042640742       -8.3323214994379668E-009   8.6736520188424038E-009  -9.4298258090930176E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    444.34180031294949        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    444.34180023072395        7.6099411217001034E-009  -7.9216988524422050E-009   8.6123463916010223E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    444.34180031294949        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    444.34180023072395        7.6099411217001034E-009  -7.9216988524422050E-009   8.6123463916010223E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    444.34180031294949        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    444.34180023072395        7.6099411217001034E-009  -7.9216988524422050E-009   8.6123463916010223E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    464.94500046596096        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    464.94500055712786        3.6495464428298874E-009   2.6946906928060343E-009  -5.0607482648956648E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    464.94500046596096        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    464.94500055712786        3.6495464428298874E-009   2.6946906928060343E-009  -5.0607482648956648E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    464.94500046596096        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    464.94500055712786        3.6495464428298874E-009   2.6946906928060343E-009  -5.0607482648956648E-009
+   1.2419593979079728E-003   1.8348287216925513E-005
+ Warning: four momentum not conserved.
+ Sum p in  =    429.96771193842488        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    429.96771199089477       -1.0426077778902254E-009  -1.0635403668857180E-009  -8.8181195678771473E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    429.96771193842488        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    429.96771199089477       -1.0426077778902254E-009  -1.0635403668857180E-009  -8.8181195678771473E-010
+ Warning: four momentum not conserved.
+ Sum p in  =    429.96771193842488        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    429.96771199089477       -1.0426077778902254E-009  -1.0635403668857180E-009  -8.8181195678771473E-010
+   1.2073638377198192E-003   1.9142011807419545E-005
+ Warning: four momentum not conserved.
+ Sum p in  =    459.98747054624590        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    459.98747062128609        6.9904970700918057E-011   2.9217517294455320E-010  -1.0280842843712890E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    459.98747054624590        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    459.98747062128609        6.9904970700918057E-011   2.9217517294455320E-010  -1.0280842843712890E-009
+ Warning: four momentum not conserved.
+ Sum p in  =    459.98747054624590        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Sum p out =    459.98747062128609        6.9904970700918057E-011   2.9217517294455320E-010  -1.0280842843712890E-009
+   1.2350868579769324E-003   2.2539608019527977E-005
+   1.2199106536836786E-003   1.9943149774379502E-005
+ real_osres pos.   weights:   3.9828228370612975E-003  +-   3.6192422683068792E-006
+ real_osres |neg.| weights:   2.7544778782237888E-003  +-   6.2653699400613201E-006
+ real_osres total (pos.-|neg.|):   1.2283449588378680E-003  +-   7.3306196540330903E-006
+  total (btilde+remnants+regulars+osresR) cross section in pb   3.0663869562293100      +-   4.0963681456885909E-003
+  negative weight fraction:   1.3222965254256537E-003
+ powheginput WARNING: unused variable dec1                
+ powheginput WARNING: unused variable dec2                
+ powheginput WARNING: unused variable itmx1               
+ powheginput WARNING: unused variable itmx1osres          
+ powheginput WARNING: unused variable icsimax             
+ powheginput WARNING: unused variable iymax               
+ powheginput WARNING: unused variable xupbound            
+ powheginput WARNING: unused variable use-old-ubound      
+ powheginput WARNING: unused variable ncall1              
+ powheginput WARNING: unused variable ncall1osres         
+ powheginput WARNING: unused variable xgriditeration      
+ powheginput WARNING: unused variable nubound             

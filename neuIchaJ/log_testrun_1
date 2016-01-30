@@ -1,0 +1,33 @@
+
+Step 1a: Generating Grids
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=10914 finished
+  job with pid=10915 finished
+  job with pid=10916 finished
+  job with pid=10917 finished
+
+Step 1b: Generating Grids
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=11816 finished
+  job with pid=11817 finished
+  job with pid=11818 finished
+  job with pid=11819 finished
+
+Step 2: NLO run
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=12558 finished
+  job with pid=12559 finished
+  job with pid=12560 finished
+  job with pid=12561 finished

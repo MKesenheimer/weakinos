@@ -127,8 +127,28 @@ NLO:
         1.1727828911558921E-002  +-   1.8979166792945624E-005
         davon osres-Beitrag:
         8.3758604562392166E-005  +-   2.1334832593594663E-007
+
+        -> testrun_1
+         (ncall = 20000, ncallosres = 2000000, Seed = manyseed (offset = 0), log(tau), bw(s2), (*))
+        davon btilde-Beitrag:
         
+        davon osres-Beitrag:
+
+
+        -> testrun_2 (livanto)
+         (ncall = 20000, ncallosres = 2000000, Seed = manyseed (offset = 0), log(tau), bw(s2), (*), input_suspect2.slha)
+        davon btilde-Beitrag:
+
+        davon osres-Beitrag:        
         
+
+        -> testrun_4 (capriccio)
+         (ncall = 20000, ncallosres = 2000000, Seed = manyseed (offset = 0), log(tau), bw(s2), (*), input_mg5.slha)
+        davon btilde-Beitrag:
+
+        davon osres-Beitrag:
+
+
 DSUB_II, wobei in den reellen Amplituden auch die Interferenzterme der OS-Terme abgezogen wurden (MATRIX_RES(...,"allr"))
         (der osres-Beitrag wurde von vorigen Rechnungen kopiert, da dieser hier unverändert bleibt) 
         1.1812711604921760E-002  +-   1.8971397939582535E-005 (ncall = 20000, ncallosres = 2000000, Seed = 5602, log(tau), bw(s2), (*))
