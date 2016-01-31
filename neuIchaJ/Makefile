@@ -556,9 +556,8 @@ clean:
 	rm -f build/*.o
 
 clean-results:
-	cd testrun && rm -f *.out *.lhe *.top *.gp *.eps *.dat FlavRegList	\
-	bornequiv realequiv realequivregions pwhg_checklimits   	\
-	virtequiv
+	find ./testrun ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) \
+	-type f -exec rm -f {} +
 	
 clean-all: clean clean-results
 	rm -f pwhg_main_nixj lhef_analysis main-PYTHIA-lhef
