@@ -29,10 +29,8 @@ c requires encoded process ID in lprup(1)
         print*, "extracted from process ID: ", lprup(1)
         print*, "the final state pair: ", id_fin1, ", ", id_fin2
 #endif
-        
-        ! set PhysPars parameters
-        call set_phys_params
-        ! set madgraph parameters. 
+
+        ! set madgraph parameters.
         ! Note: calling this subroutine for the first time reads from 
         ! the provided slha file.
         call set_madgraph_params
@@ -71,7 +69,9 @@ c requires encoded process ID in lprup(1)
           wwidth = par_Wwidth ! madgraph
           call set_madgraph_params
         endif
-        
+
+        ! set PhysPars parameters
+        call set_phys_params
         ! set general MadGraph couplings
         call set_general_couplings(id_fin1,id_fin2)
         ! set remaining FormCalc parameters
