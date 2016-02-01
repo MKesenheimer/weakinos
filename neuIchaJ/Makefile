@@ -563,7 +563,7 @@ clean-all: clean clean-results
 	rm -f pwhg_main_nixj lhef_analysis main-PYTHIA-lhef
 
 do-pwhg do: pwhg_main_nixj
-	cd testrun && cp pwgseedsdat pwgseeds.dat && ../pwhg_main_nixj
+	cd testrun && ../pwhg_main_nixj
 
 do-lhef: lhef_analysis
 	cd testrun && ../lhef_analysis

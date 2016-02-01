@@ -2,28 +2,28 @@
 #
 # examples:
 # in ./weakinos:
-# ./runparallel.sh -d ./neuIchaJ/testrun_1 -e ./neuIchaJ/pwhg_main_nixj -p 4
+# ./runparallel.sh -d testrun_1 -e pwhg_main_nixj -p 4
 # -> run pwhg_main_nixj in testrun_1 on 4 cores
 #
 # in ./weakinos/neuIchaJ:
-# ../runparallel.sh -c -d ./testrun_1 -e ./pwhg_main_nixj -p 4 --itmx1 4 \
+# ../runparallel.sh -c -d testrun_1 -e pwhg_main_nixj -p 4 --itmx1 4 \
 # --itmx2 4 --itmx1osres 6 --itmx2osres 8 --ncall1 2000 --ncall2 2000 \
-# --ncall1osres 20000 --ncall2osres 20000 -o 0
+# --ncall1osres 20000 --ncall2osres 20000
 # -> run pwhg_main_nixj in testrun_1 on 4 cores and overwrite some powheg
 #    parameters in powheg.input
 #
-# automatically runs POWHEG in parallel mode with the following steps:
-#Step 1a:
+# automatically runs POWHEG in parallel mode with the following stages:
+#Stage 1a:
 # - fakevirtuals 1
 # - xgriditeration 1
 # - parallelstage 1
 #
-#Step 1b:
+#Stage 1b:
 # - fakevirtuals 1
 # - xgriditeration 2
 # - parallelstage 1
 #
-#Step 2: 
+#Stage 2: 
 # - fakevirtuals 0
 # - xgriditeration 1
 # - parallelstage 2
@@ -31,11 +31,11 @@
 # - nubound 0
 #
 #Additionally:
-#Step 3:
+#Stage 3:
 # - nubound 100000
 # - parallelstage 3
 #
-#Step 4:
+#Stage 4:
 # - numevts 100000
 # - parallelstage 4
 
@@ -52,11 +52,11 @@ Mandatory arguments:
                            directory where to execute the program and where 
                            to look for powheg.input
   -e, --executable <name>  the relative path of the executable
-  -p, --parallel <n>       number of parallel jobs to submit
   
 Optional arguments:
   -h, --help               print this help message
   -i, --info               show informations
+  -p, --parallel <n>       number of parallel jobs to submit
   --ncall1 <n>             overwrite the parameter ncall1 in powheg.input
   --ncall2 <n>             overwrite the parameter ncall2 in powheg.input
   --ncall1osres <n>        overwrite the parameter ncall1osres in powheg.input
@@ -69,6 +69,7 @@ Optional arguments:
   -o, --offset <n>         supply an offset for extracting the seeds from seeds.dat
   --genevents <n1> <n2>    generate the upper bound (n1) and events (n2)
   --usemsub                use the submitting system msub
+  -g, --genfolder          generate a new run directory with default input files
 EOM
    exit 0
 }
@@ -88,15 +89,15 @@ if [ $# -lt 1 ]
 fi
 
 #default values
-JOBS=1
+JOBS=4
 CLEAN=false
 NSEEDOFFSET=0
 NICENESS=10
 USEMSUB=false
+GENFOLGDER=false
 
 # go through the options
-while [[ $# -gt 0 ]]
-do
+while [[ $# -gt 0 ]]; do
 KEY="$1"
 case $KEY in
     -h|--help)
@@ -178,8 +179,12 @@ case $KEY in
         shift
         shift
         ;;
-    -usemsub)
+    --usemsub)
         USEMSUB=true
+        shift
+        ;;
+    -g|--genfolder)
+        GENFOLGDER=true
         shift
         ;;
     --default)
@@ -192,10 +197,30 @@ esac
 done
 
 # check if RUNDIR is set
-if [ "$RUNDIR" == "" ]
-then
+if [ "$RUNDIR" == "" ]; then
    echo "Error: no directory specified."
    usage
+fi
+
+#generate a new run directory
+if [ "$GENFOLGDER" = true ]; then
+   # if the folder already exists
+   if [ -d "$RUNDIR" ]; then
+      echo "Warning: old directory $RUNDIR will be deleted." 
+      read -n1 -r -p "Type [y] to continue... " KEY
+      if [ "$KEY" = 'y' ]; then
+         rm -r ./$RUNDIR
+      else
+         echo "Script stopped."
+         exit 0
+      fi  
+   fi
+   if [ ! -d "testrun_clean" ]; then
+      echo ""
+      echo "Error: directory 'testrun_clean' does not exist."
+      exit 0
+   fi
+   cp -r testrun_clean/ ./$RUNDIR
 fi
 
 # check if EXE is set
@@ -214,8 +239,7 @@ EXEPATH=$WORKINGDIR/$EXE
 cd $RUNDIR
 
 # clean up the directory
-if [ "$CLEAN" = true ]
-then
+if [ "$CLEAN" = true ]; then
    find $RUNDIR ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) -type f -exec rm -f {} +
    cp powheg_clean.input powheg.input
 fi
@@ -224,7 +248,7 @@ fi
 # append to powheg.input
 echo "" >> powheg.input
 echo "" >> powheg.input
-echo "# Modified by ../runparallel:" >> powheg.input
+echo "# Modified by runparallel.sh:" >> powheg.input
 
 #default parameters in powheg.input
 overwrite_powheg_var "use-old-grid" 1
@@ -234,43 +258,35 @@ overwrite_powheg_var "manyseeds" 1
 overwrite_powheg_var "testplots" 1
 
 # sed magic
-if [ "$NCALL1" != "" ]
-then
+if [ "$NCALL1" != "" ]; then
    overwrite_powheg_var "ncall1" $NCALL1
 fi  
 
-if [ "$NCALL2" != "" ]
-then
+if [ "$NCALL2" != "" ]; then
    overwrite_powheg_var "ncall2" $NCALL2
 fi
 
-if [ "$NCALL1OSRES" != "" ]
-then
+if [ "$NCALL1OSRES" != "" ]; then
    overwrite_powheg_var "ncall1osres" $NCALL1OSRES
 fi  
 
-if [ "$NCALL2OSRES" != "" ]
-then
+if [ "$NCALL2OSRES" != "" ]; then
    overwrite_powheg_var "ncall2osres" $NCALL2OSRES
 fi
 
-if [ "$ITMX1" != "" ]
-then
+if [ "$ITMX1" != "" ]; then
    overwrite_powheg_var "itmx1" $ITMX1
 fi  
 
-if [ "$ITMX2" != "" ]
-then
+if [ "$ITMX2" != "" ]; then
    overwrite_powheg_var "itmx2" $ITMX2
 fi
 
-if [ "$ITMX1OSRES" != "" ]
-then
+if [ "$ITMX1OSRES" != "" ]; then
    overwrite_powheg_var "itmx1osres" $ITMX1OSRES
 fi  
 
-if [ "$ITMX2OSRES" != "" ]
-then
+if [ "$ITMX2OSRES" != "" ]; then
    overwrite_powheg_var "itmx2osres" $ITMX2OSRES
 fi
 
@@ -278,9 +294,9 @@ fi
 
 # STEP 1a
 echo ""
-echo "Step 1a: Generating Grids"
+echo "Stage 1a: Generating Grids, iteration 1"
 echo "" >> powheg.input
-echo "#Step 1a: Generating Grids" >> powheg.input
+echo "#Stage 1a: Generating Grids, iteration 1" >> powheg.input
 
 overwrite_powheg_var "fakevirtuals" 1
 overwrite_powheg_var "parallelstage" 1
@@ -293,17 +309,16 @@ for i in `seq 1 $JOBS`; do
    nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step1a_$i.output 2>&1 &
 done
 
-for job in `jobs -p`
-do
+for job in `jobs -p`; do
     wait $job
     echo "  job with pid=$job finished"
 done
 
 # STEP 1b
 echo ""
-echo "Step 1b: Generating Grids"
+echo "Stage 1b: Generating Grids, iteration 2"
 echo "" >> powheg.input
-echo "#Step 1b: Generating Grids" >> powheg.input
+echo "#Stage 1b: Generating Grids, iteration 2" >> powheg.input
 
 overwrite_powheg_var "fakevirtuals" 1
 overwrite_powheg_var "parallelstage" 1
@@ -316,18 +331,16 @@ for i in `seq 1 $JOBS`; do
    nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step1b_$i.output 2>&1 &
 done
 
-for job in `jobs -p`
-do
+for job in `jobs -p`; do
     wait $job
     echo "  job with pid=$job finished"
 done
 
-
 # STEP 2
 echo ""
-echo "Step 2: NLO run"
+echo "Stage 2: NLO run"
 echo "" >> powheg.input
-echo "#Step 2: NLO run" >> powheg.input
+echo "#Stage 2: NLO run" >> powheg.input
 
 overwrite_powheg_var "fakevirtuals" 0
 # TODO: xgriditeration = 1 necessary?
@@ -343,25 +356,25 @@ for i in `seq 1 $JOBS`; do
    nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step2_$i.output 2>&1 &
 done
 
-for job in `jobs -p`
-do
+for job in `jobs -p`; do
     wait $job
     echo "  job with pid=$job finished"
 done
 
 # combined results for stage 2
 echo ""
-echo "Combined results:"
-$WORKINGDIR/merge-pwg-stat $(ls ./pwg-st2-*-stat.dat)
+echo "Combined results for stage 2:"
+#$(find \( -name 'pwg-*-stat.dat' -and ! \( -name 'pwg-st2*' \) \) -type f | awk '{print}' ORS=' ')
+$WORKINGDIR/merge-pwg-stat $(ls ./pwg-st2-*-stat.dat) > $RUNDIR/pwg-st2-combined-stat.dat
+cat $RUNDIR/pwg-st2-combined-stat.dat
 
 # if the user wants to generate events
-if [ "$NEVENTS" != "" ]
-then
+if [ "$NEVENTS" != "" ]; then
   # STEP 3
   echo ""
-  echo "Step 3: Upper bound"
+  echo "Stage 3: Upper bound"
   echo "" >> powheg.input
-  echo "#Step 3: Upper bound" >> powheg.input
+  echo "#Stage 3: Upper bound" >> powheg.input
 
   overwrite_powheg_var "nubound" $NUBOUND
   overwrite_powheg_var "parallelstage" 3
@@ -373,17 +386,16 @@ then
      nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step3_$i.output 2>&1 &
   done
 
-  for job in `jobs -p`
-  do
+  for job in `jobs -p`; do
       wait $job
       echo "  job with pid=$job finished"
   done
   
   # STEP 4
   echo ""
-  echo "Step 4: Events"
+  echo "Stage 4: Events"
   echo "" >> powheg.input
-  echo "#Step 3: Events" >> powheg.input
+  echo "#Stage 4: Events" >> powheg.input
 
   overwrite_powheg_var "numevts" $NEVENTS
   overwrite_powheg_var "parallelstage" 4
@@ -395,8 +407,7 @@ then
      nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step4_$i.output 2>&1 &
   done
 
-  for job in `jobs -p`
-  do
+  for job in `jobs -p`; do
       wait $job
       echo "  job with pid=$job finished"
   done

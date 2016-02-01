@@ -580,15 +580,25 @@ c add finalized remnant contributions in histograms
      &                        rad_osres_totarr(k,j,ichan)
           enddo
         enddo
-      enddo
+      enddo     
+      write(6,*) 'real_osres pos.   weights:', 
+     1        temparrosres(1,3),' +-',temparrosres(2,3)
+      write(6,*) 'real_osres |neg.| weights:', 
+     1        temparrosres(1,4),' +-',temparrosres(2,4)
+      write(6,*) 'real_osres total (pos.-|neg.|):',
+     1        temparrosres(1,1),' +-',temparrosres(2,1)
+      write(iunstat,*) 'real_osres pos.   weights:', 
+     1        temparrosres(1,3),' +-',temparrosres(2,3)
+      write(iunstat,*) 'real_osres |neg.| weights:', 
+     1        temparrosres(1,4),' +-',temparrosres(2,4)
+      write(iunstat,*) 'real_osres total (pos.-|neg.|):', 
+     1        temparrosres(1,1),' +-',temparrosres(2,1)
 #ifdef DEBUGQ
       print*,"[DEBUG]: in bbinit_mod:596"
       print*,"temparrosres(k,j)",temparrosres
       print*,"rad_osres_totarr",rad_osres_totarr
       !stop
-#endif
-      call writeinfo(6,temparrosres,'real_osres')
-      call writeinfo(iunstat,temparrosres,'real_osres')
+#endif 
 #endif
       !=================================================================
 
@@ -720,15 +730,13 @@ c      endif
       totneg=rad_totnegreg+rad_totnegrem+rad_totnegosres_sum+
      &          rad_totnegbtl ! CH, MK: added
       write(iunstat,*) ' negative weight fraction:',
-     1              totneg/(2*totneg+rad_tot) ! CH, MK: modified
+     1              totneg/(2*totneg+rad_tot)
 c     1     rad_totnegbtl/(2*rad_totnegbtl+rad_tot)
       
 c      if(flg_withreg.or.flg_withdamp) then
 c      write(*,*) ' Remnant cross section in pb',
 c     1        rad_totrm,'+-',rad_etotrm
 c      endif
-      !=================================================================
-      
       if (flg_weightedev) then
          write(*,*)
      1 ' total (btilde+remnants+regulars+osresR) cross section times '
@@ -740,11 +748,12 @@ c      endif
      2     rad_tot,'+-',rad_etot
       endif
       write(*,*) ' negative weight fraction:',
-     1              totneg/(2*totneg+rad_tot) ! CH, MK: modified
+     1              totneg/(2*totneg+rad_tot)
 c     1     rad_totnegbtl/(2*rad_totnegbtl+rad_tot)
       close(iunstat)
+      !=================================================================
       end
-
+      
       subroutine samegridasbtilde(ndiminteg,
      1        ncall2,itmx2,ifold,xgrid,
      1        ncall2rm,itmx2rm,ifoldrm,xgridrm)
@@ -1934,6 +1943,10 @@ c MK: added
 #include "osres.h"
 #include "pwhg_rad_add.h"
 #include "Flags.h"
+      real*8 temparrosres(2,ntot_osres), totneg ! MK: added
+      real*8 rad_totnegosres_sum ! MK: added 
+      integer ichan ! MK: added to distinguish the on-shell resonances
+      integer j,k
       integer iunstat
       character * 20 pwgprefix
       integer lprefix
@@ -1948,38 +1961,58 @@ c MK: added
      1     rad_etotnegbtl
       write(iunstat,*) 'btilde Total (pos.-|neg.|):', rad_totbtl,
      1     ' +-',rad_etotbtl
+      ! MK: addded or modified
+      ! ================================================================
+#ifdef DSUB_II
+#ifdef DEBUGQ
+      print*,"[DEBUG] checking differences in tot_arr"
+      call diff_rad_totarr
+#endif
+      ! MK: combine the results of all on shell resonances:
+      ! this is called only once and is mandatory
+      call update_totarr ! MK: OK!
+      do k=1,2
+        do j=1,ntot_osres
+          temparrosres(k,j)=0D0
+          do ichan=1,nosres
+            temparrosres(k,j)=temparrosres(k,j)+
+     &                        rad_osres_totarr(k,j,ichan)
+          enddo
+        enddo
+      enddo     
+      write(iunstat,*) 'real_osres pos.   weights:', 
+     1        temparrosres(1,3),' +-',temparrosres(2,3)
+      write(iunstat,*) 'real_osres |neg.| weights:',
+     1         temparrosres(1,4),' +-',temparrosres(2,4)
+      write(iunstat,*) 'real_osres total (pos.-|neg.|):', 
+     1        temparrosres(1,1),' +-',temparrosres(2,1)
+#endif
       if(flg_withreg.or.flg_withdamp) then
          write(iunstat,*) ' Remnant cross section in pb',
 !      1        rad_totrm,'+-',rad_etotrm
      1        rad_totrem,'+-',rad_etotrem
       endif
       if (flg_weightedev) then
-         write(iunstat,*) 
-     1        ' total (btilde+remnants) cross section times '
+         write(iunstat,*)
+     1 ' total (btilde+remnants+regulars+osresR) cross section times '
          write(iunstat,*) ' suppression factor in pb',
      1        rad_tot,'+-',rad_etot         
       else
-         write(iunstat,*) 
-     1        ' total (btilde+remnants) cross section in pb',
-     2        rad_tot,'+-',rad_etot
+         write(iunstat,*)
+     1 ' total (btilde+remnants+regulars+osresR) cross section in pb',
+     2     rad_tot,'+-',rad_etot
       endif
+      rad_totnegosres_sum = 0D0
+      do ichan=1,nosres
+        rad_totnegosres_sum   = rad_totnegosres_sum + 
+     &                          rad_totnegosres(ichan)
+      enddo
+      totneg=rad_totnegreg+rad_totnegrem+rad_totnegosres_sum+
+     &          rad_totnegbtl ! CH, MK: added
       write(iunstat,*) ' negative weight fraction:',
-     1     rad_totnegbtl/(2*rad_totnegbtl+rad_tot)
-      close(iunstat)
-      end
-
-c CH, MK: added this routine
-      subroutine writeinfo(unit,radarr,text)
-      implicit none
-      integer unit
-      character *(*) text
-      real*8 radarr(2,4) !use 4 here!!!
-      write(unit,*) text//' pos.   weights:', radarr(1,3),' +-',
-     1        radarr(2,3)
-      write(unit,*) text//' |neg.| weights:', radarr(1,4),' +-',
-     1        radarr(2,4)
-      write(unit,*) text//' total (pos.-|neg.|):', radarr(1,1),' +-',
-     1        radarr(2,1)
+     1              totneg/(2*totneg+rad_tot)
+c     1     rad_totnegbtl/(2*rad_totnegbtl+rad_tot)
+      ! ================================================================
       end
 
 c MK: added this routine

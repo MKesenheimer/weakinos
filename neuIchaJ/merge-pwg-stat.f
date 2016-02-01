@@ -51,8 +51,8 @@ c one per line, to be merged. An empty lines terminates the list.
          CALL getarg(ifile,files(ifile))
          if(trim(files(ifile)).eq.'') then
             nfiles=ifile-1
-c            write(6,*) 'mergedata found',nfiles,
-c     $                 'files on the command line ...'
+            write(6,*) 'mergedata found',nfiles,
+     $                 'files on the command line ...'
             goto 9
          endif
       enddo
