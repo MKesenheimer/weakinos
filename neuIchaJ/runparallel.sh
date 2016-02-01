@@ -196,6 +196,15 @@ case $KEY in
 esac
 done
 
+
+# stop the interactive shell
+if [ "$USEMSUB" = true ]; then
+   echo "Note: use 'msub -I -V -l nodes=1:ppn=$JOBS,walltime=02:00:00' to start an interactive shell and start again."
+   echo "Use 'exit' when your calculation is completed."
+   echo "Script stopped."
+   exit 0
+fi
+
 # check if RUNDIR is set
 if [ "$RUNDIR" == "" ]; then
    echo "Error: no directory specified."
