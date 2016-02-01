@@ -1,0 +1,355 @@
+BLOCK SUSPECT_CONFIG
+         0     2.10000000e+01   # 21: 2-loop RGE (default), 11: 1-loop, 99: provided externally
+         1     1.00000000e+00   # 1: g_1(gut) = g_2(gut) consistently calculated from input, 0:  High scale input via index 2
+         2     2.50000000e+16   # unification scale for top-down or target scale for bottom-up (if imposed via index 1) 
+         3     2.00000000e+00   # RGE accuracy: 1: moderate, 2: accurate (default), 3: expert input via index 9
+         4     1.00000000e+00   # 1: EWSB imposed with Hu Hd (default), 0: not imposed, 2: EWSB imposed with mA pole mu, 99: External
+         5     2.00000000e+00   # choice for sparticles masses rad. corr. excluding Higgs):
+#               2 ->all (recommended, default); 1->no R.C. in squarks & gauginos.
+         6     1.00000000e+00   # 1 (default): EWSB scale=(mt_L*mt_R)^(1/2) 
+# 0: arbitrary EWSB scale: give EWSB as index 0 in Block EXTPAR
+         7     2.00000000e+00   # Final spectrum accuracy: 1 -> 1% acc.; 2 -> 0.01 % acc.(default)
+         8     2.00000000e+00   # Higgs boson masses rad. corr. calculation options: 
+#             A simple (but very good) approximation (advantage=fast)  : 0
+#             Full one-loop calculation                                : 1
+#             One-loop  + dominant DSVZ 2-loop (default,recommended)   : 2
+BLOCK MODSEL
+         1          1   # MSSM:0, mSUGRA:1, mGMSB=2, mAMSB=3, (+100 for nonminimal GMSB, AMSB)
+# MSSM bottom up:-1, HighScaleMSSM: 100, HighScaleMSSM with Top Down: 101, External: 999
+         3          0   # MSSM particle content:0, External: 99
+        11          1   # MSSM bottom-up only: number of points
+BLOCK MINPAR
+         1     1.20000000e+02   #  MSUGRA: m0     GMSB: Lambda_susy  AMSB: m0               
+         2     2.00000000e+02   #  MSUGRA: m_1/2  GMSB: Lambda_mess  AMSB: M_3/2 gravitino  
+         3     5.00000000e+01   #  tanbeta(mZ)
+         4     1.00000000e+00   #  sign(mu)
+         5    -1.20000000e+02   #  MSUGRA: A0     GMSB: Nl_mes       AMSB: cQ coeff m0 Q_L  
+BLOCK SMINPUTS
+         1     1.27934000e+02   # alpha_em^-1(M_Z)^MSbar
+         2     1.16637000e-05   # G_F [GeV^-2]
+         3     1.17200000e-01   # alpha_S(M_Z)^MSbar
+         4     9.11876000e+01   # M_Z pole mass
+         5     4.25000000e+00   # mb(mb)^MSbar
+         6     1.75000000e+02   # mt pole mass
+         7     1.77700000e+00   # mtau pole mass
+BLOCK EXTPAR
+         0     3.79730081e+02   #  EWSB scale
+         1     2.00000000e+02   #  M_1
+         2     2.00000000e+02   #  M_2
+         3     2.00000000e+02   #  M_3
+        11    -1.20000000e+02   #  A_t
+        12    -1.20000000e+02   #  A_b
+        13    -1.20000000e+02   #  A_tau
+        14    -1.20000000e+02   #  A_u
+        15    -1.20000000e+02   #  A_d
+        16    -1.20000000e+02   #  A_e
+        17    -1.20000000e+02   #  A_c
+        18    -1.20000000e+02   #  A_s
+        19    -1.20000000e+02   #  A_mu
+        21     1.44000000e+04   #  M^2_Hd
+        22     1.44000000e+04   #  M^2_Hu
+        23     1.32000000e+02   #  mu(EWSB)
+        25     5.00000000e+01   #  tanbeta(MZ)
+        31     1.20000000e+02   #  M_eL
+        32     1.20000000e+02   #  M_muL
+        33     1.20000000e+02   #  M_tauL
+        34     1.20000000e+02   #  M_eR
+        35     1.20000000e+02   #  M_muR
+        36     1.20000000e+02   #  M_tauR
+        41     1.20000000e+02   #  M_q1L
+        42     1.20000000e+02   #  M_q2L
+        43     1.20000000e+02   #  M_q3L
+        44     1.20000000e+02   #  M_uR
+        45     1.20000000e+02   #  M_cR
+        46     1.20000000e+02   #  M_tR
+        47     1.20000000e+02   #  M_dR
+        48     1.20000000e+02   #  M_sR
+        49     1.20000000e+02   #  M_bR
+BLOCK HMIX Q=9.11876000e+01
+         1     2.80762349e+02   # mu(Q)
+         2     5.00004115e+01   # tanbeta(Q)
+         3     2.51109552e+02   # vev(Q)
+         4     1.26067621e+06   # MA^2(Q)
+BLOCK HMIX Q=3.79730081e+02
+         1     2.87562147e+02   # mu(Q)
+         2     4.95036265e+01   # tanbeta(Q)
+         3     2.45965668e+02   # vev(Q)
+         4     8.79310548e+05   # MA^2(Q)
+BLOCK HMIX Q=2.18749701e+16
+         1     3.41849888e+02   # mu(Q)
+         2     4.28255632e+01   # tanbeta(Q)
+         3     1.90407784e+02   # vev(Q)
+         4     1.10000000e+00   # MA^2(Q)
+BLOCK GAUGE Q=9.11876000e+01
+         1     3.56217060e-01   # gprime(Q) DRbar
+         2     6.44047452e-01   # g(Q) DRbar
+         3     1.14579186e+00   # g_3(Q) DRbar
+BLOCK GAUGE Q=3.79730081e+02
+         1     3.60884457e-01   # gprime(Q) DRbar
+         2     6.46991833e-01   # g(Q) DRbar
+         3     1.10841438e+00   # g_3(Q) DRbar
+BLOCK GAUGE Q=2.18749701e+16
+         1     5.58683681e-01   # gprime(Q) DRbar
+         2     7.21257531e-01   # g(Q) DRbar
+         3     7.09709896e-01   # g_3(Q) DRbar
+BLOCK MSOFT Q=9.11876000e+01
+         1     7.89196174e+01   # M_1
+         2     1.51780886e+02   # M_2
+         3     5.08717439e+02   # M_3
+        21    -5.08105067e+04   # M^2_Hd
+        22    -1.02479084e+05   # M^2_Hu
+        31     1.81609128e+02   # M_eL
+        32     1.81609128e+02   # M_muL
+        33     1.62806308e+02   # M_tauL
+        34     1.40976033e+02   # M_eR
+        35     1.40976033e+02   # M_muR
+        36     8.09216290e+01   # M_tauR
+        41     4.84097300e+02   # M_q1L
+        42     4.84097300e+02   # M_q2L
+        43     4.13410599e+02   # M_q3L
+        44     4.70977545e+02   # M_uR
+        45     4.70977545e+02   # M_cR
+        46     3.74475390e+02   # M_tR
+        47     4.69521214e+02   # M_dR
+        48     4.69521214e+02   # M_sR
+        49     4.16215711e+02   # M_bR
+BLOCK MSOFT Q=3.79730081e+02
+         1     8.12264177e+01   # M_1
+         2     1.53810221e+02   # M_2
+         3     4.77080951e+02   # M_3
+        21    -3.84871357e+04   # M^2_Hd
+        22    -8.52502714e+04   # M^2_Hu
+        31     1.80289212e+02   # M_eL
+        32     1.80289212e+02   # M_muL
+        33     1.61217998e+02   # M_tauL
+        34     1.40787272e+02   # M_eR
+        35     1.40787272e+02   # M_muR
+        36     8.02035543e+01   # M_tauR
+        41     4.52415829e+02   # M_q1L
+        42     4.52415829e+02   # M_q2L
+        43     3.87322318e+02   # M_q3L
+        44     4.38538915e+02   # M_uR
+        45     4.38538915e+02   # M_cR
+        46     3.47691293e+02   # M_tR
+        47     4.36945845e+02   # M_dR
+        48     4.36945845e+02   # M_sR
+        49     3.88999340e+02   # M_bR
+BLOCK MSOFT Q=2.18749701e+16
+         1     2.00000000e+02   # M_1
+         2     2.00000000e+02   # M_2
+         3     2.00000000e+02   # M_3
+        21     1.44000000e+04   # M^2_Hd
+        22     1.44000000e+04   # M^2_Hu
+        31     1.20000000e+02   # M_eL
+        32     1.20000000e+02   # M_muL
+        33     1.20000000e+02   # M_tauL
+        34     1.20000000e+02   # M_eR
+        35     1.20000000e+02   # M_muR
+        36     1.20000000e+02   # M_tauR
+        41     1.20000000e+02   # M_q1L
+        42     1.20000000e+02   # M_q2L
+        43     1.20000000e+02   # M_q3L
+        44     1.20000000e+02   # M_uR
+        45     1.20000000e+02   # M_cR
+        46     1.20000000e+02   # M_tR
+        47     1.20000000e+02   # M_dR
+        48     1.20000000e+02   # M_sR
+        49     1.20000000e+02   # M_bR
+BLOCK NMIX
+  1  1     9.80456685e-01   # N_11
+  1  2    -5.58829216e-02   # N_12
+  1  3     1.81167170e-01   # N_13
+  1  4    -5.25380353e-02   # N_14
+  2  1     1.20583794e-01   # N_21
+  2  2     9.25426551e-01   # N_22
+  2  3    -3.19518418e-01   # N_23
+  2  4     1.64174384e-01   # N_24
+  3  1     8.20158760e-02   # N_31
+  3  2    -1.21985083e-01   # N_32
+  3  3    -6.87672358e-01   # N_33
+  3  4    -7.10985066e-01   # N_34
+  4  1     1.32051635e-01   # N_41
+  4  2    -3.54376125e-01   # N_42
+  4  3    -6.26253275e-01   # N_43
+  4  4     6.81752714e-01   # N_44
+BLOCK UMIX
+  1  1    -8.85011397e-01   # U_11
+  1  2     4.65569357e-01   # U_12
+  2  1     4.65569357e-01   # U_21
+  2  2     8.85011397e-01   # U_22
+BLOCK VMIX
+  1  1    -9.70958445e-01   # V_11
+  1  2     2.39248194e-01   # V_12
+  2  1     2.39248194e-01   # V_21
+  2  2     9.70958445e-01   # V_22
+BLOCK STOPMIX
+  1  1     6.19590467e-01   # cos(theta_t)
+  1  2     7.84925253e-01   # sin(theta_t)
+  2  1    -7.84925253e-01   # -sin(theta_t)
+  2  2     6.19590467e-01   # cos(theta_t)
+BLOCK SBOTMIX
+  1  1     7.18830662e-01   # cos(theta_b)
+  1  2     6.95185212e-01   # sin(theta_b)
+  2  1    -6.95185212e-01   # -sin(theta_b)
+  2  2     7.18830662e-01   # cos(theta_b)
+BLOCK STAUMIX
+  1  1     5.89521131e-01   # cos(theta_tau)
+  1  2     8.07752955e-01   # sin(theta_tau)
+  2  1    -8.07752955e-01   # -sin(theta_tau)
+  2  2     5.89521131e-01   # cos(theta_tau)
+BLOCK AU Q=9.11876000e+01
+  1  1    -6.23901526e+02   # A_u(Q) DRbar
+  2  2    -6.23901526e+02   # A_c(Q) DRbar
+  3  3    -4.17850466e+02   # A_t(Q) DRbar
+BLOCK AU Q=3.79730081e+02
+  1  1    -5.79225238e+02   # A_u(Q) DRbar
+  2  2    -5.79225238e+02   # A_c(Q) DRbar
+  3  3    -3.94228916e+02   # A_t(Q) DRbar
+BLOCK AU Q=2.18749701e+16
+  1  1    -1.20000000e+02   # A_u(Q) DRbar
+  2  2    -1.20000000e+02   # A_c(Q) DRbar
+  3  3    -1.20000000e+02   # A_t(Q) DRbar
+BLOCK AD Q=9.11876000e+01
+  1  1    -7.01879643e+02   # A_d(Q) DRbar
+  2  2    -7.01879643e+02   # A_s(Q) DRbar
+  3  3    -5.57743813e+02   # A_b(Q) DRbar
+BLOCK AD Q=3.79730081e+02
+  1  1    -6.50264717e+02   # A_d(Q) DRbar
+  2  2    -6.50264717e+02   # A_s(Q) DRbar
+  3  3    -5.22858276e+02   # A_b(Q) DRbar
+BLOCK AD Q=2.18749701e+16
+  1  1    -1.20000000e+02   # A_d(Q) DRbar
+  2  2    -1.20000000e+02   # A_s(Q) DRbar
+  3  3    -1.20000000e+02   # A_b(Q) DRbar
+BLOCK AN Q=9.11876000e+01
+BLOCK AN Q=3.79730081e+02
+BLOCK AN Q=2.18749701e+16
+BLOCK AE Q=9.11876000e+01
+  1  1    -1.44169893e+02   # A_e(Q) DRbar
+  2  2    -1.44169893e+02   # A_mu(Q) DRbar
+  3  3    -9.33711664e+01   # A_tau(Q) DRbar
+BLOCK AE Q=3.79730081e+02
+  1  1    -1.52591729e+02   # A_e(Q) DRbar
+  2  2    -1.52591729e+02   # A_mu(Q) DRbar
+  3  3    -1.03304004e+02   # A_tau(Q) DRbar
+BLOCK AE Q=2.18749701e+16
+  1  1    -1.20000000e+02   # A_e(Q) DRbar
+  2  2    -1.20000000e+02   # A_mu(Q) DRbar
+  3  3    -1.20000000e+02   # A_tau(Q) DRbar
+BLOCK YU Q=9.11876000e+01
+  3  3     9.20721507e-01   # y_top(Q) DRbar
+BLOCK YU Q=3.79730081e+02
+  3  3     8.97453762e-01   # y_top(Q) DRbar
+BLOCK YU Q=2.18749701e+16
+  3  3     5.51548290e-01   # y_top(Q) DRbar
+BLOCK YD Q=9.11876000e+01
+  3  3     6.31607229e-01   # y_b(Q) DRbar
+BLOCK YD Q=3.79730081e+02
+  3  3     6.05432662e-01   # y_b(Q) DRbar
+BLOCK YD Q=2.18749701e+16
+  3  3     2.90566501e-01   # y_b(Q) DRbar
+BLOCK YN Q=9.11876000e+01
+BLOCK YN Q=3.79730081e+02
+BLOCK YN Q=2.18749701e+16
+BLOCK YE Q=9.11876000e+01
+  3  3     5.41822959e-01   # y_tau(Q) DRbar
+BLOCK YE Q=3.79730081e+02
+  3  3     5.45431513e-01   # y_tau(Q) DRbar
+BLOCK YE Q=2.18749701e+16
+  3  3     5.25438237e-01   # y_tau(Q) DRbar
+BLOCK ALPHA
+  -1.13007239e-01   # Mixing angle in the neutral Higgs boson sector
+BLOCK MASS
+         1     5.00000000e-03   # d quark mass
+         2     1.50000000e-02   # u quark mass
+         3     1.90000000e-01   # s quark mass
+         4     1.42000000e+00   # c pole mass
+         5     4.87884433e+00   # b pole mass calculated from mb(mb)_MSbar
+         6     1.75000000e+02   # t pole mass
+        11     5.11000000e-04   # electron mass
+        13     1.05658360e-01   # muon mass
+        15     1.77700000e+00   # tau mass
+        23     9.11876000e+01   # Z
+        24     8.04802861e+01   # W+
+        25     1.46767235e+02   # h
+        35     1.27808303e+04   # H
+        36     1.08321458e+03   # A
+        37     1.08626313e+03   # H+
+   1000001     4.71608429e+02   # ~d_L
+   1000002     4.65126670e+02   # ~u_L
+   1000003     4.71608429e+02   # ~s_L
+   1000004     4.65126670e+02   # ~c_L
+   1000005     3.67779905e+02   # ~b_1
+   1000006     3.26552318e+02   # ~t_1
+   1000011     1.85597861e+02   # ~e_L
+   1000012     1.69870812e+02   # ~nu_eL
+   1000013     1.86100703e+02   # ~mu_L
+   1000014     1.69872649e+02   # ~nu_muL
+   1000015     1.00000000e+00   # ~tau_1
+   1000016     1.53571237e+02   # ~nu_tauL
+   1000021     4.93879546e+02   # ~g
+   1000022     7.79678116e+01   # ~chi_10
+   1000023     1.43300785e+02   # ~chi_20
+   1000024     1.42895845e+02   # ~chi_1+
+   1000025    -2.96641576e+02   # ~chi_30
+   1000035     3.13852780e+02   # ~chi_40
+   1000037     3.15808684e+02   # ~chi_2+
+   2000001     4.53850393e+02   # ~d_R
+   2000002     4.53580431e+02   # ~u_R
+   2000003     4.53850393e+02   # ~s_R
+   2000004     4.53580431e+02   # ~c_R
+   2000005     4.45084334e+02   # ~b_2
+   2000006     4.88514475e+02   # ~t_2
+   2000011     1.49086873e+02   # ~e_R
+   2000013     1.48459319e+02   # ~mu_R
+   2000015     2.20997912e+02   # ~tau_2
+BLOCK SU_LOWPAR
+         1     2.50051541e-04   # Delta rho parameter
+         2     2.09558127e-08   # g_mu -2
+         3     1.02375340e-04   # Br(b -> s gamma)
+BLOCK SU_FINETUNE
+         1     1.99289190e+01   # delta mZ^2/mZ^2 (mu^2)
+         2     9.19447557e-03   # delta mZ^2/mZ^2 (B.mu)
+         3     9.96608061e+00   # delta mt/mt (mu^2)
+         4     4.18900938e-03   # delta mt/mt  (B.mu)
+BLOCK SPINFO
+     1   SUSPECT3
+     2   3.0-alpha
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     3   Warning:  MA^2(Q) <0 at a scale Q=EWSB ! Check final results 
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   One tachyonic m^2 (sfermion mass) <0 for PDGID 1000015
+     4   h pole mass nan. Replaced.
+     4   A pole mass nan. Replaced.
+     4   H+- pole mass nan. Replaced.
