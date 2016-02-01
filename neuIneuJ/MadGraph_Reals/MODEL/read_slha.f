@@ -119,6 +119,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       implicit none
 
+      include 'coupl.inc' ! MK
+
       character*(*) param_name
       integer   nin2,ii,j1,j2,check(1:20),check_final,check_sq(1:13)
       real*8    unimass(20),lowmass(0:99),bw(4,4),uu(2,2),vv(2,2)
@@ -196,14 +198,14 @@ c                  look for blocks and pick them one after the other
 
 c                  look for block MINPAR
             if (line2(1:6).eq.'MINPAR') then 
-c               call READ_BLOCK_MINPAR(nin2,unimass,done)
-c               if (done) then 
-c                  check(1) = 1
+               call READ_BLOCK_MINPAR(nin2,unimass,done)
+               if (done) then
+                  check(1) = 1
                cycle
-c               else 
-c                  print*, " READ_LES_HOUCHES: problem in MINPAR "
-c                  call HARD_STOP
-c               end if 
+               else
+                  print*, " READ_LES_HOUCHES: problem in MINPAR "
+                  call HARD_STOP
+               end if
 
 c                  look for block MASS
             else if (line2(1:4).eq.'MASS') then 
@@ -218,7 +220,6 @@ c                  look for block MASS
 
 c                  look for block STOPMIX
             else if (line2(1:7).eq.'STOPMIX') then
-               call READ_BLOCK_STOPMIX(nin2,m_t,done)
                if (done) then 
                   check(3) = 1
                   cycle
@@ -451,7 +452,12 @@ c     &    call EXTRACT_SLHA_WEAK(lowmass,bw,uu,vv,mw,mz,sw,cw,sb,cb)
       if (check_final.eq.0) then 
         write(*,*) " READ_LES_HOUCHES: problem in DECAYS "
         write(*,*) " Standard Model decays not found (6,23,24)"
-        call hard_stop
+        write(*,*) check_sq(11),check_sq(12),check_sq(13) ! MK: added
+        write(*,*) " Setting b-, Z- and W-widths to zero" ! MK: added
+        twidth = 0D0 ! MK: added
+        zwidth = 0D0
+        wwidth = 0D0
+        ! call hard_stop ! MK: commented
       endif
       
       check_final = 1
@@ -466,8 +472,9 @@ c     &    call EXTRACT_SLHA_WEAK(lowmass,bw,uu,vv,mw,mz,sw,cw,sb,cb)
         return
       else 
         print*, " READ_LES_HOUCHES: input incomplete "
-        do j1 = 1,15
-          print*, check(j1)
+        print*, "         j1       check(j1)" ! MK: added
+        do j1 = 1,19 ! MK: changed 15->19
+          print*, j1, check(j1)
         end do
         call HARD_STOP
       end if 
@@ -1515,7 +1522,7 @@ c----------------------
       if (line1.ne.'DECAY') then 
          print*, " READ_DECAY: error in SLHA file",line1
          call HARD_STOP
-      end if 
+      end if
 
 c            array defined in Xsugra.f
       if (dumi.eq.1000021) then 
@@ -1598,7 +1605,7 @@ c            array defined in Xsugra.f
          ! twidth = 0d0
          check_sq(11) = 1 
       else if (dumi.eq.23) then 
-         zwidth = dumr      
+         zwidth = dumr
          check_sq(12) = 1 
       else if (dumi.eq.24) then 
          wwidth = dumr      
