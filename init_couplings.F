@@ -30,6 +30,8 @@ c requires encoded process ID in lprup(1)
         print*, "the final state pair: ", id_fin1, ", ", id_fin2
 #endif
 
+        ! set PhysPars parameters
+        call set_phys_params
         ! set madgraph parameters.
         ! Note: calling this subroutine for the first time reads from 
         ! the provided slha file.
@@ -70,8 +72,6 @@ c requires encoded process ID in lprup(1)
           call set_madgraph_params
         endif
 
-        ! set PhysPars parameters
-        call set_phys_params
         ! set general MadGraph couplings
         call set_general_couplings(id_fin1,id_fin2)
         ! set remaining FormCalc parameters
@@ -524,7 +524,7 @@ c version.
      &       (par_Wmass2   .eq. invalid) .or.
      &       (par_Fin1mass .eq. invalid) .or.
      &       (par_Fin2mass .eq. invalid) ) then
-          print*, "One or more parameters are not set:"
+          print*,"WARNING: One or more parameters are not set:"
           print*,"par_alpha: ",par_alpha
           print*,"par_Zmass: ",par_Zmass
           print*,"par_Wmass: ",par_Wmass
@@ -534,7 +534,9 @@ c version.
           print*,"par_Wmass2: ",par_Wmass2
           print*,"par_Fin1mass: ",par_Fin1mass
           print*,"par_Fin2mass: ",par_Fin2mass
-          stop
+          print*,"If possible set the empty parameters in "//
+     &          "powheg.input"
+          !stop
         endif
         
       end

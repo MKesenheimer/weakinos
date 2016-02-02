@@ -196,8 +196,7 @@ case $KEY in
 esac
 done
 
-
-# stop the interactive shell
+# throw a warning if the user wants to use msub
 if [ "$USEMSUB" = true ]; then
    echo "Note: use 'msub -I -V -l nodes=1:ppn=$JOBS,walltime=02:00:00' to start an interactive shell and start again."
    echo "Use 'exit' when your calculation is completed."
@@ -252,7 +251,7 @@ if [ "$CLEAN" = true ]; then
    find $RUNDIR ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) -type f -exec rm -f {} +
    cp powheg_clean.input powheg.input
 fi
-#exit 0
+exit 0
 
 # append to powheg.input
 echo "" >> powheg.input
