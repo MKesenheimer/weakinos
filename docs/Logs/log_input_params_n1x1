@@ -1,0 +1,80 @@
+In diesem Test wurden der NLO-Wirkungsquerschnitt (ohne Shower) mit hoher Präzision an verschiedenen Parameterpunkten berechnet und mit Prospino verglichen.
+
+Falls nicht anders angegeben:
+- ebeam1 = 7000
+- lhans1 = 10550
+- runningscale = 0
+- ncall = 20000
+- ncallosres = 2000000
+- itmx = 4
+- itmx1osres = 8
+- itmx2osres = 6
+- WREG = 1D0
+- Seed = manyseed (offset = 0), parallel mode
+- importance sampling log(tau), bw(s2)
+
+Notiz: Prospino verwendet WREG = 5.5601195007216413
+
+
+DSUB_II, mit verschiedenen input.slha Cards:
+        -> Desktop/runs/Parallel/testrun_orig
+        1.1784451120938630E-002  +-    9.4154158563317214E-006 (input_orig.slha)
+        davon btilde-Beitrag:
+        1.1700989505470124E-002  +-    9.4139837218460992E-006
+        davon osres-Beitrag:
+        8.3461615468505390E-005  +-    2.5518011206136925E-007
+ 
+
+        -> Desktop/runs/Parallel/testrun_suspect2
+        3.0654564280107577       +-    2.0277448563123541E-003 (input_suspect2.slha)
+        davon btilde-Beitrag:
+        3.0642261060242415       +-    2.0277431147113132E-003
+        davon osres-Beitrag:   
+        1.2303219865162300E-003  +-    3.5784545480649755E-006     
+        
+
+        -> Desktop/runs/Parallel/testrun_mg5
+        1.1782418567177558E-002  +-    9.4247955110196997E-006 (input_mg5.slha)
+        davon btilde-Beitrag:
+        1.1698956987701185E-002  +-    9.4233648937068108E-006
+        davon osres-Beitrag:
+        8.3461579476375609E-005  +-    2.5517259988025096E-007
+
+DSUB_II, mit verschiedenen input-cards von suspect3:
+Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_1
+        7.1613961136850035E-002  +-    4.9009671858370748E-005 (input_suspect3_mSUGRA_1.slha)
+        davon btilde-Beitrag:
+        7.1404118843495790E-002  +-    4.9007697850229474E-005
+        davon osres-Beitrag:
+        2.0984229335424456E-004  +-    6.2527159432168887E-007
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_2
+        4.1304428380677334E-002  +-    3.0877640532168473E-005 (input_suspect3_mSUGRA_2.slha)
+        davon btilde-Beitrag:
+        4.1114369632951613E-002  +-    3.0875302861958242E-005
+        davon osres-Beitrag:
+        1.9005874772572341E-004  +-    5.9690831385442472E-007
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_3
+        21.167832951030860       +-    1.5197864157599458E-002 (input_suspect3_mSUGRA_3.slha)
+        davon btilde-Beitrag:
+        21.165212255047159       +-    1.5197862955286121E-002
+        davon osres-Beitrag:
+        2.6206959837038065E-003  +-    7.7245756303228462E-006
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_4
+        612685325.39677525       +-    536578133.56739718  (input_suspect3_mSUGRA_4.slha)
+        davon btilde-Beitrag:
+        612685325.38747382       +-    536578133.56739718
+        davon osres-Beitrag:
+        9.3014239454630235E-003  +-    2.4988791996075759E-005
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_5
+        5.2681830799598851E-003  +-    4.5011926195962093E-006 (input_suspect3_mSUGRA_5.slha)
+        davon btilde-Beitrag:
+        5.2260175804186961E-003  +-    4.5003951026547526E-006
+        davon osres-Beitrag:
+        4.2165499541189061E-005  +-    1.3077963923536457E-007
+

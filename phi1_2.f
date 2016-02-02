@@ -15,6 +15,10 @@ c       /
 c      /
 c P_a /
 c
+c
+c TODO: check:
+c
+c
 c              _(M_n-m_n)^2
 c             |
 c R_n(Mn^2) = | d(M_n-1)^2 R_2(K_n; (K_n-1)^2, P_n^2) R_n-1((M_n-1)^2)

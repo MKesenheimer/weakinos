@@ -181,28 +181,3 @@ DSUB_II, Abhängigkeit von WREG:
         1.1730789763332824E-002  +-   1.6294865827326397E-005
         davon osres-Beitrag:
         4.4788153969386352E-005  +-   1.6497778973722522E-007
-
-
-DSUB_II, mit verschiedenen input.slha Cards
-        -> testrun_1 (TODO: Ergebnisse aus Stage 2 kombinieren, diese hier sind aus Stage 1)
-        1.1784451120938630E-002  +-    9.4154158563317214E-006 (ncall = 20000, ncallosres = 2000000, Seed = manyseed (offset = 0), log(tau), bw(s2), (*), input_orig.slha)
-        davon btilde-Beitrag:
-        1.1700989505470124E-002  +-    9.4139837218460992E-006
-        davon osres-Beitrag:
-        8.3461615468505390E-005  +-    2.5518011206136925E-007
- 
-
-        -> testrun_2 (TODO: Ergebnisse aus Stage 2 kombinieren, diese hier sind aus Stage 1)
-        3.0654564280107577       +-    2.0277448563123541E-003 (ncall = 20000, ncallosres = 2000000, Seed = manyseed (offset = 0), log(tau), bw(s2), (*), input_suspect2.slha)
-        davon btilde-Beitrag:
-        3.0642261060242415       +-    2.0277431147113132E-003
-        davon osres-Beitrag:   
-        1.2303219865162300E-003  +-    3.5784545480649755E-006     
-        
-
-        -> testrun_4 (TODO: Ergebnisse aus Stage 2 kombinieren, diese hier sind aus Stage 1)
-        1.1782418567177558E-002  +-    9.4247955110196997E-006 (ncall = 20000, ncallosres = 2000000, Seed = manyseed (offset = 0), log(tau), bw(s2), (*), input_mg5.slha)
-        davon btilde-Beitrag:
-        1.1698956987701185E-002  +-    9.4233648937068108E-006
-        davon osres-Beitrag:
-        8.3461579476375609E-005  +-    2.5517259988025096E-007
