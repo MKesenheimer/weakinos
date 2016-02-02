@@ -845,7 +845,7 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
 #include "PhysPars.h"
 #include "osres.h"
         integer i
-        double precision test(nosres)
+        double precision m_avrg, ewi
 
         osresM(1) = mdl
         osresM(2) = mdl
@@ -857,26 +857,28 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         !  osresM(7) = mur
         !  osresM(8) = mur
         !endif
+
+        m_avrg = 0D0
+        do i=1,nosres
+          m_avrg = m_avrg + osresM(i)
+        enddo
+        m_avrg = m_avrg/nosres
+
+        ! set the width of the immediate particle (regulator wreg)
+        ewi  = 1D-2 ! Prospino like definition
         
-        ! set the widths of the resonant particles equal to the
-        ! regulator WREG
-        osresW(1) = WDLR
-        osresW(2) = WDLR
-        osresW(3) = WULR
-        osresW(4) = WULR
-        !if(nosres.eq.8) then
-        !  osresW(5) = WDRR
-        !  osresW(6) = WDRR
-        !  osresW(7) = WURR
-        !  osresW(8) = WURR
-        !endif
+#if defined(DSUB_I) || defined(DSUB_II) || defined(DSUB_II_TEST)
+        wreg = ewi*m_avrg
+        !wreg = 1D0
+#else
+        wreg = 0D0
+#endif
         
 #ifdef DEBUGQ
+        print*,"wreg : ", wreg
         do i=1,nosres
           print*,"osresID: ", osresID(i)
           print*,"osresM : ", osresM(i)
-          print*,"osresW : ", osresW(i)
-          print*,"test   : ", test(i)
         enddo 
         stop
 #endif

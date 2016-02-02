@@ -49,8 +49,8 @@ c Variables to apply the diagram subtractions scheme
 #endif
 
 
-c WREG is now defined in wreg.h
-#include "wreg.h"
+c WREG is now defined in osres.h
+#include "osres.h"
 
 #endif
 

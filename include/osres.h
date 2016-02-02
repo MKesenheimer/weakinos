@@ -23,8 +23,6 @@ c         \             \
 c          \             \
 c          mk            mj
 
-#include "wreg.h"
-
 c definitions
         ! store the number of resonances here
         integer nosres, cnosres ! constant
@@ -38,8 +36,9 @@ c definitions
 
         ! the mass array of the on-shell resonant particles
         double precision osresM(cnosres)
-        ! the width array of the on-shell resonant particles
-        double precision osresW(cnosres)
+        ! the width of the on-shell resonant particle (regulator)
+        ! this must be set in init_couplings.f
+        double precision wreg
 
         ! store in an additional array which legs get resonant
         ! e.g. osreslegs(3,1) = 3 and osreslegs(3,2) = 5 means that for 
@@ -51,8 +50,22 @@ c definitions
         ! osreslegs(chan,3): spectator (index is k used in our code) 
         integer osreslegs(cnosres,1:3)
 
-        common/c_onshell/ osresM, osresW, osreslegs
+        common/c_onshell/ osresM, osreslegs, wreg
         common/c_onshell/ osresID
         common/c_onshell/ nosres
+
+
+#if defined(DSUB_I) || defined(DSUB_II) || defined(DSUB_II_TEST)
+#define WDLR wreg
+#define WDRR wreg
+#define WULR wreg
+#define WURR wreg
+
+#else
+#define WDLR WDL
+#define WDRR WDR
+#define WULR WUL
+#define WURR WUR
+#endif
 
 c############### end osres.h ###########################################
