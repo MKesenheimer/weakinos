@@ -1,6 +1,10 @@
 In diesem Test wurden der NLO-Wirkungsquerschnitt (ohne Shower) mit hoher Präzision an verschiedenen Parameterpunkten berechnet und mit Prospino verglichen.
 
+- Prospino mit gleicher slha Datei
+- Änderungen von SM-Parametern in Prospino-2.1/Xvital.f90, so dass diese mit der SLHA-Datei übereinstimmen.
+
 Falls nicht anders angegeben:
+POWHEG:
 - ebeam1 = 7000
 - lhans1 = 10550
 - runningscale = 0
@@ -9,15 +13,27 @@ Falls nicht anders angegeben:
 - itmx = 4
 - itmx1osres = 8
 - itmx2osres = 6
-- WREG = 1D0
 - Seed = manyseed (offset = 0), parallel mode
 - importance sampling log(tau), bw(s2)
 
-Notiz: Prospino verwendet WREG = 5.5601195007216413
+Prospino:
+- inlo = 1
+- isq_ng_in = 1
+- icoll_in = 1
+- energy_in = 14000
+- i_error_in = 1
+- final_state_in = 'nn'
+- ipart1_in = 1
+- ipart2_in = 7
+- scafac = 1
+
+Es gilt: mu_0_POWHEG = 2*mu_0_Prospino, d.h. die POWHEG-Skala muss von Hand immer um Faktor 2 niedriger gewählt werden.
+
+Notiz: Prospino verwendet WREG = ewi*ms
 
 
 DSUB_II, mit verschiedenen input.slha Cards:
-        -> Desktop/runs/Parallel/testrun_orig
+        -> Desktop/runs/Parallel/WREG_old/testrun_orig
         1.1784451120938630E-002  +-    9.4154158563317214E-006 (input_orig.slha)
         davon btilde-Beitrag:
         1.1700989505470124E-002  +-    9.4139837218460992E-006
@@ -25,7 +41,7 @@ DSUB_II, mit verschiedenen input.slha Cards:
         8.3461615468505390E-005  +-    2.5518011206136925E-007
  
 
-        -> Desktop/runs/Parallel/testrun_suspect2
+        -> Desktop/runs/Parallel/WREG_old/testrun_suspect2
         3.0654564280107577       +-    2.0277448563123541E-003 (input_suspect2.slha)
         davon btilde-Beitrag:
         3.0642261060242415       +-    2.0277431147113132E-003
@@ -33,48 +49,208 @@ DSUB_II, mit verschiedenen input.slha Cards:
         1.2303219865162300E-003  +-    3.5784545480649755E-006     
         
 
-        -> Desktop/runs/Parallel/testrun_mg5
+        -> Desktop/runs/Parallel/WREG_old/testrun_mg5
         1.1782418567177558E-002  +-    9.4247955110196997E-006 (input_mg5.slha)
         davon btilde-Beitrag:
         1.1698956987701185E-002  +-    9.4233648937068108E-006
         davon osres-Beitrag:
         8.3461579476375609E-005  +-    2.5517259988025096E-007
 
+
 DSUB_II, mit verschiedenen input-cards von suspect3:
 Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
 
-        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_1
-        7.1613961136850035E-002  +-    4.9009671858370748E-005 (input_suspect3_mSUGRA_1.slha)
+        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_1
+        (input_suspect3_mSUGRA_1.slha)
+        7.1613961136850035E-002  +-    4.9009671858370748E-005
         davon btilde-Beitrag:
         7.1404118843495790E-002  +-    4.9007697850229474E-005
         davon osres-Beitrag:
         2.0984229335424456E-004  +-    6.2527159432168887E-007
 
-        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_2
-        4.1304428380677334E-002  +-    3.0877640532168473E-005 (input_suspect3_mSUGRA_2.slha)
+        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_2
+        (input_suspect3_mSUGRA_2.slha)
+        4.1304428380677334E-002  +-    3.0877640532168473E-005
         davon btilde-Beitrag:
         4.1114369632951613E-002  +-    3.0875302861958242E-005
         davon osres-Beitrag:
         1.9005874772572341E-004  +-    5.9690831385442472E-007
 
-        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_3
-        21.167832951030860       +-    1.5197864157599458E-002 (input_suspect3_mSUGRA_3.slha)
+        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_3
+        (input_suspect3_mSUGRA_3.slha)
+        21.167832951030860       +-    1.5197864157599458E-002
         davon btilde-Beitrag:
         21.165212255047159       +-    1.5197862955286121E-002
         davon osres-Beitrag:
         2.6206959837038065E-003  +-    7.7245756303228462E-006
 
-        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_4
-        612685325.39677525       +-    536578133.56739718  (input_suspect3_mSUGRA_4.slha)
+        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_4
+        (input_suspect3_mSUGRA_4.slha)
+        612685325.39677525       +-    536578133.56739718 
         davon btilde-Beitrag:
         612685325.38747382       +-    536578133.56739718
         davon osres-Beitrag:
         9.3014239454630235E-003  +-    2.4988791996075759E-005
 
-        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_5
-        5.2681830799598851E-003  +-    4.5011926195962093E-006 (input_suspect3_mSUGRA_5.slha)
+        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_5
+        (input_suspect3_mSUGRA_5.slha)
+        5.2681830799598851E-003  +-    4.5011926195962093E-006
         davon btilde-Beitrag:
         5.2260175804186961E-003  +-    4.5003951026547526E-006
         davon osres-Beitrag:
         4.2165499541189061E-005  +-    1.3077963923536457E-007
+
+
+DSUB_II, mit verschiedenen input-cards von suspect3:
+Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
+In POWHEG wurde wreg = gams_prospino gesetzt,
+und Alpha wird nun aus der W-Masse und Gf berechnet
+(nicht wie zuvor aus der SLHA-Datei gelesen)
+
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_1
+        (input_suspect3_mSUGRA_1.slha)
+        POWHEG:
+          LO:
+            4.9712886200291975E-002 +-   2.0579331398575354E-005
+          NLO:
+            
+            davon btilde-Beitrag:
+            
+            davon osres-Beitrag:
+            
+        Prospino:
+          LO:
+            4.9693379975163723E-002 +-   4.0984420339628805E-005
+          NLO:
+            6.4889320342729387E-002 +-   4.4698665071878095E-005
+       rel. LO  error: 0.04%
+       rel. NLO error:
+
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_2
+        (input_suspect3_mSUGRA_2.slha)
+        POWHEG:
+          LO: 
+            2.8749058655961973E-002 +-   1.1901456385820650E-005
+          NLO:
+            
+            davon btilde-Beitrag:
+            
+            davon osres-Beitrag:
+            
+        Prospino:
+          LO:
+            2.8777522703167031E-002 +-   2.4718482318293207E-005
+          NLO:
+            3.7626295182861209E-002 +-   2.7774183207854888E-005
+       rel. LO  error: 0.1%
+       rel. NLO error:
+            
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_3
+        (input_suspect3_mSUGRA_3.slha)
+        POWHEG:
+          LO: 
+            13.715056956224821      +-   5.9850433613900843E-003
+          NLO:
+            
+            davon btilde-Beitrag:
+            
+            davon osres-Beitrag:
+            
+        Prospino:
+          LO:
+            13.642068859867159      +-   1.0779635979236911E-002
+          NLO:
+            18.555097511794234      +-   1.1371656690289018E-002
+       rel. LO  error: 0.5%
+       rel. NLO error:
+
+
+        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_4
+        (input_suspect3_mSUGRA_4.slha)
+        POWHEG:
+          LO: 
+            3.7652755277965779E-003 +-   1.7438626589852084E-006
+          NLO:
+            
+            davon btilde-Beitrag:
+            
+            davon osres-Beitrag:
+            
+        Prospino:
+          LO:
+            3.7575188179820307E-003 +-   3.1358783876478269E-006
+          NLO:
+            4.8421461055072673E-003 +-   3.6537357069825281E-006	
+       rel. LO  error: 0.2%
+       rel. NLO error:
+
+
+DSUB_II, mit verschiedenen input-cards von softsusy362:
+Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
+In POWHEG wurde wreg = gams_prospino gesetzt,
+und Alpha wird nun aus der W-Masse und Gf berechnet
+(nicht wie zuvor aus der SLHA-Datei gelesen)
+
+
+        -> Desktop/runs/Parallel/testrun_softsusy362_mSUGRA_1
+        (input_softsusy362_mSUGRA_1.slha)
+        POWHEG:
+          LO:
+            1.1848023336975988       +-    8.1556751755064059E-004
+          NLO:
+            1.6407711145818076       +-    1.0810367277723524E-003
+            davon btilde-Beitrag:
+            1.6395134317940887       +-    1.0806138816343391E-003
+            davon osres-Beitrag:
+            1.2576827877186637E-003  +-    3.8729937489126681E-005
+        Prospino:
+          LO:
+            1.1854828405046449      +-   9.4909433748130065E-004
+          NLO:
+            1.5840089197371001      +-   1.0072759629390006E-003
+       rel. LO  error: 0.06%
+       rel. NLO error: 3.5%
+
+
+        -> Desktop/runs/Parallel/testrun_softsusy362_mSUGRA_2
+        (input_softsusy362_mSUGRA_2.slha)
+        POWHEG:
+          LO:
+            1.0013444498338653       +-    6.8607991202898643E-004
+          NLO:
+            
+            davon btilde-Beitrag:
+            
+            davon osres-Beitrag:
+            
+        Prospino:
+          LO:
+            1.0018154311440055      +-   8.0431752396183521E-004
+          NLO:
+            1.3378938500530275      +-   8.5924988542597763E-004
+       rel. LO  error: 0.05%
+       rel. NLO error: 
+
+
+        -> Desktop/runs/Parallel/testrun_softsusy362_mSUGRA_3
+        (input_softsusy362_mSUGRA_3.slha)
+        POWHEG:
+          LO:
+            1.9229673207862750       +-    1.3412306097873540E-003
+          NLO:
+            
+            davon btilde-Beitrag:
+            
+            davon osres-Beitrag:
+            
+        Prospino:
+          LO:
+            1.9231511732442574      +-   1.5339387569001991E-003
+          NLO:
+            
+       rel. LO  error: 0.01%
+       rel. NLO error: 
 

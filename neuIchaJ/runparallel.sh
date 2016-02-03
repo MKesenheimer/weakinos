@@ -251,7 +251,7 @@ if [ "$CLEAN" = true ]; then
    find $RUNDIR ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) -type f -exec rm -f {} +
    cp powheg_clean.input powheg.input
 fi
-exit 0
+#exit 0
 
 # append to powheg.input
 echo "" >> powheg.input

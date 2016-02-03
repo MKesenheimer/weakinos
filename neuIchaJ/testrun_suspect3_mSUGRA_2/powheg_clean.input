@@ -15,7 +15,7 @@ incomingflavors 4    ! (default 4) number of incoming flavor
 SLHA  'input_suspect3_mSUGRA_2.slha'   !  name of the SLHA input-file, should not be longer than 100 signs
 #inv_alpha  132.45335526012687d0 ! 1/(fine struct. const) (or 1/(eff.coupl.), must be greater than 0d0
 #Zmass      91.186996459960938d0 ! directly used for propagators (PDG2012), must be greater than 0d0
-Zwidth     1d-10                ! directly used for propagators (PDG2012), must be greater than 0d0
+#Zwidth     1d-10                ! directly used for propagators (PDG2012), must be greater than 0d0
 #Wmass      80.410003662109375d0 ! directly used for propagators (PDG2012), must be greater than 0d0
 #Wwidth     1d-10                ! directly used for propagators (PDG2012), must be greater than 0d0
 
@@ -72,7 +72,8 @@ testplots     1     ! write data for gnuplot histograms to *.top
 #hfact        100d0  ! (default no damping factor) damp factor for high-pt radiation: > 0 dampfac=h**2/(pt2+h**2)
 #hdamp        100d0  ! damping factor h**2/(pt2+h**2) to separate real contributions between Sudakov and remnants
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
- 
+ewi           1d-2   ! regulator for on-shell divergences
+
 iseed         5602  ! (default 5602) initialize random number sequence
 #pdfreweight    1     ! (default 0) write extra pdf infos on LHEF
 #manyseeds      1    ! (default 0) allow for the generation of different statistically independent samples (see Docs/Manyseeds.pdf) 

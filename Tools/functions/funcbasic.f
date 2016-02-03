@@ -259,5 +259,30 @@ c gibt das Vorzeichen einer reellen Zahl zurück (+-1)
           signum = -1D0
         endif
       end
-      
+
+
+c compare an uppercase and lower case character string
+      subroutine to_uppercase(str1,upper1)
+        implicit none
+        character*100 str1, upper1
+        integer j
+#ifdef DEBUGQ
+        print*,str1
+#endif
+        do j=1,len(trim(str1))
+          ! convert both strings to uppercase
+          if(str1(j:j) .ge. "a" .and. str1(j:j) .le. "z") then
+            upper1(j:j) = achar(iachar(str1(j:j)) - 32)
+          else
+            upper1(j:j) = str1(j:j)
+          endif
+        enddo
+#ifdef DEBUGQ
+        print*,upper1
+#endif
+#ifdef DEBUGQ
+        upper1 = str1
+#endif
+      end
+
 c############### end functions #########################################

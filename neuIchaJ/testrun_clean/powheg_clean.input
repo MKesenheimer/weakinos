@@ -72,6 +72,7 @@ testplots     1     ! write data for gnuplot histograms to *.top
 #hfact        100d0  ! (default no damping factor) damp factor for high-pt radiation: > 0 dampfac=h**2/(pt2+h**2)
 #hdamp        100d0  ! damping factor h**2/(pt2+h**2) to separate real contributions between Sudakov and remnants
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
+ewi           1d-2   ! regulator for on-shell divergences
  
 iseed         5602  ! (default 5602) initialize random number sequence
 #pdfreweight    1     ! (default 0) write extra pdf infos on LHEF

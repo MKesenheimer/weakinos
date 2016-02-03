@@ -119,7 +119,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       implicit none
 
-      include 'coupl.inc' ! MK
+      include 'coupl.inc'    ! MK: added
+      character*100 searchstr1,searchstr2 ! MK: TODO: remove
+      character*100 upperstr
 
       character*(*) param_name
       integer   nin2,ii,j1,j2,check(1:20),check_final,check_sq(1:13)
@@ -196,19 +198,28 @@ c                  rewrite line1(1:6) and line2(1:10) to all upper case
 c                  look for blocks and pick them one after the other
          if (line1(1:1).eq.'B') then
 
+           !print*,"Test"
+           !searchstr1 = "bla"
+           !call to_uppercase(searchstr1,searchstr2)
+           !print*,trim(searchstr1),trim(searchstr2)
+           !stop
+
 c                  look for block MINPAR
-            if (line2(1:6).eq.'MINPAR') then 
+            call to_uppercase(line2(1:6),upperstr) ! MK: added
+            !print*,upperstr(1:5)
+            if (upperstr(1:6).eq.'MINPAR') then
                call READ_BLOCK_MINPAR(nin2,unimass,done)
                if (done) then
                   check(1) = 1
-               cycle
+                  cycle
                else
                   print*, " READ_LES_HOUCHES: problem in MINPAR "
                   call HARD_STOP
                end if
 
 c                  look for block MASS
-            else if (line2(1:4).eq.'MASS') then 
+            call to_uppercase(line2(1:4),upperstr) ! MK: added, it is not necessary to call this routine every time, but who cares?
+            else if (upperstr(1:4).eq.'MASS') then
                call READ_BLOCK_MASS(nin2,lowmass,done)
                if (done) then 
                   check(2) = 1
@@ -216,10 +227,11 @@ c                  look for block MASS
                else 
                   print*, " READ_LES_HOUCHES: problem in MASS "
                   call HARD_STOP
-               end if 
+               end if
 
 c                  look for block STOPMIX
-            else if (line2(1:7).eq.'STOPMIX') then
+            call to_uppercase(line2(1:7),upperstr) ! MK: added
+            else if (upperstr(1:7).eq.'STOPMIX') then
                if (done) then 
                   check(3) = 1
                   cycle
@@ -229,7 +241,8 @@ c                  look for block STOPMIX
                end if 
 
 c                  look for block SBOTMIX
-            else if (line2(1:7).eq.'SBOTMIX') then
+            call to_uppercase(line2(1:7),upperstr) ! MK: added
+            else if (upperstr(1:7).eq.'SBOTMIX') then
                call READ_BLOCK_SBOTMIX(nin2,m_b,done)
                if (done) then 
                   check(4) = 1
@@ -240,7 +253,8 @@ c                  look for block SBOTMIX
                end if 
 
 c                  look for block STAUMIX
-            else if (line2(1:7).eq.'STAUMIX') then
+            call to_uppercase(line2(1:7),upperstr) ! MK: added
+            else if (upperstr(1:7).eq.'STAUMIX') then
                call READ_BLOCK_STAUMIX(nin2,m_l,done)
                if (done) then 
                   check(5) = 1
@@ -248,10 +262,11 @@ c                  look for block STAUMIX
                else 
                   print*, " READ_LES_HOUCHES: problem in STAUMIX "
                   call HARD_STOP
-               end if 
+               end if
 
 c                  look for block NMIX
-            else if (line2(1:4).eq.'NMIX') then
+            call to_uppercase(line2(1:6),upperstr) ! MK: added
+            else if (upperstr(1:4).eq.'NMIX') then
                call READ_BLOCK_NMIX(nin2,bw,done)
                if (done) then 
                   check(6) = 1
@@ -262,7 +277,8 @@ c                  look for block NMIX
                end if 
 
 c                  look for block UMIX
-            else if (line2(1:4).eq.'UMIX') then
+            call to_uppercase(line2(1:4),upperstr) ! MK: added
+            else if (upperstr(1:4).eq.'UMIX') then
                call READ_BLOCK_UMIX(nin2,uu,done)
                if (done) then 
                   check(7) = 1
@@ -273,7 +289,8 @@ c                  look for block UMIX
                end if 
 
 c                  look for block VMIX
-            else if (line2(1:4).eq.'VMIX') then
+            call to_uppercase(line2(1:4),upperstr) ! MK: added
+            else if (upperstr(1:4).eq.'VMIX') then
                call READ_BLOCK_VMIX(nin2,vv,done)
                if (done) then 
                   check(8) = 1
@@ -284,7 +301,8 @@ c                  look for block VMIX
                end if 
 
 c                  look for block ALPHA
-            else if (line2(1:5).eq.'ALPHA') then
+            call to_uppercase(line2(1:5),upperstr) ! MK: added
+            else if (upperstr(1:5).eq.'ALPHA') then
                call READ_BLOCK_ALPHA(nin2,lowmass,done)
                if (done) then 
                   check(9) = 1
@@ -295,7 +313,8 @@ c                  look for block ALPHA
                end if 
 
 c                  look for block HMIX
-            else if (line2(1:4).eq.'HMIX') then
+            call to_uppercase(line2(1:4),upperstr) ! MK: added
+            else if (upperstr(1:4).eq.'HMIX') then
                call READ_BLOCK_HMIX(nin2,lowmass,unimass,done)
                if (done) then 
                   check(10) = 1
@@ -306,7 +325,8 @@ c                  look for block HMIX
                end if 
 
 c                  look for block AU
-            else if (line2(1:2).eq.'AU') then
+            call to_uppercase(line2(1:2),upperstr) ! MK: added
+            else if (upperstr(1:2).eq.'AU') then
                call READ_BLOCK_AU(nin2,lowmass,done)
                if (done) then 
                   check(11) = 1
@@ -317,7 +337,8 @@ c                  look for block AU
                end if 
 
 c                  look for block AD
-            else if (line2(1:2).eq.'AD') then
+            call to_uppercase(line2(1:2),upperstr) ! MK: added
+            else if (upperstr(1:2).eq.'AD') then
                call READ_BLOCK_AD(nin2,lowmass,done)
                if (done) then 
                   check(12) = 1
@@ -328,7 +349,8 @@ c                  look for block AD
                end if 
 
 c                  look for block AE
-            else if (line2(1:2).eq.'AE') then
+            call to_uppercase(line2(1:2),upperstr) ! MK: added
+            else if (upperstr(1:2).eq.'AE') then
                call READ_BLOCK_AE(nin2,lowmass,done)
                if (done) then 
                   check(13) = 1
@@ -336,9 +358,11 @@ c                  look for block AE
                else 
                   print*, " READ_LES_HOUCHES: problem in AE "
                   call HARD_STOP
-               end if 
+               end if
+
 c                  look for block SMINPUTS
-            else if (line2(1:8).eq.'SMINPUTS') then ! JA
+            call to_uppercase(line2(1:8),upperstr) ! MK: added
+            else if (upperstr(1:8).eq.'SMINPUTS') then ! JA
                call READ_BLOCK_SMINPUTS(nin2,done)
                if (done) then 
                   check(14) = 1
@@ -360,7 +384,8 @@ c                  call HARD_STOP
 c               end if 
 
 c                  look for block YU
-            else if (line2(1:2).eq.'YU') then ! JA
+            call to_uppercase(line2(1:2),upperstr) ! MK: added
+            else if (upperstr(1:2).eq.'YU') then ! JA
                call READ_BLOCK_YU(nin2,lowmass,done)
                if (done) then 
                   check(17) = 1
@@ -371,7 +396,8 @@ c                  look for block YU
                end if 
 
 c                  look for block YD
-            else if (line2(1:2).eq.'YD') then ! JA
+            call to_uppercase(line2(1:2),upperstr) ! MK: added
+            else if (upperstr(1:2).eq.'YD') then ! JA
                call READ_BLOCK_YD(nin2,lowmass,done)
                if (done) then 
                   check(18) = 1
@@ -382,7 +408,8 @@ c                  look for block YD
                end if 
 
 c                  look for block YE
-            else if (line2(1:2).eq.'YE') then ! JA
+            call to_uppercase(line2(1:2),upperstr) ! MK: added
+            else if (upperstr(1:2).eq.'YE') then ! JA
                call READ_BLOCK_YE(nin2,lowmass,done)
                if (done) then 
                   check(19) = 1
@@ -398,6 +425,8 @@ c                  continue if block not interesting
             end if 
 
 c                  look for decay lines and fill them one by one
+         !call to_uppercase(line2(1:1),upperstr) ! MK: added
+         !else if (upperstr(1:1).eq.'D') then ! MK: changed D -> DECAY
          else if (line1(1:1).eq.'D') then
             call READ_DECAY(nin2,width,check_sq,width_sq)
             
@@ -453,7 +482,7 @@ c     &    call EXTRACT_SLHA_WEAK(lowmass,bw,uu,vv,mw,mz,sw,cw,sb,cb)
         write(*,*) " READ_LES_HOUCHES: problem in DECAYS "
         write(*,*) " Standard Model decays not found (6,23,24)"
         write(*,*) check_sq(11),check_sq(12),check_sq(13) ! MK: added
-        write(*,*) " Setting b-, Z- and W-widths to zero" ! MK: added
+        write(*,*) " -> set b-, Z- and W-widths to zero"  ! MK: added
         twidth = 0D0 ! MK: added
         zwidth = 0D0
         wwidth = 0D0
@@ -467,6 +496,17 @@ c     &    call EXTRACT_SLHA_WEAK(lowmass,bw,uu,vv,mw,mz,sw,cw,sb,cb)
       do j1=17,19
          check_final = check_final * check(j1) 
       end do
+
+      ! not good to suppress this error, but it could be necessary in some cases
+      if(check(9) .eq. 0) then
+        print*, " READ_LES_HOUCHES: Higgs mixing angle alpha is missing" ! MK: added
+        print*, " -> set alpha to zero" ! MK: added
+        lowmass(44) = 0D0 ! sin(alpha)
+        lowmass(45) = 1D0 ! cos(alpha)
+        check_final = 1
+      endif
+
+
       if (check_final.eq.1) then 
         print*, " READ_LES_HOUCHES: done, all inputs read "
         return
@@ -1785,5 +1825,4 @@ c         if I have to read a card
 
       return
       end
- 
 

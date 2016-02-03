@@ -73,18 +73,11 @@ c requires encoded process ID in lprup(1)
           call set_madgraph_params
         endif
 
+        ! set general MadGraph couplings
+        call set_general_couplings(id_fin1,id_fin2)
         ! set remaining FormCalc parameters
         call set_formcalc_params
 
-        ! hack to overwrite the madgraph alpha 
-        ! (par_alpha is the one we want to use)
-        if(alfa .ne. alpha) then
-          alpha = par_alpha
-          call set_madgraph_params
-        endif
-
-        ! set general MadGraph couplings
-        call set_general_couplings(id_fin1,id_fin2)
         ! set the parameters for treating the on-shell resonances
         call set_osres_params
 
@@ -132,8 +125,8 @@ c requires encoded process ID in lprup(1)
      &      (MW                 .ne. wmass        ) .or.
      &      (WZ                 .ne. zwidth       ) .or.
      &      (WW                 .ne. wwidth       ) .or.
-     &      (alfa               .ne. alpha        ) .or.
-     &      (EL                 .ne. dreal(gal(1))) .or.
+c     &      (alfa               .ne. alpha        ) .or.
+c     &      (EL                 .ne. dreal(gal(1))) .or.
      &      (dabs(MNeu(1))      .ne. dabs(mn1)    ) .or.
      &      (dabs(MNeu(2))      .ne. dabs(mn2)    ) .or.
      &      (dabs(MNeu(3))      .ne. dabs(mn3)    ) .or.

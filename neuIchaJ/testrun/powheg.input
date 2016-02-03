@@ -12,7 +12,7 @@ incomingflavors 4    ! (default 4) number of incoming flavor
 ! by default, these parameters are set according to the SLHA input file.
 ! however, they may be set to explicit values here.
 ! do not change any parameters unless you know what you do.
-SLHA  'input_orig.slha'   !  name of the SLHA input-file, should not be longer than 100 signs
+SLHA  'input_suspect3_mSUGRA_1.slha'   !  name of the SLHA input-file, should not be longer than 100 signs
 #inv_alpha  132.45335526012687d0 ! 1/(fine struct. const) (or 1/(eff.coupl.), must be greater than 0d0
 #Zmass      91.186996459960938d0 ! directly used for propagators (PDG2012), must be greater than 0d0
 #Zwidth     1d-10                ! directly used for propagators (PDG2012), must be greater than 0d0
@@ -28,11 +28,11 @@ ebeam2  7000d0       ! energy of beam 2
 
 ! To be set only if using LHA pdfs
 ! LO:
-#lhans1 10042        ! CTeQ6l1 PDF LO, pdf set for hadron 1 (LHA numbering)
-#lhans2 10042        ! CTeQ6l1 PDF LO, pdf set for hadron 2 (LHA numbering)
+lhans1 10042        ! CTeQ6l1 PDF LO, pdf set for hadron 1 (LHA numbering)
+lhans2 10042        ! CTeQ6l1 PDF LO, pdf set for hadron 2 (LHA numbering)
 ! NLO:
-lhans1 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 1 (LHA numbering)
-lhans2 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 2 (LHA numbering)
+#lhans1 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 1 (LHA numbering)
+#lhans2 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 2 (LHA numbering)
 ! To be set only if using different pdf sets for the two incoming hadrons
 #QCDLambda5  0.25    ! for not equal pdf sets 
 
@@ -40,9 +40,9 @@ lhans2 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 2 (LHA numbering)
 use-old-grid    0    ! if 1 use old grid if file pwggrids.dat is present (0 regenerate)
 use-old-ubound  0    ! if 1 use norm of upper bounding function stored in pwgubound.dat if present (0 regenerate)
 
-ncall1   2000        ! number of calls for initializing the integration grid
+ncall1   200000        ! number of calls for initializing the integration grid
 itmx1    4           ! number of iterations for initializing the integration grid
-ncall2   2000        ! number of calls for computing the integral and finding upper bound
+ncall2   200000        ! number of calls for computing the integral and finding upper bound
 itmx2    4           ! number of iterations for computing the integral and finding upper bound
 ncall1osres 20000    ! number of calls for initializing the integration grid of on-shell resonances (only required for DSUB_II)
 itmx1osres  4        ! number of iterations for initializing the integration grid of on-shell resonances (only required for DSUB_II)
@@ -64,7 +64,7 @@ runningscale   0     ! (default 0) use ref. scale=virtuality Q (default 0, use f
 #colltest      1     ! (default 0) check collinear singularities
 renscfact     0.5d0  ! (default 1d0) ren scale factor: muren  = muref * renscfact
 facscfact     0.5d0  ! (default 1d0) fac scale factor: mufact = muref * facscfact
-#bornonly      1     ! (default 0) if 1 do Born only
+bornonly      1     ! (default 0) if 1 do Born only
 smartsig       1     ! (default 1) remember equal amplitudes (0 do not remember)
 testplots     1     ! write data for gnuplot histograms to *.top
 #bornsuppfact  1     ! (default 0, do not use) use Born suppression factor
@@ -72,6 +72,7 @@ testplots     1     ! write data for gnuplot histograms to *.top
 #hfact        100d0  ! (default no damping factor) damp factor for high-pt radiation: > 0 dampfac=h**2/(pt2+h**2)
 #hdamp        100d0  ! damping factor h**2/(pt2+h**2) to separate real contributions between Sudakov and remnants
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
+ewi           1d-2   ! regulator for on-shell divergences
  
 iseed         5602  ! (default 5602) initialize random number sequence
 #pdfreweight    1     ! (default 0) write extra pdf infos on LHEF
