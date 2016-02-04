@@ -102,7 +102,7 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
 
         ! Cancel as/(2pi) associated with amp2. It will be put back by real_ampsq
         ampreal = amp/(st_alpha/(2d0*pi))
-        
+          
 #ifdef DSUB_II_TEST
         ! test the DSUB_II scheme (here without the correct jacobian)
         ! this gives the same result as with flag DSUB_I set

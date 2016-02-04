@@ -80,7 +80,7 @@ c This subroutine may set the scales with values depending
 c upon the real emission kinematics
          call setscalesbtlreal
          call sigreal_reg(xjac,totreg,rad_reg_arr) ! CH: replaced rad_reg_tot->totreg
-         ! CH, MK: added the following lines
+         ! CH: added the following lines
          ! =============================================================
          if (.not.pwhg_isfinite(totreg)) then 
             totreg = 0d0 
@@ -90,13 +90,13 @@ c upon the real emission kinematics
          ! =============================================================
          if(flg_nlotest) then
             call analysis_extrainfo('reg',flst_nregular,rad_reg_arr,1d0)
-            call analysis_driver(totreg/suppfact,1) ! CH, MK: changed
+            call analysis_driver(totreg/suppfact,1) ! CH: changed
          endif
 c           else
 c              rad_reg_tot=0
       endif
 
-      totrem=0d0 ! CH, MK: added
+      totrem=0d0 ! CH: added
       if(flg_withdamp) then
 c              rad_damp_rem_tot=0 !CH: commented out (removed this entry from pwhg_rad.h)
          do alr=1,flst_nalr
@@ -108,7 +108,7 @@ c              rad_damp_rem_tot=0 !CH: commented out (removed this entry from pw
 c     No need to generate phase space; it is already available
                   call setscalesbtlreal
                   call sigreal_damp_rem(xjac,ttt,rad_damp_rem_arr)
-                  ! CH, MK: added the following lines
+                  ! CH: added the following lines
                   ! ====================================================
                   if (.not.pwhg_isfinite(ttt)) then 
                      ttt = 0d0 
@@ -128,7 +128,7 @@ c                       rad_damp_rem_tot=rad_damp_rem_tot+ttt
      #                *kn_jacborn*ww*hc2
                   call setscalesbtlreal
                   call sigreal_damp_rem(xjac,ttt,rad_damp_rem_arr)
-                  ! CH, MK: added the following lines
+                  ! CH: added the following lines
                   ! ====================================================
                   if (.not.pwhg_isfinite(ttt)) then 
                      ttt = 0d0 
@@ -142,7 +142,7 @@ c                       rad_damp_rem_tot=rad_damp_rem_tot+ttt
                   endif
 c                       rad_damp_rem_tot=rad_damp_rem_tot+ttt
                endif
-               totrem=totrem+ttt ! CH, MK: added
+               totrem=totrem+ttt ! CH: added
             endif
          enddo
          ! CH: added
@@ -304,7 +304,7 @@ c MK: added
       enddo
       end
 
-!!the following routines are similar to the btilde-case...
+c the following routines are similar to the btilde-case
        subroutine addupweightsrem(sigremnant)
        implicit none
        include 'nlegborn.h'
@@ -331,57 +331,56 @@ c MK: added
      &             totposrem,etotposrem,totnegrem,etotnegrem,
      &             ncall
       
-       ncall=ncall+1
-       dtotreg=0
-       dtotabsreg=0
-       dtotposreg=0
-       dtotnegreg=0
-       dtotrem=0
-       dtotabsrem=0
-       dtotposrem=0
-       dtotnegrem=0
+       ncall      = ncall + 1
+       dtotreg    = 0
+       dtotabsreg = 0
+       dtotposreg = 0
+       dtotnegreg = 0
+       dtotrem    = 0
+       dtotabsrem = 0
+       dtotposrem = 0
+       dtotnegrem = 0
 
        do i=1,flst_nregular
-         dtotreg=dtotreg+rad_reg_arr(i)*rad_reg_sign(i)
-         dtotabsreg=dtotabsreg+rad_reg_arr(i)
+         dtotreg    = dtotreg + rad_reg_arr(i)*rad_reg_sign(i)
+         dtotabsreg = dtotabsreg + rad_reg_arr(i)
          if(rad_reg_sign(i).eq.1) then
-           dtotposreg=dtotposreg+rad_reg_arr(i)
+           dtotposreg = dtotposreg+rad_reg_arr(i)
          else
-           dtotnegreg=dtotnegreg+rad_reg_arr(i)
+           dtotnegreg = dtotnegreg+rad_reg_arr(i)
          endif
        enddo
 
        do i=1,flst_nalr
-         dtotrem=dtotrem+rad_damp_rem_arr(i)*rad_damp_rem_sign(i)
-         dtotabsrem=dtotabsrem+rad_damp_rem_arr(i)
+         dtotrem    = dtotrem + rad_damp_rem_arr(i)*rad_damp_rem_sign(i)
+         dtotabsrem = dtotabsrem+rad_damp_rem_arr(i)
          if(rad_damp_rem_sign(i).eq.1) then
-           dtotposrem=dtotposrem+rad_damp_rem_arr(i)
+           dtotposrem = dtotposrem+rad_damp_rem_arr(i)
          else
-           dtotnegrem=dtotnegrem+rad_damp_rem_arr(i)
+           dtotnegrem = dtotnegrem+rad_damp_rem_arr(i)
          endif
        enddo
 
-       totreg=totreg+dtotreg
-       etotreg=etotreg+dtotreg**2
-       totabsreg=totabsreg+dtotabsreg
-       etotabsreg=etotabsreg+dtotabsreg**2
-       totposreg=totposreg+dtotposreg
-       etotposreg=etotposreg+dtotposreg**2
-       totnegreg=totnegreg+dtotnegreg
-       etotnegreg=etotnegreg+dtotnegreg**2
-       totrem=totrem+dtotrem
-       etotrem=etotrem+dtotrem**2
-       totabsrem=totabsrem+dtotabsrem
-       etotabsrem=etotabsrem+dtotabsrem**2
-       totposrem=totposrem+dtotposrem
-       etotposrem=etotposrem+dtotposrem**2
-       totnegrem=totnegrem+dtotnegrem
-       etotnegrem=etotnegrem+dtotnegrem**2
+       totreg     = totreg     + dtotreg
+       etotreg    = etotreg    + dtotreg**2
+       totabsreg  = totabsreg  + dtotabsreg
+       etotabsreg = etotabsreg + dtotabsreg**2
+       totposreg  = totposreg  + dtotposreg
+       etotposreg = etotposreg + dtotposreg**2
+       totnegreg  = totnegreg  + dtotnegreg
+       etotnegreg = etotnegreg + dtotnegreg**2
+       totrem     = totrem     + dtotrem
+       etotrem    = etotrem    + dtotrem**2
+       totabsrem  = totabsrem  + dtotabsrem
+       etotabsrem = etotabsrem + dtotabsrem**2
+       totposrem  = totposrem  + dtotposrem
+       etotposrem = etotposrem + dtotposrem**2
+       totnegrem  = totnegrem  + dtotnegrem
+       etotnegrem = etotnegrem + dtotnegrem**2
        
-       sigremnant=dtotabsreg+dtotabsrem
+       sigremnant = dtotabsreg+dtotabsrem
        end
 
-c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  c  !
 c   set all new totals concerning regulars/remnants/split to 0
        subroutine resettotalsrem
        implicit none
@@ -397,23 +396,23 @@ c   set all new totals concerning regulars/remnants/split to 0
      &             totposrem,etotposrem,totnegrem,etotnegrem,
      &             ncall
 
-       ncall=0
-       totreg=0d0
-       etotreg=0d0
-       totabsreg=0d0
-       etotabsreg=0d0
-       totposreg=0d0
-       etotposreg=0d0
-       totnegreg=0d0
-       etotnegreg=0d0
-       totrem=0d0
-       etotrem=0d0
-       totabsrem=0d0
-       etotabsrem=0d0
-       totposrem=0d0
-       etotposrem=0d0
-       totnegrem=0d0
-       etotnegrem=0d0
+       ncall      = 0
+       totreg     = 0d0
+       etotreg    = 0d0
+       totabsreg  = 0d0
+       etotabsreg = 0d0
+       totposreg  = 0d0
+       etotposreg = 0d0
+       totnegreg  = 0d0
+       etotnegreg = 0d0
+       totrem     = 0d0
+       etotrem    = 0d0
+       totabsrem  = 0d0
+       etotabsrem = 0d0
+       totposrem  = 0d0
+       etotposrem = 0d0
+       totnegrem  = 0d0
+       etotnegrem = 0d0
        end
 
 c   similar to corresponding routine in btilde
@@ -438,21 +437,21 @@ c MK: added
      &             totrem,etotrem,totabsrem,etotabsrem,
      &             totposrem,etotposrem,totnegrem,etotnegrem,
      &             ncall
-       if(ncall.eq.0) ncall=1 !if we never call the remnant-routines: avoid nans!!
-       rad_totreg=totreg/ncall
-       rad_etotreg=calc_error(totreg,etotreg,ncall)
-       rad_totabsreg=totabsreg/ncall
-       rad_etotabsreg=calc_error(totabsreg,etotabsreg,ncall)
-       rad_totposreg=totposreg/ncall
-       rad_etotposreg=calc_error(totposreg,etotposreg,ncall)
-       rad_totnegreg=totnegreg/ncall
-       rad_etotnegreg=calc_error(totnegreg,etotnegreg,ncall)
-       rad_totrem=totrem/ncall
-       rad_etotrem=calc_error(totrem,etotrem,ncall)
-       rad_totabsrem=totabsrem/ncall
-       rad_etotabsrem=calc_error(totabsrem,etotabsrem,ncall)
-       rad_totposrem=totposrem/ncall
-       rad_etotposrem=calc_error(totposrem,etotposrem,ncall)
-       rad_totnegrem=totnegrem/ncall
-       rad_etotnegrem=calc_error(totnegrem,etotnegrem,ncall)
+       if(ncall.eq.0) ncall = 1 ! if we never call the remnant-routines: avoid NaNs
+       rad_totreg     = totreg/ncall
+       rad_etotreg    = calc_error(totreg,etotreg,ncall)
+       rad_totabsreg  = totabsreg/ncall
+       rad_etotabsreg = calc_error(totabsreg,etotabsreg,ncall)
+       rad_totposreg  = totposreg/ncall
+       rad_etotposreg = calc_error(totposreg,etotposreg,ncall)
+       rad_totnegreg  = totnegreg/ncall
+       rad_etotnegreg = calc_error(totnegreg,etotnegreg,ncall)
+       rad_totrem     = totrem/ncall
+       rad_etotrem    = calc_error(totrem,etotrem,ncall)
+       rad_totabsrem  = totabsrem/ncall
+       rad_etotabsrem = calc_error(totabsrem,etotabsrem,ncall)
+       rad_totposrem  = totposrem/ncall
+       rad_etotposrem = calc_error(totposrem,etotposrem,ncall)
+       rad_totnegrem  = totnegrem/ncall
+       rad_etotnegrem = calc_error(totnegrem,etotnegrem,ncall)
        end

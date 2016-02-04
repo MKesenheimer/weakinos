@@ -99,7 +99,7 @@ c levi-civita symbol
       
 
 c denominator function needed by FormCalc
-      double precision function  Den(x,y)
+      double precision function Den(x,y)
         implicit none
         double precision x,y
         Den = 1/(x-y)

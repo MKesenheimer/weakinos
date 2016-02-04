@@ -163,6 +163,7 @@ c     loop on final-state massless partons
      1                    (ll-0.5*Intm_ep(pborn(0,leg)))
 #ifdef DEBUG
                      print*,"in sigsoftvirt_mod.f:165"
+                     print*,"uncomment to continue"
                      print*,"Q",Q
                      stop
 #endif
@@ -395,7 +396,7 @@ c the range in phi is 0<phi<pi.
       function Intmm_ep(p1,p2)
 c               / 
 c               |           d phi                             p1.p2  
-c Intmm_ep= -2 | d cos th  ----- log(sin th sin phi) k0^2 ----------
+c Intmm_ep= -2  | d cos th  ----- log(sin th sin phi) k0^2 ----------
 c               |             pi                           p1.k  p2.k
 c               /
 c p1^2>0, p2^2>0.

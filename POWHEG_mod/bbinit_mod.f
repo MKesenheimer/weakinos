@@ -565,6 +565,7 @@ c add finalized remnant contributions in histograms
       endif
 
 #ifdef DSUB_II
+
 #ifdef DEBUGQ
       print*,"[DEBUG] checking differences in tot_arr"
       call diff_rad_totarr
@@ -618,21 +619,21 @@ c           rad_totgen=rad_totrm+rad_totbtlgen
 c           rad_etotgen=sqrt(rad_etotbtlgen**2+rad_etotrm**2)
 c           rad_tot=rad_totrm+rad_totbtl
 c           rad_etot=sqrt(rad_etotbtl**2+rad_etotrm**2)
-c CH, MK: add analogues to totbtlgen (totremgen,totreggen,totosresgen35/45),
+c CH, MK: add analogues to totbtlgen (totremgen,totreggen,totosresgen(res)),
 c which contain the remnants, the reg. and the osres-contributions 
-c (for res. in 35 and 45), respectively...
+c respectively...
       if(flg_withnegweights) then
          rad_totbtlgen=rad_totabsbtl
          rad_etotbtlgen=rad_etotabsbtl
          ! CH, MK: added the following lines
          !==============================================================
-         rad_totreggen=rad_totabsreg
-         rad_etotreggen=rad_etotabsreg
-         rad_totremgen=rad_totabsrem
-         rad_etotremgen=rad_etotabsrem
+         rad_totreggen  = rad_totabsreg
+         rad_etotreggen = rad_etotabsreg
+         rad_totremgen  = rad_totabsrem
+         rad_etotremgen = rad_etotabsrem
          do ichan=1,nosres
-           rad_totosresgen(ichan)=rad_totabsosres(ichan)
-           rad_etotosresgen(ichan)=rad_etotabsosres(ichan)
+           rad_totosresgen(ichan)  = rad_totabsosres(ichan)
+           rad_etotosresgen(ichan) = rad_etotabsosres(ichan)
          enddo
          !==============================================================
       else
@@ -642,24 +643,25 @@ c negligible
          rad_etotbtlgen=rad_etotbtl
          ! CH, MK: added the following lines
          !==============================================================
-         rad_totreggen=rad_totreg
-         rad_etotreggen=rad_etotreg
-         rad_totremgen=rad_totrem
-         rad_etotremgen=rad_etotrem
+         rad_totreggen  = rad_totreg
+         rad_etotreggen = rad_etotreg
+         rad_totremgen  = rad_totrem
+         rad_etotremgen = rad_etotrem
          do ichan=1,nosres 
-           rad_totosresgen(ichan)=rad_totosres(ichan)
-           rad_etotosresgen(ichan)=rad_etotosres(ichan)
+           rad_totosresgen(ichan)  = rad_totosres(ichan)
+           rad_etotosresgen(ichan) = rad_etotosres(ichan)
          enddo
          !==============================================================
       endif
 
       ! CH, MK: added or changed the following lines
       !=================================================================
-      rad_totosresgen_sum = 0D0
+      rad_totosresgen_sum   = 0D0
       rad_etotosresgen_sum2 = 0D0
-      rad_totosres_sum = 0D0
-      rad_etotosres_sum2 = 0D0
-      rad_totnegosres_sum = 0D0
+      rad_totosres_sum      = 0D0
+      rad_etotosres_sum2    = 0D0
+      rad_totnegosres_sum   = 0D0
+      
       do ichan=1,nosres
         rad_totosresgen_sum   = rad_totosresgen_sum + 
      &                          rad_totosresgen(ichan)
@@ -683,16 +685,20 @@ c negligible
       !stop
 #endif
       
-      rad_totgen=rad_totreggen+rad_totremgen+rad_totosresgen_sum+
-     &               rad_totbtlgen
-     
-      rad_etotgen=dsqrt(rad_etotbtlgen**2+rad_etotreggen**2
-     &               +rad_etotremgen**2+rad_etotosresgen_sum2)
+      rad_totgen  = rad_totreggen + rad_totremgen + 
+     &              rad_totosresgen_sum + rad_totbtlgen
+      rad_etotgen = dsqrt(rad_etotbtlgen**2 + rad_etotreggen**2 +
+     &                    rad_etotremgen**2 + rad_etotosresgen_sum2)
 
       ! physical xs
-      rad_tot=rad_totreg+rad_totrem+rad_totosres_sum+rad_totbtl
-      rad_etot=dsqrt(rad_etotreg**2+rad_etotrem**2+rad_etotosres_sum2
-     &               +rad_etotbtl**2)
+      rad_tot  = rad_totreg + rad_totrem + rad_totosres_sum + rad_totbtl
+      rad_etot = dsqrt(rad_etotreg**2 + rad_etotrem**2 +
+     &                 rad_etotosres_sum2 + rad_etotbtl**2)
+     
+#ifdef DEBUGQ
+      print*,"rad_tot",rad_tot," +- ",rad_etot
+      stop
+#endif
       !=================================================================
       
 c Grids are stored in all cases; they contain informations in
@@ -1187,7 +1193,7 @@ c MK: added
       ! this is called only once and is mandatory
       call update_totarr ! MK: OK!
       write(iun) ((rad_totarr(j,k),j=1,2),k=1,ntot)
-      write(iun) (((rad_osres_totarr(j,k,ichan),j=1,2),k=1,ntot)
+      write(iun) (((rad_osres_totarr(j,k,ichan),j=1,2),k=1,ntot_osres)
      &                                              ,ichan=1,nosres)
       !=================================================================
       close(iun)
@@ -1399,6 +1405,7 @@ c random seeds
             ! wurde bisher noch nicht aufgerufen
             print*,"[DEBUG] checking differences in tot_arr"
             call diff_rad_totarr
+            print*,"uncomment to continue"
             stop
 #endif
             call apply_totarr ! MK: save the array totarr to the individual variables
@@ -1461,30 +1468,30 @@ c osres. parts are naturally "mixed"-> simply recalculate these 2 entries at the
             do j=1,ntot
               if(j.le.15) then! CH, MK: these are the btilde/remnant-entries
                 rad_totarr(2,j)=dsqrt((rad_totarr(2,j)**2*(jfound-1)**2+
-     1                          tot(2,j)**2)/jfound**2+(jfound-1)*
-     2                          (rad_totarr(1,j)-tot(1,j))**2/
-     3                          (jfound**3*ncall2))
+     &                          tot(2,j)**2)/jfound**2+(jfound-1)*
+     &                          (rad_totarr(1,j)-tot(1,j))**2/
+     &                          (jfound**3*ncall2))
               else
                 rad_totarr(2,j)=dsqrt((rad_totarr(2,j)**2*(jfound-1)**2+
-     1                          tot(2,j)**2)/jfound**2+(jfound-1)*
-     2                          (rad_totarr(1,j)-tot(1,j))**2/
-     3                          (jfound**3*ncall2osres))
+     &                          tot(2,j)**2)/jfound**2+(jfound-1)*
+     &                          (rad_totarr(1,j)-tot(1,j))**2/
+     &                          (jfound**3*ncall2osres))
               endif
               rad_totarr(1,j)=(rad_totarr(1,j)*(jfound-1)+tot(1,j))/
-     1                         jfound
+     &                         jfound
             enddo
 
             ! MK: added the on-shell contributions
             do j=1,ntot_osres
               do ichan=1,nosres
                 rad_osres_totarr(2,j,ichan)=
-     1            dsqrt((rad_osres_totarr(2,j,ichan)**2*(jfound-1)**2+
-     2            tot_osres(2,j,ichan)**2)/jfound**2+(jfound-1)*
-     3            (rad_osres_totarr(1,j,ichan)-tot_osres(1,j,ichan))**2/
-     4            (jfound**3*ncall2osres))
+     &            dsqrt((rad_osres_totarr(2,j,ichan)**2*(jfound-1)**2+
+     &            tot_osres(2,j,ichan)**2)/jfound**2+(jfound-1)*
+     &            (rad_osres_totarr(1,j,ichan)-tot_osres(1,j,ichan))**2/
+     &            (jfound**3*ncall2osres))
                 rad_osres_totarr(1,j,ichan)=
-     1            (rad_osres_totarr(1,j,ichan)*(jfound-1)+
-     2            tot_osres(1,j,ichan))/jfound
+     &            (rad_osres_totarr(1,j,ichan)*(jfound-1)+
+     &            tot_osres(1,j,ichan))/jfound
               enddo
             enddo
 #ifdef DEBUG
@@ -2013,6 +2020,7 @@ c MK: added
      1              totneg/(2*totneg+rad_tot)
 c     1     rad_totnegbtl/(2*rad_totnegbtl+rad_tot)
       ! ================================================================
+      close(iunstat)
       end
 
 c MK: added this routine
@@ -2100,59 +2108,59 @@ c write back the array rad_totarr and rad_osres_totarr to the original values
         integer ichan
 
         ! btilde contributions 1:4
-        rad_totbtl = rad_totarr(1,1) 
-        rad_etotbtl = rad_totarr(2,1) 
-        rad_totabsbtl = rad_totarr(1,2) 
+        rad_totbtl     = rad_totarr(1,1) 
+        rad_etotbtl    = rad_totarr(2,1) 
+        rad_totabsbtl  = rad_totarr(1,2) 
         rad_etotabsbtl = rad_totarr(2,2) 
-        rad_totposbtl = rad_totarr(1,3) 
+        rad_totposbtl  = rad_totarr(1,3) 
         rad_etotposbtl = rad_totarr(2,3) 
-        rad_totnegbtl = rad_totarr(1,4) 
+        rad_totnegbtl  = rad_totarr(1,4) 
         rad_etotnegbtl = rad_totarr(2,4) 
 
         ! regular contributions 5:8
-        rad_totreg = rad_totarr(1,5)
-        rad_etotreg = rad_totarr(2,5)
-        rad_totabsreg = rad_totarr(1,6)
+        rad_totreg     = rad_totarr(1,5)
+        rad_etotreg    = rad_totarr(2,5)
+        rad_totabsreg  = rad_totarr(1,6)
         rad_etotabsreg = rad_totarr(2,6)
-        rad_totposreg = rad_totarr(1,7)
+        rad_totposreg  = rad_totarr(1,7)
         rad_etotposreg = rad_totarr(2,7)
-        rad_totnegreg = rad_totarr(1,8)
+        rad_totnegreg  = rad_totarr(1,8)
         rad_etotnegreg = rad_totarr(2,8)
 
         ! remnant contributions 9:15
-        rad_totrem = rad_totarr(1,9) 
-        rad_etotrem = rad_totarr(2,9) 
-        rad_totabsrem = rad_totarr(1,10)
+        rad_totrem     = rad_totarr(1,9) 
+        rad_etotrem    = rad_totarr(2,9) 
+        rad_totabsrem  = rad_totarr(1,10)
         rad_etotabsrem = rad_totarr(2,10)
-        rad_totposrem = rad_totarr(1,11)
+        rad_totposrem  = rad_totarr(1,11)
         rad_etotposrem = rad_totarr(2,11)
-        rad_totnegrem = rad_totarr(1,12)
+        rad_totnegrem  = rad_totarr(1,12)
         rad_etotnegrem = rad_totarr(2,12)
 
-        rad_totbtlgen = rad_totarr(1,13)
+        rad_totbtlgen  = rad_totarr(1,13)
         rad_etotbtlgen = rad_totarr(2,13)
-        rad_totreggen = rad_totarr(1,14)
+        rad_totreggen  = rad_totarr(1,14)
         rad_etotreggen = rad_totarr(2,14)
-        rad_totremgen = rad_totarr(1,15)
+        rad_totremgen  = rad_totarr(1,15)
         rad_etotremgen = rad_totarr(2,15)
 
         ! totals 16:17
-        rad_tot = rad_totarr(1,16)
-        rad_etot = rad_totarr(2,16)
-        rad_totgen = rad_totarr(1,17)
+        rad_tot     = rad_totarr(1,16)
+        rad_etot    = rad_totarr(2,16)
+        rad_totgen  = rad_totarr(1,17)
         rad_etotgen = rad_totarr(2,17)
 
         ! on-shell contributions
         do ichan=1,nosres
-          rad_totosres(ichan) = rad_osres_totarr(1,1,ichan)
-          rad_etotosres(ichan) = rad_osres_totarr(2,1,ichan)
-          rad_totabsosres(ichan) = rad_osres_totarr(1,2,ichan)
+          rad_totosres(ichan)     = rad_osres_totarr(1,1,ichan)
+          rad_etotosres(ichan)    = rad_osres_totarr(2,1,ichan)
+          rad_totabsosres(ichan)  = rad_osres_totarr(1,2,ichan)
           rad_etotabsosres(ichan) = rad_osres_totarr(2,2,ichan)
-          rad_totpososres(ichan) = rad_osres_totarr(1,3,ichan)
+          rad_totpososres(ichan)  = rad_osres_totarr(1,3,ichan)
           rad_etotpososres(ichan) = rad_osres_totarr(2,3,ichan)
-          rad_totnegosres(ichan) = rad_osres_totarr(1,4,ichan)
+          rad_totnegosres(ichan)  = rad_osres_totarr(1,4,ichan)
           rad_etotnegosres(ichan) = rad_osres_totarr(2,4,ichan)
-          rad_totosresgen(ichan) = rad_osres_totarr(1,5,ichan)
+          rad_totosresgen(ichan)  = rad_osres_totarr(1,5,ichan)
           rad_etotosresgen(ichan) = rad_osres_totarr(2,5,ichan)
         enddo
       end

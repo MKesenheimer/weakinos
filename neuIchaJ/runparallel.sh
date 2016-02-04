@@ -1,16 +1,21 @@
 #!/bin/bash
 #
-# examples:
-# in ./weakinos:
-# ./runparallel.sh -d testrun_1 -e pwhg_main_nixj -p 4
-# -> run pwhg_main_nixj in testrun_1 on 4 cores
+# Examples:
+# runparallel.sh -d testrun_1 -e pwhg_main_nixj
+# -> runs pwhg_main_nixj in testrun_1 on 4 cores (default)
 #
-# in ./weakinos/neuIchaJ:
-# ../runparallel.sh -c -d testrun_1 -e pwhg_main_nixj -p 4 --itmx1 4 \
+# runparallel.sh -c -d testrun_1 -e pwhg_main_nixj --itmx1 4 \
 # --itmx2 4 --itmx1osres 6 --itmx2osres 8 --ncall1 2000 --ncall2 2000 \
 # --ncall1osres 20000 --ncall2osres 20000
-# -> run pwhg_main_nixj in testrun_1 on 4 cores and overwrite some powheg
+# -> runs pwhg_main_nixj in testrun_1 on 4 cores and overwrites some powheg
 #    parameters in powheg.input
+#
+# Hint: use softpoint (must be installed separately) to generate a slha 
+#       input file which is then processed with powheg
+# softpoint.x sugra --m0=125 --m12=200 --a0=-300 --tanBeta=10 > ./testrun_clean/input.slha 
+# ./runparallel.sh -g -c -e pwhg_main_nixj --lopdf 10042 --slha input.slha -d testrun_1
+# -> copies the folder testrun_clean (and renames it to testrun_1) and proceeds to
+#    calculate the LO cross section on 4 cores.
 #
 # automatically runs POWHEG in parallel mode with the following stages:
 #Stage 1a:
@@ -70,6 +75,8 @@ Optional arguments:
   --genevents <n1> <n2>    generate the upper bound (n1) and events (n2)
   --usemsub                use the submitting system msub
   -g, --genfolder          generate a new run directory with default input files
+  -s, --slha <name>        name of the slha file you want to use
+  --lopdf <n>              only LO calculation with LO pdf and LHA number n
 EOM
    exit 0
 }
@@ -169,6 +176,16 @@ case $KEY in
         ;;
     --itmx2osres)
         ITMX2OSRES="$2"
+        shift
+        shift
+        ;;
+    -s|--slha)
+        SLHA="$2"
+        shift
+        shift
+        ;;
+    --lopdf)
+        LOPDF="$2"
         shift
         shift
         ;;
@@ -296,6 +313,16 @@ fi
 
 if [ "$ITMX2OSRES" != "" ]; then
    overwrite_powheg_var "itmx2osres" $ITMX2OSRES
+fi
+
+if [ "$SLHA" != "" ]; then
+   overwrite_powheg_var "SLHA" \'"$SLHA"\'
+fi
+
+if [ "$LOPDF" != "" ]; then
+   overwrite_powheg_var "lhans1" $LOPDF
+   overwrite_powheg_var "lhans2" $LOPDF
+   overwrite_powheg_var "bornonly" 1
 fi
 
 # start the POWHEG-main executable

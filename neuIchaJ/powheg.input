@@ -1,0 +1,28 @@
+
+
+# Modified by runparallel.sh:
+use-old-grid 1
+use-old-ubound 1
+manyseeds 1
+testplots 1
+SLHA 'input.slha'
+lhans1 10042
+lhans2 10042
+bornonly 1
+
+#Stage 1a: Generating Grids, iteration 1
+##fakevirtuals 1
+##parallelstage 1
+##xgriditeration 1
+
+#Stage 1b: Generating Grids, iteration 2
+#fakevirtuals 1
+#parallelstage 1
+#xgriditeration 2
+
+#Stage 2: NLO run
+fakevirtuals 0
+xgriditeration 1
+parallelstage 2
+numevts 0
+nubound 0

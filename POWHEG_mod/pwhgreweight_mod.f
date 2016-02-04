@@ -15,7 +15,7 @@ c bigger changes over a whole section are marked with !===...
       include 'pwhg_st.h'
       include 'pwhg_pdf.h'
       include 'LesHouches.h'
-c !  MK: added
+c ! MK: added
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
@@ -33,6 +33,7 @@ c !  MK: added
       
 #ifdef DEBUG
       print*,"in pwhgreweight_mod.f:35"
+      print*,"uncomment to continue"
       stop
 #endif
       
@@ -130,7 +131,7 @@ c !  MK: added
      1 xmmmrm,ifoldrm,2,mcalls,icalls,xx)
       end
 
-      ! MK: added this routine
+      ! CH, MK: added this routine
       subroutine gen_sigosresrw
       implicit none
       include 'nlegborn.h'
@@ -257,6 +258,13 @@ c !  MK: added
       integer gen_seed,gen_n1,gen_n2
       common/cgenrand/gen_seed,gen_n1,gen_n2
       readrw = .false.
+      
+#ifdef DEBUG
+      print*,"in pwhgreweight_mod.f:263"
+      print*,"uncomment to continue"
+      stop
+#endif
+      
  1    continue
       read(unit=nlf,fmt='(a)',end=998) string
       if(string.eq.'<rwgt>'.or.
@@ -314,8 +322,8 @@ c     regular
                read(string,*)rad_type,
      $              rad_realosres,rad_currentweight,
      $              gen_seed,gen_n1,gen_n2
-            else
             !===========================================================
+            else
                write(*,*) 'Invalid rad_type in lhefwriteevrw: ',rad_type
                call exit(-1)
             endif

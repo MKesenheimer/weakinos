@@ -1272,9 +1272,10 @@ c     cannot come from the same splitting
       parameter(pdgfac=1000000)
       logical is_charged
       integer fl,flcp
-      flcp=mod(fl,pdgfac)! CH: take sparticles into account
+      flcp=mod(fl,pdgfac) ! CH: take sparticles into account
 #ifdef DEBUG
       print*,"in find_regions_mod.f:1279"
+      print*,"Uncomment to continue"
       print*,fl
       print*,flcp
       stop
@@ -1285,7 +1286,7 @@ c     cannot come from the same splitting
          is_charged=.true.
       elseif(abs(fl).ge.11.and.abs(fl).le.15.and.2*(fl/2).ne.fl) then
          is_charged=.true.
-      ! MK: added squarks, sleptons
+      ! CH, MK: added squarks, sleptons
       elseif(abs(flcp).ge.11.and.abs(flcp).le.15.and.
      &       2*(flcp/2).ne.flcp) then
          is_charged=.true.

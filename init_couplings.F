@@ -461,6 +461,13 @@ c#define SLHA_ALPHA
             stop
         end select
         
+        if( (dabs(par_Fin1mass) + dabs(par_Fin2mass)) .lt. par_Zmass )
+     &  then
+          print*, "Error: Final state masses low, W/Z decays might "//
+     &            "be more suitable"
+          stop
+        endif
+        
         ! Sfermion masses
         do i=1,2     ! left, right
           do j=1,4   ! type (nu,e,u,d)
