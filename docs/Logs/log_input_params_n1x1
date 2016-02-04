@@ -114,18 +114,18 @@ und Alpha wird nun aus der W-Masse und Gf berechnet
           LO:
             4.9712886200291975E-002 +-   2.0579331398575354E-005
           NLO:
-            
+            6.6033265858103540E-002  +-    4.2451418576418539E-005
             davon btilde-Beitrag:
-            
+            6.5851211744935481E-002  +-    4.2450693435646118E-005
             davon osres-Beitrag:
-            
+            1.8205411316804787E-004  +-    3.5772628182504860E-007
         Prospino:
           LO:
             4.9693379975163723E-002 +-   4.0984420339628805E-005
           NLO:
             6.4889320342729387E-002 +-   4.4698665071878095E-005
        rel. LO  error: 0.04%
-       rel. NLO error:
+       rel. NLO error: 1.7%
 
 
         -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_2
@@ -134,38 +134,18 @@ und Alpha wird nun aus der W-Masse und Gf berechnet
           LO: 
             2.8749058655961973E-002 +-   1.1901456385820650E-005
           NLO:
-            
+            3.8195380171785372E-002  +-    2.5046055063961996E-005
             davon btilde-Beitrag:
-            
+            3.8030135656840942E-002  +-    2.5045200604017015E-005
             davon osres-Beitrag:
-            
+            1.6524451494443008E-004  +-    3.2537330585933619E-007
         Prospino:
           LO:
             2.8777522703167031E-002 +-   2.4718482318293207E-005
           NLO:
             3.7626295182861209E-002 +-   2.7774183207854888E-005
        rel. LO  error: 0.1%
-       rel. NLO error:
-            
-
-        -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_3
-        (input_suspect3_mSUGRA_3.slha)
-        POWHEG:
-          LO: 
-            13.715056956224821      +-   5.9850433613900843E-003
-          NLO:
-            
-            davon btilde-Beitrag:
-            
-            davon osres-Beitrag:
-            
-        Prospino:
-          LO:
-            13.642068859867159      +-   1.0779635979236911E-002
-          NLO:
-            18.555097511794234      +-   1.1371656690289018E-002
-       rel. LO  error: 0.5%
-       rel. NLO error:
+       rel. NLO error: 1.5%
 
 
         -> Desktop/runs/Parallel/testrun_suspect3_mSUGRA_4
@@ -174,18 +154,18 @@ und Alpha wird nun aus der W-Masse und Gf berechnet
           LO: 
             3.7652755277965779E-003 +-   1.7438626589852084E-006
           NLO:
-            
+            4.8564828440932949E-003  +-    3.5017893765027836E-006
             davon btilde-Beitrag:
-            
+            4.8203127707300919E-003  +-    3.5015842334589982E-006
             davon osres-Beitrag:
-            
+            3.6170073363202199E-005  +-    5.8511695291515409E-008
         Prospino:
           LO:
             3.7575188179820307E-003 +-   3.1358783876478269E-006
           NLO:
             4.8421461055072673E-003 +-   3.6537357069825281E-006	
        rel. LO  error: 0.2%
-       rel. NLO error:
+       rel. NLO error: 0.3%
 
 
 DSUB_II, mit verschiedenen input-cards von softsusy362:
@@ -201,11 +181,11 @@ und Alpha wird nun aus der W-Masse und Gf berechnet
           LO:
             1.1848023336975988       +-    8.1556751755064059E-004
           NLO:
-            1.6407711145818076       +-    1.0810367277723524E-003
+            1.6408967112351041       +-    1.0736811885191436E-003
             davon btilde-Beitrag:
-            1.6395134317940887       +-    1.0806138816343391E-003
+            1.6396789171222095       +-    1.0736759394591191E-003
             davon osres-Beitrag:
-            1.2576827877186637E-003  +-    3.8729937489126681E-005
+            1.2177941128946092E-003  +-    4.2874104071954113E-006
         Prospino:
           LO:
             1.1854828405046449      +-   9.4909433748130065E-004
@@ -221,18 +201,18 @@ und Alpha wird nun aus der W-Masse und Gf berechnet
           LO:
             1.0013444498338653       +-    6.8607991202898643E-004
           NLO:
-            
+            1.3859503028746709       +-    8.9164294866151436E-004
             davon btilde-Beitrag:
-            
+            1.3848027565722156       +-    8.9163891369514650E-004
             davon osres-Beitrag:
-            
+            1.1475463024554714E-003  +-    3.4638675166771993E-006
         Prospino:
           LO:
             1.0018154311440055      +-   8.0431752396183521E-004
           NLO:
             1.3378938500530275      +-   8.5924988542597763E-004
        rel. LO  error: 0.05%
-       rel. NLO error: 
+       rel. NLO error: 3.5%
 
 
         -> Desktop/runs/Parallel/testrun_softsusy362_mSUGRA_3
@@ -241,16 +221,75 @@ und Alpha wird nun aus der W-Masse und Gf berechnet
           LO:
             1.9229673207862750       +-    1.3412306097873540E-003
           NLO:
-            
+            2.6709157135205785       +-    1.8462957709677323E-003
             davon btilde-Beitrag:
-            
+            2.6695687444723140       +-    1.8462914601959130E-003 
             davon osres-Beitrag:
-            
+            1.3469690482643725E-003  +-    5.0022238048793291E-006
         Prospino:
           LO:
             1.9231511732442574      +-   1.5339387569001991E-003
           NLO:
-            
+            2.5743735720533150      +-   1.6148148075513978E-003
        rel. LO  error: 0.01%
-       rel. NLO error: 
+       rel. NLO error: 3.6%
 
+       
+        -> Desktop/runs/Parallel/testrun_a0_120
+        (input_a0_120.slha)
+        POWHEG:
+          LO:
+            286.54297977610247       +-    0.0000000000000000 (Fehler beim Kombinieren der Ergebnisse -> egal)
+          NLO:
+            404.88632916228448       +-    0.0000000000000000
+            davon btilde-Beitrag:
+            404.88283242260820       +-    0.0000000000000000
+            davon osres-Beitrag:
+            3.4967396763040171E-003  +-    1.0985517065178596E-005
+        Prospino:
+          LO:
+            286.59282261135689      +-  0.22542709552955281 (Warnung: m1+m2<mZ)
+          NLO:
+            393.63284316219472      +-  0.25889607935934761
+       rel. LO  error: 0.01%
+       rel. NLO error: 2.8%
+       
+       
+        -> Desktop/runs/Parallel/testrun_a0_400
+        (input_a0_400.slha)
+        POWHEG:
+          LO:
+            0.15210517429542059       +-    3.2919382208955262E-005
+          NLO:
+            0.20282586218093948       +-    1.3085023270072036E-004
+            davon btilde-Beitrag:
+            0.20262110579143208       +-    1.3084956062247208E-004
+            davon osres-Beitrag:
+            2.0475638950741499E-004  +-    5.3143014283800906E-007
+        Prospino:
+          LO:
+            0.15292567319124858      +-   1.2333764779810937E-004
+          NLO:
+            0.20020237674255417      +-   1.3111329048154605E-004
+       rel. LO  error: 0.5%
+       rel. NLO error: 1.3%
+       
+       
+        -> Desktop/runs/Parallel/testrun_m12_600
+        (input_m12_600.slha)
+        POWHEG:
+          LO:
+            5.1212958828082514E-005  +-    1.4223619416154578E-008
+          NLO:
+            6.5070601756107954E-005  +-    5.6892912901464320E-008
+            davon btilde-Beitrag:
+            6.3468824580720554E-005  +-    5.6878075523884957E-008
+            davon osres-Beitrag:
+            1.6017771753874038E-006  +-    2.1041155712084057E-009
+        Prospino:
+          LO:
+            5.0907842313069058E-005 +-   4.2957392816871505E-008
+          NLO:
+            6.5522112184793492E-005 +-   5.5182705810256875E-008
+       rel. LO  error: 0.6%
+       rel. NLO error: 0.7%

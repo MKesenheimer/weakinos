@@ -1,8 +1,8 @@
 # --- variables defined by configure ---
 
 SRC = ./src
-PREFIX = x86_64-Darwin
-LIBDIRSUFFIX = 
+PREFIX = x86_64-Linux
+LIBDIRSUFFIX = 64
 
 EXE = 
 DEF = -D
@@ -11,10 +11,10 @@ NOUNDERSCORE = 0
 FC = gfortran
 FFLAGS =  -O1 -g -ffixed-line-length-none     -fno-range-check -ff2c  $(DEF)QUAD=1 $(DEF)U77EXT=0
 
-CC = clang
+CC = gcc
 CFLAGS = -O3 -g -fomit-frame-pointer -ffast-math -Wall -m64   -DNOUNDERSCORE=$(NOUNDERSCORE) -DBIGENDIAN=0
 
-CXX = clang++
+CXX = g++
 CXXFLAGS = -O3 -g -fomit-frame-pointer -ffast-math -Wall -m64   
 
 ML = 1
@@ -22,14 +22,14 @@ MCC = mcc
 MCFLAGS = -st -b64
 MCLIBS = -lpthread
 
-LDFLAGS = -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0 -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0/../../.. -lgfortran -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0 -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0/../../.. -lgfortran -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -m64
+LDFLAGS = -L/usr/lib/gcc/x86_64-linux-gnu/4.8 -L/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/4.8/../../.. -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lgcc_s -lgcc -m64
 
 AR = ar
 RANLIB = ranlib
 NM = nm
 DLLTOOL = 
 
-PARALLEL = -j 2
+PARALLEL = -j 4
 
 # --- end defs by configure ---
 
