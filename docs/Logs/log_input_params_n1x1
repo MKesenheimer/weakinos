@@ -33,7 +33,7 @@ Notiz: Prospino verwendet WREG = ewi*ms
 
 
 DSUB_II, mit verschiedenen input.slha Cards:
-        -> Desktop/runs/Parallel/WREG_old/testrun_orig
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_orig
         1.1784451120938630E-002  +-    9.4154158563317214E-006 (input_orig.slha)
         davon btilde-Beitrag:
         1.1700989505470124E-002  +-    9.4139837218460992E-006
@@ -41,7 +41,7 @@ DSUB_II, mit verschiedenen input.slha Cards:
         8.3461615468505390E-005  +-    2.5518011206136925E-007
  
 
-        -> Desktop/runs/Parallel/WREG_old/testrun_suspect2
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_suspect2
         3.0654564280107577       +-    2.0277448563123541E-003 (input_suspect2.slha)
         davon btilde-Beitrag:
         3.0642261060242415       +-    2.0277431147113132E-003
@@ -49,7 +49,7 @@ DSUB_II, mit verschiedenen input.slha Cards:
         1.2303219865162300E-003  +-    3.5784545480649755E-006     
         
 
-        -> Desktop/runs/Parallel/WREG_old/testrun_mg5
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_mg5
         1.1782418567177558E-002  +-    9.4247955110196997E-006 (input_mg5.slha)
         davon btilde-Beitrag:
         1.1698956987701185E-002  +-    9.4233648937068108E-006
@@ -60,7 +60,7 @@ DSUB_II, mit verschiedenen input.slha Cards:
 DSUB_II, mit verschiedenen input-cards von suspect3:
 Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
 
-        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_1
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_suspect3_mSUGRA_1
         (input_suspect3_mSUGRA_1.slha)
         7.1613961136850035E-002  +-    4.9009671858370748E-005
         davon btilde-Beitrag:
@@ -68,7 +68,7 @@ Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
         davon osres-Beitrag:
         2.0984229335424456E-004  +-    6.2527159432168887E-007
 
-        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_2
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_suspect3_mSUGRA_2
         (input_suspect3_mSUGRA_2.slha)
         4.1304428380677334E-002  +-    3.0877640532168473E-005
         davon btilde-Beitrag:
@@ -76,7 +76,7 @@ Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
         davon osres-Beitrag:
         1.9005874772572341E-004  +-    5.9690831385442472E-007
 
-        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_3
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_suspect3_mSUGRA_3
         (input_suspect3_mSUGRA_3.slha)
         21.167832951030860       +-    1.5197864157599458E-002
         davon btilde-Beitrag:
@@ -84,7 +84,7 @@ Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
         davon osres-Beitrag:
         2.6206959837038065E-003  +-    7.7245756303228462E-006
 
-        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_4
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_suspect3_mSUGRA_4
         (input_suspect3_mSUGRA_4.slha)
         612685325.39677525       +-    536578133.56739718 
         davon btilde-Beitrag:
@@ -92,7 +92,7 @@ Die kombinierten Ergebnisse sind aus Stage 2 (pwg-st2-000x-stat.dat)
         davon osres-Beitrag:
         9.3014239454630235E-003  +-    2.4988791996075759E-005
 
-        -> Desktop/runs/Parallel/WREG_old/testrun_suspect3_mSUGRA_5
+        -> Desktop/runs/Parallel/Alpa_old/WREG_old/testrun_suspect3_mSUGRA_5
         (input_suspect3_mSUGRA_5.slha)
         5.2681830799598851E-003  +-    4.5011926195962093E-006
         davon btilde-Beitrag:
