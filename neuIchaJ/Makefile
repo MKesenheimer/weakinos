@@ -172,6 +172,7 @@ VIRTSUB = $(VIRT)/udbar_n1x1_squaredme $(VIRT)/dubar_n1x1_squaredme	\
 	$(VIRT)/udbar_n1x1_test_squaredme $(VIRT)/dubar_n1x1_test_squaredme
 REALSUB  = $(REAL)/SubProcesses_nIxJ
 MODIFIED = $(WORKINGDIR)/POWHEG_mod
+SCRIPTS  = $(WORKINGDIR)/Scripts
 
 FJ     = $(TOOLS)/fastjet
 PY     = $(TOOLS)/pythia
@@ -538,7 +539,7 @@ HEADERS += $(wildcard *.inc $(MDINCLUDE)/*.inc $(UINCLUDE)/*.inc)
 ## type make -j4 [rule] to speed up the compilation
 
 pwhg_main_nixj: $(SOURCESMAIN)
-	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESMAIN)) $(LINKER) -o $@ 
+	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESMAIN)) $(LINKER) -o $@
 
 lhef_analysis:$(SOURCESLHEF)
 	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESLHEF)) $(LINKER) -o $@ 
@@ -550,10 +551,20 @@ main-PYTHIA-lhef: $(SOURCESPYTHIA)
 main-HERWIG-lhef: $(SOURCESHERWIG)
 	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESHERWIG)) $(LINKER) -o $@
 
-all: pwhg_main_nixj lhef_analysis main-PYTHIA-lhef
+merge-pwg-stat: 
+	$(FC) $(TOOLS)/programs/merge-pwg-stat.f -o $@
+
+merge-data: 
+	$(FC) $(TOOLS)/programs/merge-data.f -o $@
+
+copy-scripts:
+	cp $(SCRIPTS)/runparallel.sh  $(SUBWORKINGDIR) && \
+	cp $(SCRIPTS)/clean_rundir.sh $(SUBWORKINGDIR)
+
+all: pwhg_main_nixj copy-scripts merge-pwg-stat merge-data lhef_analysis main-PYTHIA-lhef
 
 clean:
-	rm -f build/*.o
+	rm -f build/*.o pwhg_main_nixj merge-pwg-stat merge-data runparallel.sh clean_rundir.sh
 
 clean-results:
 	find ./testrun ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) \
@@ -562,7 +573,7 @@ clean-results:
 clean-all: clean clean-results
 	rm -f pwhg_main_nixj lhef_analysis main-PYTHIA-lhef
 
-do-pwhg do: pwhg_main_nixj
+do-pwhg do: pwhg_main_nixj copy-scripts merge-pwg-stat merge-data
 	cd testrun && ../pwhg_main_nixj
 
 do-lhef: lhef_analysis

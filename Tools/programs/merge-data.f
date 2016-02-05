@@ -4,6 +4,7 @@ c is considered the beginning of a data set. All files to be
 c merged must be identical in format.
 c When the program starts, it expects as input a list of filenames,
 c one per line, to be merged. An empty lines terminates the list.
+      program merge_data  
       implicit none
       integer maxfiles,maxlines
       parameter (maxfiles=1000,maxlines=15000)
