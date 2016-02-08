@@ -568,7 +568,7 @@ c add finalized remnant contributions in histograms
 #ifdef DSUB_II
 
 #ifdef DEBUGQ
-      print*,"[DEBUG] checking differences in tot_arr"
+      print*,"[DEBUG:571] checking differences in tot_arr"
       call diff_rad_totarr
 #endif
       ! MK: combine the results of all on shell resonances:
@@ -1189,7 +1189,7 @@ c MK: added
       ! related tot rad_totbtl, ...
       !=================================================================
 #ifdef DEBUGQ
-      print*,"[DEBUG] checking differences in tot_arr"
+      print*,"[DEBUG:1192] checking differences in tot_arr"
       call diff_rad_totarr
 #endif
       ! this is called only once and is mandatory
@@ -1403,14 +1403,15 @@ c random seeds
                  enddo
                enddo
             enddo
-#ifdef DEBUG
-            ! wurde bisher noch nicht aufgerufen
-            print*,"[DEBUG] checking differences in tot_arr"
+            ! this is called only once and is mandatory
+            call apply_totarr ! MK: save the array totarr to the individual variables -> OK!
+#ifdef DEBUGQ
+            print*,"[DEBUG:1408] checking differences in tot_arr"
+            print*,rad_etotosres
             call diff_rad_totarr
             print*,"uncomment to continue"
             stop
 #endif
-            call apply_totarr ! MK: save the array totarr to the individual variables
          else
             do k=1,ndiminteg
                do j=0,nbins
@@ -1460,14 +1461,6 @@ c again assign these values directly to the rad_totarr
 c if we use different VEGAS-parameters for the osres-terms: make sure to take the
 c appropriate ncall2 here (this is not possible for rad_tot(gen), as here btilde and
 c osres. parts are naturally "mixed"-> simply recalculate these 2 entries at the end
-#ifdef DEBUG
-            ! wurde bisher noch nicht aufgerufen
-            print*,"[DEBUG:1464] checking differences in tot_arr"
-            print*,"uncomment to continue"
-            call diff_rad_totarr
-            stop
-#endif
-            call update_totarr ! MK: added
             do j=1,ntot
               if(j.le.15) then! CH, MK: these are the btilde/remnant-entries
                 rad_totarr(2,j)=dsqrt((rad_totarr(2,j)**2*(jfound-1)**2+
@@ -1497,13 +1490,12 @@ c osres. parts are naturally "mixed"-> simply recalculate these 2 entries at the
      &            tot_osres(1,j,ichan))/jfound
               enddo
             enddo
-#ifdef DEBUG
-            ! wurde bisher noch nicht aufgerufen
+#ifdef DEBUGQ
             print*,"[DEBUG:1501] checking differences in tot_arr"
             call diff_rad_totarr
             stop
 #endif
-            call apply_totarr ! MK: added
+            call apply_totarr ! MK: added -> OK!
          endif
          close(iun)
  111     continue
@@ -1975,7 +1967,7 @@ c MK: added
       ! ================================================================
 #ifdef DSUB_II
 #ifdef DEBUGQ
-      print*,"[DEBUG] checking differences in tot_arr"
+      print*,"[DEBUG:1978] checking differences in tot_arr"
       call diff_rad_totarr
 #endif
       ! MK: combine the results of all on shell resonances:
