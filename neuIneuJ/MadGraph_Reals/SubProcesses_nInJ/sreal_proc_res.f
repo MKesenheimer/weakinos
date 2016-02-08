@@ -1,4 +1,4 @@
-      subroutine sreal_proc(p,legs,chan,wgt)
+      subroutine sreal_proc_res(p,legs,chan,wgt)
       implicit none
       include "nexternal.inc"
       include "coupl.inc"
@@ -22,11 +22,14 @@
 #endif
       
       ! here: only left handed squarks can become resonant
-      if( chan.ne."ul35" .and. chan.ne."ul45" .and. 
+      if( chan.ne."ul35" .and. chan.ne."ul45" .and.
+     &    chan.ne."ur35" .and. chan.ne."ur45" .and.
      &    chan.ne."dl35" .and. chan.ne."dl45" .and.
+     &    chan.ne."dr35" .and. chan.ne."dr45" .and.
      &    chan.ne."allr ") then
         print*,"wrong channel number: ", chan
-        print*,"choose ul35, ul45, dl35, dl45 or allr."
+        print*,"choose ul35, ul45, ur35, ur45, dl35, dl45, dr35, "//
+     &         "dr45 or allr."
         stop
       endif
 

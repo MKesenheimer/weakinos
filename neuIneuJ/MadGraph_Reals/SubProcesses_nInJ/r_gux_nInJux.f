@@ -293,9 +293,19 @@ c (diagram removal type II)
       MATRIX_GUX_NINJUX = MATRIX_GUX_NINJUX - MATRIX_RESONANT
 #endif
 
+c if DSUB_II is used, the resonant matrix element |M_R|**2 will be added
+c back in subroutine setosresreal
+#if defined(DSUB_II) || defined(DSUB_II_TEST)
+      MATRIX_GUX_NINJUX = MATRIX_GUX_NINJUX
+     &                - MATRIX_GUX_NINJUX_RES(p,NHEL,IC,"ul35")
+     &                - MATRIX_GUX_NINJUX_RES(p,NHEL,IC,"ur35")
+     &                - MATRIX_GUX_NINJUX_RES(p,NHEL,IC,"ul45")
+     &                - MATRIX_GUX_NINJUX_RES(p,NHEL,IC,"ur45")
+#endif
+
 c delete the on-shell contributions of the resonant diagrams but keep
 c the interference term and the off-shell contributions
-#ifdef DSUB
+#ifdef DSUB_I
       S   = momsum2sq(p(0:3,1), p(0:3,2))
       S35 = momsum2sq(p(0:3,3), p(0:3,5))
       S45 = momsum2sq(p(0:3,4), p(0:3,5))
@@ -315,27 +325,27 @@ c the interference term and the off-shell contributions
       ! S35 = MUL^2, m3 = MNI, m5 = 0D0
       if( (S.ge.(MUL+dabs(MNJ))**2) .and. (MUL.ge.dabs(MNI))) then
         !off_to_on(p,i,j,k,mij,mi,mj,mk,p_OS)
-        call off_to_on(p,3,5,4,MUL,p_OS)              ! off_to_on the momenta p to on-shell momenta p_OS        
+        call off_to_on(p,"ul35",p_OS)              ! off_to_on the momenta p to on-shell momenta p_OS
         RATIO35L = (MUL*WREG)**2/((S35-MUL**2)**2+(MUL*WREG)**2)  ! calculate the ratio of the breit wigner functions
-        COUNTER35L = RATIO35L*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,0) ! generate the counter term
+        COUNTER35L = RATIO35L*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,"ul35") ! generate the counter term
       endif
       ! S35 = MUR^2, m3 = MNI, m5 = 0D0
       if( (S.ge.(MUR+dabs(MNJ))**2) .and. (MUR.ge.dabs(MNI))) then
-        call off_to_on(p,3,5,4,MUR,p_OS)
+        call off_to_on(p,"ur35",p_OS)
         RATIO35R = (MUR*WREG)**2/((S35-MUR**2)**2+(MUR*WREG)**2)
-        COUNTER35R = RATIO35R*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,1)
+        COUNTER35R = RATIO35R*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,"ur35")
       endif
       ! S45 = MUL^2, m4 = MNJ, m5 = 0D0
       if( (S.ge.(MUL+dabs(MNI))**2) .and. (MUL.ge.dabs(MNJ))) then
-        call off_to_on(p,4,5,3,MUL,p_OS)
+        call off_to_on(p,"ul45",p_OS)
         RATIO45L = (MUL*WREG)**2/((S45-MUL**2)**2+(MUL*WREG)**2)
-        COUNTER45L = RATIO45L*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,2)
+        COUNTER45L = RATIO45L*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,"ul45")
       endif
       ! S45 = MUR^2, m4 = MNJ, m5 = 0D0
       if( (S.ge.(MUR+dabs(MNI))**2) .and. (MUR.ge.dabs(MNJ))) then
-        call off_to_on(p,4,5,3,MUR,p_OS)
+        call off_to_on(p,"ur45",p_OS)
         RATIO45R = (MUR*WREG)**2/((S45-MUR**2)**2+(MUR*WREG)**2)
-        COUNTER45R = RATIO45R*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,3)
+        COUNTER45R = RATIO45R*MATRIX_GUX_NINJUX_RES(p_OS,NHEL,IC,"ur45")
       endif
       
       MATRIX_GUX_NINJUX = MATRIX_GUX_NINJUX - COUNTER35L - COUNTER35R

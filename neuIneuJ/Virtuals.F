@@ -1,8 +1,10 @@
 c############### Virtuals.f ############################################
-c last modified by MK, 10.02.2015
-c neutralino pair production
+c last modified by MK, 10.02.2016
+c weakino pair production
 c virtual corrections at NLO SQCD:
-c parton parton -> neutralino neutralino
+c parton parton -> weakino weakino
+c -6  -5  -4  -3  -2  -1  0  1  2  3  4  5  6
+c t~  b~  c~  s~  u~  d~  g  d  u  s  c  b  t
 
 c############### subroutine setvirtual #################################
 c returns (M_B * M_V)/(as/(2pi)) as real number,
@@ -19,6 +21,9 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
 #include "nlegborn.h"
 #include "looptools.h"
 #include "Flags.h"
+
+
+#include "decl.h"
 
         double precision p(0:3,nlegborn)
         integer vflav(nlegborn)
@@ -53,8 +58,7 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
         ! divergences
         double precision ltlambda
         common/debug/ltlambda
-
-#ifdef DEBUG
+#ifdef DEBUGQ
 #define DEBUG1
         ! debugging
         integer counter
@@ -205,162 +209,212 @@ c#define CHECKUV
         if(     abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000022)  ) then ! u + ubar -> n1 + n1
           call uubar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000022)  ) then ! d + dbar -> n1 + n1
           call ddbar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000022)  ) then ! c + cbar -> n1 + n1
           call uubar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000022)  ) then ! s + sbar -> n1 + n1
           call ddbar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000022)  ) then ! b + bbar -> n1 + n1
           call ddbar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
 
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000023)  ) then ! u + ubar -> n1 + n2
           call uubar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000023)  ) then ! d + dbar -> n1 + n2
           call ddbar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000023)  ) then ! c + cbar -> n1 + n2
           call uubar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000023)  ) then ! s + sbar -> n1 + n2
           call ddbar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000023)  ) then ! b + bbar -> n1 + n2
           call ddbar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000023)  ) then ! u + ubar -> n2 + n2
           call uubar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000023)  ) then ! d + dbar -> n2 + n2
           call ddbar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000023)  ) then ! c + cbar -> n2 + n2
           call uubar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000023)  ) then ! s + sbar -> n2 + n2
           call ddbar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000023)  ) then ! b + bbar -> n2 + n2
           call ddbar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
 
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000025)  ) then ! u + ubar -> n1 + n3
           call uubar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000025)  ) then ! d + dbar -> n1 + n3
           call ddbar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000025)  ) then ! c + cbar -> n1 + n3
           call uubar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000025)  ) then ! s + sbar -> n1 + n3
           call ddbar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000025)  ) then ! b + bbar -> n1 + n3
           call ddbar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000035)  ) then ! u + ubar -> n1 + n4
           call uubar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000035)  ) then ! d + dbar -> n1 + n4
           call ddbar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000035)  ) then ! c + cbar -> n1 + n4
           call uubar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000035)  ) then ! s + sbar -> n1 + n4
           call ddbar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000022 .and. vflav(4).eq.1000035)  ) then ! b + bbar -> n1 + n4
           call ddbar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000025)  ) then ! u + ubar -> n2 + n3
           call uubar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000025)  ) then ! d + dbar -> n2 + n3
           call ddbar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000025)  ) then ! c + cbar -> n2 + n3
           call uubar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000025)  ) then ! s + sbar -> n2 + n3
           call ddbar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000025)  ) then ! b + bbar -> n2 + n3
           call ddbar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000035)  ) then ! u + ubar -> n2 + n4
           call uubar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000035)  ) then ! d + dbar -> n2 + n4
           call ddbar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000035)  ) then ! c + cbar -> n2 + n4
           call uubar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000035)  ) then ! s + sbar -> n2 + n4
           call ddbar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000023 .and. vflav(4).eq.1000035)  ) then ! b + bbar -> n2 + n4
           call ddbar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000025)  ) then ! u + ubar -> n3 + n3
           call uubar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000025)  ) then ! d + dbar -> n3 + n3
           call ddbar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000025)  ) then ! c + cbar -> n3 + n3
           call uubar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000025)  ) then ! s + sbar -> n3 + n3
           call ddbar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000025)  ) then ! b + bbar -> n3 + n3
           call ddbar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000035)  ) then ! u + ubar -> n3 + n4
           call uubar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000035)  ) then ! d + dbar -> n3 + n4
           call ddbar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000035)  ) then ! c + cbar -> n3 + n4
           call uubar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000035)  ) then ! s + sbar -> n3 + n4
           call ddbar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000025 .and. vflav(4).eq.1000035)  ) then ! b + bbar -> n3 + n4
           call ddbar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000035 .and. vflav(4).eq.1000035)  ) then ! u + ubar -> n4 + n4
           call uubar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000035 .and. vflav(4).eq.1000035)  ) then ! d + dbar -> n4 + n4
           call ddbar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000035 .and. vflav(4).eq.1000035)  ) then ! c + cbar -> n4 + n4
           call uubar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000035 .and. vflav(4).eq.1000035)  ) then ! s + sbar -> n4 + n4
           call ddbar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000035 .and. vflav(4).eq.1000035)  ) then ! b + bbar -> n4 + n4
           call ddbar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else
           print*, "ERROR: Wrong flavor structure in subroutine setvirt."
@@ -368,12 +422,16 @@ c#define CHECKUV
           stop
         endif
 
+ 20   continue
+
         ! no fake virtuals
         if(.not.flg_fakevirtuals) then
           born    = fc_result(1)/symfac
           virtual = fc_result(2)/symfac ! = 2 x Re[M_tree* x M_1-loop], FC8Guid.pdf p.48
+          ! need to extract a factor N=(4Pi)^eps/Ga(1-eps)
+          ! -> LoopTools does already extract this factor
           ampvirt = virtual/(st_alpha/(2d0*pi))
-          !ampvirt = virtual*2d0*pi ! FormCalc Alfas = 1
+          !ampvirt = virtual*2d0*pi ! if FormCalc Alfas = 1
         ! use fake virtuals
         else
 #ifdef FORM_BORN
@@ -409,6 +467,10 @@ c#define CHECKUV
         
 #ifdef DEBUG1
         if(counter < 5) then
+          print*, "process: ", vflav
+          print*, "s     = ", s
+          print*, "t     = ", t
+          print*, "u     = ", u
           print*,"virt = ", ampvirt
           counter = counter + 1
         endif

@@ -27,7 +27,7 @@ c definitions
         ! store the number of resonances here
         integer nosres, cnosres ! constant
         ! dummy variable to initialize the array
-        parameter (cnosres=4)
+        parameter (cnosres=8)
         ! this is the human readable array which stores the id of the 
         ! on-shell resonance, e.g. "ul35", "dl35".
         ! this variable is set in init_processes

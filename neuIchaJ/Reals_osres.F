@@ -54,7 +54,6 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         ! breit-wigner ratios
         double precision bwratio
         ! masses
-        double precision MassNi, MassNj, MassXi, MassXj
         double precision mij, mi, mj, mk
         ! indices
         integer i,j,k

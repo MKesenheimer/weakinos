@@ -335,7 +335,7 @@ MADOBJ += sborn_cl_nInJ_001.o  sborn_cl_nInJ_007.o  sborn_sf_nInJ_002.o  sborn_s
 	sborn_cl_nInJ_002.o  sborn_cl_nInJ_008.o  sborn_sf_nInJ_003.o  sborn_sf_nInJ_009.o	\
 	sborn_cl_nInJ_003.o  sborn_cl_nInJ_009.o  sborn_sf_nInJ_004.o  sborn_sf_nInJ_010.o	\
 	sborn_cl_nInJ_004.o  sborn_cl_nInJ_010.o  sborn_sf_nInJ_005.o			\
-	sborn_cl_nInJ_005.o  sborn_proc.o    sborn_sf_nInJ_006.o			\
+	sborn_cl_nInJ_005.o  sborn_sf_nInJ_006.o			\
 	sborn_cl_nInJ_006.o  sborn_sf_nInJ_001.o  sborn_sf_nInJ_007.o
 
 # real Amplitudes
