@@ -1,48 +1,31 @@
 #!/bin/bash
 #
 # Examples:
-# runparallel.sh -d testrun_1 -e pwhg_main_nixj
+#
+# $ runparallel.sh -d testrun_1 -e pwhg_main_nixj
 # -> runs pwhg_main_nixj in testrun_1 on 4 cores (default)
 #
-# runparallel.sh -c -d testrun_1 -e pwhg_main_nixj --itmx1 4 \
+#
+# $ runparallel.sh -c -d testrun_1 -e pwhg_main_nixj --itmx1 4 \
 # --itmx2 4 --itmx1osres 6 --itmx2osres 8 --ncall1 2000 --ncall2 2000 \
 # --ncall1osres 20000 --ncall2osres 20000
 # -> runs pwhg_main_nixj in testrun_1 on 4 cores and overwrites some powheg
 #    parameters in powheg.input
 #
-# Hint: use softpoint (must be installed separately) to generate a slha 
-#       input file which is then processed with powheg
-# softpoint.x sugra --m0=125 --m12=200 --a0=-300 --tanBeta=10 > ./testrun_clean/input.slha 
-# ./runparallel.sh -g -c -e pwhg_main_nixj --lopdf 10042 --slha input.slha -d testrun_1
-# -> copies the folder testrun_clean (and renames it to testrun_1) and proceeds to
+#
+# $ runparallel.sh -g -c -e pwhg_main_nixj -d run_wevents --genevents > log_wevents
+# -> copies the folder testrun_clean (and renames it to run_wevents),
+#    generates events (nubound and nevents in powheg.input must be greater than zero,
+#    or use --nevents and --nubound to set the numbers)
+#
+#
+# $ softpoint.x sugra --m0=125 --m12=200 --a0=-300 --tanBeta=10 > ./testrun_clean/input.slha 
+# $ runparallel.sh -g -c -e pwhg_main_nixj --lopdf 10042 --slha input.slha -d testrun_1
+# -> use softpoint (must be installed separately) to generate a slha input file which
+#    is then processed with powheg.
+#    Copies the folder testrun_clean (and renames it to testrun_1) and proceeds to
 #    calculate the LO cross section on 4 cores.
-#
-# automatically runs POWHEG in parallel mode with the following stages:
-#Stage 1a:
-# - fakevirtuals 1
-# - xgriditeration 1
-# - parallelstage 1
-#
-#Stage 1b:
-# - fakevirtuals 1
-# - xgriditeration 2
-# - parallelstage 1
-#
-#Stage 2: 
-# - fakevirtuals 0
-# - xgriditeration 1
-# - parallelstage 2
-# - numevts 0
-# - nubound 0
-#
-#Additionally:
-#Stage 3:
-# - nubound 100000
-# - parallelstage 3
-#
-#Stage 4:
-# - numevts 100000
-# - parallelstage 4
+
 
 # Functions
 function info {
@@ -72,11 +55,14 @@ Optional arguments:
   --itmx2osres <n>         overwrite the parameter itmx2osres in powheg.input
   -c, --clean              clean directory before running POWHEG
   -o, --offset <n>         supply an offset for extracting the seeds from seeds.dat
-  --genevents <n1> <n2>    generate the upper bound (n1) and events (n2)
-  --usemsub                use the submitting system msub
-  -g, --genfolder          generate a new run directory with default input files
+  --genevents              generate events
+  --nubound <n>            upper bound number
+  --nevents <n>            number of events
+  --usemsub                use the submitting system msub (not implemented yet)
   -s, --slha <name>        name of the slha file you want to use
   --lopdf <n>              only LO calculation with LO pdf and LHA number n
+  -g, --genfolder          generate a new run directory with default input files 
+                           (the directory "testrun_clean" is needed)
 EOM
    exit 0
 }
@@ -101,6 +87,7 @@ CLEAN=false
 NSEEDOFFSET=0
 NICENESS=10
 USEMSUB=false
+GENEVENTS=false
 GENFOLGDER=false
 
 # go through the options
@@ -190,9 +177,18 @@ case $KEY in
         shift
         ;;
     --genevents)
-        NEVENTS="$2"
-        NUBOUND="$3"
+        GENEVENTS=true
         shift
+        ;;
+    --nubound)
+        GENEVENTS=true
+        NUBOUND="$2"
+        shift
+        shift
+        ;;
+    --nevents)
+        GENEVENTS=true
+        NEVENTS="$2"
         shift
         shift
         ;;
@@ -404,14 +400,16 @@ $WORKINGDIR/merge-pwg-stat $(ls ./pwg-st2-*-stat.dat) > $RUNDIR/pwg-st2-combined
 cat $RUNDIR/pwg-st2-combined-stat.dat
 
 # if the user wants to generate events
-if [ "$NEVENTS" != "" ]; then
+if [ "$GENEVENTS" = true ]; then
   # STEP 3
   echo ""
   echo "Stage 3: Upper bound"
   echo "" >> powheg.input
   echo "#Stage 3: Upper bound" >> powheg.input
 
-  overwrite_powheg_var "nubound" $NUBOUND
+  if [ "$NUBOUND" != "" ]; then
+    overwrite_powheg_var "nubound" $NUBOUND
+  fi  
   overwrite_powheg_var "parallelstage" 3
 
   echo "  starting $JOBS job(s)..."
@@ -432,7 +430,9 @@ if [ "$NEVENTS" != "" ]; then
   echo "" >> powheg.input
   echo "#Stage 4: Events" >> powheg.input
 
-  overwrite_powheg_var "numevts" $NEVENTS
+  if [ "$NEVENTS" != "" ]; then
+    overwrite_powheg_var "numevts" $NEVENTS
+  fi  
   overwrite_powheg_var "parallelstage" 4
 
   echo "  starting $JOBS job(s)..."

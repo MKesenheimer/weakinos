@@ -247,9 +247,16 @@ c (diagram removal type II)
       MATRIX_GD_XIXID = MATRIX_GD_XIXID - MATRIX_RESONANT
 #endif
 
+c if DSUB_II is used, the resonant matrix element |M_R|**2 will be added
+c back in subroutine setosresreal
+#if defined(DSUB_II) || defined(DSUB_II_TEST)
+      MATRIX_GD_XIXID = MATRIX_GD_XIXID
+     &                  - MATRIX_GD_XIXID_RES(p,NHEL,IC,"ul35")
+#endif
+
 c delete the on-shell contributions of the resonant diagrams but keep
 c the interference term and the off-shell contributions
-#ifdef DSUB
+#ifdef DSUB_I
       S   = momsum2sq(p(0:3,1), p(0:3,2))
       S35 = momsum2sq(p(0:3,3), p(0:3,5))
       S45 = momsum2sq(p(0:3,4), p(0:3,5))
@@ -262,9 +269,9 @@ c the interference term and the off-shell contributions
       ! part) -> Prospino scheme 1211.0286
       ! S35 = MUL^2, m3 = MXI, m5 = 0D0
       if( (S.ge.(MUL+MXI)**2) .and. (MUL.ge.MXI)) then
-        call off_to_on(p,3,5,4,MUL,p_OS)              ! off_to_on the momenta p to on-shell momenta p_OS        
+        call off_to_on(p,"ul35",p_OS)              ! off_to_on the momenta p to on-shell momenta p_OS        
         RATIO35L = (MUL*WREG)**2/((S35-MUL**2)**2+(MUL*WREG)**2)  ! calculate the ratio of the breit wigner functions
-        COUNTER35L = RATIO35L*MATRIX_GD_XIXID_RES(p_OS,NHEL,IC,0) ! generate the counter term
+        COUNTER35L = RATIO35L*MATRIX_GD_XIXID_RES(p_OS,NHEL,IC,"ul35") ! generate the counter term
       endif
 
       MATRIX_GD_XIXID = MATRIX_GD_XIXID - COUNTER35L

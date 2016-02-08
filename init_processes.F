@@ -52,7 +52,7 @@ c     set process id using slepton types
         i3 = int(powheginput("fin1"))
         i4 = int(powheginput("fin2"))
 
-        ! channels with two neutralinos or two charginos in final state
+        ! channels with two neutralinos in final state
         if (      ((i3.eq.1000022).and.(i4.eq.1000022))
      &       .or. ((i3.eq.1000022).and.(i4.eq.1000023))
      &       .or. ((i3.eq.1000022).and.(i4.eq.1000025))
@@ -65,33 +65,35 @@ c     set process id using slepton types
      &       .or. ((i3.eq.1000025).and.(i4.eq.1000025))
      &       .or. ((i3.eq.1000025).and.(i4.eq.1000035))
      
-     &       .or. ((i3.eq.1000035).and.(i4.eq.1000035))
-     
-     &       .or. ((i3.eq.1000024).and.(i4.eq.-1000024))
+     &       .or. ((i3.eq.1000035).and.(i4.eq.1000035)) ) then
+          mixed_channels = .false.
+          
+        ! channels with two charginos in final state
+        else if ( ((i3.eq.1000024).and.(i4.eq.-1000024))
      &       .or. ((i3.eq.1000024).and.(i4.eq.-1000037))
      &       .or. ((i3.eq.1000037).and.(i4.eq.-1000037)) ) then
           mixed_channels = .false.
 
         ! channels with one neutralino and one chargino in final state
         else if ( ((i3.eq.1000022).and.(i4.eq.-1000024))
-     &       .or. ((i3.eq.1000022).and.(i4.eq.1000024))
+     &       .or. ((i3.eq.1000022).and.(i4.eq. 1000024))
      &       .or. ((i3.eq.1000022).and.(i4.eq.-1000037))
-     &       .or. ((i3.eq.1000022).and.(i4.eq.1000037))
+     &       .or. ((i3.eq.1000022).and.(i4.eq. 1000037))
 
      &       .or. ((i3.eq.1000023).and.(i4.eq.-1000024))
-     &       .or. ((i3.eq.1000023).and.(i4.eq.1000024))
+     &       .or. ((i3.eq.1000023).and.(i4.eq. 1000024))
      &       .or. ((i3.eq.1000023).and.(i4.eq.-1000037))
-     &       .or. ((i3.eq.1000023).and.(i4.eq.1000037))
+     &       .or. ((i3.eq.1000023).and.(i4.eq. 1000037))
      
      &       .or. ((i3.eq.1000025).and.(i4.eq.-1000024))
-     &       .or. ((i3.eq.1000025).and.(i4.eq.1000024))
+     &       .or. ((i3.eq.1000025).and.(i4.eq. 1000024))
      &       .or. ((i3.eq.1000025).and.(i4.eq.-1000037))
-     &       .or. ((i3.eq.1000025).and.(i4.eq.1000037))
+     &       .or. ((i3.eq.1000025).and.(i4.eq. 1000037))
      
      &       .or. ((i3.eq.1000035).and.(i4.eq.-1000024))
-     &       .or. ((i3.eq.1000035).and.(i4.eq.1000024))
+     &       .or. ((i3.eq.1000035).and.(i4.eq. 1000024))
      &       .or. ((i3.eq.1000035).and.(i4.eq.-1000037))
-     &       .or. ((i3.eq.1000035).and.(i4.eq.1000037)) ) then
+     &       .or. ((i3.eq.1000035).and.(i4.eq. 1000037)) ) then
           mixed_channels = .true.
 
         else
@@ -324,6 +326,7 @@ c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 
 c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
 c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
 c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
+c (only required for neutralino pair production:)
 c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 & 5
 c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
 c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
@@ -355,9 +358,16 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         enddo        
 
         ! fill the global variables for treating the on-shell resonances
+        
+#if defined(NIXJ) || defined(XIXJ)
         ! number of resonances
         nosres = 4 ! change cnosres in osres.h as well
-
+#elif defined(NINJ)
+        nosres = 8
+#else
+        print*,"error: preprocessor flag NIXJ, NINJ or XIXJ not set."
+#endif
+        
         if(nosres.ne.cnosres) then
           print*,"error in init_processes.F: nosres and narraylngth not"
           print*,"equal: ", nosres, cnosres
@@ -371,12 +381,12 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         osresID(2) = "dl45"
         osresID(3) = "ul35"
         osresID(4) = "ul45"
-        !if(nosres.eq.8) then
-        !  osresID(5) = "dr35"
-        !  osresID(6) = "dr45"
-        !  osresID(7) = "ur35"
-        !  osresID(8) = "ur45"
-        !endif
+#ifdef NINJ
+        osresID(5) = "dr35"
+        osresID(6) = "dr45"
+        osresID(7) = "ur35"
+        osresID(8) = "ur45"
+#endif
 
         do k=1,nosres
           if(len(osresID(k)).gt.4) then
@@ -405,51 +415,26 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         osreslegs(4,1) = 4
         osreslegs(4,2) = 5
         osreslegs(4,3) = 3
-
-        ! TODO: get rid of the compiler warnings
-        !if(nosres.eq.8) then
-        !  osreslegs(5,1) = 3
-        !  osreslegs(5,2) = 5
-        !  osreslegs(5,3) = 4
-        !
-        !  osreslegs(6,1) = 4
-        !  osreslegs(6,2) = 5
-        !  osreslegs(6,3) = 3
-        !
-        !  osreslegs(7,1) = 3
-        !  osreslegs(7,2) = 5
-        !  osreslegs(7,3) = 4
-        !
-        !  osreslegs(8,1) = 4
-        !  osreslegs(8,2) = 5
-        !  osreslegs(8,3) = 3
-        !endif
+#ifdef NINJ
+        osreslegs(5,1) = 3
+        osreslegs(5,2) = 5
+        osreslegs(5,3) = 4
+        
+        osreslegs(6,1) = 4
+        osreslegs(6,2) = 5
+        osreslegs(6,3) = 3
+        
+        osreslegs(7,1) = 3
+        osreslegs(7,2) = 5
+        osreslegs(7,3) = 4
+        
+        osreslegs(8,1) = 4
+        osreslegs(8,2) = 5
+        osreslegs(8,3) = 3
+#endif
 
         ! the rest of the variables defined in osres.h are set
         ! in init_couplings.f
-
-#ifdef DEBUGQ
-        osresID(1) = "dl35"
-        osresID(2) = "dl35"
-        osresID(3) = "dl35"
-        osresID(4) = "dl35"
-        
-        osreslegs(1,1) = 3
-        osreslegs(1,2) = 5
-        osreslegs(1,3) = 4
-        
-        osreslegs(2,1) = 3
-        osreslegs(2,2) = 5
-        osreslegs(2,3) = 4
-        
-        osreslegs(3,1) = 3
-        osreslegs(3,2) = 5
-        osreslegs(3,3) = 4
-        
-        osreslegs(4,1) = 3
-        osreslegs(4,2) = 5
-        osreslegs(4,3) = 4
-#endif
         
       end
 

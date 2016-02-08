@@ -864,6 +864,7 @@ c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 
 c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
 c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
 c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
+c (only required for neutralino pair production:)
 c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 & 5
 c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
 c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
@@ -882,12 +883,12 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         osresM(2) = mdl
         osresM(3) = mul
         osresM(4) = mul
-        !if(nosres.eq.8) then
-        !  osresM(5) = mdr
-        !  osresM(6) = mdr
-        !  osresM(7) = mur
-        !  osresM(8) = mur
-        !endif
+#ifdef NINJ
+        osresM(5) = mdr
+        osresM(6) = mdr
+        osresM(7) = mur
+        osresM(8) = mur
+#endif
         
 #if defined(DSUB_I) || defined(DSUB_II) || defined(DSUB_II_TEST)
         m_avrg = 0D0
@@ -915,18 +916,6 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         enddo 
         stop
 #endif
-
-#ifdef DEBUGQ
-        osresM(1) = mdl
-        osresM(2) = mdl
-        osresM(3) = mdl
-        osresM(4) = mdl
-        osresW(1) = WDLR
-        osresW(2) = WDLR
-        osresW(3) = WDLR
-        osresW(4) = WDLR
-#endif
-        
       end
 
 c############### end subroutine set_osres_params #######################

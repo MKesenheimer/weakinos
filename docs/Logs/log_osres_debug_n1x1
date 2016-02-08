@@ -165,6 +165,9 @@ DSUB_II mit geändertem WREG (wreg wird jetzt wie in Prospino in init_couplings.
   
 
 DSUB_II mit geänderten Alpha_em-Berechnung (Alpha_em wird jetzt aus Gf, MZ und MW berechenet)
+Update: Ein Vorzeichen in sigosres.f wurde geändert (was keine Auswirkung auf das Endergebnis hat),
+        Damit die Fehlermeldung aus integrator.f:gen(): "gen: non positive function" weniger oft
+        auftritt.
    1.2109312457342578E-002   4.2533770941407671E-004
    1.2032852604669545E-002   2.0002169049370997E-004
    1.1775156754224258E-002   1.1581182630170635E-004
@@ -190,3 +193,4 @@ DSUB_II mit geänderten Alpha_em-Berechnung (Alpha_em wird jetzt aus Gf, MZ und 
  real_osres total (pos.-|neg.|):   7.6548175594970110E-005  +-   7.9731315378161462E-006
   total (btilde+remnants+regulars+osresR) cross section in pb   1.1816165168110919E-002 +-   5.3654649176743006E-005
 
+Update: in Born.F und Virtuals.F wurde das Crossing geändert (Werte haben sich geringfügig geändert).

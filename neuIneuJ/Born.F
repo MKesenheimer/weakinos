@@ -6,7 +6,7 @@ c t~  b~  c~  s~  u~  d~  g  d  u  s  c  b  t
 c############### setborn subroutine ####################################
 c sets Born cross section
 c Born contribution:
-c parton parton -> neutralino neutralino
+c parton parton -> weakino weakino
 
       subroutine setborn(p,bflav,born,bornjk,bmunu)
         implicit none
@@ -30,7 +30,7 @@ c parton parton -> neutralino neutralino
         integer flags
         ! indices
         integer j,k,nmu,nnu
-        ! kinematics: mandelstam variables, quark masses, neutralino masses
+        ! kinematics: mandelstam variables, quark masses, weakino masses
         double precision s, t, u, MassQ1, MassQ2, MassF1, MassF2
         ! check 4-momentum conservation
         logical lresult
@@ -45,7 +45,7 @@ c parton parton -> neutralino neutralino
         logical verbose
         logical init_born
         data init_born/.true./
-#ifdef DEBUG
+#ifdef DEBUGQ
 #define DEBUG1
         ! debugging
         integer counter
@@ -73,12 +73,12 @@ c parton parton -> neutralino neutralino
         ! check four momentum conservation
         call check_4conservation(p, nlegborn, 1, lresult)
         
-        if(verbose) then
+        !if(verbose) then
           ! calculate kinematics only for debug purpose
           s = momsum2sq(p(0:3,1), p(0:3,2))
           t = momsum2sq(p(0:3,1),-p(0:3,3))
           u = momsum2sq(p(0:3,2),-p(0:3,3))
-        endif
+        !endif
                
 #if !defined(FORM_BORN) && !defined(MAD_BORN)
         print*,"Error: Preprocessor flag FORM_BORN or"
@@ -160,162 +160,212 @@ c ---------------------------- Formcalc Born ---------------------------
         if(     abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000022)  ) then ! u + ubar -> n1 + n1
           call uubar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000022)  ) then ! d + dbar -> n1 + n1
           call ddbar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000022)  ) then ! c + cbar -> n1 + n1
           call uubar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000022)  ) then ! s + sbar -> n1 + n1
           call ddbar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000022)  ) then ! b + bbar -> n1 + n1
           call ddbar_n1n1_squaredME(fc_result, helicities, flags)
+          goto 20
 
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000023)  ) then ! u + ubar -> n1 + n2
           call uubar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000023)  ) then ! d + dbar -> n1 + n2
           call ddbar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000023)  ) then ! c + cbar -> n1 + n2
           call uubar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000023)  ) then ! s + sbar -> n1 + n2
           call ddbar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000023)  ) then ! b + bbar -> n1 + n2
           call ddbar_n1n2_squaredME(fc_result, helicities, flags)
+          goto 20
 
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000023)  ) then ! u + ubar -> n2 + n2
           call uubar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000023)  ) then ! d + dbar -> n2 + n2
           call ddbar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000023)  ) then ! c + cbar -> n2 + n2
           call uubar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000023)  ) then ! s + sbar -> n2 + n2
           call ddbar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000023)  ) then ! b + bbar -> n2 + n2
           call ddbar_n2n2_squaredME(fc_result, helicities, flags)
+          goto 20
 
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000025)  ) then ! u + ubar -> n1 + n3
           call uubar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000025)  ) then ! d + dbar -> n1 + n3
           call ddbar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000025)  ) then ! c + cbar -> n1 + n3
           call uubar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000025)  ) then ! s + sbar -> n1 + n3
           call ddbar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000025)  ) then ! b + bbar -> n1 + n3
           call ddbar_n1n3_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000035)  ) then ! u + ubar -> n1 + n4
           call uubar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000035)  ) then ! d + dbar -> n1 + n4
           call ddbar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000035)  ) then ! c + cbar -> n1 + n4
           call uubar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000035)  ) then ! s + sbar -> n1 + n4
           call ddbar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000022 .and. bflav(4).eq.1000035)  ) then ! b + bbar -> n1 + n4
           call ddbar_n1n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000025)  ) then ! u + ubar -> n2 + n3
           call uubar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000025)  ) then ! d + dbar -> n2 + n3
           call ddbar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000025)  ) then ! c + cbar -> n2 + n3
           call uubar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000025)  ) then ! s + sbar -> n2 + n3
           call ddbar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000025)  ) then ! b + bbar -> n2 + n3
           call ddbar_n2n3_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000035)  ) then ! u + ubar -> n2 + n4
           call uubar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000035)  ) then ! d + dbar -> n2 + n4
           call ddbar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000035)  ) then ! c + cbar -> n2 + n4
           call uubar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000035)  ) then ! s + sbar -> n2 + n4
           call ddbar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000023 .and. bflav(4).eq.1000035)  ) then ! b + bbar -> n2 + n4
           call ddbar_n2n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000025)  ) then ! u + ubar -> n3 + n3
           call uubar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000025)  ) then ! d + dbar -> n3 + n3
           call ddbar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000025)  ) then ! c + cbar -> n3 + n3
           call uubar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000025)  ) then ! s + sbar -> n3 + n3
           call ddbar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000025)  ) then ! b + bbar -> n3 + n3
           call ddbar_n3n3_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000035)  ) then ! u + ubar -> n3 + n4
           call uubar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000035)  ) then ! d + dbar -> n3 + n4
           call ddbar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000035)  ) then ! c + cbar -> n3 + n4
           call uubar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000035)  ) then ! s + sbar -> n3 + n4
           call ddbar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000025 .and. bflav(4).eq.1000035)  ) then ! b + bbar -> n3 + n4
           call ddbar_n3n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else if(abs(bflav(1)).eq.2 .and. abs(bflav(2)).eq.2 .and. 
      &          (bflav(3).eq.1000035 .and. bflav(4).eq.1000035)  ) then ! u + ubar -> n4 + n4
           call uubar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.1 .and. abs(bflav(2)).eq.1 .and. 
      &          (bflav(3).eq.1000035 .and. bflav(4).eq.1000035)  ) then ! d + dbar -> n4 + n4
           call ddbar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.4 .and. abs(bflav(2)).eq.4 .and. 
      &          (bflav(3).eq.1000035 .and. bflav(4).eq.1000035)  ) then ! c + cbar -> n4 + n4
           call uubar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.3 .and. abs(bflav(2)).eq.3 .and. 
      &          (bflav(3).eq.1000035 .and. bflav(4).eq.1000035)  ) then ! s + sbar -> n4 + n4
           call ddbar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(bflav(1)).eq.5 .and. abs(bflav(2)).eq.5 .and. 
      &          (bflav(3).eq.1000035 .and. bflav(4).eq.1000035)  ) then ! b + bbar -> n4 + n4
           call ddbar_n4n4_squaredME(fc_result, helicities, flags)
+          goto 20
           
         else
           print*, "ERROR: Wrong flavor structure in subroutine setborn."
@@ -323,6 +373,7 @@ c ---------------------------- Formcalc Born ---------------------------
           stop
         endif
 
+ 20   continue
 
         born = fc_result(1)/symfac ! take spin and colour factors into account
         fborn = born
@@ -330,7 +381,7 @@ c ---------------------------- Formcalc Born ---------------------------
         ! spin and color correlations
         do j=1,nlegborn
           if(abs(bflav(j)).le.6) then
-          ! gluon spin correlations as in (2.8) of 1002.2581v1
+          ! gluon spin correlations as in (eq. 2.8) of 1002.2581v1
           ! (A general framework for implementing NLO calculations in [...] the POWHEG BOX)
           ! only different from zero for processes involving gluons in 
           ! the initial or final state.: Bmunu=0
@@ -341,7 +392,7 @@ c ---------------------------- Formcalc Born ---------------------------
                 enddo
               enddo
             endif  
-          ! color correlations as in (2.6) of 1002.2581v1
+          ! color correlations as in (eq. 2.6) of 1002.2581v1
           ! (A general framework for implementing NLO calculations in [...] the POWHEG BOX)
           ! Bij = Cf B for i != j incoming q/qbar
             do k=j+1,nlegborn
@@ -364,7 +415,8 @@ c ---------------------------- Formcalc Born ---------------------------
 #ifdef DEBUGQ
           print*, "MN = ", par_Fin1mass
           print*, "MN = ", par_Fin2mass
-          print*, "MZ = ", MZ
+          print*, "MZ = ", par_Zmass
+          print*, "MSD= ", MSf(1,3,1)
 #endif
           print*, "born (formcalc) = ", fborn
 #ifdef DEBUGQ 
@@ -405,7 +457,8 @@ c endif preprocessor condition "if defined(CHECK_FORM_MAD) || defined(FORM_BORN)
 #ifdef DEBUGQ
           print*, "MN = ", par_Fin1mass
           print*, "MN = ", par_Fin2mass
-          print*, "MZ = ", zmass
+          print*, "MZ = ", par_Zmass
+          print*, "MSD= ", par_MSf(1,3,1)
 #endif
           print*, "born (madgraph) = ", mborn
 #ifdef DEBUGQ
@@ -452,7 +505,10 @@ c endif preprocessor condition "if defined(CHECK_FORM_MAD) || defined(MAD_BORN)"
 
 #ifdef DEBUG1
         if(counter < 5) then
-          !print*,"process",bflav
+          print*, "process: ", bflav
+          print*, "s  = ", s
+          print*, "t  = ", t
+          print*, "u  = ", u
           print*,"born = ", born
           counter = counter + 1
         endif

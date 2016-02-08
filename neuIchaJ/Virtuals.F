@@ -153,11 +153,11 @@ c#define CHECKUV
         ! crossing (FormCalc provides only amplitudes for qqbar 
         ! and not for qbarq)
         if(vflav(1).gt.0) then
-          p(:,1) = pc(:,1)
-          p(:,2) = pc(:,2)
-        else
           p(:,1) = pc(:,2)
           p(:,2) = pc(:,1)
+        else
+          p(:,1) = pc(:,1)
+          p(:,2) = pc(:,2)
         endif
         
         ! calculate unit vectors and set the vectors for FormCalc

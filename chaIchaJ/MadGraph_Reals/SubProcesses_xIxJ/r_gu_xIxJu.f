@@ -244,9 +244,16 @@ c (diagram removal type II)
       MATRIX_GU_XIXJU = MATRIX_GU_XIXJU - MATRIX_RESONANT
 #endif
 
+c if DSUB_II is used, the resonant matrix element |M_R|**2 will be added
+c back in subroutine setosresreal
+#if defined(DSUB_II) || defined(DSUB_II_TEST)
+      MATRIX_GU_XIXJU = MATRIX_GU_XIXJU
+     &                - MATRIX_GU_XIXJU_RES(p,NHEL,IC,"dl45")
+#endif
+
 c delete the on-shell contributions of the resonant diagrams but keep
 c the interference term and the off-shell contributions
-#ifdef DSUB
+#ifdef DSUB_I
       S   = momsum2sq(p(0:3,1), p(0:3,2))
       S35 = momsum2sq(p(0:3,3), p(0:3,5))
       S45 = momsum2sq(p(0:3,4), p(0:3,5))
@@ -259,16 +266,16 @@ c the interference term and the off-shell contributions
       ! part) -> Prospino scheme 1211.0286
       ! S45 = MDL^2, m4 = MXI, m5 = 0D0
       if( (S.ge.(MDL+MXI)**2) .and. (MDL.ge.MXJ)) then
-        call off_to_on(p,4,5,3,MDL,p_OS)
+        call off_to_on(p,"dl45",p_OS)
         RATIO45L = (MDL*WREG)**2/((S45-MDL**2)**2+(MDL*WREG)**2)
-        COUNTER45L = RATIO45L*MATRIX_GU_XIXJU_RES(p_OS,NHEL,IC,2)
+        COUNTER45L = RATIO45L*MATRIX_GU_XIXJU_RES(p_OS,NHEL,IC,"dl45")
       endif
       
       MATRIX_GU_XIXJU = MATRIX_GU_XIXJU - COUNTER45L
      
 #endif
       
-      ! amp2 and jamp2 isn't used
+      ! amp2 and jamp2 are not used
       Do I = 1, NGRAPHS
           amp2(i)=amp2(i)+amp(i)*dconjg(amp(i))
       Enddo

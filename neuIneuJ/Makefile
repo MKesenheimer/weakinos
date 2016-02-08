@@ -4,7 +4,7 @@
 # General Conventions for Makefiles
 SHELL = /bin/sh
 .SUFFIXES:
-.SUFFIXES: .c .f .F .cc .cpp .h .inc .o .a
+.SUFFIXES: .c .f .F .cc .cpp .h .hh .inc .o .a
 
 ########################################################################
 ## Flags
@@ -54,7 +54,7 @@ LHAPDF_CONFIG = lhapdf-config
 ## path to fastjet config executable
 FASTJET_CONFIG = fastjet-config
 
-## path to fortran libraries
+## path to fortran libraries (not necessary anymore)
 ifeq ($(UNAME), Darwin)
   #Mac OSX
   LIBGFORTRANPATH = /usr/local/lib
@@ -75,9 +75,8 @@ endif
 ## Use -O2 to be on the safe side
 OPT = -O2
 
-### generate directory build and run, if not yet existing
+### generate directory build, if not yet existing
 $(shell mkdir -p build)
-$(shell mkdir -p run)
 
 ########################################################################
 ## Runtime flags
@@ -130,12 +129,30 @@ USRFLAGS += -D NEGLECT_SWIDTH
 # being the following:
 # - Diagram Removal type I, implemented with preprocessor flag -D DR_I
 # - Diagram Removal type II, implemented with preprocessor flag -D DR_II
-# - Diagram Subtraction, implemented with preprocessor flag -D DSUB
-USRFLAGS += -D DSUB
+# - Diagram Subtraction, implemented with preprocessor flag -D DSUB_I,
+#   no correction of the jacobian, which is in principal not ok, but 
+#   could be used for testing the convergence.
+# - Diagram Subtraction with corrected jacobian, flag -D DSUB_II.
+#   With this flag defined, the real amplitude is split into two parts.
+#   In Reals.f the matrix element |M_NR|**2 + 2 M_R* M_NR is calculated,
+#   in Reals_osres.f the remaining terms and the on-shell counter terms
+#   are added: |M_R|**2 - BW*corrfac*|M_R^OS|**2. The latter gets 
+#   integrated seperately in sigosres.f and is included at a later point
+#   to the main result.
+#USRFLAGS += -D DR_I
+#USRFLAGS += -D DR_II
+#USRFLAGS += -D DSUB_I
+#USRFLAGS += -D DSUB_II_TEST
+USRFLAGS += -D DSUB_II
 
 ########################################################################
 #           -*- no editing is required below this line -*-             #
 ########################################################################
+
+########################################################################
+## Runtime flags which should not be changed (don't touch this unless
+## you know what you do!) 
+CHANNEL += -D NINJ
 
 ########################################################################
 ## Paths
@@ -160,7 +177,7 @@ VIRTSUB = $(VIRT)/uubar_n1n1_squaredme $(VIRT)/ddbar_n1n1_squaredme	\
 	$(VIRT)/uubar_n4n4_squaredme $(VIRT)/ddbar_n4n4_squaredme
 REALSUB  = $(REAL)/SubProcesses_nInJ
 MODIFIED = $(WORKINGDIR)/POWHEG_mod
-
+SCRIPTS  = $(WORKINGDIR)/Scripts
 
 FJ     = $(TOOLS)/fastjet
 PY     = $(TOOLS)/pythia
@@ -171,12 +188,13 @@ DHELAS = $(TOOLS)/DHELAS
 MADMODEL  = $(REAL)/MODEL
 
 # includes
-UINCLUDE  = $(WORKINGDIR)/include
-PINCLUDE  = $(PWHGDIR)/include
-VINCLUDE  = $(VIRT)/include
-MDINCLUDE = $(REAL)/include
+UINCLUDE    = $(WORKINGDIR)/include
+SINCLUDE    = $(SUBWORKINGDIR)/include
+PINCLUDE    = $(PWHGDIR)/include
+VINCLUDE    = $(VIRT)/include
+MDINCLUDE   = $(REAL)/include
 SLHAINCLUDE = $(SLHA)/src
-LTINCLUDE = $(LT)/src/include
+LTINCLUDE   = $(LT)/src/include
 
 ########################################################################
 ## search for the files and set paths
@@ -192,9 +210,10 @@ vpath %.o $(SUBWORKINGDIR)/build
 
 ########################################################################
 ## Libraries
+#not necessary anymore
 #LIBS  += $(LIBGFORTRANPATH)/libgfortranbegin.a
-LIBS  += $(LIBGFORTRANPATH)/libgfortran.a
-LIBS  += $(LIBSTDCPPPATH)/libstdc++.a
+#LIBS  += $(LIBGFORTRANPATH)/libgfortran.a
+#LIBS  += $(LIBSTDCPPPATH)/libstdc++.a
 
 ### LibSLHA in Tools/SLHALib-2.2 ###
 LIBS   += $(TOOLS)/libSLHA.a
@@ -241,32 +260,37 @@ ifdef USE_FASTJET
 endif
 
 ### USER Files ###
-USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o	\
-       init_processes.o init_couplings.o
+USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
+       init_processes.o init_couplings.o Reals_osres.o \
+       Real_osres_phsp.o phi1_2.o sigosres.o \
 
 ### Functions in Tools/functions/
 FUNC = hep2pwg.o funcprocess.o Print.o funcbasic.o off_to_on.o
 
 ### MadGraph Amplitudes
-MADOBJ = couplings.o hardstop.o printout.o read_slha.o set_general_couplings.o
+MADOBJ = couplings.o hardstop.o printout.o read_slha.o \
+	set_general_couplings.o 
 
 ### Formcalc Files in Tools/FormcalcTools/###
 FORMCALC = VecSet.o
 
 ### PWHG FILES in ../ ###
-PWHG = pwhg_main.o pwhg_init.o bbinit.o btilde.o lhefwrite_mod.o utils.o \
-	LesHouches.o LesHouchesreg.o gen_Born_phsp.o			\
-	test_Sudakov.o pt2maxreg.o maxrat.o				\
-	gen_index.o gen_radiation.o Bornzerodamp.o sigremnants.o	\
+PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o	\
+	test_Sudakov.o pt2maxreg.o maxrat.o Bornzerodamp.o		\
 	random.o boostrot.o bra_ket_subroutines.o			\
-	init_phys.o powheginput.o pdfcalls.o sigcollremn.o		\
+	init_phys.o powheginput.o sigcollremn.o		\
 	pwhg_bookhist-multi.o pwhg_analysis_driver.o checkmomzero.o	\
-	setstrongcoupl.o integrator.o newunit.o mwarn.o			\
+	setstrongcoupl.o integrator.o newunit.o mwarn.o		\
 	sigcollsoft.o validflav.o decidemerging.o          		\
-        loadstorenlo.o setlocalscales.o ubprojections.o      		\
-        mint_upb.o pwhgreweight.o reshufflemoms.o opencount.o		
-PWHG += cernroutines.o find_regions.o gen_real_phsp.o sigborn.o		\
-	sigreal.o sigsoftvirt.o sigvirtual.o
+	loadstorenlo.o setlocalscales.o ubprojections.o      	\
+	mint_upb.o reshufflemoms.o opencount.o
+# possible modified POWHEG-files
+PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
+	sigborn.o sigreal.o sigsoftvirt_mod.o			\
+	sigvirtual.o bbinit_mod.o LesHouches.o 		\
+	LesHouchesreg.o gen_index.o lhefwrite.o		\
+	gen_radiation.o sigremnants_mod.o pwhgreweight_mod.o \
+	pdfcalls.o 
 
 ### LHEF ###
 # analyze LHEF output
@@ -296,6 +320,7 @@ HERWIG = main-HERWIG.o setup-HERWIG-lhef.o herwig6510.o boostrot.o 	\
      bra_ket_subroutines.o off_to_on.o funcbasic.o
 
 # MadGraph born amplitudes
+MADOBJ += sborn_proc.o
 MADOBJ += b_cl_nInJ_001_001.o  b_cl_nInJ_006_001.o  b_sf_nInJ_001_003.o  b_sf_nInJ_006_003.o	\
 	b_cl_nInJ_001_002.o  b_cl_nInJ_006_002.o  b_sf_nInJ_001_004.o  b_sf_nInJ_006_004.o	\
 	b_cl_nInJ_002_001.o  b_cl_nInJ_007_001.o  b_sf_nInJ_002_003.o  b_sf_nInJ_007_003.o	\
@@ -314,12 +339,13 @@ MADOBJ += sborn_cl_nInJ_001.o  sborn_cl_nInJ_007.o  sborn_sf_nInJ_002.o  sborn_s
 	sborn_cl_nInJ_006.o  sborn_sf_nInJ_001.o  sborn_sf_nInJ_007.o
 
 # real Amplitudes
-MADOBJ += sreal_proc.o  
+MADOBJ += sreal_proc.o 
 MADOBJ += r_ddx_nInJg.o r_dg_nInJd.o r_dxd_nInJg.o r_dxg_nInJdx.o	\
 	  r_gd_nInJd.o r_gdx_nInJdx.o r_gu_nInJu.o   r_gux_nInJux.o	\
 	  r_ug_nInJu.o r_uux_nInJg.o  r_uxg_nInJux.o r_uxu_nInJg.o
 
 # on-shell subtraction scheme
+MADOBJ += sreal_proc_res.o
 MADOBJ += r_dg_nInJd_res.o r_dxg_nInJdx_res.o r_gd_nInJd_res.o	\
 	   r_gdx_nInJdx_res.o r_gu_nInJu_res.o r_gux_nInJux_res.o 	\
 	   r_ug_nInJu_res.o r_uxg_nInJux_res.o
@@ -485,25 +511,26 @@ VIRTUALS += uubar_n4n4_abbr0h.o uubar_n4n4_abbr0s.o                     \
           ddbar_n4n4_self_Sfe5_Sfe6_Sfe7.o                              \
           ddbar_n4n4_SquaredME.o ddbar_n4n4_vert_Sfe5_Sfe6.o            \
           ddbar_n4n4_vert.o ddbar_n4n4_vert_Sfe5.o
-          
-# Additional FormCalc Files (maybe custom ones)
-#VIRTUALS += BornEps_n1x1.o
 
 SOURCESMAIN = $(PWHG) $(PDFPACK) $(USER) $(PWHGANALYSIS) $(FUNC) $(VIRTUALS)  \
-	$(FORMCALC) $(LTOBJ) $(DHELASOBJ) $(MADOBJ)
+	$(FORMCALC) $(MADOBJ)
 
 SOURCESLHEF = $(LHEF) $(PWHGANALYSIS) $(MADOBJ)
 
 SOURCESPYTHIA = $(PYTHIA) $(PWHGANALYSIS)  $(MADOBJ)
 
 SOURCESHERWIG = $(HERWIG) $(PWHGANALYSIS)  $(MADOBJ)
+          
+# Additional FormCalc Files (maybe custom ones)
+#VIRTUALS += BornEps_n1x1.o
 
 ########################################################################
 ## combine all flags, libraries and includes
 
-ALL_FCFLAGS   = $(REC_FCFLAGS) $(OPT) $(WARN) $(CPP) $(DEBUG) $(USRFLAGS)
+ALL_FCFLAGS   = $(REC_FCFLAGS) $(OPT) $(WARN) $(CPP) $(DEBUG) $(USRFLAGS) $(CHANNEL)
 ALL_FCFLAGS  += -I$(UINCLUDE) -I$(PINCLUDE) -I$(LTINCLUDE) -I$(MDINCLUDE)
 ALL_FCFLAGS  += -I$(WORKINGDIR) -I$(VINCLUDE) -I$(SLHAINCLUDE)
+ALL_FCFLAGS  += -I$(SINCLUDE)
 
 ALL_CFLAGS    = $(REC_CFLAGS) $(OPT)
 ALL_CFLAGS   += -I$(LTINCLUDE)
@@ -513,31 +540,35 @@ ALL_CXXFLAGS  = $(REC_CXXFLAGS) $(FJCXXFLAGS) $(OPT)
 LINKER = $(CPPFLAGS) $(LIBS) $(LDFLAGS) 
 
 HEADERS  = $(wildcard *.h $(UINCLUDE)/*.h  $(PINCLUDE)/*.h $(VINCLUDE)/*.h)
-HEADERS += $(wildcard *.h $(UINCLUDE)/*.inc $(LTINCLUDE) $(SLHAINCLUDE)/*.h)
-HEADERS += $(wildcard *.h $(MDINCLUDE)/*.h)
-HEADERS += $(wildcard *.inc $(MDINCLUDE)/*.inc)
+HEADERS += $(wildcard *.h $(LTINCLUDE)/*.h $(SLHAINCLUDE)/*.h)
+HEADERS += $(wildcard *.h $(MDINCLUDE)/*.h $(SINCLUDE)/*.h)
+HEADERS += $(wildcard *.inc $(MDINCLUDE)/*.inc $(UINCLUDE)/*.inc)
      
 ########################################################################
 ## Rules, generate objects
 
 %.o: %.f $(HEADERS)
-	$(FC) $(ALL_FCFLAGS) -c -o build/$@ $<
+	@echo "Compiling:" $<
+	@$(FC) $(ALL_FCFLAGS) -c -o build/$@ $<
 
 %.o: %.F $(HEADERS)
-	$(FC) $(ALL_FCFLAGS) -c -o build/$@ $<
+	@echo "Compiling:" $<
+	@$(FC) $(ALL_FCFLAGS) -c -o build/$@ $<
 
 %.o: %.cc
-	$(CXX) $(ALL_CXXFLAGS) -c -o build/$@ $^
+	@echo "Compiling:" $<
+	@$(CXX) $(ALL_CXXFLAGS) -c -o build/$@ $^
 
 %.o: %.c $(HEADERS)
-	$(CC) $(ALL_CFLAGS) -c -o build/$@ $<
+	@echo "Compiling:" $<
+	@$(CC) $(ALL_CFLAGS) -c -o build/$@ $<
 
 ########################################################################
 ## Rules, link
 ## type make -j4 [rule] to speed up the compilation
 
-pwhg_main_nixj: $(SOURCESMAIN)
-	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESMAIN)) $(LINKER) -o $@ 
+pwhg_main_ninj: $(SOURCESMAIN)
+	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESMAIN)) $(LINKER) -o $@
 
 lhef_analysis:$(SOURCESLHEF)
 	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESLHEF)) $(LINKER) -o $@ 
@@ -549,29 +580,30 @@ main-PYTHIA-lhef: $(SOURCESPYTHIA)
 main-HERWIG-lhef: $(SOURCESHERWIG)
 	$(FC) $(ALL_FCFLAGS) $(patsubst %,build/%,$(SOURCESHERWIG)) $(LINKER) -o $@
 
-libs: libdhelas3.a liblooptools.a libSLHA.a
+merge-pwg-stat: 
+	$(FC) $(TOOLS)/programs/merge-pwg-stat.f -o $@
 
-all: pwhg_main_nixj lhef_analysis main-PYTHIA-lhef
+merge-data: 
+	$(FC) $(TOOLS)/programs/merge-data.f -o $@
+
+copy-scripts:
+	cp $(SCRIPTS)/runparallel.sh  $(SUBWORKINGDIR) && \
+	cp $(SCRIPTS)/clean_rundir.sh $(SUBWORKINGDIR)
+
+all: pwhg_main_ninj copy-scripts merge-pwg-stat merge-data lhef_analysis main-PYTHIA-lhef
 
 clean:
-	rm -f build/*.o
+	rm -f build/*.o pwhg_main_ninj merge-pwg-stat merge-data runparallel.sh clean_rundir.sh
 
 clean-results:
-	cd testrun && rm -f *.out *.lhe *.top *.gp *.eps *.dat FlavRegList	\
-	bornequiv realequiv realequivregions pwhg_checklimits   	\
-	virtequiv
-
-clean-libs:
-	cd $(TOOLS) && rm -f *.a
-	cd $(LT) && make clean
-	cd $(DHELAS) && make clean
-	cd $(SLHA) && make clean
+	find ./testrun ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) \
+	-type f -exec rm -f {} +
 	
 clean-all: clean clean-results
-	rm -f pwhg_main_nixj lhef_analysis main-PYTHIA-lhef
+	rm -f pwhg_main_ninj lhef_analysis main-PYTHIA-lhef
 
-do-pwhg do: pwhg_main_nixj
-	cd testrun && cp pwgseedsdat pwgseeds.dat && ../pwhg_main_nixj
+do-pwhg do: pwhg_main_ninj copy-scripts merge-pwg-stat merge-data
+	cd testrun && ../pwhg_main_ninj
 
 do-lhef: lhef_analysis
 	cd testrun && ../lhef_analysis

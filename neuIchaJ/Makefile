@@ -46,7 +46,7 @@ PDFSTATIC = none
 #STATICLIBSLHAPDF = /opt/lib/libLHAPDF.a
 
 ## choose analysis: none, default
-ANALYSIS = none
+ANALYSIS = default
 
 ## path to LHAPDF config executable
 LHAPDF_CONFIG = lhapdf-config
@@ -54,7 +54,7 @@ LHAPDF_CONFIG = lhapdf-config
 ## path to fastjet config executable
 FASTJET_CONFIG = fastjet-config
 
-## path to fortran libraries
+## path to fortran libraries (not necessary anymore)
 ifeq ($(UNAME), Darwin)
   #Mac OSX
   LIBGFORTRANPATH = /usr/local/lib
@@ -75,9 +75,8 @@ endif
 ## Use -O2 to be on the safe side
 OPT = -O2
 
-### generate directory build and run, if not yet existing
+### generate directory build, if not yet existing
 $(shell mkdir -p build)
-$(shell mkdir -p run)
 
 ########################################################################
 ## Runtime flags
@@ -151,6 +150,11 @@ USRFLAGS += -D DSUB_II
 ########################################################################
 
 ########################################################################
+## Runtime flags which should not be changed (don't touch this unless
+## you know what you do!) 
+CHANNEL += -D NIXJ
+
+########################################################################
 ## Paths
 
 WORKINGDIR = $(shell pwd)/..
@@ -184,6 +188,7 @@ MADMODEL  = $(REAL)/MODEL
 
 # includes
 UINCLUDE    = $(WORKINGDIR)/include
+SINCLUDE    = $(SUBWORKINGDIR)/include
 PINCLUDE    = $(PWHGDIR)/include
 VINCLUDE    = $(VIRT)/include
 MDINCLUDE   = $(REAL)/include
@@ -499,9 +504,10 @@ SOURCESHERWIG = $(HERWIG) $(PWHGANALYSIS)  $(MADOBJ)
 ########################################################################
 ## combine all flags, libraries and includes
 
-ALL_FCFLAGS   = $(REC_FCFLAGS) $(OPT) $(WARN) $(CPP) $(DEBUG) $(USRFLAGS)
+ALL_FCFLAGS   = $(REC_FCFLAGS) $(OPT) $(WARN) $(CPP) $(DEBUG) $(USRFLAGS) $(CHANNEL)
 ALL_FCFLAGS  += -I$(UINCLUDE) -I$(PINCLUDE) -I$(LTINCLUDE) -I$(MDINCLUDE)
 ALL_FCFLAGS  += -I$(WORKINGDIR) -I$(VINCLUDE) -I$(SLHAINCLUDE)
+ALL_FCFLAGS  += -I$(SINCLUDE)
 
 ALL_CFLAGS    = $(REC_CFLAGS) $(OPT)
 ALL_CFLAGS   += -I$(LTINCLUDE)
@@ -512,7 +518,7 @@ LINKER = $(CPPFLAGS) $(LIBS) $(LDFLAGS)
 
 HEADERS  = $(wildcard *.h $(UINCLUDE)/*.h  $(PINCLUDE)/*.h $(VINCLUDE)/*.h)
 HEADERS += $(wildcard *.h $(LTINCLUDE)/*.h $(SLHAINCLUDE)/*.h)
-HEADERS += $(wildcard *.h $(MDINCLUDE)/*.h)
+HEADERS += $(wildcard *.h $(MDINCLUDE)/*.h $(SINCLUDE)/*.h)
 HEADERS += $(wildcard *.inc $(MDINCLUDE)/*.inc $(UINCLUDE)/*.inc)
      
 ########################################################################

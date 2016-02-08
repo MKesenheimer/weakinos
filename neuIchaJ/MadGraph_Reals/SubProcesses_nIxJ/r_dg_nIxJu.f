@@ -36,8 +36,8 @@ C
       REAL*8 hwgt, xtot, xtry, xrej, xr, yfrac(0:ncomb)
       INTEGER idum, ngood, igood(ncomb), jhel, j, jj
       LOGICAL warned
-      REAL     xrani
-      EXTERNAL xrani
+      REAL     xran1
+      EXTERNAL xran1
 C  
 C GLOBAL VARIABLES
 C  
@@ -241,8 +241,6 @@ c delete resonant diagrams (diagram removal type I)
       
 c delete the resonant squared amplitude but keep the interference term
 c (diagram removal type II)
-c Note: if DSUB_II is used, the resonant matrix element |M_R|**2 will
-c       be added back in subroutine setosresreal
 #if defined(DR_II)
       JAMPR(1)  = +AMP(   2)+AMP(   3)-AMP(   5)-AMP(   6)
      

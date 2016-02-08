@@ -113,6 +113,7 @@ c Override real integration parameters with powheg.input values
             ! wurde bisher noch nicht aufgerufen (iret = 1)
             print*,"[DEBUG:112] checking differences in tot_arr"
             call diff_rad_totarr
+            print*,"uncomment to continue"
             stop
 #endif
             call apply_totarr ! MK: added
@@ -238,7 +239,7 @@ c     print statistics
             do ichan=1,nosres
               rad_totosres_sum = rad_totosres_sum + rad_totosres(ichan)
             enddo
-#ifdef DEBUG
+#ifdef DEBUGQ
             print*,"[DEBUG]: in bbinit_mod.f:240"
             print*,"rad_totosres_sum",rad_totosres_sum
             stop
@@ -975,7 +976,8 @@ c **********
 c ********** CALL to mint for remnants
 
 #ifdef DEBUG
-         print*,"bbinit_mod.f:972: calling mint(sigremnant)"
+         print*,"bbinit_mod.f:978: calling mint(sigremnant)"
+         print*,"uncomment to continue"
          stop
 #endif
 
@@ -1460,7 +1462,8 @@ c appropriate ncall2 here (this is not possible for rad_tot(gen), as here btilde
 c osres. parts are naturally "mixed"-> simply recalculate these 2 entries at the end
 #ifdef DEBUG
             ! wurde bisher noch nicht aufgerufen
-            print*,"[DEBUG] checking differences in tot_arr"
+            print*,"[DEBUG:1464] checking differences in tot_arr"
+            print*,"uncomment to continue"
             call diff_rad_totarr
             stop
 #endif
@@ -1496,7 +1499,7 @@ c osres. parts are naturally "mixed"-> simply recalculate these 2 entries at the
             enddo
 #ifdef DEBUG
             ! wurde bisher noch nicht aufgerufen
-            print*,"[DEBUG] checking differences in tot_arr"
+            print*,"[DEBUG:1501] checking differences in tot_arr"
             call diff_rad_totarr
             stop
 #endif

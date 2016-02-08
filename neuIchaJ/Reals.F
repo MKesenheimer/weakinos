@@ -35,18 +35,14 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
 #ifdef DSUB_II_TEST
         ! the real resonant amplitudes (testing)
         double precision amposres
-        integer i
-        double precision amprealres_ul35, amprealres_ul45
-        double precision amprealres_dl35, amprealres_dl45
+        integer ichan
 #endif
         double precision amp
         ! function to calculate the squared momentum sum
-        double precision momsum3sq, momsum2sq
-        external momsum2sq, momsum3sq
-        ! masses
-        double precision MassNi, MassXj
+        double precision momsum2sq
+        external momsum2sq
         ! kinematics
-        double precision s125, s12, s25, s15, s35, s45
+        double precision s12
         ! check 4-momentum conservation
         logical lresult
         ! initialization variables
@@ -86,14 +82,6 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         ! check four momentum conservation
         call check_4conservation(p, nlegborn+1, 1, lresult)
         
-        ! calculate the invariants
-        s125 = momsum3sq(p(0:3,1),p(0:3,2),p(0:3,5)) ! invariant mass of particle 1 + 2 + 5
-        s12  = momsum2sq(p(0:3,1),p(0:3,2)) ! invariant mass of particle 1 + 2
-        s25  = momsum2sq(p(0:3,2),p(0:3,5)) ! invariant mass ofparticle 2 + 5
-        s15  = momsum2sq(p(0:3,1),p(0:3,5)) ! invariant mass of particle 1 + 5
-        s35  = momsum2sq(p(0:3,3),p(0:3,5))
-        s45  = momsum2sq(p(0:3,4),p(0:3,5))
-        
         ! calculate the couplings for this PS point
         call set_ebe_couplings
         
@@ -108,9 +96,9 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         ! this gives the same result as with flag DSUB_I set
         ! if the real amplitude is zero, do not subtract anything
         !if(.not.(ampreal.eq.0d0)) then
-          do i=1,nosres
+          do ichan=1,nosres
             amposres = 0D0
-            call setosresreal(p,rflav,osresID(i),amposres)
+            call setosresreal(p,rflav,osresID(ichan),amposres)
             ! Note: amposres has the factor as/(2pi)
             ! included, so cancel as/(2pi) here
             ampreal = ampreal + amposres/(st_alpha/(2d0*pi))
@@ -119,11 +107,9 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
 #endif
         
         if (verbose) then
+          s12 = momsum2sq(p(0:3,1),p(0:3,2)) ! invariant mass of particle 1 + 2
           print*, "process = ", rflav
-          print*, "s125 = ", s125
           print*, "s12  = ", s12
-          print*, "s25  = ", s25
-          print*, "s15  = ", s15
           print*, "Real amplitude = ", ampreal
           print*
         end if

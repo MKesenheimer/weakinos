@@ -27,7 +27,11 @@ c     set process id using slepton types
 
         ! whether to use fake virtuals or not
         if(powheginput("#fakevirtuals").gt.0) then
-          fakevirtuals = int(powheginput("fakevirtuals"))
+           if(int(powheginput("fakevirtuals")).gt.0) then
+             flg_fakevirtuals = .true.
+           endif
+        else
+          flg_fakevirtuals = .false.
         endif
         
         ! number of light quarks:

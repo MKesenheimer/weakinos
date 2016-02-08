@@ -1,8 +1,10 @@
 c############### Virtuals.f ############################################
-c last modified by MK, 10.02.2015
-c neutralino pair production
+c last modified by MK, 10.02.2016
+c weakino pair production
 c virtual corrections at NLO SQCD:
-c parton parton -> neutralino neutralino
+c parton parton -> weakino weakino
+c -6  -5  -4  -3  -2  -1  0  1  2  3  4  5  6
+c t~  b~  c~  s~  u~  d~  g  d  u  s  c  b  t
 
 c############### subroutine setvirtual #################################
 c returns (M_B * M_V)/(as/(2pi)) as real number,
@@ -19,6 +21,8 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
 #include "nlegborn.h"
 #include "looptools.h"
 #include "Flags.h"
+
+#include "decl.h"
 
         double precision p(0:3,nlegborn)
         integer vflav(nlegborn)
@@ -54,7 +58,7 @@ c A factor (4 Pi)^ep/Gamma(1-ep) with ep=(4-d)/2 is implied.
         double precision ltlambda
         common/debug/ltlambda
 
-#ifdef DEBUG
+#ifdef DEBUGQ
 #define DEBUG1
         ! debugging
         integer counter
@@ -199,19 +203,24 @@ c#define CHECKUV
         if(     abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000024)  ) then ! u + ubar -> x1 + x1
           call uubar_x1x1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000024)  ) then ! d + dbar -> x1 + x1
           call ddbar_x1x1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000024)  ) then ! c + cbar -> x1 + x1
           call uubar_x1x1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000024)  ) then ! s + sbar -> x1 + x1
           call ddbar_x1x1_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000024)  ) then ! b + bbar -> x1 + x1
 #ifdef NEGLECTBMASS
           call ddbar_x1x1_squaredME(fc_result, helicities, flags)
+          goto 20
 #else
           print*,"ERROR: FormCalc b-quark amplitudes not yet "
                  //"implemented."
@@ -220,19 +229,24 @@ c#define CHECKUV
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000037)  ) then ! u + ubar -> x1 + x2
           call uubar_x1x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000037)  ) then ! d + dbar -> x1 + x2
           call ddbar_x1x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000037)  ) then ! c + cbar -> x1 + x2
           call uubar_x1x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000037)  ) then ! s + sbar -> x1 + x2
           call ddbar_x1x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000037)  ) then ! b + bbar -> x1 + x2
 #ifdef NEGLECTBMASS
           call ddbar_x1x2_squaredME(fc_result, helicities, flags)
+          goto 20
 #else
           print*,"ERROR: FormCalc b-quark amplitudes not yet "
                  //"implemented."
@@ -241,36 +255,45 @@ c#define CHECKUV
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000037 .and. vflav(4).eq.-1000037)  ) then ! u + ubar -> x2 + x2
           call uubar_x2x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.1 .and. abs(vflav(2)).eq.1 .and. 
      &          (vflav(3).eq.1000037 .and. vflav(4).eq.-1000037)  ) then ! d + dbar -> x2 + x2
           call ddbar_x2x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.4 .and. abs(vflav(2)).eq.4 .and. 
      &          (vflav(3).eq.1000037 .and. vflav(4).eq.-1000037)  ) then ! c + cbar -> x2 + x2
           call uubar_x2x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.3 .and. abs(vflav(2)).eq.3 .and. 
      &          (vflav(3).eq.1000037 .and. vflav(4).eq.-1000037)  ) then ! s + sbar -> x2 + x2
           call ddbar_x2x2_squaredME(fc_result, helicities, flags)
+          goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000037 .and. vflav(4).eq.-1000037)  ) then ! b + bbar -> x2 + x2
 #ifdef NEGLECTBMASS
           call ddbar_x2x2_squaredME(fc_result, helicities, flags)
+          goto 20
 #else
           print*,"ERROR: FormCalc b-quark amplitudes not yet "
                  //"implemented."
           stop
 #endif
         else
-          print*, "ERROR: Wrong flavor structure in subr. setvirtual."
+          print*, "ERROR: Wrong flavor structure in subroutine setvirt."
           print*, "vflav = ", vflav
           stop
         endif
+        
+ 20   continue
 
         ! no fake virtuals
         if(.not.flg_fakevirtuals) then
           born    = fc_result(1)/symfac
           virtual = fc_result(2)/symfac ! = 2 x Re[M_tree* x M_1-loop], FC8Guid.pdf p.48
+          ! need to extract a factor N=(4Pi)^eps/Ga(1-eps)
+          ! -> LoopTools does already extract this factor
           ampvirt = virtual/(st_alpha/(2d0*pi))
-          !ampvirt = virtual*2d0*pi ! FormCalc Alfas = 1
+          !ampvirt = virtual*2d0*pi ! if FormCalc Alfas = 1
         ! use fake virtuals
         else
 #ifdef FORM_BORN
@@ -306,6 +329,10 @@ c#define CHECKUV
         
 #ifdef DEBUG1
         if(counter < 5) then
+          print*, "process: ", vflav
+          print*, "s     = ", s
+          print*, "t     = ", t
+          print*, "u     = ", u
           print*,"virt = ", ampvirt
           counter = counter + 1
         endif
