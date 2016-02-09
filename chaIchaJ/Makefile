@@ -287,7 +287,7 @@ PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
 
 ### LHEF ###
 # analyze LHEF output
-LHEF = lhef_analysis.o boostrot.o random.o cernroutines.o		\
+LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
      opencount.o powheginput.o pwhg_bookhist-multi.o 			\
      lhefread.o newunit.o pwhg_analysis_driver.o 			\
      funcprocess.o init_couplings.o Print.o				\
@@ -301,7 +301,7 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines.o		\
 PYTHIA = main-PYTHIA.o setup-PYTHIA-lhef.o pythia6428.o	\
 	boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
 	pwhg_bookhist-multi.o lhefread.o newunit.o pdfdummies.o		\
-	pwhg_analysis_driver.o random.o cernroutines.o opencount.o	\
+	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
 	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
 
 ### HERWIG ###
@@ -309,7 +309,7 @@ PYTHIA = main-PYTHIA.o setup-PYTHIA-lhef.o pythia6428.o	\
 HERWIG = main-HERWIG.o setup-HERWIG-lhef.o herwig6510.o boostrot.o 	\
      opencount.o powheginput.o pwhg_bookhist-multi.o random.o		\
      lhefread.o newunit.o pwhg_analysis_driver.o 			\
-     funcprocess.o init_couplings.o cernroutines.o			\
+     funcprocess.o init_couplings.o cernroutines_mod.o			\
      bra_ket_subroutines.o off_to_on.o funcbasic.o
 
 # MadGraph born amplitudes
