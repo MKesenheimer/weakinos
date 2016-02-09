@@ -152,6 +152,7 @@ c#define CHECKUV
         
         ! crossing (FormCalc provides only amplitudes for qqbar 
         ! and not for qbarq)
+        ! (though, the results do not depend on that)
         if(vflav(1).gt.0) then
           p(:,1) = pc(:,2)
           p(:,2) = pc(:,1)
@@ -200,6 +201,12 @@ c#define CHECKUV
           symfac = 36d0 ! take spin and colour factors into account
         endif
 
+#ifndef NEGLECTBMASS
+          print*,"ERROR: FormCalc massive b-quark amplitudes not yet "
+                 //"implemented."
+          stop
+#endif
+
         if(     abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000024)  ) then ! u + ubar -> x1 + x1
           call uubar_x1x1_squaredME(fc_result, helicities, flags)
@@ -218,14 +225,9 @@ c#define CHECKUV
           goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000024)  ) then ! b + bbar -> x1 + x1
-#ifdef NEGLECTBMASS
           call ddbar_x1x1_squaredME(fc_result, helicities, flags)
           goto 20
-#else
-          print*,"ERROR: FormCalc b-quark amplitudes not yet "
-                 //"implemented."
-          stop
-#endif
+
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000037)  ) then ! u + ubar -> x1 + x2
           call uubar_x1x2_squaredME(fc_result, helicities, flags)
@@ -244,14 +246,9 @@ c#define CHECKUV
           goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000024 .and. vflav(4).eq.-1000037)  ) then ! b + bbar -> x1 + x2
-#ifdef NEGLECTBMASS
           call ddbar_x1x2_squaredME(fc_result, helicities, flags)
           goto 20
-#else
-          print*,"ERROR: FormCalc b-quark amplitudes not yet "
-                 //"implemented."
-          stop
-#endif
+
         else if(abs(vflav(1)).eq.2 .and. abs(vflav(2)).eq.2 .and. 
      &          (vflav(3).eq.1000037 .and. vflav(4).eq.-1000037)  ) then ! u + ubar -> x2 + x2
           call uubar_x2x2_squaredME(fc_result, helicities, flags)
@@ -270,14 +267,8 @@ c#define CHECKUV
           goto 20
         else if(abs(vflav(1)).eq.5 .and. abs(vflav(2)).eq.5 .and. 
      &          (vflav(3).eq.1000037 .and. vflav(4).eq.-1000037)  ) then ! b + bbar -> x2 + x2
-#ifdef NEGLECTBMASS
           call ddbar_x2x2_squaredME(fc_result, helicities, flags)
           goto 20
-#else
-          print*,"ERROR: FormCalc b-quark amplitudes not yet "
-                 //"implemented."
-          stop
-#endif
         else
           print*, "ERROR: Wrong flavor structure in subroutine setvirt."
           print*, "vflav = ", vflav

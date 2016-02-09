@@ -37,8 +37,6 @@ C
       REAL*8 hwgt, xtot, xtry, xrej, xr, yfrac(0:ncomb)
       INTEGER idum, ngood, igood(ncomb), jhel, j, jj
       LOGICAL warned
-      REAL     xran1
-      EXTERNAL xran1
 C  
 C GLOBAL VARIABLES
 C  

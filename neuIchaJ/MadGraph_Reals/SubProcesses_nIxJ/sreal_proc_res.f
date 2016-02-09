@@ -552,9 +552,18 @@
          goto 20
       else
         wgt = 0d0
-      endif   
+      endif
       
  20   continue
- 
+
+      ! cut obvious small weights
+      if(dsqrt(wgt).lt.1D-30) then
+        wgt = 0D0
+      endif
+
+#ifdef DEBUGQ
+      print*,"str, chan, wgt: ",trim(str)," ",chan,wgt
+#endif
+
       return
       end

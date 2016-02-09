@@ -1,0 +1,90 @@
+In diesem Test wurden der NLO-Wirkungsquerschnitt (ohne Shower) drei verschiedener Proesse (n1x1, n1n2, x2x2) mit hoher Präzision berechnet und mit Prospino verglichen.
+
+- Prospino mit gleicher slha Datei
+- Änderungen von SM-Parametern in Prospino-2.1/Xvital.f90, so dass diese mit der SLHA-Datei übereinstimmen (neukompilierung notwendig!).
+
+Falls nicht anders angegeben:
+POWHEG:
+- ebeam1 = 7000
+- lhans1 = 10550
+- runningscale = 0
+- ncall = 20000
+- ncallosres = 2000000
+- itmx = 4
+- itmx1osres = 8
+- itmx2osres = 6
+- Seed = manyseed (offset = 0), parallel mode
+- importance sampling log(tau), bw(s2)
+
+Prospino:
+- inlo = 1
+- isq_ng_in = 1
+- icoll_in = 1
+- energy_in = 14000
+- i_error_in = 1
+- final_state_in = 'nn'
+- ipart1_in = 1
+- ipart2_in = 7
+- scafac = 1
+
+Es gilt: mu_0_POWHEG = 2*mu_0_Prospino, d.h. die POWHEG-Skala muss von Hand immer um Faktor 2 niedriger gewählt werden.
+Notiz: Prospino und POWHEG verwenden WREG = ewi*ms
+
+
+DSUB_II, mi input_orig.slha Cards:
+
+        -> Desktop/runs/08_02_2015/neuIneuJ
+        POWHEG:
+          LO:
+            1.0438128919432344E-003  +-    7.7786854799555852E-007
+          NLO:
+            1.4527550832373107E-003  +-    1.8484524011559889E-006
+            davon btilde-Beitrag:
+            1.3502791492357846E-003  +-    1.8461503051862399E-006
+            davon osres-Beitrag:
+            1.0247593400152641E-004  +-    1.8845301355788911E-007
+        Prospino:
+          LO:
+            1.0437335359532389E-003 +-   9.0635117431192278E-007
+          NLO:
+            1.4101294126631339E-003 +-   2.7692269703713171E-006
+       rel. LO  error: 0.01%
+       rel. NLO error: 2.9%
+
+
+        -> Desktop/runs/08_02_2015/chaIchaJ
+        POWHEG:
+          LO:
+            1.6739907385963357E-002  +-    1.0943469074904477E-005
+          NLO:
+            2.0352501446185191E-002  +-    1.3128058358924811E-005
+            davon btilde-Beitrag:
+            2.0348253767881682E-002  +-    1.3128031345635411E-005
+            davon osres-Beitrag:
+            4.2476783035094088E-006  +-    3.1401895907234611E-008
+        Prospino:
+          LO:
+            1.6743540570633979E-002 +-   1.2706094313183846E-005
+          NLO:
+            2.0785899317289580E-002 +-   1.2793183864782770E-005
+       rel. LO  error: 0.02%
+       rel. NLO error: 2.1%
+
+
+        -> Desktop/runs/08_02_2015/neuIchaJ
+        POWHEG:
+          LO:
+            9.0039052552150188E-003  +-    6.2654080903361743E-006
+          NLO:
+            1.1781740810279672E-002  +-    8.0003193911446555E-006
+            davon btilde-Beitrag:
+            1.1703842124749309E-002  +-    7.9998318944048359E-006
+            davon osres-Beitrag:
+            7.7898685530363817E-005  +-    1.3739204567920874E-007
+        Prospino:
+          LO:
+            9.0054138575541096E-003 +-   7.6791634552500867E-006
+          NLO:
+            1.1675128057953820E-002 +-   8.9149068335397782E-006
+       rel. LO  error: 0.02%
+       rel. NLO error: 0.9%
