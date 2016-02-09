@@ -171,10 +171,16 @@ c CH, MK: new part here:
          ! this is in full analogy with disquark
          call gen_osres(iret)
 
+#ifdef DEBUGQ
+         print*,rad_type,iret
+#endif
+
          ! MK: changed the following lines
          ! if negative weight, flip the sign of xwgtup
-         if(rad_osres_sign(rad_realosres,iret-2).eq.-1) then
-           weight = -weight  
+         if( (iret.ge.3) .and. (iret.le.(nosres+2)) ) then
+           if(rad_osres_sign(rad_realosres,iret-2).eq.-1) then
+             weight = -weight
+           endif
          else
             print*, 'Wrong return-statement of gen_osres: iret=',iret
             stop        
@@ -182,7 +188,7 @@ c CH, MK: new part here:
 
          call add_azimuth
 
-         if((iret.ge.3) .and. (iret.le.(nosres+2))) then
+         if( (iret.ge.3) .and. (iret.le.(nosres+2)) ) then
             ! set st_muren2 for scalup value for osres contributions 
             ! (alphas should be set correctly)
             ! pt2max_osres-fct in Real_osres_phsp.f
@@ -197,7 +203,6 @@ c CH, MK: new part here:
             stop
          endif   
          call increasecnt("osres event")
-         ! <-
       endif
 c======================================================================= 
 c CH: add test-function defined in LesHouches.f:

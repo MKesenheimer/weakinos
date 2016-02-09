@@ -37,36 +37,36 @@ lhans2 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 2 (LHA numbering)
 #QCDLambda5  0.25    ! for not equal pdf sets 
 
 ! Parameters to allow or not the use of stored data
-#use-old-grid    0    ! if 1 use old grid if file pwggrids.dat is present (0 regenerate)
-#use-old-ubound  0    ! if 1 use norm of upper bounding function stored in pwgubound.dat if present (0 regenerate)
+use-old-grid    0    ! if 1 use old grid if file pwggrids.dat is present (0 regenerate)
+use-old-ubound  0    ! if 1 use norm of upper bounding function stored in pwgubound.dat if present (0 regenerate)
 
-#ncall1   2000        ! number of calls for initializing the integration grid
+ncall1   2000        ! number of calls for initializing the integration grid
 itmx1    4           ! number of iterations for initializing the integration grid
-#ncall2   2000        ! number of calls for computing the integral and finding upper bound
+ncall2   2000        ! number of calls for computing the integral and finding upper bound
 itmx2    4           ! number of iterations for computing the integral and finding upper bound
-#ncall1osres 20000    ! number of calls for initializing the integration grid of on-shell resonances (only required for DSUB_II)
+ncall1osres 20000    ! number of calls for initializing the integration grid of on-shell resonances (only required for DSUB_II)
 itmx1osres  4        ! number of iterations for initializing the integration grid of on-shell resonances (only required for DSUB_II)
-#ncall2osres 20000    ! number of calls for computing the integral of on-shell resonances (only required for DSUB_II)
+ncall2osres 20000    ! number of calls for computing the integral of on-shell resonances (only required for DSUB_II)
 itmx2osres  4        ! number of iterations for computing the integral of on-shell resonances (only required for DSUB_II)
 foldcsi  2           ! number of folds on csi integration
 foldy    2           ! number of folds on  y  integration
 foldphi  2           ! number of folds on phi integration
-##nubound  1000         ! number of bbarra calls to setup norm of upper bounding function
+nubound  1000         ! number of bbarra calls to setup norm of upper bounding function
 icsimax  1           ! <= 100, number of csi subdivision when computing the upper bounds
 iymax    1           ! <= 100, number of y subdivision when computing the upper bounds
 xupbound 2d0         ! increase upper bound for radiation generation
-##numevts  1000           ! number of events to be generated
+numevts  1000           ! number of events to be generated
 
 ! OPTIONAL PARAMETERS
 runningscale   0     ! (default 0) use ref. scale=virtuality Q (default 0, use fixed scale)
-####fakevirtuals  1     ! (default 0) generate the grid with fake virtuals
+#fakevirtuals  1     ! (default 0) generate the grid with fake virtuals
 #softtest      1     ! (default 0) check soft singularities
 #colltest      1     ! (default 0) check collinear singularities
 renscfact     0.5d0  ! (default 1d0) ren scale factor: muren  = muref * renscfact
 facscfact     0.5d0  ! (default 1d0) fac scale factor: mufact = muref * facscfact
 #bornonly      1     ! (default 0) if 1 do Born only
 smartsig       1     ! (default 1) remember equal amplitudes (0 do not remember)
-#testplots     1     ! write data for gnuplot histograms to *.top
+testplots     1     ! write data for gnuplot histograms to *.top
 #bornsuppfact  1     ! (default 0, do not use) use Born suppression factor
 #withdamp      1     ! (default 0, do not use) use Born-zero damping factor
 #hfact        100d0  ! (default no damping factor) damp factor for high-pt radiation: > 0 dampfac=h**2/(pt2+h**2)
@@ -74,44 +74,8 @@ smartsig       1     ! (default 1) remember equal amplitudes (0 do not remember)
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
 ewi           1d-2   ! regulator for on-shell divergences
  
-#iseed         5602  ! (default 5602) initialize random number sequence
+iseed         5602  ! (default 5602) initialize random number sequence
 #pdfreweight    1     ! (default 0) write extra pdf infos on LHEF
-##manyseeds      1    ! (default 0) allow for the generation of different statistically independent samples (see Docs/Manyseeds.pdf) 
-####xgriditeration 1    ! identifier for grid generation
-######parallelstage  1    ! identifier for parallel running stages
-
-
-# Modified by runparallel.sh:
-use-old-grid 1
-use-old-ubound 1
-manyseeds 1
-testplots 1
-ncall1 200
-ncall2 200
-ncall1osres 2000
-ncall2osres 2000
-
-#Stage 1a: Generating Grids, iteration 1
-##fakevirtuals 1
-####parallelstage 1
-##xgriditeration 1
-
-#Stage 1b: Generating Grids, iteration 2
-#fakevirtuals 1
-###parallelstage 1
-#xgriditeration 2
-
-#Stage 2: NLO run
-fakevirtuals 0
-xgriditeration 1
-##parallelstage 2
-#numevts 0
-#nubound 0
-
-#Stage 3: Upper bound
-nubound 1000
-#parallelstage 3
-
-#Stage 4: Events
-numevts 1000
-parallelstage 4
+#manyseeds      1    ! (default 0) allow for the generation of different statistically independent samples (see Docs/Manyseeds.pdf) 
+#xgriditeration 1    ! identifier for grid generation
+#parallelstage  1    ! identifier for parallel running stages

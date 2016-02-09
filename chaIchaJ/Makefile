@@ -281,7 +281,7 @@ PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o	\
 PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
 	sigborn.o sigreal.o sigsoftvirt_mod.o			\
 	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-	LesHouchesreg.o gen_index.o lhefwrite.o		\
+	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
 	gen_radiation.o sigremnants_mod.o pwhgreweight_mod.o \
 	pdfcalls.o 
 

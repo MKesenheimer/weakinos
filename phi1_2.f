@@ -186,14 +186,19 @@ c just set xphi to zero - the jacobian will be still correct.
 
         s = dotp(p0,p0)
         ! sort out bad phase space points
-        if (s .le. (m1+m2)**2) then
-         print*, "warning: s is less than the sum of provided masses "//
-     &           "m1 and m2"
-         print*, "s, (m1+m2)**2 =",s,(m1+m2)**2
-         print*, " => set s to 0 with jacobian 0"
-         s   = 0D0
-         jac = 0D0
-         return
+        if ( (1D0-s/((m1+m2)**2)) .gt. 1D-10) then
+          print*, "warning: s is less than the sum of provided masses "//
+     &            "m1 and m2"
+          print*, "s, (m1+m2)**2 =",s,(m1+m2)**2
+          print*, " => set s to 0 with jacobian 0"
+          s   = 0D0
+          jac = 0D0
+          return
+        ! no warning if not so bad phase space point
+        else if ( (1D0-s/((m1+m2)**2)) .gt. 0D0) then
+          s   = 0D0
+          jac = 0D0
+          return
         endif
         sqrts = dsqrt(s)
 

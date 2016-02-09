@@ -137,11 +137,10 @@ c fixed-values if flg_osres is set!)
         ! (so far a "running" scale is not supported here!)
         pt2max_osres = st_mufact2
         
-#ifdef DEBUG
+#ifdef DEBUGQ
         print*
         print*,"DEBUG, real_osres_phsp.F"
         print*,"pt2max_osres",pt2max_osres
-        stop
 #endif
 
         return

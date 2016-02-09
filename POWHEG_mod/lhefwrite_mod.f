@@ -15,7 +15,7 @@ c...writes initialization information to a les houches events file on unit nlf.
       integer nlf
       real * 8 version
       real * 8 powheginput ! CH: added
-      external powheginput ! MK: added
+      external powheginput
       common/cversion/version
       data version/1.0/
       integer ipr,iran,n1ran,n2ran,iun
@@ -179,13 +179,14 @@ c     regular
          write(string,*)'#rwgt ',rad_type,
      $        rad_realreg,rad_reg_arr(rad_realreg),
      $        gen_seed,gen_n1,gen_n2
-      ! MK: added the following lines -> 
+      ! MK: added the following lines
+      !=================================================================
       ! Remember: rad_type = ichan + 3 (see pwhgreweight_mod.f)
       elseif((rad_type.ge.4) .and. (rad_type.le.(nosres+3))) then
          write(string,*)'#rwgt ',rad_type,
      $        rad_realosres,rad_osres_arr(rad_realosres,rad_type-3),
      $        gen_seed,gen_n1,gen_n2
-      ! <-
+      !=================================================================
       else
          write(*,*) 'Invalid rad_type in lhefwriteevrw: ',rad_type
          call exit(-1)

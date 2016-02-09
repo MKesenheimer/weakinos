@@ -107,7 +107,7 @@ c requires encoded process ID in lprup(1)
           print*
           print*, "OS regulator WREG = ", wreg
           print*        
-#ifdef DEBUG
+#ifdef DEBUGQ
           print*
           print*, "===================================================="
           print*, "             set FormCalc parameters                "

@@ -76,6 +76,10 @@ function comment_powheg_var {
   sed -i -e "s/$1 /#$1 /g" powheg.input
 }
 
+function read_powheg_var {
+  grep "$1" powheg.input | sed 's/[^0-9]//g' | head -1
+}
+
 # if there are no arguments print help
 if [ $# -lt 1 ] 
   then usage
@@ -377,6 +381,14 @@ overwrite_powheg_var "fakevirtuals" 0
 # TODO: xgriditeration = 1 necessary?
 overwrite_powheg_var "xgriditeration" 1
 overwrite_powheg_var "parallelstage" 2
+
+# back up the old parameters
+NEVENTSOLD=$(read_powheg_var "numevts")
+NUBOUNDOLD=$(read_powheg_var "nubound")
+
+echo "Note: numevts was $NEVENTSOLD, replace it temporarily with 0"
+echo "Note: nubound was $NUBOUNDOLD, replace it temporarily with 0"
+
 overwrite_powheg_var "numevts" 0
 overwrite_powheg_var "nubound" 0
 
@@ -409,6 +421,8 @@ if [ "$GENEVENTS" = true ]; then
 
   if [ "$NUBOUND" != "" ]; then
     overwrite_powheg_var "nubound" $NUBOUND
+  else
+    overwrite_powheg_var "nubound" $NUBOUNDOLD
   fi  
   overwrite_powheg_var "parallelstage" 3
 
@@ -432,6 +446,8 @@ if [ "$GENEVENTS" = true ]; then
 
   if [ "$NEVENTS" != "" ]; then
     overwrite_powheg_var "numevts" $NEVENTS
+  else
+    overwrite_powheg_var "numevts" $NEVENTSOLD
   fi  
   overwrite_powheg_var "parallelstage" 4
 
