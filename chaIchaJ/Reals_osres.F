@@ -158,6 +158,11 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         ! on-shell counter terms -> no on-shell resonances anymore
         ampreal = (+amp-ampCT)
  
+        if(isnan(ampreal)) then
+          print*,"got strange value for ampreal amplitude...",ampreal
+          stop
+        endif
+ 
         if (verbose) then
           print*, "process = ", rflav
           print*, "chan = ", chan

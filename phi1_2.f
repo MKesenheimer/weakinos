@@ -16,22 +16,22 @@ c      /
 c P_a /
 c
 c
-c TODO: check:
 c
 c
-c              _(M_n-m_n)^2
+c
+c              /(M_n-m_n)^2
 c             |
 c R_n(Mn^2) = | d(M_n-1)^2 R_2(K_n; (K_n-1)^2, P_n^2) R_n-1((M_n-1)^2)
-c            _|
-c          (mu_n-1)^2
+c             |
+c             / (mu_n-1)^2
 c
 c 
 c where:
-c                                                                           _
+c                                                                           /
 c                                                                          |
 c R_2(K_n;(K_n-1)^2, P_n^2) = kaellenSqrt(K_n^2,(k_n-1)^2,P_n^2)/(8 K_n^2) | dOmega_n 
-c                                                                         _|
-c
+c                                                                          |
+c                                                                          /  
 c K_i  = P_1 + P_2 + ... + P_i
 c mu_i = m_1 + m_2 + ... + m_i
 c (M_n-1)^2 = (P - P_n), P = P_a + P_b
@@ -137,6 +137,12 @@ c psgen=3:     flat in tan tau with arbitrary exponent
         print*,"jac = ", jac
 #endif
       
+        ! check if NaN occured
+        if(isnan(x1) .or. isnan(x2) .or. isnan(s) .or. isnan(jac)) then
+          print*,"warning in phi1_2:142: NaN occured"
+          jac = 0D0
+          return
+        endif
       end
 c############### end subroutine x1x2phspace ############################
 
@@ -190,7 +196,6 @@ c just set xphi to zero - the jacobian will be still correct.
           print*, "warning: s is less than the sum of provided masses "//
      &            "m1 and m2"
           print*, "s, (m1+m2)**2 =",s,(m1+m2)**2
-          print*, " => set s to 0 with jacobian 0"
           s   = 0D0
           jac = 0D0
           return
@@ -256,9 +261,18 @@ c just set xphi to zero - the jacobian will be still correct.
           print*,"p0",p0(0),p0(0)**2-p0(1)**2-p0(2)**2-p0(3)**2,s
           print*,"p1",p1(0),p1(0)**2-p1(1)**2-p1(2)**2-p1(3)**2
           print*,"p2",p2(0),p2(0)**2-p2(1)**2-p2(2)**2-p2(3)**2
-          print*," => set jacobian 0"
           jac = 0D0
+          return
         endif
+        
+        ! check if NaN occured
+        do i=0,3
+          if(isnan(p1(i)) .or. isnan(p2(i)) .or. isnan(jac)) then
+            print*,"warning in phi1_2:271: NaN occured"
+            jac = 0D0
+            return
+          endif
+        enddo
       end
 c############### end subroutine R2phsp #################################
 
@@ -414,9 +428,18 @@ c psgen=2:     breit wigner in s2 and flat below resonance
           print*,"p0",p0(0),p0(0)**2-p0(1)**2-p0(2)**2-p0(3)**2,s
           print*,"p1",p1(0),p1(0)**2-p1(1)**2-p1(2)**2-p1(3)**2
           print*,"p2",p2(0),p2(0)**2-p2(1)**2-p2(2)**2-p2(3)**2
-          print*," => set jacobian 0"
           jac = 0D0
+          return
         endif
+        
+        ! check if NaN occured
+        do i=0,3
+          if(isnan(p1(i)) .or. isnan(p2(i)) .or. isnan(jac)) then
+            print*,"warning in phi1_2:438: NaN occured"
+            jac = 0D0
+            return
+          endif
+        enddo  
       end
 c############### end subroutine R2phsp_s2 ##############################
 

@@ -120,7 +120,8 @@ c -> do so by modifying the jacobian kn_jacborn.
           ! if momenta are not conserved, set jacobian to zero but 
           ! continue with the calculation
           if(.not.lresult) kn_jacreal = 0D0
-        endif  
+          return
+        endif
       end
 c############### end subroutine real_osres_phsp ########################
 
@@ -135,7 +136,7 @@ c fixed-values if flg_osres is set!)
 
         ! per default: use the scale of the hard process 
         ! (so far a "running" scale is not supported here!)
-        pt2max_osres = st_mufact2
+        pt2max_osres = dabs(st_mufact2)
         
 #ifdef DEBUGQ
         print*

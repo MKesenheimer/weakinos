@@ -148,6 +148,13 @@ c MK: added
       external sigosres
       mcalls=0
       icalls=0
+
+#ifdef DEBUG
+      print*,"in pwhgreweight_mod.f:153"
+      print*,"uncomment to continue"
+      stop
+#endif
+
       call gen(sigosres,ndiminteg,xgridosres,ymaxosres,ymaxratosres,
      &         xmmmosres,ifoldosres,2,mcalls,icalls,xx)
       end
@@ -260,7 +267,7 @@ c !  MK: added
       readrw = .false.
       
 #ifdef DEBUG
-      print*,"in pwhgreweight_mod.f:263"
+      print*,"in pwhgreweight_mod.f:269"
       print*,"uncomment to continue"
       stop
 #endif

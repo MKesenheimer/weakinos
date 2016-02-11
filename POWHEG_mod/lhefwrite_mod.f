@@ -56,6 +56,9 @@ c...writes initialization information to a les houches events file on unit nlf.
       write(nlf,'(a)') '</init>'
  110  format(1p,2(1x,i8),2(1x,e12.5),6(1x,i6))
  120  format(1p,3(1x,e12.5),1x,i7) ! MK: changed here i6 -> i7
+#ifdef DEBUGQ
+      print*,"[DEBUG] lhefwritehdr:60",nlf
+#endif
       end
 
 
@@ -102,6 +105,9 @@ c do not write events, write only the event count
       write(nlf,'(a)')'</event>'      
  210  format(1p,2(1x,i7),4(1x,e12.5)) ! MK: changed here i6 -> i7
  220  format(1p,i8,5(1x,i5),5(1x,e16.9),1x,e12.5,1x,e10.3)
+#ifdef DEBUGQ
+      print*,"[DEBUG] lhefwritehdr:109",nlf
+#endif
       end
 
 c...lheftrailer(nlf)
@@ -194,5 +200,8 @@ c     regular
 c This gymnastics to avoid some fortran compiler going automatically to a new line
 c when writing too long records with fmt=*
       write(nlf,'(a)') trim(adjustl(string))
+#ifdef DEBUGQ
+      print*,"[DEBUG] lhefwritehdr:204",nlf
+#endif
       end
 

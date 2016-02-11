@@ -100,7 +100,7 @@ c rad_type=1 for btilde events (used only for debugging purposes)
          rad_type=1
          call increasecnt("btilde event")
 c CH: commented
-c         else
+c      else
       ! regular or remnant contribution
       elseif(ran1.gt.(rad_totosresgen_sum/rad_totgen)) then ! MK: changed
          ! CH: set the flg_btilde to true for normal remnant part
@@ -170,11 +170,6 @@ c CH, MK: new part here:
          ! therefor  rad_type = iret + 1
          ! this is in full analogy with disquark
          call gen_osres(iret)
-
-#ifdef DEBUGQ
-         print*,rad_type,iret
-#endif
-
          ! MK: changed the following lines
          ! if negative weight, flip the sign of xwgtup
          if( (iret.ge.3) .and. (iret.le.(nosres+2)) ) then

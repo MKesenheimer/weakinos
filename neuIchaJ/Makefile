@@ -279,23 +279,49 @@ PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o	\
 	random.o boostrot.o bra_ket_subroutines.o			\
 	init_phys.o powheginput.o sigcollremn.o		\
 	pwhg_bookhist-multi.o pwhg_analysis_driver.o checkmomzero.o	\
-	setstrongcoupl.o integrator.o newunit.o mwarn.o		\
+	setstrongcoupl.o integrator.o mwarn.o		\
 	sigcollsoft.o validflav.o decidemerging.o          		\
 	loadstorenlo.o setlocalscales.o ubprojections.o      	\
 	mint_upb.o reshufflemoms.o opencount.o
-# possible modified POWHEG-files
-PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
-	sigborn.o sigreal.o sigsoftvirt_mod.o			\
-	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
-	gen_radiation.o sigremnants_mod.o pwhgreweight_mod.o \
-	pdfcalls.o 
 
+# possible modified POWHEG-files
+# necessary for Stage 1-2:
+#PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
+#	sigborn.o sigreal.o sigsoftvirt.o			\
+#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
+#	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
+#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
+#	pdfcalls.o newunit.o
+
+# necessary for Stage 1-2, with optional changes for SUSY-particles
+#PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
+#	sigborn.o sigreal.o sigsoftvirt_mod.o			\
+#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
+#	LesHouchesreg.o gen_index.o lhefwrite.o		\
+#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
+#	pdfcalls.o newunit.o
+
+# necessary for Stage 1-4:
+#PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
+#	sigborn.o sigreal.o sigsoftvirt.o			\
+#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
+#	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
+#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
+#	pdfcalls.o newunit_mod.o
+
+#tests
+PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
+	sigborn.o sigreal.o sigsoftvirt.o			\
+	sigvirtual.o bbinit_mod.o LesHouches.o 		\
+	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
+	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o \
+	pdfcalls.o newunit_mod.o
+	
 ### LHEF ###
 # analyze LHEF output
 LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
      opencount.o powheginput.o pwhg_bookhist-multi.o 			\
-     lhefread.o newunit.o pwhg_analysis_driver.o 			\
+     lhefread.o newunit_mod.o pwhg_analysis_driver.o 			\
      funcprocess.o init_couplings.o Print.o				\
      bra_ket_subroutines.o off_to_on.o funcbasic.o
 
@@ -306,7 +332,7 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
 # (for clarity a separate patch file is included which is not needed otherwise)
 PYTHIA = main-PYTHIA.o setup-PYTHIA-lhef.o pythia6428.o	\
 	boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
-	pwhg_bookhist-multi.o lhefread.o newunit.o pdfdummies.o		\
+	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o		\
 	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
 	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
 
@@ -314,7 +340,7 @@ PYTHIA = main-PYTHIA.o setup-PYTHIA-lhef.o pythia6428.o	\
 # this is work in progress
 HERWIG = main-HERWIG.o setup-HERWIG-lhef.o herwig6510.o boostrot.o 	\
      opencount.o powheginput.o pwhg_bookhist-multi.o random.o		\
-     lhefread.o newunit.o pwhg_analysis_driver.o 			\
+     lhefread.o newunit_mod.o pwhg_analysis_driver.o 			\
      funcprocess.o init_couplings.o cernroutines_mod.o			\
      bra_ket_subroutines.o off_to_on.o funcbasic.o
 

@@ -351,6 +351,11 @@ c endif preprocessor condition "if defined(CHECK_FORM_MAD) || defined(MAD_BORN)"
         born = fborn
 #endif
 
+        if(isnan(born)) then
+          print*,"got strange value for born amplitude...",born
+          stop
+        endif
+
 #ifdef DEBUG1
         if(counter < 5) then
           print*, "process: ", bflav

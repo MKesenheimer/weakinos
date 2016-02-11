@@ -95,7 +95,6 @@ c Override real integration parameters with powheg.input values
          ifold(ndiminteg-2) = powheginput("foldcsi")
          ifold(ndiminteg-1) = powheginput("foldy")
          ifold(ndiminteg)   = powheginput("foldphi")
-
          if(flg_storemintupb) then
             ! CH, MK: changed the following call
             call loadgrids(iret,xgrid,ymax,ymaxrat,xgridrm,ymaxrm,
@@ -234,7 +233,6 @@ c     print statistics
             call gen(sigosres,ndiminteg,xgridosres,ymaxosres,
      1           ymaxratosres,xmmmosres,ifoldosres,0,
      2           mcalls,icalls,xx)
-            ! save random number seeds
             rad_totosres_sum = 0D0
             do ichan=1,nosres
               rad_totosres_sum = rad_totosres_sum + rad_totosres(ichan)
@@ -244,6 +242,7 @@ c     print statistics
             print*,"rad_totosres_sum",rad_totosres_sum
             stop
 #endif
+            ! save random number seeds    
             if(dabs(rad_totosres_sum)/rad_totgen.gt.1d-4.and.
      1           powheginput('#skipextratests').lt.0) then
                call randomsave
@@ -315,7 +314,6 @@ c on total cross sections components (rad_tot* and rad_etot* variables)
          write(*,*) ' cannot load grid files'
          call pwhg_exit(-1)
       endif
-
       if(flg_storemintupb) then
 c     Set up better upper bounding envelopes for btilde
          write(*,*) ' Loading the upper bounding envelope for btilde:'
@@ -535,13 +533,12 @@ c     add finalized remnant contributions in histograms
      &                 ' incl. on-shell-subtraction'
             flg_nlotest=.true.
             imode=1
-
             ! set the flg_btilde to false for "osres remanants"
             flg_btilde=.false.
             if(flg_storemintupb) call startstoremintupb('osresupb')
             ! CH: changes: see integration of sigremnant
             call mint(sigosres,ndiminteg,ncall2osres,itmx2osres,
-     1        ifoldosres,imode,iun,xgridosres,xintosres,xaccosres,
+     1        ifoldosres,imode,iun,xgridosres,dabs(xintosres),xaccosres, ! MK: added dabs (without there occured many NaNs)
      2        nhitsosres,ymaxosres,ymaxratosres,sigos,erros)
             if(flg_storemintupb) call stopstoremintupb
 c add finalized remnant contributions in histograms
@@ -759,7 +756,7 @@ c      endif
 c     1     rad_totnegbtl/(2*rad_totnegbtl+rad_tot)
       close(iunstat)
       !=================================================================
-      end
+      end ! end bbinitgrids
       
       subroutine samegridasbtilde(ndiminteg,
      1        ncall2,itmx2,ifold,xgrid,
@@ -937,7 +934,6 @@ c with parallel grids only one iteration is allowed
       savewithnegweights=flg_withnegweights
       flg_withnegweights=.true.
 c ********** CALL to mint for btilde
-
       call mint(btilde,ndiminteg,ncall1,itmx1,ifold,imode,iun,
      1     xgrid,xint,xacc,nhits,ymax,ymaxrat,sigbtl,errbtl)
 
@@ -980,7 +976,6 @@ c ********** CALL to mint for remnants
          print*,"uncomment to continue"
          stop
 #endif
-
          call mint(sigremnant,ndiminteg,ncall1rm,itmx1rm,ifoldrm,imode,
      1        iun,xgridrm,xintrm,xaccrm,nhitsrm,
      1        ymaxrm,ymaxratrm,sigrm,errrm)
@@ -1013,12 +1008,18 @@ c **********
          call regridplotopen(mergelabels(pwgprefix(1:lprefix),tag,
      1     rnd_cwhichseed,'osresgrid.top'))
          xgrid0osres=xgridosres
-c ********** CALL to mint for remnants
+c ********** CALL to mint for osres remnants
          ! CH, MK: set the flg_btilde to false for "osres remnants"
          flg_btilde=.false.
+#ifdef DEBUGQ
+         print*,"ymaxratosres",ymaxratosres
+#endif
          call mint(sigosres,ndiminteg,ncall1osres,itmx1osres,ifoldosres,imode,
      1        iun,xgridosres,xintosres,xaccosres,nhitsosres,
      1        ymaxosres,ymaxratosres,sigos,erros)
+#ifdef DEBUGQ
+         print*,"ymaxratosres",ymaxratosres
+#endif
          flg_btilde=.true.
 c **********
          call regridplotclose
@@ -1035,6 +1036,7 @@ c **********
 #endif
       !=================================================================
       if(iparallel.eq.0) then
+         !call storexgrid(xgrid,xint,xgridrm,xintrm)
          call storexgrid(xgrid,xint,xgridrm,xintrm,xgridosres,xintosres) ! CH: changed
 c      else
 c         call newunit(iun)
@@ -1122,9 +1124,10 @@ c communicate file to load upper bound data
       savelogical=flg_fastbtlbound
       flg_fastbtlbound=.false.
       call gen(sigosres,ndiminteg,xgridosres,ymaxosres,ymaxratosres,
-     #    xmmmosres,ifoldosres,1,mcalls,icalls,xx)
+     &    xmmmosres,ifoldosres,1,mcalls,icalls,xx)
       flg_fastbtlbound=savelogical
       end
+
 
       ! CH, MK: changed the routine arguments
       subroutine storegrids(xgrid,ymax,ymaxrat,xgridrm,ymaxrm,

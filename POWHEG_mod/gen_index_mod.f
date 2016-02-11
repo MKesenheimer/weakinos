@@ -120,6 +120,12 @@ c MK: added
       double precision rad_totosres_sum ! MK: added
       double precision rad_totosres_frac_sum ! MK: added
 
+#ifdef DEBUGQ
+      print*,"[DEBUG] in gen_index_mod:124"
+      print*,"uncomment to continue"
+      stop
+#endif
+      
       ! sum
       rad_totosres_sum = 0D0
       do ichan=1,nosres
@@ -133,7 +139,7 @@ c MK: added
       ! So we go through all entries of the array rad_totosres
       ! and sum them up step by step. Then we check:
       ! random()<=rad_totosres(1)/rad_totosres_sum? -> iret = 3
-      ! random()<=rad_totosres(1)+rad_totosres(2)/rad_totosres_sum? -> iret = 4
+      ! random()<=(rad_totosres(1)+rad_totosres(2))/rad_totosres_sum? -> iret = 4
       ! ...
       ! random()<=rad_totosres_sum/rad_totosres_sum? -> iret = 2+nosres
       !

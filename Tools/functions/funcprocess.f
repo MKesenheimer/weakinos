@@ -142,6 +142,17 @@ c verbose = 4: No output at all, but set the variable lresult
           if(verbose.eq.3) stop
           lresult = .false.
         endif
+        
+        ! check if NaN occured
+        do i=1,nleg
+          do j=0,3
+            if( isnan(p(j,i)) ) then
+              print*,"warning: Nan occured"
+              lresult = .false.
+              return
+            endif  
+          enddo  
+        enddo
       end
 
 c############### end check_4conservation subroutine ####################

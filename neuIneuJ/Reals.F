@@ -106,6 +106,11 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         !endif
 #endif
         
+        if(isnan(ampreal)) then
+          print*,"got strange value for ampreal amplitude...",ampreal
+          stop
+        endif
+        
         if (verbose) then
           s12 = momsum2sq(p(0:3,1),p(0:3,2)) ! invariant mass of particle 1 + 2
           print*, "process = ", rflav
