@@ -16,13 +16,14 @@ CC  =  gcc
 FCFLAGS  = -g
 CXXFLAGS = -g
 CFLAGS   = -g
+LDFLAGS  = -ff2c -g
 
 # recommended compiler flags
-REC_FCFLAGS   = -fno-automatic -fno-range-check
-REC_FCFLAGS  += -ffixed-line-length-none -lgfortran -ff2c -DU77EXT=0 -DQuad=0
+REC_FCFLAGS   = -fno-automatic -fno-range-check -fno-second-underscore
+REC_FCFLAGS  += -ffixed-line-length-none -lgfortran -DU77EXT=0 -ff2c -DQuad=0
 REC_FCFLAGS  += $(FCFLAGS)
 REC_CXXFLAGS  = -fomit-frame-pointer -ffast-math -Wall -m64
-REC_CXXFLAGS += $(CXFLAGS)
+REC_CXXFLAGS += $(CXXFLAGS)
 REC_CFLAGS    = -fomit-frame-pointer -ffast-math -Wall -m64
 REC_CFLAGS   += -DNOUNDERSCORE=0 -DBIGENDIAN=0
 REC_CFLAGS   += $(CFLAGS)
@@ -99,7 +100,7 @@ DEBUG = -ggdb -pg -D DEBUG -D DEBUGV
 # calculation and abort if they are not: -D CHECK_FORM_MAD
 # Note: Use this only for testing born amplitudes, not for the final 
 # program and not while checking real amplitudes!
-USRFLAGS += -D CHECK_FORM_MAD
+#USRFLAGS += -D CHECK_FORM_MAD
 
 ## Additional and mandatory flags
 # Use MadGraph Borns (default): -D MAD_BORN 
@@ -173,7 +174,8 @@ MODIFIED = $(WORKINGDIR)/POWHEG_mod
 SCRIPTS  = $(WORKINGDIR)/Scripts
 
 FJ     = $(TOOLS)/fastjet
-PY     = $(TOOLS)/pythia
+PY     = $(TOOLS)/pythia6425
+PY8    = $(TOOLS)/pythia8215
 HER    = $(TOOLS)/herwig
 LT     = $(TOOLS)/LoopTools-2.12
 SLHA   = $(TOOLS)/SLHALib-2.2
@@ -188,6 +190,7 @@ VINCLUDE    = $(VIRT)/include
 MDINCLUDE   = $(REAL)/include
 SLHAINCLUDE = $(SLHA)/src
 LTINCLUDE   = $(LT)/src/include
+PY8INCLUDE  = $(PY8)/include
 
 ########################################################################
 ## search for the files and set paths
@@ -198,7 +201,7 @@ vpath %.F $(VIRT)/RenConsts $(VIRTSUB)
 vpath %.F $(MADMODEL) $(REALSUB)
 vpath %.f $(MADMODEL) $(REALSUB)
 vpath %.f $(MODIFIED)
-vpath %.cc $(FJ)
+vpath %.cc $(FJ) $(PY8)
 vpath %.o $(SUBWORKINGDIR)/build
 
 ########################################################################
@@ -207,15 +210,19 @@ vpath %.o $(SUBWORKINGDIR)/build
 #LIBS  += $(LIBGFORTRANPATH)/libgfortranbegin.a
 #LIBS  += $(LIBGFORTRANPATH)/libgfortran.a
 #LIBS  += $(LIBSTDCPPPATH)/libstdc++.a
+LIBS  += -lstdc++ 
 
 ### LibSLHA in Tools/SLHALib-2.2 ###
-LIBS   += $(TOOLS)/libSLHA.a
+LIBS += $(TOOLS)/libSLHA.a
 
 ### LoopTools in Tools/Looptools-2.12 ###
-LIBS  += $(TOOLS)/libooptools.a
+LIBS += $(TOOLS)/libooptools.a
 
 ### DHELAS in Tools/DHELAS ###
-LIBS  += $(TOOLS)/libdhelas3.a
+LIBS += $(TOOLS)/libdhelas3.a
+
+### PYTHIA8 in Tools/pythia8215 ###
+LIBS += $(TOOLS)/libpythia8.a
 
 ########################################################################
 ## Source files
@@ -246,10 +253,9 @@ ifdef USE_FASTJET
   ifeq ($(FASTJET_CONFIG),)
     $(error cannot find fastjet-config (did you install fastjet?))
   endif
-  LIBS += $(shell $(FASTJET_CONFIG) --libs --plugins ) -lstdc++
+  LIBS += $(shell $(FASTJET_CONFIG) --libs --plugins )
   FJCXXFLAGS  += $(shell $(FASTJET_CONFIG) --cxxflags)
   PWHGANALYSIS+= fastjetfortran.o
-  # fastjetsisconewrap.o fastjetktwrap.o
 endif
 
 ### USER Files ###
@@ -304,12 +310,12 @@ PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o	\
 #	pdfcalls.o newunit_mod.o
 
 #tests
-PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
-	sigborn.o sigreal.o sigsoftvirt.o			\
-	sigvirtual.o bbinit_mod.o LesHouches.o 		\
+PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
+	sigborn_mod.o sigreal_mod.o sigsoftvirt_mod.o			\
+	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 		\
 	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
 	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o \
-	pdfcalls.o newunit_mod.o
+	pdfcalls.o newunit_mod.o pythiafortran.o
 
 ### LHEF ###
 # analyze LHEF output
@@ -324,11 +330,14 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
 # NOTE: pythia-6.4.25-decay.f is based on POWHEG-BOX/pythia-6.4.25.f,
 # to which we applied a simple patch to enable slepton decays
 # (for clarity a separate patch file is included which is not needed otherwise)
-PYTHIA = main-PYTHIA.o setup-PYTHIA-lhef.o pythia6428.o	\
+PYTHIA = main-PYTHIA.o setup-PYTHIA-lhef.o	\
 	boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
 	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o		\
 	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
 	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
+PYTHIA += pythia-6.4.25-decay.o
+#PYTHIA += pythia6428.o
+PYTHIA += pythiafortran.o
 
 ### HERWIG ###
 # this is work in progress
@@ -469,7 +478,7 @@ ALL_FCFLAGS  += -I$(SINCLUDE)
 ALL_CFLAGS    = $(REC_CFLAGS) $(OPT)
 ALL_CFLAGS   += -I$(LTINCLUDE)
 
-ALL_CXXFLAGS  = $(REC_CXXFLAGS) $(FJCXXFLAGS) $(OPT)
+ALL_CXXFLAGS  = $(REC_CXXFLAGS) $(FJCXXFLAGS) $(OPT) -I$(PY8INCLUDE)
 
 LINKER = $(CPPFLAGS) $(LIBS) $(LDFLAGS) 
 
@@ -477,6 +486,8 @@ HEADERS  = $(wildcard *.h $(UINCLUDE)/*.h  $(PINCLUDE)/*.h $(VINCLUDE)/*.h)
 HEADERS += $(wildcard *.h $(LTINCLUDE)/*.h $(SLHAINCLUDE)/*.h)
 HEADERS += $(wildcard *.h $(MDINCLUDE)/*.h $(SINCLUDE)/*.h)
 HEADERS += $(wildcard *.inc $(MDINCLUDE)/*.inc $(UINCLUDE)/*.inc)
+#CCHEADERS = $(wildcard *.h $(PY8INCLUDE)/Pythia8/*.h)
+CCHEADERS += $(wildcard *.h $(PY8INCLUDE)/*.h)
      
 ########################################################################
 ## Rules, generate objects

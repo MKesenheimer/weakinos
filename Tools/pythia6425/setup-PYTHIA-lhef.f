@@ -44,7 +44,7 @@ c     tells PYTHIA to use SLHA data and where to find them
       COMMON/PYSLHAIO/LUNSPC  ! SLHA spectrum file descriptor
       character*100 slhafilename
       call powheginputstring("SLHA",slhafilename)
-      
+
       ! 100       A : Rick Field's CDF Tune A                     (Oct 2002)
       ! 103      DW : Rick Field's CDF Tune DW                    (Apr 2006)
       ! 320 Perugia 0 : "Perugia" update of S0-Pro                (Feb 2009)
@@ -57,6 +57,9 @@ c      tuneid = 320
       else
         write(*,*) "no Pythia tune is set"
       endif
+      
+      call pythia_init(1)
+      stop
 
       ! set SUSY parameters using SLHA input
       ! switch on SUSY MSSM input from an SLHA file
@@ -67,7 +70,7 @@ c      tuneid = 320
       IMSS(21)=LUNSPC
       ! If the file also contains an SLHA decay table that you want to use,
       ! uncomment the next line:
-      IMSS(22)=LUNSPC
+c      IMSS(22)=LUNSPC
 
       end
 
@@ -157,18 +160,13 @@ c      mstp(91)=0                ! No Primordial kt
       mstp(131)=0               ! No Pile Up
       write(*,*) "pile-up control mstp(131):            ", mstp(131)
 
-c      mstp(111)=0               ! No hadronization
+      mstp(111)=0               ! No hadronization
       write(*,*) "hadronisation control mstp(111):      ", mstp(111)
 
       ! decays without hadronization need a patched PYTHIA code
       mstp(41)=1               ! force all resonance decays
 c      mstp(41)=0               ! prevent all resonance decays
       write(*,*) "resonance decays:                     ", mstp(41)
-      
-#ifdef DEBUGQ
-        print*, "[DEBUG] Stop"
-        stop
-#endif
 
 c      mstp(64) =3   ! use Lambda_MC for IS shower > 6.4.19
 c      mstp(64) =1   ! use Lambda_MSbar (default)

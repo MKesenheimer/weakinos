@@ -76,6 +76,7 @@ function comment_powheg_var {
   sed -i -e "s/$1 /#$1 /g" powheg.input
 }
 
+# make sure grep uses no other arguments (for example via aliases)
 function read_powheg_var {
   grep "$1" powheg.input | sed 's/[^0-9]//g' | head -1
 }

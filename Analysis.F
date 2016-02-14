@@ -312,7 +312,7 @@ c fill histograms
           call filld("eta_jet_jcuts",eta(1),dsig)
         endif
         
-        ! determine if lepton cuts have passed
+        ! determine if lepton cuts have passed !(TODO: ptmin -> ptLmin = 20GeV)
         Lcutspassed=.true.
         if(decayed.eqv..false.) Lcutspassed=.false.
         if(pt_decA.le.ptmin) Lcutspassed=.false.

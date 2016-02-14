@@ -31,6 +31,10 @@ c requires encoded process ID in lprup(1)
         print*, "the final state pair: ", id_fin1, ", ", id_fin2
 #endif
 
+        ! TESTS
+        call pythia_init(1)
+        stop
+
         ! set PhysPars parameters
         call set_phys_params
         ! set madgraph parameters.
