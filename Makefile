@@ -54,7 +54,7 @@ PYTHIA = $(TOOLS)/pythia8215
 
 ALL_FCFLAGS  = $(REC_FCFLAGS) $(OPT) $(WARN)
 
-libs: libdhelas3.a liblooptools.a libSLHA.a libpythia.a print-info
+libs: libdhelas3.a liblooptools.a libSLHA.a print-info
 
 libdhelas3.a:
 	cd $(DHELAS) && make FC="$(FC)" F77="$(FC)" XFFLAGS="$(ALL_FCFLAGS)"

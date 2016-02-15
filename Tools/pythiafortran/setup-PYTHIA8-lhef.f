@@ -57,6 +57,8 @@ c      tuneid = 320
       else
         write(*,*) "no Pythia tune is set"
       endif
+      
+      call pythia_init(1) 
 
       ! set SUSY parameters using SLHA input
       ! switch on SUSY MSSM input from an SLHA file

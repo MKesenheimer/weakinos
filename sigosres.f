@@ -80,7 +80,10 @@ c keep this order
           if(flg_nlotest) then
             call analysis_driver(sigosres_contr,1)
           endif
-          retval = retval - sigosres_contr
+          ! TODO: ausprobieren:
+          retval = retval + dabs(sigosres_contr)
+          ! old:
+          !retval = retval - sigosres_contr
         enddo
 
         ! retval0 = 0D0

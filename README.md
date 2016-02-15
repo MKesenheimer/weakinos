@@ -13,20 +13,25 @@ The first thing you should do is to compile the static libraries
 
 * libSLHA.a
 
-for your own operating system. To do this, call the LoopTools and SLHAlib 
-configuration scripts by simply typing
+and if you want the Pythia8 static library
+
+* libpythia.a
+
+for your own operating system. To do this, call configuration scripts by simply typing
 
         $ ./configure
-in the current directory.
+in the main directory.
 Afterwards you can compile the libraries by typing
 
         $ make libdhelas3.a
         $ make liblooptools.a
         $ make libSLHA.a
+        $ [make libpythia.a]
         
 or short
         
         $ make libs
+        $ [make libpythia.a]
         
 If you want to use your own libraries, copy them into ./Tools/ or provide
 paths to the libraries in the Makefile.
@@ -36,6 +41,10 @@ Afterwards, change into a desired process directory and type
         $ make clean-results && make -j4 do
         
 to compile and run the program.
+
+Important note for Mac OSX and probably for some Linux users, too:
+In order to link the object files properly with 
+it might be advisable
         
 ### Precompiler Flags
 In the current version several C preprocessor (cpp) flags are implemented.
