@@ -30,7 +30,7 @@ Afterwards you can compile the libraries by typing
         $ [make libpythia.a]
         
 or short
-        
+
         $ make libs
         $ [make libpythia.a]
 

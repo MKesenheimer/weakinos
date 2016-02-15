@@ -63,16 +63,18 @@ USE_PYTHIA8 = yes
 # (uncomment only if you want to use a locally installed Pythia8)
 #PYTHIA8_CONFIG = pythia8-config
 
+# (not necessary anymore)
 ## path to fortran and c++ libraries
-ifeq ($(UNAME), Darwin)
-  #Mac OSX
-  LIBGFORTRANPATH = /usr/local/lib
-  LIBSTDCPPPATH   = /usr/local/lib
-else
-  #Linux (use $locate libstdc++.a to find the library)
-  LIBGFORTRANPATH = /usr/lib/gcc/x86_64-linux-gnu/4.8
-  LIBSTDCPPPATH   = /usr/lib/gcc/x86_64-linux-gnu/4.8
-endif
+# (use $locate libstdc++.a to find the library)
+#ifeq ($(UNAME), Darwin)
+#  #Mac OSX
+#  LIBGFORTRANPATH = /usr/local/lib
+#  LIBSTDCPPPATH   = /usr/local/lib
+#else
+#  #Linux 
+#  LIBGFORTRANPATH = /usr/lib/gcc/x86_64-linux-gnu/4.8
+#  LIBSTDCPPPATH   = /usr/lib/gcc/x86_64-linux-gnu/4.8
+#endif
 
 ## warning for type-conversions -> basically useless, as those occur in
 ## too many places
@@ -339,16 +341,15 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
 # NOTE: pythia-6.4.25-decay.f is based on POWHEG-BOX/pythia-6.4.25.f,
 # to which we applied a simple patch to enable slepton decays
 # (for clarity a separate patch file is included which is not needed otherwise)
-PYTHIA = main-PYTHIA.o	\
-	boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
+PYTHIA = boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
 	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o		\
 	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
 	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
 ifeq ("$(USE_PYTHIA8)","yes")
   # TODO:
-  PYTHIA += setup-PYTHIA8-lhef.o pythia-6.4.25-decay.o
+  PYTHIA += main-PYTHIA_mod.o
 else
-  PYTHIA += setup-PYTHIA-lhef.o pythia-6.4.25-decay.o
+  PYTHIA += main-PYTHIA.o setup-PYTHIA-lhef.o pythia-6.4.25-decay.o
 endif
 
 ### HERWIG ###
@@ -553,11 +554,13 @@ LIBS += $(TOOLS)/libooptools.a
 ### DHELAS in Tools/DHELAS ###
 LIBS += $(TOOLS)/libdhelas3.a
 
-#not necessary anymore?
-LIBS += $(LIBGFORTRANPATH)/libgfortranbegin.a
-LIBS += $(LIBGFORTRANPATH)/libgfortran.a
-LIBS += $(LIBSTDCPPPATH)/libstdc++.a
-LIBS += -ldl
+#not necessary anymore
+#LIBS += $(LIBGFORTRANPATH)/libgfortranbegin.a
+#LIBS += $(LIBGFORTRANPATH)/libgfortran.a
+#LIBS += $(LIBSTDCPPPATH)/libstdc++.a
+
+### Libraries for linking c++ code
+LIBS += -ldl -lstdc++
 
 ########################################################################
 ## combine all flags, libraries and includes

@@ -39,6 +39,8 @@ c book all histograms, will be filled later
      &                       pi/20d0,-pi,pi)
           call bookupeqbins('pt_lepton_A_lcuts',6d0,0d0,600d0)
           call bookupeqbins('eta_lepton_A_lcuts',0.2d0,-4d0,4d0)
+          call bookupeqbins('pt_lepton_B_lcuts',6d0,0d0,600d0)
+          call bookupeqbins('eta_lepton_B_lcuts',0.2d0,-4d0,4d0)
         endif  
         
       end
@@ -81,8 +83,11 @@ c fill histograms
         parameter (maxjet=2048)
         double precision kt(maxjet), eta(maxjet), rap(maxjet)
         double precision phi(maxjet), pj(4,maxjet), ptrel(maxjet)
-        double precision ptmin, yjmax, R
-        common /jetcuts/ptmin, yjmax, R
+        ! ptJmin is a technical cut
+        double precision ptJmin, etaJmax, R
+        common /jetcuts/ptJmin, etaJmax, R
+        ! pt_min for lepton cuts (physical cut)
+        double precision ptLmin, etaLmax
         ! IDs
         integer id_finA, id_finB
         ! IDs of leptonic decay products
@@ -150,16 +155,16 @@ c fill histograms
             print*,"unsupported decay channel."
             print*,"id_decA: ", id_decA
             print*,"id_decB: ", id_decB
-            print*,"In the current version are only leptons"
-            print*,"(except for neutrinos) allowed."
+            print*,"In the current version are only charged leptons "//
+     &             "allowed."
             stop
           endif
           ! the two leptons have to be different in the current implementation
-          if (id_decA.eq.id_decB) then
-            print*,"the leptons have to be different"
-            print*,"change type or sign of one lepton in powheg.input"
-            stop
-          endif  
+          !if (id_decA.eq.id_decB) then
+          !  print*,"the leptons have to be different"
+          !  print*,"change type or sign of one lepton in powheg.input"
+          !  stop
+          !endif  
           
           ! if everything is ok print status
           print*, "extracted from process ID: ", lprup(1)
@@ -190,19 +195,23 @@ c fill histograms
         ! jets
         ! initialize
         do j = 1,maxjet
-          kt(j) = 0D0
-          eta(j) = 0D0
-          rap(j) = 0D0
-          phi(j) = 0D0
-          pj(:,j) = 0D0
+          kt(j)    = 0D0
+          eta(j)   = 0D0
+          rap(j)   = 0D0
+          phi(j)   = 0D0
+          pj(:,j)  = 0D0
           ptrel(j) = 0D0
         enddo
         
-        ! init jet cuts
-        ptmin=1D0
-        yjmax=4.5D0
-        R=0.4D0
-        mjets=40
+        ! init cuts (change here if needed)
+        ! jet cuts
+        ptJmin  = 1D0
+        etaJmax = 4.5D0
+        R       = 0.4D0
+        mjets   = 40
+        ! lepton cuts
+        ptLmin  = 20D0 ! physical cut
+        etaLmax = 2.5D0
         
         if (ini) then
           ! write out informations
@@ -211,9 +220,13 @@ c fill histograms
           print*, "cuts in analysis routines"
           print*
           print*, "cuts (jet):"
-          print*, "hardest jet   p_t >",ptmin," GeV"
-          print*, "hardest jet |eta| <",yjmax
+          print*, "hardest jet   p_t >",ptJmin," GeV"
+          print*, "hardest jet |eta| <",etaJmax
           print*, "radius parameter R = ",R
+          print*
+          print*, "cuts (leptons:)"
+          print*, "hardest lepton   p_t >",ptLmin," GeV"
+          print*, "hardest lepton |eta| <",etaLmax
           print*
           print*, "===================================================="
         endif
@@ -221,7 +234,7 @@ c fill histograms
         ini=.false.
         
         ! from pico to femto
-        dsig=dsig*1000D0
+        dsig = dsig*1000D0
 
         ! find final state 4-momenta
         call get4momentum_fin_pair(id_finA,p_finA,id_finB,p_finB)
@@ -236,19 +249,19 @@ c fill histograms
 
         ! calculate final state kinematical quantities:
         ! final state A, B transverse momentum
-        pt_finA=dsqrt(p_finA(1)**2+p_finA(2)**2)
-        pt_finB=dsqrt(p_finB(1)**2+p_finB(2)**2)
+        pt_finA = dsqrt(p_finA(1)**2+p_finA(2)**2)
+        pt_finB = dsqrt(p_finB(1)**2+p_finB(2)**2)
         ! final state A pseudorapidity
         call get_pseudorap(p_finA,eta_finA)
         ! final state A rapidity
         call getrapidity(p_finA,y_finA)
         ! invariant mass of the final state system
         do mu=0,3
-          p_finAfinB(mu)=p_finB(mu)+p_finA(mu)
+          p_finAfinB(mu) = p_finB(mu)+p_finA(mu)
         enddo
         call getinvmass(p_finAfinB,m_finAfinB)
         ! transverse momentum of the final state system
-        pt_finAfinB=dsqrt((p_finB(1)+p_finA(1))**2
+        pt_finAfinB = dsqrt((p_finB(1)+p_finA(1))**2
      &                     +(p_finB(2)+p_finA(2))**2)
         ! rapidity of the final state system
         call getrapidity(p_finAfinB,y_finAfinB) 
@@ -256,9 +269,9 @@ c fill histograms
         ! build jets
         call buildjets(mjets,kt,eta,rap,phi,pj,ptrel)
         ! determine number of visible jets
-        num_vis_jets=0
+        num_vis_jets = 0
         do ij = 1,mjets
-          if ((kt(ij).gt.ptmin).and.(dabs(eta(ij)).lt.yjmax)) then
+          if ((kt(ij).gt.ptJmin).and.(dabs(eta(ij)).lt.etaJmax)) then
             num_vis_jets=num_vis_jets+1
           endif
         enddo
@@ -266,8 +279,8 @@ c fill histograms
         if(decayed) then
           ! calculate lepton kinematical quantities:
           ! lepton A, B transverse momentum
-          pt_decA=sqrt(p_decA(1)**2 + p_decA(2)**2)
-          pt_decB=sqrt(p_decB(1)**2 + p_decB(2)**2)
+          pt_decA = sqrt(p_decA(1)**2 + p_decA(2)**2)
+          pt_decB = sqrt(p_decB(1)**2 + p_decB(2)**2)
           ! rapidity of lepton A, B
           call getrapidity(p_decA,y_decA)
           ! pseudorapidity of lepton A, B
@@ -277,9 +290,9 @@ c fill histograms
           call getazimuth(p_decA,phi_decA)
           call getazimuth(p_decB,phi_decB)
           ! azimuthal difference of the leptons
-          phi_decAdecB=phi_decB-phi_decA
-          if(phi_decAdecB.lt.(-pi)) phi_decAdecB=phi_decAdecB+2d0*pi
-          if(phi_decAdecB.gt.pi)    phi_decAdecB=phi_decAdecB-2d0*pi
+          phi_decAdecB = phi_decB-phi_decA
+          if(phi_decAdecB.lt.(-pi)) phi_decAdecB = phi_decAdecB+2d0*pi
+          if(phi_decAdecB.gt.pi)    phi_decAdecB = phi_decAdecB-2d0*pi
         endif
         
         ! no cuts
@@ -294,10 +307,10 @@ c fill histograms
         call filld("eta_jet_nocuts",eta(1),dsig)
 
         ! determine if jet cuts have passed
-        JcutsPassed=.true.
-        if(mjets.lt.1) JcutsPassed=.false.
-        if(kt(1).le.ptmin) JcutsPassed=.false.
-        if(dabs(eta(1)).ge.yjmax) JcutsPassed=.false.
+        JcutsPassed = .true.
+        if(mjets.lt.1) JcutsPassed = .false.
+        if(kt(1).le.ptJmin) JcutsPassed = .false.
+        if(dabs(eta(1)).ge.etaJmax) JcutsPassed = .false.
         
         ! fill histograms if jet cuts have passed
         if(JcutsPassed) then
@@ -312,13 +325,13 @@ c fill histograms
           call filld("eta_jet_jcuts",eta(1),dsig)
         endif
         
-        ! determine if lepton cuts have passed !(TODO: ptmin -> ptLmin = 20GeV)
-        Lcutspassed=.true.
-        if(decayed.eqv..false.) Lcutspassed=.false.
-        if(pt_decA.le.ptmin) Lcutspassed=.false.
-        if(pt_decB.le.ptmin) Lcutspassed=.false.
-        if(dabs(eta_decA).ge.2.5d0) Lcutspassed=.false.
-        if(dabs(eta_decB).ge.2.5d0) Lcutspassed=.false.
+        ! determine if lepton cuts have passed
+        Lcutspassed = .true.
+        if(decayed.eqv..false.) Lcutspassed = .false.
+        if(pt_decA.le.ptLmin) Lcutspassed = .false.
+        if(pt_decB.le.ptLmin) Lcutspassed = .false.
+        if(dabs(eta_decA).ge.etaLmax) Lcutspassed = .false.
+        if(dabs(eta_decB).ge.etaLmax) Lcutspassed = .false.
         
         ! cutsL
         if(Lcutspassed) then
@@ -326,9 +339,9 @@ c fill histograms
           call filld('azimuth_diff_lepton_pair_lcuts',phi_decAdecB,dsig)
           call filld('pt_lepton_A_lcuts',pt_decA,dsig)
           call filld('eta_lepton_A_lcuts',eta_decA,dsig)
-          ! TODO lepton pt-B, eta-B, invariante masse slepton/lepton paare
+          call filld('pt_lepton_B_lcuts',pt_decB,dsig)
+          call filld('eta_lepton_B_lcuts',eta_decB,dsig)
         endif
- 
       end
 c############### end subroutine analysis ###############################
 
@@ -366,7 +379,7 @@ c returns four-momentum of undecayed particle with this ID and largest pt
         double precision p(0:3)
 
         do mu=0,3
-          p(mu)=0d0
+          p(mu) = 0d0
         enddo
 
         call getptsortedlist(PDG_ID,n,list)
@@ -389,15 +402,15 @@ c returns list with ihep numbers of these particles sorted by pt in list
         integer list(nmax)
 
         do n=1,nmax
-          list(n)=0
+          list(n) = 0
         enddo
 
         ! determine number of undecayed particles with PDG_ID in event
-        n=0
+        n = 0
         do ihep=1,nhep
           if(isthep(ihep).eq.1) then
             if(idhep(ihep).eq.PDG_ID) then
-              n=n+1
+              n = n+1
             endif
           endif
         enddo
@@ -407,11 +420,11 @@ c returns list with ihep numbers of these particles sorted by pt in list
           write(*,*) 'could not fill pt sorted list'
         else
           ! fill list with found particles
-          n=0
+          n = 0
           do ihep=1,nhep
             if(isthep(ihep).eq.1) then
               if(idhep(ihep).eq.PDG_ID) then
-                n=n+1
+                n = n+1
                 list(n)=ihep
               endif
             endif
@@ -433,21 +446,21 @@ c sorts array iarr of ihep numbers by pt (decreasing)
         logical touched
         
         do j=1,n
-          pt(j)=sqrt(phep(1,iarr(j))**2+phep(2,iarr(j))**2)
+          pt(j) = sqrt(phep(1,iarr(j))**2+phep(2,iarr(j))**2)
         enddo
         ! bubble sort
-        touched=.true.
+        touched = .true.
         do while(touched)
-          touched=.false.
+          touched = .false.
           do j=1,n-1
             if(pt(j).lt.pt(j+1)) then
-              k=iarr(j)
-              iarr(j)=iarr(j+1)
-              iarr(j+1)=k
-              tmp=pt(j)
-              pt(j)=pt(j+1)
-              pt(j+1)=tmp
-              touched=.true.
+              k = iarr(j)
+              iarr(j) = iarr(j+1)
+              iarr(j+1) = k
+              tmp = pt(j)
+              pt(j) = pt(j+1)
+              pt(j+1) = tmp
+              touched = .true.
             endif
           enddo
         enddo
@@ -477,9 +490,9 @@ c the phep momenta is in the laboratory frame
           stop
         else
           ! p is defined in the laboratory frame (~kn_pborn(i))
-          p(0)=phep(4,ihep)
+          p(0) = phep(4,ihep)
           do mu=1,3
-            p(mu)=phep(mu,ihep)
+            p(mu) = phep(mu,ihep)
           enddo
         endif
       
@@ -526,11 +539,11 @@ c (this was not possible in dislepton_jet)
         double precision relerror
 
         do imu=0,3
-          p1(imu)=0D0
-          p2(imu)=0D0
+          p1(imu) = 0D0
+          p2(imu) = 0D0
         enddo
-        found1=-1
-        found2=-1
+        found1 = -1
+        found2 = -1
 
         do ihep=1,nhep
           if(.not.(found2 .eq. found1)) then
@@ -609,13 +622,13 @@ c calculates azimuth phi in [0,2pi] from x-axis
         double precision p(0:3),phi
         phi=0D0
         if(p(1).GT.0D0) then
-          if(p(2).GE.0D0) phi=datan(p(2)/p(1))
-          if(p(2).LT.0D0) phi=datan(p(2)/p(1))+2D0*pi
+          if(p(2).GE.0D0) phi = datan(p(2)/p(1))
+          if(p(2).LT.0D0) phi = datan(p(2)/p(1))+2D0*pi
         elseif(p(1).LT.0D0) then
-          phi=datan(p(2)/p(1))+pi
+          phi = datan(p(2)/p(1))+pi
         elseif(p(1).EQ.0D0) then
-          if(p(2).GT.0D0) phi=pi/2D0
-          if(p(2).LT.0D0) phi=-pi/2D0
+          if(p(2).GT.0D0) phi = pi/2D0
+          if(p(2).LT.0D0) phi = -pi/2D0
         endif
       end
 c############### end subroutine getazimuth #############################
@@ -624,7 +637,7 @@ c############### subroutine getrapidity ################################
       subroutine getrapidity(p,y)
         implicit none
         double precision p(0:3),y
-        y=0.5D0*dlog((p(0)+p(3))/(p(0)-p(3)))
+        y = 0.5D0*dlog((p(0)+p(3))/(p(0)-p(3)))
       end
 c############### end subroutine getrapidity ############################
 
@@ -632,7 +645,7 @@ c############### subroutine getinvmass #################################
       subroutine getinvmass(p,m)
         implicit none
         double precision p(0:3),m
-        m=dsqrt(dabs((p(0)**2-p(3)**2)-p(1)**2-p(2)**2))
+        m = dsqrt(dabs((p(0)**2-p(3)**2)-p(1)**2-p(2)**2))
       end
 c############### end subroutine getinvmass #############################
 
@@ -642,14 +655,14 @@ c############### subroutine get_pseudorap ##############################
         double precision p(0:3),eta,pt,th
         double precision eps
         parameter (eps=1.d-5)
-        pt=dsqrt(p(1)**2+p(2)**2)
+        pt = dsqrt(p(1)**2+p(2)**2)
         if(pt.lt.eps.and.dabs(p(3)).lt.eps)then
-          eta=sign(1.D0,p(3))*1.d8
-        elseif(pt.lt.eps) then   !: added this elseif
-          eta=sign(1.D0,p(3))*1.d8
+          eta = sign(1.D0,p(3))*1.d8
+        elseif(pt.lt.eps) then   ! MK: added this elseif
+          eta = sign(1.D0,p(3))*1.d8
         else
-          th=datan2(pt,p(3))
-          eta=-dlog(dtan(th/2.D0))
+          th  = datan2(pt,p(3))
+          eta = -dlog(dtan(th/2.D0))
         endif
       end
 c############### end subroutine get_pseudorap ##########################
@@ -793,22 +806,22 @@ c jets are orderd by decreasing pt
         integer   ntracks,njets
         integer   j,k,mu
         double precision palg,pp,tmp
-        double precision ptmin,yjmax,R
-        common /jetcuts/ptmin,yjmax,R
+        double precision ptJmin,etaJmax,R
+        common /jetcuts/ptJmin,etaJmax,R
         logical isjetparticle
 
         ! Initialize arrays and counters for output jets
         do j=1,maxtrack
           do mu=1,4
-            ptrack(mu,j)=0D0
+            ptrack(mu,j) = 0D0
           enddo
-          jetvec(j)=0
+          jetvec(j) = 0
         enddo
-        ntracks=0
+        ntracks = 0
         do j=1,mjets
           do mu=1,4
-            pjet(mu,j)=0D0
-            pj(mu,j)=0D0
+            pjet(mu,j) = 0D0
+            pj(mu,j) = 0D0
           enddo
         enddo
         ! Extract final state particles to feed to jet finder
@@ -823,10 +836,10 @@ c jets are orderd by decreasing pt
               print*, "ntracks: ",ntracks
               stop
             endif
-            ntracks=ntracks+1
-            itrackhep(ntracks)=j
+            ntracks = ntracks+1
+            itrackhep(ntracks) = j
             do mu=1,4
-              ptrack(mu,ntracks)=phep(mu,j)
+              ptrack(mu,ntracks) = phep(mu,j)
             enddo
           endif
         enddo
@@ -839,10 +852,10 @@ c jets are orderd by decreasing pt
           return
         endif
 
-        ! note: ptmin and R are in common block "jetcuts"
+        ! note: ptJmin and R are in common block "jetcuts"
         ! anti-kT (c.f. ZZ code):
         palg=-1
-        call fastjetppgenkt(ptrack,ntracks,R,palg,ptmin,pjet,njets,
+        call fastjetppgenkt(ptrack,ntracks,R,palg,ptJmin,pjet,njets,
      &                      jetvec)
 
 #ifdef DEBUG1
@@ -855,7 +868,7 @@ c jets are orderd by decreasing pt
         print*,"ntracks: ", ntracks
         print*,"R: ", R
         print*,"palg: ", palg
-        print*,"ptmin: ", ptmin
+        print*,"ptJmin: ", ptJmin
         print*,"pjet: ", pjet(:,1)
         print*,"jetvec: ", jetvec(1)
         print*,"mjets: ", mjets
@@ -863,34 +876,34 @@ c jets are orderd by decreasing pt
         stop
 #endif
      
-        mjets=min(mjets,njets)
+        mjets = min(mjets,njets)
         if(njets.eq.0) return
         ! check consistency
         do k=1,ntracks
           if(jetvec(k).gt.0) then
             do mu=1,4
-              pj(mu,jetvec(k))=pj(mu,jetvec(k))+ptrack(mu,k)
+              pj(mu,jetvec(k)) = pj(mu,jetvec(k))+ptrack(mu,k)
             enddo
           endif
         enddo
-        tmp=0
+        tmp = 0
         do j=1,mjets
           do mu=1,4
-            tmp=tmp+dabs(pj(mu,j)-pjet(mu,j))
+            tmp = tmp+dabs(pj(mu,j)-pjet(mu,j))
           enddo
         enddo
         if(tmp.gt.1d-4) then
-          print*, " bug!"
+          print*, "error in buildjets:894"
         endif
         ! end check consistency
 
         ! computing arrays of useful kinematics quantities for hardest jets
         do j=1,mjets
-          kt(j)=dsqrt(pjet(1,j)**2+pjet(2,j)**2)
+          kt(j) = dsqrt(pjet(1,j)**2+pjet(2,j)**2)
           pp = dsqrt(kt(j)**2+pjet(3,j)**2)
-          eta(j)=0.5D0*dlog((pjet(4,j)+pjet(3,j))/(pjet(4,j)-pjet(3,j)))
-          rap(j)=0.5D0*dlog((pjet(4,j)+pjet(3,j))/(pjet(4,j)-pjet(3,j)))
-          phi(j)=datan2(pjet(2,j),pjet(1,j))
+          eta(j) = 0.5D0*dlog((pjet(4,j)+pjet(3,j))/(pjet(4,j)-pjet(3,j)))
+          rap(j) = 0.5D0*dlog((pjet(4,j)+pjet(3,j))/(pjet(4,j)-pjet(3,j)))
+          phi(j) = datan2(pjet(2,j),pjet(1,j))
         enddo
 
         call computeptrel(ptrack,ntracks,rap,kt,phi,mjets,jetvec,ptrel)
@@ -904,14 +917,14 @@ c determines if particle contributes to a jet
         implicit none
         integer PDG_ID
         logical injetwhitelist, injetblacklist
-        isjetparticle=.false.
+        isjetparticle = .false.
         ! find out if particle is in
         ! jetwhitelist: particles that contribute to a jet
         ! jetblacklist: particles that do not contribute to a jet
         if (injetwhitelist(PDG_ID)) then
-          isjetparticle=.true.
+          isjetparticle = .true.
         else if (injetblacklist(PDG_ID)) then
-          isjetparticle=.false.
+          isjetparticle = .false.
         else
           print*, "could not determine if particle with ID", PDG_ID
           print*, "contributes to a jet"
@@ -930,27 +943,27 @@ c of particles that contribute to a jet
         id=iabs(PDG_ID)
         ! the following particles contribute to a jet
         ! quarks
-        if (1.le.id .and. id.le.6) injetwhitelist=.true.
+        if (1.le.id .and. id.le.6) injetwhitelist = .true.
         ! photon is not in whitelist
-        if (id.eq.22) injetwhitelist=.false.
+        if (id.eq.22) injetwhitelist = .false.
         ! gluon
-        if (id.eq.21) injetwhitelist=.true.
-        if (id.eq.0) injetwhitelist=.true.  ! POWHEG numbering
+        if (id.eq.21) injetwhitelist = .true.
+        if (id.eq.0) injetwhitelist = .true.  ! POWHEG numbering
         ! diquarks
         if ((1000.le.id .and. id.le.6000)
      &      .and. (mod(id,100).eq.1 .or. mod(id,100).eq.3)) then
-          injetwhitelist=.true.
+          injetwhitelist = .true.
         endif
         ! mesons
         if ((111.le.id .and. id.le.600)
      &      .or. (10000.le.id .and. id.le.999999)
      &      .or. (9000000.le.id .and. id.le.9100000)) then
-          injetwhitelist=.true.
+          injetwhitelist = .true.
         endif
         ! baryons
         if ((1000.le.id .and. id.le.6000)
      &      .and. (mod(id,10).eq.2 .or. mod(id,10).eq.4)) then
-          injetwhitelist=.true.
+          injetwhitelist = .true.
         endif
       end
 c############### end subroutine injetwhitelist #########################
@@ -1010,24 +1023,24 @@ c momentum in the frame where the jet has zero rapidity
           ptrel(j)=0
         enddo
         do i=1,ntracks
-          j=jetvec(i)
+          j = jetvec(i)
           if(j.gt.0.and.j.le.njets) then
             ! Track i belongs to jet j
-            yj=rapjets(j)
-            kj1=ktjets(j)*dcos(phijets(j))
-            kj2=ktjets(j)*dsin(phijets(j))
+            yj = rapjets(j)
+            kj1 = ktjets(j)*dcos(phijets(j))
+            kj2 = ktjets(j)*dsin(phijets(j))
             ! rapidity of track i
-            y=0.5D0*dlog((ptracks(4,i)+ptracks(3,i))
+            y = 0.5D0*dlog((ptracks(4,i)+ptracks(3,i))
      &                 /(ptracks(4,i)-ptracks(3,i)))
             ! rapidity of track i in frame where the jet has zero rapidity
-            y=y-yj
+            y = y-yj
             ! find momentum of track i in frame where the jet has zero rapidity
-            pt(1)=ptracks(1,i)
-            pt(2)=ptracks(2,i)
-            pt(3)=dsqrt(pt(1)**2+pt(2)**2)*sinh(y)
+            pt(1) = ptracks(1,i)
+            pt(2) = ptracks(2,i)
+            pt(3) = dsqrt(pt(1)**2+pt(2)**2)*sinh(y)
             ! pt rel is sum of the ptrack momentum projection ortogonal to the jet
             ! momentum in the frame where the jet has zero rapidity
-            ptrel(j)=dsqrt(((pt(1)*kj2-pt(2)*kj1)**2+
+            ptrel(j) = dsqrt(((pt(1)*kj2-pt(2)*kj1)**2+
      &                     (         -pt(3)*kj2)**2+
      &                     (pt(3)*kj1          )**2)/
      &                     (kj1**2+kj2**2)) + ptrel(j)
