@@ -854,9 +854,7 @@
       
       equivalence(amp2010,amp2011)
       equivalence(jamp2010,jamp2011)
-      
-      call convert_to_string(nexternal,legs,str,lstr)
-      
+
 #ifdef DEBUG
       print*, "[DEBUG] str   = ", str
       print*, "[DEBUG] legs  = ", legs
@@ -865,6 +863,8 @@
      &        //"subroutine real_color noch nicht implementiert." 
       stop
 #endif
+
+      call convert_to_string(nexternal,legs,str,lstr)
       
       if(str.eq."1-21000022-10000240") then
          include "leshouches_R_001.inc"

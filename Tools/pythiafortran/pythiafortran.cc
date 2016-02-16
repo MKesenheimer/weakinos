@@ -19,8 +19,9 @@ namespace py = Pythia8;
 
 extern "C" {
 
-// global pythia object (todo: use singleton class)
+// global pythia objects (todo: use singleton class)
 py::Pythia pythia;
+py::Event& event = pythia.event;
 
 void pythia_read_slha_(const char * str) {
         std::cout<<"input file: "<<str<<std::endl;
@@ -31,15 +32,17 @@ void pythia_read_slha_(const char * str) {
 
 void pythia_init_() {
         // todo
-        pythia.readString("Beams:eCM = 8000.");
-        pythia.readString("HardQCD:all = on");
-        pythia.readString("PhaseSpace:pTHatMin = 20.");
-        
+        //pythia.readString("Beams:eCM = 8000.");
+        //pythia.readString("HardQCD:all = on");
+        //pythia.readString("PhaseSpace:pTHatMin = 20.");
         pythia.init();
 }
 
 void pythia_event_() {
-        
+    for (int iEvent = 0; iEvent < 100; ++iEvent) {
+        if (!pythia.next()) continue;
+        //do something here:
+    }
 }
 
 //end exern "C"

@@ -61,7 +61,7 @@ FASTJET_CONFIG = fastjet-config
 USE_PYTHIA8 = yes
 # path to pythia8-config executable
 # (uncomment only if you want to use a locally installed Pythia8)
-#PYTHIA8_CONFIG = pythia8-config
+PYTHIA8_CONFIG = pythia8-config
 
 # (not necessary anymore)
 ## path to fortran and c++ libraries

@@ -27,11 +27,16 @@ c a (leading) color structure to an event.
         
 #ifdef DEBUGQ
         print*,"[DEBUG] in borncolour_lh"
-        stop
+        print*,"[DEBUG] bflav",bflav
+        do i=1,2
+          do j=1,nlegborn
+            print*,"[DEBUG] icolup(",i,",",j,")",icolup(i,j)
+          enddo
+        enddo
+        !stop
 #endif
         
       end
-
 c############### end subroutine finalize_lh ############################
 
 c############### subroutine borncolour_lh ##############################
@@ -40,5 +45,4 @@ c on the Les Houches interface; not needed for neutralino production.
       subroutine finalize_lh
         implicit none
       end
-
 c############### end subroutine finalize_lh ############################

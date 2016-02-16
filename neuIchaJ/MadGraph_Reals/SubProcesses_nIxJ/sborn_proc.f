@@ -320,7 +320,16 @@
       integer legs(nexternal-1),lstr,i,j
       character*140 str
       integer iflow,ifl
-      
+
+#ifdef DEBUGQ
+      print*, "[DEBUG] str   = ", str
+      print*, "[DEBUG] legs  = ", legs
+      print*, "[DEBUG] color = ", color
+      print*, "[DEBUG] amp2001 = ",amp2001(1)
+      print*, "[DEBUG] jamp2001 = ",jamp2001(0)
+      stop
+#endif
+
       call convert_to_string(nexternal-1,legs,str,lstr)
       
       if(str.eq."1-21000022-1000024") then

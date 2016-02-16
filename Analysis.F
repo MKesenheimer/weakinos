@@ -144,28 +144,6 @@ c fill histograms
             stop
           endif
           
-          ! check decay products
-          ! only leptons are allowed
-          if (.not.((iabs(id_decA).eq.11)   .or.
-     &              (iabs(id_decA).eq.13)   .or. 
-     &              (iabs(id_decA).eq.15))  .or. 
-     &        .not.((iabs(id_decB).eq.11)   .or.
-     &              (iabs(id_decB).eq.13)   .or. 
-     &              (iabs(id_decB).eq.15)) ) then
-            print*,"unsupported decay channel."
-            print*,"id_decA: ", id_decA
-            print*,"id_decB: ", id_decB
-            print*,"In the current version are only charged leptons "//
-     &             "allowed."
-            stop
-          endif
-          ! the two leptons have to be different in the current implementation
-          !if (id_decA.eq.id_decB) then
-          !  print*,"the leptons have to be different"
-          !  print*,"change type or sign of one lepton in powheg.input"
-          !  stop
-          !endif  
-          
           ! if everything is ok print status
           print*, "extracted from process ID: ", lprup(1)
           print*, "the final state pair: ", id_finA, ", ", id_finB
