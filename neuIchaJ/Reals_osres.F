@@ -11,18 +11,6 @@ c by on-shell counter terms) evaluated at a phase space point where
 c sij = mij**2 holds.
 c the corrfac factor accounts for the restriction of the pahse-space and
 c modifies the jacobian.
-c
-c In principle, we can have a resonance between particle i=3 and j=5
-c or i=4 and j=5. This can be distinguished by the flag "chan":
-c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 5
-c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
-c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
-c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
-c (only required for neutralino pair production:)
-c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 & 5
-c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
-c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
-c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4 & 5
       subroutine  setosresreal(p,rflav,chan,ampreal)
         implicit none
 

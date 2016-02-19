@@ -322,28 +322,26 @@ c if the real-amplitudes are resonant split into a regular part and the
 c IR-divergent parts: this routine provides the corresponding flavor 
 c lists and stores it in flst_osres
 c this list should not be confused with flst_realres.
-c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 5
-c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
-c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
-c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
+c dl35: left handed up-type squark gets resonant with particles 3 & 5
+c dl45: left handed up-type squark gets resonant with particles 4 & 5
+c ul35: left handed down-type squark gets resonant with particles 3 & 5
+c ul45: left handed down-type squark gets resonant with particles 4 & 5
 c (only required for neutralino pair production:)
-c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 & 5
-c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
-c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
-c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4 & 5
+c dr35: right handed up-type squark gets resonant with particles 3 & 5
+c dr45: right handed up-type squark gets resonant with particles 4 & 5
+c ur35: right handed down-type squark gets resonant with particles 3 & 5
+c ur45: right handed down-type squark gets resonant with particles 4 & 5
       subroutine init_processes_osres
         implicit none
-        
 #include "nlegborn.h"
 #include "pwhg_flst.h"
 #include "pwhg_flg.h"
 #include "pwhg_flst_add.h"
 #include "osres.h"
-
         ! local variables
         integer i1,i2
         integer k
-        
+
         ! reset the number of on-shell resonant diagrams
         flst_nosres = 0
         ! fill the flavor list with on-shell resonant diagrams
@@ -358,7 +356,6 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         enddo        
 
         ! fill the global variables for treating the on-shell resonances
-        
 #if defined(NIXJ) || defined(XIXJ)
         ! number of resonances
         nosres = 4 ! change cnosres in osres.h as well

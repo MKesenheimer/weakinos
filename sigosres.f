@@ -13,6 +13,7 @@ c damping
 c retval is the function return value
 c retvavl0 is an 'avatar' function the has similar value, but is much
 c easier to compute (i.e. the Born term in this case)
+c TODO:
 c imode = 0 compute retval0 only.
 c imode = 1 compute retval, retval0
 c return value: output, 0: success; 1: retval0 was not computed

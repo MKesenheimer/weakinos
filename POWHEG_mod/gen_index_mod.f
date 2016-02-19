@@ -33,9 +33,22 @@ c bigger changes over a whole section are marked with !===...
       include 'pwhg_flst.h'
       include 'pwhg_kn.h'
       include 'pwhg_rad.h'
+      ! MK: picks a weighted random index according to real-xsec (rad_real_arr)
+      ! of the resonant region and sets the appropriate emitter of this
+      ! region
       call pick_random(rad_alr_nlist,rad_real_arr,rad_realidx)
       rad_realalr=rad_alr_list(rad_realidx)
       kn_emitter = flst_emitter(rad_realalr)
+#ifdef DEBUGQ
+      print*,"rad_real_arr",rad_real_arr(1:rad_alr_nlist)
+      print*,"rad_alr_list",rad_alr_list(1:rad_alr_nlist)
+      !print*,"rad_realidx",rad_realidx
+      print*,"rad_realalr",rad_realalr
+      print*,"flst_emitter",flst_emitter(1:rad_alr_nlist)
+      print*,"kn_emitter",kn_emitter
+      !print*,"maxalr",maxalr
+      print*
+#endif
       end
 
       subroutine pick_random(n,r,jret)

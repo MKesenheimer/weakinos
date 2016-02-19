@@ -88,6 +88,14 @@ c do not write events, write only the event count
       write(nlf,'(a)')'<event>'
       write(nlf,210) nup,idprup,xwgtup,scalup,aqedup,aqcdup
       do 200 i=1,nup
+         ! MK: added gluon color check
+         if((idup(i).eq.21) .and. 
+     &      ((icolup(1,i).eq.0) .or. (icolup(2,i).eq.0))) then
+           print*,"error in lhefwrite_mod.f:94"
+           print*,"idup is gluon, but has too less icolup entries:"
+           print*,"icolup(:,",i,")",icolup(:,i)
+           stop
+         endif
          write(nlf,220) idup(i),istup(i),mothup(1,i),
      & mothup(2,i),icolup(1,i),icolup(2,i),(pup(j,i),j=1,5),
      & vtimup(i),spinup(i)

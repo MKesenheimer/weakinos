@@ -5,18 +5,14 @@ c weakino pair production
 c############### init_couplings subroutine #############################
 c setup SM and MSSM parameters in PhysPars.h
 c requires encoded process ID in lprup(1)
-
       subroutine init_couplings
         implicit none
-
 #include "PhysPars.h"
 #include "LesHouches.h"
 #include "pwhg_st.h"
 #include "pwhg_math.h"
 #include "nlegborn.h"
 #include "osres.h"
-
-
         double precision powheginput
         external powheginput
         ! final state IDs
@@ -226,25 +222,18 @@ c requires encoded process ID in lprup(1)
         call ltini
         !call setversionkey(0)
         print*
-
       end
-
 c############### end subroutine init_couplings #########################
 
 c############### subroutine init_madgraph_params #######################
 c sets the Madgraph parameters
-
       subroutine set_madgraph_params
         implicit none
-        
 #include "PhysPars.h"
-        
         character*100 slhafilename
-        
         logical called, readslha
         data called/.false./
         save called
-        
         ! reads from slha file only when called this subroutine
         ! for the first time. When this subroutine is called
         ! more than once, the SM Input parameters can be overwritten
@@ -257,23 +246,17 @@ c sets the Madgraph parameters
           called   = .true.
           readslha = .true.
         endif
-
         call setpara(slhafilename,readslha)
-      
       end
-
 c############### end subroutine init_madgraph_params ###################
 
 c############### subroutine set_ebe_couplings ##########################
 c set the madgraph and formcalc couplings event by event
-
       subroutine set_ebe_couplings
         implicit none
-
 #include "PhysPars.h"
 #include "pwhg_st.h"
 #include "pwhg_math.h"
-
         ! MadGraph
         ! QCD coupling constant
         alphaS = st_alpha
@@ -284,7 +267,6 @@ c set the madgraph and formcalc couplings event by event
         alpha  = par_alpha
         Gal(1) = dcmplx(dsqrt(alpha*4d0*pi))
         Gal(2) = dcmplx(dsqrt(alpha*4d0*pi))
-
         ! FormCalc
         ! QCD coupling
         AlfaS  = alphaS
@@ -294,11 +276,9 @@ c set the madgraph and formcalc couplings event by event
         Alfa = par_alpha
         Alfa2   = Alfa**2
         EL = dsqrt(Alfa*4d0*pi)
-        
         ! initialize the counter term wich cures the susy breaking
         ! introduced by DR
         call init_susy_restore
-        
 #ifdef DEBUGQ
         print*,"AlfaS: ", AlfaS
         print*,"Alfa:  ", Alfa
@@ -306,21 +286,17 @@ c set the madgraph and formcalc couplings event by event
 #endif
         return
       end
-
 c############### end subroutine set_ebe_couplings ######################
 
 c############### set_phys_params subroutine ############################
 c extracts mass and mixing matrices from slhadata
 c assumes slhadata to be filled already
 c sets the PhysPars.h parameters
-
       subroutine set_phys_params
         implicit none
-
 #include "PhysPars.h"
 #include "pwhg_math.h"
 #include "LesHouches.h"
-        
         double precision powheginput
         external powheginput
         integer i,j,k   ! loops
@@ -569,23 +545,18 @@ c version.
         stop
 #endif
       end
-
 c############### end subroutine set_phys_params ########################
 
 c############### set_params subroutine #################################
 c extracts mass and mixing matrices from slhadata
 c assumes slhadata to be filled already
 c sets the FormCalc parameters
-
       subroutine set_formcalc_params
         implicit none
-
 #include "PhysPars.h"
 #include "pwhg_math.h"
-        
         double precision powheginput
         external powheginput
-
         integer i,j,k,l ! loops
         real ident(4,4) ! identity matrix
         real eps        ! auxilliary variable for checking unitarity of ZNeu
@@ -593,7 +564,6 @@ c sets the FormCalc parameters
         real cM1        ! (checkLimitMinus 1) lower limit -"-
         real cP0        ! (checkLimitPlus 0) upper limit for checking unitarity
         real cM0        ! (checkLimitMinus 0) lower limit -"-
-
         ! Avoid multiple calls to this subroutine.
         logical called
         data called/.false./
@@ -795,9 +765,7 @@ c MadGraphs couplings.f as well.
         AlfaSMZ = SMInputs_AlfasMZ
         EL = dsqrt(4*pi*Alfa)
         GS = dsqrt(4*pi*AlfaS)
-
       end
-
 c############### end subroutine set_params #############################
 
 c############### init_susy_restore subroutine ##########################
@@ -813,12 +781,10 @@ c the counter terms at amplitude squared niveau is implemented in
 c ddbar_SquaredME.F and uubar_SquaredME.F.
       subroutine init_susy_restore
         implicit none
-        
 #include "PhysPars.h"
 #include "pwhg_st.h"
 #include "pwhg_math.h"
 #include "susy_restore.h"
-
         ! the counter term for quark-squark-gluino is not needed here
         dZgs1y = 0 ! gs*Alfas/(3D0*Pi)
         ! counter term for quark-squark-neutralino yukawa coupling
@@ -855,23 +821,12 @@ c ddbar_SquaredME.F and uubar_SquaredME.F.
 #endif
         return
       end
-      
 c############### end init_susy_restore subroutine ######################
 
 c############### subroutine set_osres_params ###########################
-c set the paramaters for treating of the on-shell resonances
-c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 5
-c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
-c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
-c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
-c (only required for neutralino pair production:)
-c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 & 5
-c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
-c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
-c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4 & 5
+c set the paramaters for treating the on-shell resonances
       subroutine set_osres_params
         implicit none
-        
 #include "PhysPars.h"
 #include "osres.h"
         integer i
@@ -917,5 +872,4 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         stop
 #endif
       end
-
 c############### end subroutine set_osres_params #######################

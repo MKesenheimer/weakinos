@@ -69,6 +69,29 @@ c conjugate their colours in the output, to make them outgoing.
             call colour_conj(icolup(1,rad))
             call colour_conj(icolup(1,em))
          endif
+#ifdef DEBUGQ
+         print*,"[DEBUG] in LesHouches_mod.f:73"
+         print*,"flst_alr(:,alr)",flst_alr(:,alr)
+         print*,"icolup(:,",1,")",icolup(:,1)
+         print*,"icolup(:,",2,")",icolup(:,2)
+         print*,"icolup(:,",5,")",icolup(:,5)
+         print*
+#endif
+         ! MK: added gluon color checks
+         if((flem.eq.0) .and. 
+     &      ((icolup(1,em).eq.0) .or. (icolup(2,em).eq.0))) then
+           print*,"error in LesHouches_mod.f:83"
+           print*,"emitter is gluon, but has too less icolup entries:"
+           print*,"icolup(:,",em,")",icolup(:,em)
+           stop
+         endif
+         if((flrad.eq.0) .and. 
+     &      ((icolup(1,rad).eq.0) .or. (icolup(2,rad).eq.0))) then
+           print*,"error in LesHouches_mod.f:90"
+           print*,"radiator is gluon, but has too less icolup entries:"
+           print*,"icolup(:,",rad,")",icolup(:,rad)
+           stop
+         endif  
          if(flem.eq.0) flem=21
          if(flrad.eq.0) flrad=21
          idup(em)=flem

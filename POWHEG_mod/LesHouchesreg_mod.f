@@ -62,7 +62,7 @@ c MK: added
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
-      integer ireg
+      integer ireg,alr
       nup=nlegreal
       scalup=sqrt(rad_pt2max) 
       call momenta_lh(kn_preal,nlegreal) !always have radiation here
@@ -70,6 +70,15 @@ c MK: added
       idprup=lprup(1)
 #ifdef DEBUGQ
       print*,"rad_realosres",rad_realosres
+#endif
+#ifdef DEBUGQ
+      alr=rad_realalr
+      print*,"[DEBUG] in LesHouchesreg_mod.f:75"
+      print*,"flst_alr(:,alr)",flst_alr(:,alr)
+      print*,"icolup(:,",1,")",icolup(:,1)
+      print*,"icolup(:,",2,")",icolup(:,2)
+      print*,"icolup(:,",5,")",icolup(:,5)
+      print*
 #endif
       do ireg=1,nup
          ! Remember: gluons are marked 0 here!
@@ -90,10 +99,10 @@ c MK: added
          spinup(ireg)=9
          vtimup(ireg)=0
       enddo
+      ! MK: added: set icolup for this process
+      call realcolour_lh
       call lh_resonances
       call finalize_lh ! flg_btilde is in this case false: we create a regular...
-      !call realcolour_lh
-
       ! radiated parton always from born
       mothup(1,nup)=1
       mothup(2,nup)=2
