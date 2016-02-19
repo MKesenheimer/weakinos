@@ -184,15 +184,16 @@ c just set xphi to zero - the jacobian will be still correct.
         ! constants
         double precision m_pi
         parameter (m_pi = 4.D0*datan(1.D0))
-        double precision tiny
+        double precision tiny, tiny2
         parameter (tiny = 1d-6)
+        parameter (tiny2 = 1d-10)
 
         ! reset the jacobian
         jac = 1D0
 
         s = dotp(p0,p0)
         ! sort out bad phase space points
-        if ( (1D0-s/((m1+m2)**2)) .gt. 1D-10) then
+        if ( s .le. ((1D0-tiny2)*(m1+m2)**2) ) then
           print*, "warning: s is less than the sum of provided masses "//
      &            "m1 and m2"
           print*, "s, (m1+m2)**2 =",s,(m1+m2)**2
@@ -200,7 +201,9 @@ c just set xphi to zero - the jacobian will be still correct.
           jac = 0D0
           return
         ! no warning if not so bad phase space point
-        else if ( (1D0-s/((m1+m2)**2)) .gt. 0D0) then
+        ! but sort out to avoid NaNs
+        else if ( (s .le. (m1+m2)**2) .and.
+     &            (s .ge. ((1D0-tiny2)*(m1+m2)**2)) ) then
           s   = 0D0
           jac = 0D0
           return
@@ -269,6 +272,26 @@ c just set xphi to zero - the jacobian will be still correct.
         do i=0,3
           if(isnan(p1(i)) .or. isnan(p2(i)) .or. isnan(jac)) then
             print*,"warning in phi1_2:271: NaN occured"
+#ifdef DEBUGQ
+            print*,"xth",xth
+            print*,"xphi",xphi
+            print*,"m1",m1
+            print*,"m2",m2
+            print*,"p0",p0
+            print*,"s",s
+            print*,"cosTh",cosTh
+            print*,"sinTh",sinTh
+            print*,"phi",phi
+            print*,"E1",E1
+            print*,"E2",E2
+            print*,"Pabs",Pabs
+            print*,"norm",norm
+            print*,"beta",beta
+            print*,"vec",vec
+            print*,"p1",p1
+            print*,"p2",p2
+            print*,"jac",jac
+#endif
             jac = 0D0
             return
           endif

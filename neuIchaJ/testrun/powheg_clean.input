@@ -2,9 +2,12 @@
 fin1  1000022   ! neu10 = 1000022, neu20 = 1000023, neu30 = 1000025,
 fin2  -1000024  ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
 
-! we only care for lepton pairs as decay products (neutrinos not implemented)
+! we only care for lepton pairs as decay products
+! the user should take care of which decay products are meaningful
 dec1  11        ! electron = 11, muon = 13, tauon = 15
 dec2  -11       ! positron = -11 ...
+dec3  11
+dec4  -11
 
 ! physics
 incomingflavors 4    ! (default 4) number of incoming flavor

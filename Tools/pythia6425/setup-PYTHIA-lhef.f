@@ -43,7 +43,7 @@ c     tells pythia to use slha data and where to find them
       integer lunspc, tuneid
       common/pyslhaio/lunspc  ! slha spectrum file descriptor
       character*100 slhafilename
-      call powheginputstring("slha",slhafilename)
+      call powheginputstring("SLHA",slhafilename)
       ! 100       a : rick field's cdf tune a                     (oct 2002)
       ! 103      dw : rick field's cdf tune dw                    (apr 2006)
       ! 320 perugia 0 : "perugia" update of s0-pro                (feb 2009)
@@ -76,7 +76,7 @@ c     hands over sm parameters from init_couplings to pythia
       include 'sm_read_values.inc'
       include 'coupl.inc'
       include 'hepevt.h'
-      include 'leshouches.h'
+      include 'LesHouches.h'
       real *8 parp,pari
       integer mstp,msti
       common/pypars/mstp(200),parp(200),msti(200),pari(200)
@@ -173,7 +173,7 @@ c     initialize pythia
       subroutine upinit
       implicit none
       include 'hepevt.h'
-      include 'leshouches.h'
+      include 'LesHouches.h'
       real *8 parp,pari
       integer mstp,msti
       common/pypars/mstp(200),parp(200),msti(200),pari(200)
@@ -225,7 +225,7 @@ c     writes pythia analysis output into .top file
       character *100 filename
       integer lprefix
       common/cpwgprefix/pwgprefix,lprefix
-      filename=pwgprefix(1:lprefix)//'powheg+pythia-output'
+      filename=pwgprefix(1:lprefix)//'POWHEG+PYTHIA-output'
       call pwhgsetout
       call pwhgtopout(filename)
       close(99)
@@ -237,7 +237,7 @@ c     jumps to next event and calls analysis
       subroutine pyanal
       implicit none
       include 'hepevt.h'
-      include 'leshouches.h'
+      include 'LesHouches.h'
       integer mint
       real *8 vint
       common/pyint1/mint(400),vint(400)

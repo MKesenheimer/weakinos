@@ -58,10 +58,10 @@ FASTJET_CONFIG = fastjet-config
 
 ## Pythia8
 # if you want to use Pythia8 instead of Pythia6 uncomment the following
-USE_PYTHIA8 = yes
+#USE_PYTHIA8 = yes
 # path to pythia8-config executable
 # (uncomment only if you want to use a locally installed Pythia8)
-PYTHIA8_CONFIG = pythia8-config
+#PYTHIA8_CONFIG = pythia8-config
 
 # (not necessary anymore)
 ## path to fortran and c++ libraries
@@ -349,7 +349,9 @@ ifeq ("$(USE_PYTHIA8)","yes")
   # TODO:
   PYTHIA += main-PYTHIA_mod.o
 else
-  PYTHIA += main-PYTHIA.o setup-PYTHIA-lhef.o pythia-6.4.25-decay.o
+  PYTHIA += main-PYTHIA.o setup-PYTHIA-lhef.o
+  #PYTHIA += pythia-6.4.25-decay.o
+  PYTHIA += pythia6428.o
 endif
 
 ### HERWIG ###

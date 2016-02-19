@@ -365,7 +365,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000221000024") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -373,7 +373,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000221000024") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -381,7 +381,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000221000024") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -389,7 +389,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000221000024") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -430,7 +430,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000231000024") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -438,7 +438,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000231000024") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -446,7 +446,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000231000024") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -454,7 +454,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000231000024") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -495,7 +495,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000221000037") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -503,7 +503,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000221000037") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -511,7 +511,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000221000037") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -519,7 +519,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000221000037") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -560,7 +560,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000231000037") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -568,7 +568,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000231000037") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -576,7 +576,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000231000037") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -584,7 +584,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000231000037") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -625,7 +625,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000251000024") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -633,7 +633,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000251000024") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -641,7 +641,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000251000024") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -649,7 +649,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000251000024") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -690,7 +690,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000251000037") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -698,7 +698,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000251000037") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -706,7 +706,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000251000037") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -714,7 +714,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000251000037") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -755,7 +755,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000351000024") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -763,7 +763,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000351000024") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -771,7 +771,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000351000024") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -779,7 +779,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000351000024") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -820,7 +820,7 @@
          enddo
          goto 20
       elseif(str.eq."-1210000351000037") then
-         include "leshouches_001.inc"
+         include "leshouches_005.inc"
          iflow=nint(jamp2001(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -828,7 +828,7 @@
          enddo
          goto 20
       elseif(str.eq."2-110000351000037") then
-         include "leshouches_002.inc"
+         include "leshouches_006.inc"
          iflow=nint(jamp2002(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -836,7 +836,7 @@
          enddo
          goto 20
       elseif(str.eq."4-310000351000037") then
-         include "leshouches_003.inc"
+         include "leshouches_007.inc"
          iflow=nint(jamp2003(0))
          jamp2cum(0)=0d0
          do i=1,iflow
@@ -844,7 +844,7 @@
          enddo
          goto 20
       elseif(str.eq."-3410000351000037") then
-         include "leshouches_004.inc"
+         include "leshouches_008.inc"
          iflow=nint(jamp2004(0))
          jamp2cum(0)=0d0
          do i=1,iflow

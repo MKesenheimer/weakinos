@@ -62,16 +62,21 @@ c MK: added
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
-      integer ireg,moth,j,iub,i
-      logical flag_res45
+      integer ireg
       nup=nlegreal
+      scalup=sqrt(rad_pt2max) 
       call momenta_lh(kn_preal,nlegreal) !always have radiation here
       ! id of the event
       idprup=lprup(1)
-
+#ifdef DEBUGQ
+      print*,"rad_realosres",rad_realosres
+#endif
       do ireg=1,nup
          ! Remember: gluons are marked 0 here!
          idup(ireg)=flst_osres(ireg,rad_realosres)
+#ifdef DEBUGQ
+         print*,"idup",idup(ireg)
+#endif
          if (idup(ireg).eq.0) idup(ireg)=21
          if(ireg.le.2) then
             istup(ireg)=-1
@@ -87,14 +92,10 @@ c MK: added
       enddo
       call lh_resonances
       call finalize_lh ! flg_btilde is in this case false: we create a regular...
+      !call realcolour_lh
 
       ! radiated parton always from born
       mothup(1,nup)=1
       mothup(2,nup)=2
-        
-      ! Don't forget to set scale for scalup equal to the pt of the
-      ! radiation (whatever it is now!)
-      scalup=sqrt(rad_pt2max) !rad_pt2max was set using the pt2max_osres-routine!
-
       end
 c=======================================================================

@@ -5,42 +5,47 @@ c book all histograms, will be filled later
 #include "LesHouches.h"
 #include "pwhg_math.h"
         ! tell this analysis file which program is running it
-        character *6 WHCPRG
+        character*6 WHCPRG
         common/cWHCPRG/WHCPRG
+        integer ndecay,i
+        parameter (ndecay = 4)
+        character*4 cstr(ndecay)
+        data cstr/"dec1","dec2","dec3","dec4"/
 
         call inihists
         
         ! no cuts
-        call bookupeqbins("sigma_total_nocuts",1D0,-0.5D0,0.5D0)
-        call bookupeqbins("inv_mass_pair_nocuts",10D0,200D0,1000D0)
-        call bookupeqbins("pt_finA_nocuts",6D0,0D0,500D0)
-        call bookupeqbins("pt_finB_nocuts",6D0,0D0,500D0)
-        call bookupeqbins("eta_finA_nocuts",0.2D0,-4D0,4D0)
-        call bookupeqbins("number_of_visible_jets_nocuts",
-     &                    1D0,-0.5D0,2.5D0)
-        call bookupeqbins("pt_jet_nocuts",2D0,0D0,100D0)
-        call bookupeqbins("eta_jet_nocuts",0.2D0,-4D0,4D0)
+        call bookupeqbins("xsec",1D0,-0.5D0,0.5D0)
+        call bookupeqbins("mass(A+B)",10D0,200D0,1000D0)
+        call bookupeqbins("Pt(A)",6D0,0D0,504D0)
+        call bookupeqbins("Pt(B)",6D0,0D0,504D0)
+        call bookupeqbins("eta(A)",0.2D0,-4D0,4D0)
+        call bookupeqbins("N(J)",1D0,-0.5D0,2.5D0)
+        call bookupeqbins("Pt(J)",2D0,0D0,100D0)
+        call bookupeqbins("eta(J)",0.2D0,-4D0,4D0)
         
         ! jet cuts
-        call bookupeqbins("sigma_total_jcuts",1D0,-0.5D0,0.5D0)
-        call bookupeqbins("inv_mass_pair_jcuts",10D0,200D0,1000D0)
-        call bookupeqbins("pt_finA_jcuts",6D0,0D0,500D0)
-        call bookupeqbins("pt_finB_jcuts",6D0,0D0,500D0)
-        call bookupeqbins("eta_finA_jcuts",0.2D0,-4D0,4D0)
-        call bookupeqbins("number_of_visible_jets_jcuts",
-     &                    1D0,-0.5D0,2.5D0)
-        call bookupeqbins("pt_jet_jcuts",50D0,0D0,1000D0)
-        call bookupeqbins("eta_jet_jcuts",0.2D0,-4D0,4D0)
+        call bookupeqbins("xsec(Jcuts)",1D0,-0.5D0,0.5D0)
+        call bookupeqbins("mass(A+B,Jcuts)",10D0,200D0,1000D0)
+        call bookupeqbins("Pt(A,Jcuts)",6D0,0D0,504D0)
+        call bookupeqbins("Pt(B,Jcuts)",6D0,0D0,504D0)
+        call bookupeqbins("eta(A,Jcuts)",0.2D0,-4D0,4D0)
+        call bookupeqbins("N(J,Jcuts)",1D0,-0.5D0,2.5D0)
+        call bookupeqbins("Pt(J,Jcuts)",50D0,0D0,1000D0)
+        call bookupeqbins("eta(J,Jcuts)",0.2D0,-4D0,4D0)
         
-        if(WHCPRG.eq.'PYTHIA') then
+        if(WHCPRG.eq."PYTHIA") then
           ! lepton cuts
-          call bookupeqbins('sigma_total_lcuts',1d0,-0.5d0,0.5d0)
-          call bookupeqbins('azimuth_diff_lepton_pair_lcuts',
-     &                       pi/20d0,-pi,pi)
-          call bookupeqbins('pt_lepton_A_lcuts',6d0,0d0,600d0)
-          call bookupeqbins('eta_lepton_A_lcuts',0.2d0,-4d0,4d0)
-          call bookupeqbins('pt_lepton_B_lcuts',6d0,0d0,600d0)
-          call bookupeqbins('eta_lepton_B_lcuts',0.2d0,-4d0,4d0)
+          ! book all possible histograms although we don't need
+          ! all of them for every process
+          call bookupeqbins("xsec(Lcuts)",1d0,-0.5d0,0.5d0)
+          call bookupeqbins("dPhi(L1+L2,Lcuts)",pi/20d0,-pi,pi)
+          call bookupeqbins("mass(dec1+dec2,Jcuts)",10D0,20D0,600D0)
+          call bookupeqbins("Pt(,Lcuts)",6d0,0d0,600d0)
+          do i=1,ndecay
+            call bookupeqbins("Pt("//cstr(i)//",Lcuts)",6d0,0d0,600d0)
+            call bookupeqbins("eta("//cstr(i)//",Lcuts)",0.2d0,-4d0,4d0)
+          enddo
         endif  
         
       end
@@ -54,6 +59,7 @@ c fill histograms
         implicit none
 #include "pwhg_math.h"
 #include "LesHouches.h"
+#include "hepevt.h"
         double precision dsig ! total cross section
         ! tells if subroutine is called for the first time
         logical ini
@@ -64,8 +70,8 @@ c fill histograms
         common/cWHCPRG/WHCPRG
         data WHCPRG/'NLO'/ ! default, should be set when analysis is called
         ! external functions
-        double precision powheginput
-        external powheginput
+        double precision powheginput, pt
+        external powheginput, pt
         ! kinematical quantities
         double precision p_finA(0:3), p_finB(0:3), p_finAfinB(0:3)
         double precision pt_finA, pt_finB
@@ -73,13 +79,8 @@ c fill histograms
         double precision y_finA
         double precision m_finAfinB
         double precision pt_finAfinB, y_finAfinB
-        double precision p_decA(0:3), p_decB(0:3)
-        double precision pt_decA, pt_decB
-        double precision eta_decA, eta_decB
-        double precision y_decA
-        double precision phi_decA, phi_decB, phi_decAdecB
         ! jet parameters
-        integer j, mjets, num_vis_jets, maxjet
+        integer mjets, num_vis_jets, maxjet
         parameter (maxjet=2048)
         double precision kt(maxjet), eta(maxjet), rap(maxjet)
         double precision phi(maxjet), pj(4,maxjet), ptrel(maxjet)
@@ -90,43 +91,76 @@ c fill histograms
         double precision ptLmin, etaLmax
         ! IDs
         integer id_finA, id_finB
+        ! decays
+        ! number of decay products to consider
+        integer ndecay
+        parameter (ndecay = 4)
         ! IDs of leptonic decay products
-        integer id_decA, id_decB
-        save id_decA, id_decB
+        ! iid_dec: saves the user requested order of decay products
+        integer id_dectemp(ndecay)
+        integer id_dec(ndecay), iid_dec(ndecay)
+        save id_dec, iid_dec
+        ! momenta, pt, eta, y of decay products
+        double precision ptemp(0:3,ndecay) ! temporary momenta
+        double precision p_dec(0:3,ndecay), pt_dec(ndecay)
+        double precision eta_dec(ndecay), y_dec(ndecay)
+        double precision phi_dec(ndecay), dphi_dec1dec2
+        double precision p_dec1dec2(0:3), m_dec1dec2
+        character*4 cstr(ndecay)
+        data cstr/"dec1","dec2","dec3","dec4"/
+        ! decay switch (which decay process do we want to observe?)
+        integer sdec
+        save sdec
+        ! HEPEVT-IDs of decay products (debugging)
+        integer hep_decA1, hep_decA2, hep_decB1, hep_decB2
         ! indices
-        integer mu, ij
+        integer mu, ihep, i, j, ij
         ! cuts
         logical JcutsPassed, Lcutspassed
-        ! decay
-        integer number_lepA,number_lepB
-        logical decayed, isvaliddecayspectrum
-        save decayed
-        decayed=.true.
+        ! flags for decay
+        logical fdecA, fdecB, decayed
+        save fdecA, fdecB, decayed
         
         ! at first call
         if (ini) then            
           ! check program that runs analysis
           print*,
           print*, "===================================================="
-          if(WHCPRG.eq."NLO") then
+          if(whcprg.eq."NLO") then
             print*, "fixed-order NLO analysis"
-          elseif(WHCPRG.eq."LHE") then
+          elseif(whcprg.eq."LHE") then
             print*, "LHE analysis"
             call init_couplings    
-          elseif(WHCPRG.eq."HERWIG") then
-            print*, "HERWIG ANALYSIS"
+          elseif(whcprg.eq."HERWIG") then
+            print*, "HERWIG analysis"
             print*, "not implemented analysis"
             print*, "no plots will be present at the end of the run"
             call init_couplings
-          elseif(WHCPRG.eq."PYTHIA") then
-            print*, "PYTHIA ANALYSIS"
+          elseif(whcprg.eq."PYTHIA") then
+            print*, "PYTHIA analysis"
             call init_couplings
           endif
           print*, "===================================================="
- 
+          
           ! determine the decay products from powheg.input
-          id_decA = powheginput("dec1")
-          id_decB = powheginput("dec2")
+          ! remember that not every number is needed for every process
+          do i=1,ndecay
+            id_dec(i) = powheginput(cstr(i)) ! if zero: don't observe this decay
+          enddo
+          ! sdec = 0: all decay IDs are different
+          ! sdec = 1: two decay IDs are the same, the other different
+          ! sdec = 2: two pairs
+          ! sdec = 3: three decay IDs are the same
+          ! ...
+          ! sdec = 1/2(ndecay-1)(ndecay): all decay IDs are the same 
+          sdec = 0
+          do i=1,ndecay
+            do j=i+1,ndecay
+              if(id_dec(i).ne.0 .and. id_dec(i).eq.id_dec(j)) then
+                sdec = sdec + 1
+              endif
+            enddo
+          enddo
           
           ! extract final state types from process id
           call decode_pair(lprup(1),id_finA,id_finB)
@@ -147,51 +181,30 @@ c fill histograms
           ! if everything is ok print status
           print*, "extracted from process ID: ", lprup(1)
           print*, "the final state pair: ", id_finA, ", ", id_finB
-          print*, "the decay products:   ", id_decA, ", ", id_decB
+          print*, "the decay products:   ", id_dec(1), ", ", id_dec(2)
+          print*, "                      ", id_dec(3), ", ", id_dec(4)
           
-          ! find out if allowed decay took place
-          ! determine the number of the specified leptons in decay products
-          call getnumber(id_decA,number_lepA)
-          call getnumber(id_decB,number_lepB)
-          ! allowed decay requires the specified leptons in final state
-          if ((number_lepA.eq.0).and.(number_lepB.eq.0)) then
-            decayed=.false.
-            print*, "particles with id",id_decA,id_decB,"not found"
-            print*, "-> no allowed decay took place"
-          endif
-          ! only if we already know that a decay took place
-          if (decayed) then
-            ! check mass spectrum if decays are possible
-            if (.not.(isvaliddecayspectrum(id_finA,id_finB,
-     &                                     id_decA,id_decB))) then
-              decayed=.false.
-              print*, "histograms for decay products are empty"
-            endif
-          endif
-        endif
+          ! jets
+          ! initialize
+          do j = 1,maxjet
+            kt(j)    = 0D0
+            eta(j)   = 0D0
+            rap(j)   = 0D0
+            phi(j)   = 0D0
+            pj(:,j)  = 0D0
+            ptrel(j) = 0D0
+          enddo
         
-        ! jets
-        ! initialize
-        do j = 1,maxjet
-          kt(j)    = 0D0
-          eta(j)   = 0D0
-          rap(j)   = 0D0
-          phi(j)   = 0D0
-          pj(:,j)  = 0D0
-          ptrel(j) = 0D0
-        enddo
-        
-        ! init cuts (change here if needed)
-        ! jet cuts
-        ptJmin  = 1D0
-        etaJmax = 4.5D0
-        R       = 0.4D0
-        mjets   = 40
-        ! lepton cuts
-        ptLmin  = 20D0 ! physical cut
-        etaLmax = 2.5D0
-        
-        if (ini) then
+          ! init cuts (change here if needed)
+          ! jet cuts
+          ptJmin  = 1D0
+          etaJmax = 4.5D0
+          R       = 0.4D0
+          mjets   = 40
+          ! lepton cuts
+          ptLmin  = 20D0 ! physical cut
+          etaLmax = 2.5D0
+
           ! write out informations
           print*, "===================================================="
           ! write out all cuts
@@ -207,30 +220,21 @@ c fill histograms
           print*, "hardest lepton |eta| <",etaLmax
           print*
           print*, "===================================================="
+          ini=.false.
         endif
-        
-        ini=.false.
         
         ! from pico to femto
         dsig = dsig*1000D0
 
         ! find final state 4-momenta
         call get4momentum_fin_pair(id_finA,p_finA,id_finB,p_finB)
-        
-        ! find lepton 4-momenta of decay products
-        if(decayed) then
-          ! undecayed lepton with largest pt
-          call get4momentum_largestpt(id_decA,p_decA)
-          ! undecayed lepton with largest pt
-          call get4momentum_largestpt(id_decB,p_decB)
-        endif
 
         ! calculate final state kinematical quantities:
         ! final state A, B transverse momentum
-        pt_finA = dsqrt(p_finA(1)**2+p_finA(2)**2)
-        pt_finB = dsqrt(p_finB(1)**2+p_finB(2)**2)
+        pt_finA = pt(p_finA)
+        pt_finB = pt(p_finB)
         ! final state A pseudorapidity
-        call get_pseudorap(p_finA,eta_finA)
+        call getpseudorap(p_finA,eta_finA)
         ! final state A rapidity
         call getrapidity(p_finA,y_finA)
         ! invariant mass of the final state system
@@ -239,8 +243,7 @@ c fill histograms
         enddo
         call getinvmass(p_finAfinB,m_finAfinB)
         ! transverse momentum of the final state system
-        pt_finAfinB = dsqrt((p_finB(1)+p_finA(1))**2
-     &                     +(p_finB(2)+p_finA(2))**2)
+        pt_finAfinB = pt(p_finAfinB)
         ! rapidity of the final state system
         call getrapidity(p_finAfinB,y_finAfinB) 
         
@@ -254,35 +257,131 @@ c fill histograms
           endif
         enddo
         
-        if(decayed) then
-          ! calculate lepton kinematical quantities:
-          ! lepton A, B transverse momentum
-          pt_decA = sqrt(p_decA(1)**2 + p_decA(2)**2)
-          pt_decB = sqrt(p_decB(1)**2 + p_decB(2)**2)
-          ! rapidity of lepton A, B
-          call getrapidity(p_decA,y_decA)
-          ! pseudorapidity of lepton A, B
-          call get_pseudorap(p_decA,eta_decA)
-          call get_pseudorap(p_decB,eta_decB)
-          ! azimuth of lepton A, B
-          call getazimuth(p_decA,phi_decA)
-          call getazimuth(p_decB,phi_decB)
-          ! azimuthal difference of the leptons
-          phi_decAdecB = phi_decB-phi_decA
-          if(phi_decAdecB.lt.(-pi)) phi_decAdecB = phi_decAdecB+2d0*pi
-          if(phi_decAdecB.gt.pi)    phi_decAdecB = phi_decAdecB-2d0*pi
+        ! find out if allowed decay took place
+        call isdecayed(id_finA,fdecA)
+        call isdecayed(id_finB,fdecB)
+        if (fdecA.or.fdecB) then
+          decayed = .true.
+        else
+          decayed = .false.
         endif
         
+        if(decayed) then
+           ! book keeping: sort the decay IDs in decreasing order, but ignore zeros
+          do i=1,ndecay
+            ! sort zero entries to the end of the list    
+            if(id_dec(i).eq.0) id_dec(i) = -999
+          enddo  
+          ! sort list id_dec and keep track of sorting in list iid_dec
+          call sortit(id_dec,iid_dec,ndecay)
+          do i=1,ndecay
+            ! replace -999 with zero   
+            if(id_dec(i).eq.-999) id_dec(i) = 0
+          enddo
+          ! first assign the largest pt for every particle ID...
+          do i=1,ndecay
+            call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))
+          enddo
+
+          ! ... then overwrite:
+          ! all decay IDs are the same
+          if(sdec.eq.((ndecay-1)*(ndecay)/2)) then
+            do i=1,ndecay
+              call get4momentum_sortedpt(id_dec(i),i,p_dec(:,i))
+            enddo
+          endif
+          
+          ! one pair
+          ! since the list id_dec(i) is sorted, the two IDs must be next to each other
+          if(sdec.eq.1) then
+            do i=1,ndecay-1
+              if(id_dec(i).eq.id_dec(i+1)) then
+                call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))     ! largest Pt
+                call get4momentum_sortedpt(id_dec(i+1),2,p_dec(:,i+1)) ! second largest Pt
+              endif  
+            enddo
+          endif
+          
+          ! two pairs
+          if(sdec.eq.2) then
+            ! (no loops for ndecay = 4, but for arbitrary number > 4)
+            do i=1,ndecay-3
+              do j=i+2,ndecay-1
+                if((id_dec(i).eq.id_dec(i+1)) .and. 
+     &             (id_dec(j).eq.id_dec(j+1))) then
+                  call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))     ! largest Pt
+                  call get4momentum_sortedpt(id_dec(i+1),2,p_dec(:,i+1)) ! second largest Pt
+                  call get4momentum_sortedpt(id_dec(j),1,p_dec(:,j))     ! largest Pt
+                  call get4momentum_sortedpt(id_dec(j+1),2,p_dec(:,j+1)) ! second largest Pt
+                endif
+              enddo
+            enddo  
+          endif
+          
+          ! three are equal
+          if(sdec.eq.3) then
+            do i=1,ndecay-2
+              if((id_dec(i).eq.id_dec(i+1)) .and. 
+     &           (id_dec(i+1).eq.id_dec(i+2))) then
+                call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))     ! largest Pt
+                call get4momentum_sortedpt(id_dec(i+1),2,p_dec(:,i+1)) ! second largest Pt
+                call get4momentum_sortedpt(id_dec(i+2),3,p_dec(:,i+2)) ! third largest Pt
+              endif  
+            enddo
+          endif
+          
+          ! for ndecay>4: TODO
+          ! four decay IDs are equal
+          ! pair of three and two
+          ! ...
+
+          ! reverse the sorting to get back to the order the user requested
+          do i=1,ndecay
+            do mu=0,3
+              ptemp(mu,i) = p_dec(mu,i)
+            enddo
+            id_dectemp(i) = id_dec(i)
+          enddo
+          do i=1,ndecay
+            do mu=0,3
+              p_dec(mu,iid_dec(i)) = ptemp(mu,i)
+            enddo
+            id_dec(iid_dec(i)) = id_dectemp(i)
+          enddo
+
+          ! assign observables for the decay products
+          do i=1,ndecay
+            pt_dec(i) = pt(p_dec(:,i))
+            if(pt_dec(i).ne.0D0) then
+              call getrapidity(p_dec(:,i),y_dec(i))
+              call getpseudorap(p_dec(:,i),eta_dec(i))
+              call getazimuth(p_dec(:,i),phi_dec(i))
+            endif  
+          enddo
+          ! calculate only for particle 1&2 the difference in phi
+          ! -> the user can simply switch two numbers in powheg.input
+          !    to get another distribution
+          if( (pt_dec(1).ne.0D0) .and. (pt_dec(2).ne.0D0) ) then
+            dphi_dec1dec2 = phi_dec(2)-phi_dec(1)
+            if(dphi_dec1dec2.lt.(-pi)) dphi_dec1dec2=dphi_dec1dec2+2d0*pi
+            if(dphi_dec1dec2.gt.pi)    dphi_dec1dec2=dphi_dec1dec2-2d0*pi
+            do mu=0,3
+              p_dec1dec2(mu) = p_dec(mu,1)+p_dec(mu,2)
+            enddo
+            call getinvmass(p_dec1dec2,m_dec1dec2)
+          endif  
+        endif
+        
+        ! fill histograms
         ! no cuts
-        call filld("sigma_total_nocuts",0D0,dsig)
-        call filld("inv_mass_pair_nocuts",m_finAfinB,dsig)
-        call filld("pt_finA_nocuts",pt_finA,dsig)
-        call filld("pt_finB_nocuts",pt_finB,dsig)
-        call filld("eta_finA_nocuts",eta_finA,dsig)
-        call filld("number_of_visible_jets_nocuts",
-     &             dble(num_vis_jets),dsig)
-        call filld("pt_jet_nocuts",kt(1),dsig)
-        call filld("eta_jet_nocuts",eta(1),dsig)
+        call filld("xsec",0D0,dsig)
+        call filld("mass(A+B)",m_finAfinB,dsig)
+        call filld("Pt(A)",pt_finA,dsig)
+        call filld("Pt(B)",pt_finB,dsig)
+        call filld("eta(A)",eta_finA,dsig)
+        call filld("N(J)",dble(num_vis_jets),dsig)
+        call filld("Pt(J)",kt(1),dsig)
+        call filld("eta(J)",eta(1),dsig)
 
         ! determine if jet cuts have passed
         JcutsPassed = .true.
@@ -292,85 +391,146 @@ c fill histograms
         
         ! fill histograms if jet cuts have passed
         if(JcutsPassed) then
-          call filld("sigma_total_jcuts",0D0,dsig)
-          call filld("inv_mass_pair_jcuts",m_finAfinB,dsig)
-          call filld("pt_finA_jcuts",pt_finA,dsig)
-          call filld("pt_finB_jcuts",pt_finB,dsig)
-          call filld("eta_finA_jcuts",eta_finA,dsig)
-          call filld("number_of_visible_jets_jcuts",
-     &               dble(num_vis_jets),dsig)
-          call filld("pt_jet_jcuts",kt(1),dsig)
-          call filld("eta_jet_jcuts",eta(1),dsig)
+          call filld("xsec(Jcuts)",0D0,dsig)
+          call filld("mass(A+B,Jcuts)",m_finAfinB,dsig)
+          call filld("Pt(A,Jcuts)",pt_finA,dsig)
+          call filld("Pt(B,Jcuts)",pt_finB,dsig)
+          call filld("eta(A,Jcuts)",eta_finA,dsig)
+          call filld("N(J,Jcuts)",dble(num_vis_jets),dsig)
+          call filld("Pt(J,Jcuts)",kt(1),dsig)
+          call filld("eta(J,Jcuts)",eta(1),dsig)
         endif
         
         ! determine if lepton cuts have passed
         Lcutspassed = .true.
-        if(decayed.eqv..false.) Lcutspassed = .false.
-        if(pt_decA.le.ptLmin) Lcutspassed = .false.
-        if(pt_decB.le.ptLmin) Lcutspassed = .false.
-        if(dabs(eta_decA).ge.etaLmax) Lcutspassed = .false.
-        if(dabs(eta_decB).ge.etaLmax) Lcutspassed = .false.
+        if(.not.decayed) Lcutspassed = .false.
+        do i=1,ndecay
+          ! apply only cut if decay ID is not empty
+          if(id_dec(i).ne.0) then
+            if(pt_dec(i).le.ptLmin) Lcutspassed = .false.
+            if(dabs(eta_dec(i)).ge.etaLmax) Lcutspassed = .false.
+          endif  
+        enddo
         
         ! cutsL
         if(Lcutspassed) then
-          call filld('sigma_total_lcuts',0d0,dsig)
-          call filld('azimuth_diff_lepton_pair_lcuts',phi_decAdecB,dsig)
-          call filld('pt_lepton_A_lcuts',pt_decA,dsig)
-          call filld('eta_lepton_A_lcuts',eta_decA,dsig)
-          call filld('pt_lepton_B_lcuts',pt_decB,dsig)
-          call filld('eta_lepton_B_lcuts',eta_decB,dsig)
+          call filld("xsec(Lcuts)",0d0,dsig)
+          call filld("dPhi(L1+L2,Lcuts)",dphi_dec1dec2,dsig)
+          call filld("mass(dec1+dec2,Jcuts)",m_dec1dec2,dsig)
+          do i=1,ndecay
+            call filld("Pt("//cstr(i)//",Lcuts)",pt_dec(i),dsig)
+            call filld("eta("//cstr(i)//",Lcuts)",eta_dec(i),dsig)
+          enddo
         endif
       end
 c############### end subroutine analysis ###############################
 
-c############### subroutine getnumber ##################################
-c takes PDG ID
-c returns number of undecayed particles with this ID in n
-      subroutine getnumber(PDG_ID,n)
+c############### subroutine getihep ####################################
+c takes PDG ID and returns the index of this particle in the HEPEVT-list
+c call this routine several times to get for one particle type 
+c all occurent indices in the HEPEVT-list
+c st is the hepevent status:
+c 1: particle undecayed in final state
+c 2: particle decayed and not in final state
+c use the flag reset to reset the search and to begin at the beginning
+      subroutine getihep(PDG_ID,st,reset,HEP_i)
         implicit none
 #include "hepevt.h"
-        integer PDG_ID, n, ihep
-
-        n=0
+        integer PDG_ID, HEP_i, ihep, st
+        ! store here the index of the already found particle id's
+        ! (to keep track which particle was already found,
+        !  -> it is possible to call this subroutine several times with 
+        !  the same PDG_ID and get the next HEPEVT-id)
+        integer foundlist(nmxhep)
+        logical reset
+        save foundlist
+        if(reset) then
+          do ihep=1,nhep
+            foundlist = 0
+          enddo
+        endif
+        HEP_i = 0
         do ihep=1,nhep
-          if(isthep(ihep).eq.1) then
+          if(isthep(ihep).eq.st) then
+            if( (foundlist(ihep).ne.idhep(ihep)) .and.
+     &          (idhep(ihep).eq.PDG_ID) ) then
+              HEP_i = ihep
+              foundlist(ihep) = idhep(ihep)
+              return
+            endif  
+          endif
+        enddo
+      end
+c############### end subroutine getihep ################################
+
+c############### subroutine isdecayed ##################################
+c takes PDG ID and returns if the particle decayed
+      subroutine isdecayed(PDG_ID,fdec)
+        implicit none
+#include "hepevt.h"
+        integer PDG_ID, ihep
+        logical fdec
+        fdec = .false.
+        do ihep=1,nhep
+          if(isthep(ihep).eq.2) then ! hepevent status 2 -> particle decayed
             if(idhep(ihep).eq.PDG_ID) then
-              n=n+1
+              fdec = .true.
             endif
           endif
         enddo
-      
-#ifdef DEBUGQ
-        print*,"number of particles with ID",PDG_ID,": ",n
-#endif
       end
-c############### end subroutine getnumber ##############################
+c############### end subroutine isdecayed ##############################
+
+c############### subroutine getdaughters ###############################
+c takes PDG ID of mother and returns the PDG ID of two daughters
+      subroutine getdaughters(MPDG_ID,reset,D1PDG_ID,D2PDG_ID)
+        implicit none
+#include "hepevt.h"
+        integer MPDG_ID, D1PDG_ID, D2PDG_ID, ihep
+        logical reset
+        call getihep(MPDG_ID,2,reset,ihep)
+        D1PDG_ID = idhep(jdahep(1,ihep))
+        D2PDG_ID = idhep(jdahep(2,ihep))
+      end
+c############### end subroutine getdaughters ###########################
+
+c############### subroutine get4momentum_sortedpt ######################
+c takes PDG ID
+c returns four-momentum of undecayed particle with this ID sorted by
+c pt. Select with iorder the pt occurence:
+c 1: highest pt
+c 2: second highest pt
+c 3: third highest pt ...
+      subroutine get4momentum_sortedpt(PDG_ID,iorder,p)
+        implicit none
+        integer PDG_ID, n, nmax, mu
+        parameter (nmax=200)
+        integer list(nmax),iorder
+        double precision p(0:3)
+        do mu=0,3
+          p(mu) = 0d0
+        enddo
+        call getptsortedlist(PDG_ID,n,list)
+        if (list(iorder).ne.0) then  ! only if particle with PDG_ID is found
+          ! take four-momentum of first particle in list (largest pt)
+          call get4momentum_ihep(list(iorder),p)
+        endif
+      end
+c############### end subroutine get4momentum_sortedpt ##################
 
 c############### subroutine get4momentum_largestpt #####################
 c takes PDG ID
 c returns four-momentum of undecayed particle with this ID and largest pt
       subroutine get4momentum_largestpt(PDG_ID,p)
         implicit none
-        integer PDG_ID, n, nmax, mu
-        parameter (nmax=200)
-        integer list(nmax)
+        integer PDG_ID
         double precision p(0:3)
-
-        do mu=0,3
-          p(mu) = 0d0
-        enddo
-
-        call getptsortedlist(PDG_ID,n,list)
-        if (list(1).ne.0) then  ! only if particle with PDG_ID is found
-          ! take four-momentum of first particle in list (largest pt)
-          call get4momentum_ihep(list(1),p)
-        endif
+        call get4momentum_sortedpt(PDG_ID,1,p)
       end
 c############### end subroutine get4momentum_largestpt #################
 
 c############### subroutine getptsortedlist ############################
 c takes PDG ID
-c returns number of undecayed particles with this ID in n
 c returns list with ihep numbers of these particles sorted by pt in list
       subroutine getptsortedlist(PDG_ID,n,list)
         implicit none
@@ -378,11 +538,9 @@ c returns list with ihep numbers of these particles sorted by pt in list
         integer PDG_ID, n, nmax, ihep
         parameter (nmax=200)
         integer list(nmax)
-
         do n=1,nmax
           list(n) = 0
         enddo
-
         ! determine number of undecayed particles with PDG_ID in event
         n = 0
         do ihep=1,nhep
@@ -394,8 +552,8 @@ c returns list with ihep numbers of these particles sorted by pt in list
         enddo
         ! check that maximal number of allowed particles is not exceeded
         if(n.gt.nmax) then
-          write(*,*) 'more than', nmax, 'particles with ID', PDG_ID
-          write(*,*) 'could not fill pt sorted list'
+          print*,"more than", nmax, "particles with ID", PDG_ID
+          print*,"could not fill pt sorted list"
         else
           ! fill list with found particles
           n = 0
@@ -403,13 +561,20 @@ c returns list with ihep numbers of these particles sorted by pt in list
             if(isthep(ihep).eq.1) then
               if(idhep(ihep).eq.PDG_ID) then
                 n = n+1
-                list(n)=ihep
+                list(n) = ihep
               endif
             endif
           enddo
           ! sort by pt
           call sortbypt(n,list)
         endif
+#ifdef DEBUGQ
+        print*,"PDG_ID",PDG_ID
+        do n=1,10
+        print*,"list(",n,") = ",list(n)
+        enddo
+        stop
+#endif
       end
 c############### end subroutine getptsortedlist ########################
 
@@ -420,30 +585,40 @@ c sorts array iarr of ihep numbers by pt (decreasing)
 #include "hepevt.h"
         integer n,iarr(n)
         integer j,k
-        double precision tmp,pt(nmxhep)
+        double precision tmp,pt_m(nmxhep)
         logical touched
-        
+        double precision pt
+        external pt
         do j=1,n
-          pt(j) = sqrt(phep(1,iarr(j))**2+phep(2,iarr(j))**2)
+          pt_m(j) = dsqrt(phep(1,iarr(j))**2+phep(2,iarr(j))**2)
         enddo
         ! bubble sort
         touched = .true.
         do while(touched)
           touched = .false.
           do j=1,n-1
-            if(pt(j).lt.pt(j+1)) then
+            if(pt_m(j).lt.pt_m(j+1)) then
               k = iarr(j)
               iarr(j) = iarr(j+1)
               iarr(j+1) = k
-              tmp = pt(j)
-              pt(j) = pt(j+1)
-              pt(j+1) = tmp
+              tmp = pt_m(j)
+              pt_m(j) = pt_m(j+1)
+              pt_m(j+1) = tmp
               touched = .true.
             endif
           enddo
         enddo
       end
 c############### end subroutine sortbypt ###############################
+
+c############### subroutine getPt ######################################
+c calculate Pt, it is assumed p(0) = E, p(1:3) = vec{p}
+      double precision function pt(p)
+        implicit none
+        double precision p(0:3)
+        pt = dsqrt(p(1)**2+p(2)**2)
+      end
+c############### end subroutine getPt ##################################
 
 c############### subroutine get4momentum_ihep ##########################
 c takes ihep number of a particle in the HEPEVT common block
@@ -456,11 +631,9 @@ c the phep momenta is in the laboratory frame
 #include "pwhg_kn.h"
         integer ihep, mu
         double precision p(0:3)
-
         do mu=0,3
           p(mu)=0D0
         enddo
-      
         if(ihep.lt.0 .or. ihep.gt.nhep) then
           print*, "no particle with ihep number", ihep,
      &              "in current event"
@@ -473,7 +646,6 @@ c the phep momenta is in the laboratory frame
             p(mu) = phep(mu,ihep)
           enddo
         endif
-      
 #ifdef DEBUGQ
         print*,"p(",ihep,"): ",p(:)
         print*,"phep(1): ", phep(4,1),phep(1,1),phep(2,1),phep(3,1)
@@ -515,14 +687,12 @@ c (this was not possible in dislepton_jet)
         integer found1, found2
         ! check on-shell condition
         double precision relerror
-
         do imu=0,3
           p1(imu) = 0D0
           p2(imu) = 0D0
         enddo
         found1 = -1
         found2 = -1
-
         do ihep=1,nhep
           if(.not.(found2 .eq. found1)) then
             if(PDG_ID2.eq.idhep(ihep)) then
@@ -537,7 +707,6 @@ c (this was not possible in dislepton_jet)
             endif
           endif
         enddo
-        
 #ifdef DEBUGQ
         print*,"PDG_ID1",PDG_ID1
         print*,"p1",p1
@@ -548,7 +717,6 @@ c (this was not possible in dislepton_jet)
         print*,"m2",dsqrt(momsq(p2)),par_Fin2mass
         !stop
 #endif
-
         ! check if the extracted particles are indeed the final state particles
         relerror = (dsqrt(momsq(p1))-par_Fin1mass)
      &             /(dsqrt(momsq(p1))+par_Fin1mass)
@@ -568,7 +736,6 @@ c (this was not possible in dislepton_jet)
           print*,"m2**2 = ",par_Fin2mass**2
           stop
         endif
-
         if(found1 .eq. found2) then
           print*, "error in get4momentum_fin_pair."
           print*, "idhep is the same for particle 1 and particle 2,"
@@ -577,13 +744,11 @@ c (this was not possible in dislepton_jet)
           print*, "idhep2", found2
           stop
         endif
-        
         if(found1 .eq. -1) then
           print*, "particle with PDG ID", PDG_ID1, "not found"
           print*, "could not determine four-momentum"
           stop
         endif
-        
         if(found2 .eq. -1) then
           print*, "particle with PDG ID", PDG_ID2, "not found"
           print*, "could not determine four-momentum"
@@ -599,14 +764,14 @@ c calculates azimuth phi in [0,2pi] from x-axis
 #include "pwhg_math.h"
         double precision p(0:3),phi
         phi=0D0
-        if(p(1).GT.0D0) then
-          if(p(2).GE.0D0) phi = datan(p(2)/p(1))
-          if(p(2).LT.0D0) phi = datan(p(2)/p(1))+2D0*pi
-        elseif(p(1).LT.0D0) then
+        if(p(1).gt.0D0) then
+          if(p(2).ge.0D0) phi = datan(p(2)/p(1))
+          if(p(2).lt.0D0) phi = datan(p(2)/p(1))+2D0*pi
+        elseif(p(1).lt.0D0) then
           phi = datan(p(2)/p(1))+pi
         elseif(p(1).EQ.0D0) then
-          if(p(2).GT.0D0) phi = pi/2D0
-          if(p(2).LT.0D0) phi = -pi/2D0
+          if(p(2).gt.0D0) phi = pi/2D0
+          if(p(2).lt.0D0) phi = -pi/2D0
         endif
       end
 c############### end subroutine getazimuth #############################
@@ -627,8 +792,8 @@ c############### subroutine getinvmass #################################
       end
 c############### end subroutine getinvmass #############################
 
-c############### subroutine get_pseudorap ##############################
-      subroutine get_pseudorap(p,eta)
+c############### subroutine getpseudorap ###############################
+      subroutine getpseudorap(p,eta)
         implicit none
         double precision p(0:3),eta,pt,th
         double precision eps
@@ -643,131 +808,9 @@ c############### subroutine get_pseudorap ##############################
           eta = -dlog(dtan(th/2.D0))
         endif
       end
-c############### end subroutine get_pseudorap ##########################
+c############### end subroutine getpseudorap ###########################      
 
-c############### subroutine isvaliddecayspectrum #######################
-c checks mass spectrum to ensure that the extracted decay for the 
-c final states is Xi -> f + ~fj
-c assumes MADGRAPH parameters to be filled already
-      logical function isvaliddecayspectrum(id_finA,id_finB,
-     &                                      id_decA,id_decB)
-        implicit none
-#include "PhysPars.h"
-        ! IDs
-        integer id_finA, id_finB, id_decA, id_decB
-        ! masses
-        double precision m_finA, m_finB
-         ! sum of masses of left and right handed decay products
-        double precision m_dec(2)
-
-        isvaliddecayspectrum = .true.
-        ! invalid default values
-        m_finA = invalid
-        m_finB = invalid
-
-        ! Note: neutralino masses can be negative
-        ! set final state masses
-        m_finA = dabs(par_Fin1mass)
-        m_finB = dabs(par_Fin2mass)
-        
-        ! masses of decay products for decay product A
-        select case(abs(id_decA))
-        case (11) ! electron/positron
-          m_dec(1) = 0D0 ! neglected
-          m_dec(2) = 0D0
-        case (13) ! muon
-          m_dec(1) = 0D0 ! neglected
-          m_dec(2) = 0D0
-        case (15) ! tau
-          m_dec(1) = 1.77682d0  ! tau mass (PDG 2012)
-          m_dec(2) = 1.77682d0  ! tau mass (PDG 2012)
-        case default
-          write(*,*) 'encountered unsupported decay ID ', id_decA
-          stop
-        end select
-        
-        ! masses of decay products for decay product A
-        select case(abs(id_decB))
-        case (11) ! electron/positron
-          m_dec(1) = 0D0 ! neglected
-          m_dec(2) = 0D0
-        case (13) ! muon
-          m_dec(1) = 0D0 ! neglected
-          m_dec(2) = 0D0
-        case (15) ! tau
-          m_dec(1) = 1.77682d0  ! tau mass (PDG 2012)
-          m_dec(2) = 1.77682d0  ! tau mass (PDG 2012)
-        case default
-          write(*,*) 'encountered unsupported decay ID ', id_decB
-          stop
-        end select
-        
-        
-        ! masses of decay products for final state A
-        select case(abs(id_finA))
-        case (1000022)                          ! n1
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000023)                          ! n2
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000025)                          ! n3
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000035)                          ! n4
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000024)                          ! x1
-          m_dec(:) = par_MSf(:,1,1) + m_dec(:)  ! sneutrino + lepton mass
-        case (1000037)                          ! x2
-          m_dec(:) = par_MSf(:,1,1) + m_dec(:)  ! sneutrino + lepton mass
-        case default
-          write(*,*) 'encountered unknown final state ID ', id_finA
-          stop
-        end select
-      
-        ! masses of decay products for final state B
-        select case(abs(id_finB))
-        case (1000022)                          ! n1
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000023)                          ! n2
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000025)                          ! n3
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000035)                          ! n4
-          m_dec(:) = par_MSf(:,2,1) + m_dec(:)  ! selectron + lepton mass
-        case (1000024)                          ! x1
-          m_dec(:) = par_MSf(:,1,1) + m_dec(:)  ! sneutrino + lepton mass
-        case (1000037)                          ! x2
-          m_dec(:) = par_MSf(:,1,1) + m_dec(:)  ! sneutrino + lepton mass
-        case default
-          write(*,*) 'encountered unknown final state ID ', id_finB
-          stop
-        end select
-        
-        ! check if final state particle A can decay in lepton
-        ! if not, the mass spectrum for this analysis is invalid
-        ! and the lepton-lepton histograms are empty
-        if ( (m_finA.lt.m_dec(1)) .and.
-     &       (m_finA.lt.m_dec(2)) ) then
-          print*, "decay for final state A into lepton not possible"
-          isvaliddecayspectrum = .false.
-        endif  
-         
-        ! same for final state B
-        if ( (m_finB.lt.m_dec(1)) .and.
-     &       (m_finB.lt.m_dec(2)) ) then
-          print*, "decay for final state B into lepton not possible"
-          isvaliddecayspectrum = .false.
-        endif 
-
-        ! if spectrum failed check write message
-        if (.not.(isvaliddecayspectrum)) then
-          print*, "spectrum not suitable for allowed decay"
-          print*, "actual decays in events generated by PYTHIA"
-        endif
-
-      end
-c############### end subroutine isvaliddecayspectrum ###################
-      
-
-c############### subroutine get_pseudorap ##############################
+c############### subroutine buildjets ##################################
 c jets are orderd by decreasing pt
       subroutine buildjets(mjets,kt,eta,rap,phi,pjet,ptrel)
         implicit none
@@ -887,7 +930,7 @@ c jets are orderd by decreasing pt
         call computeptrel(ptrack,ntracks,rap,kt,phi,mjets,jetvec,ptrel)
 
       end
-c############### end subroutine get_pseudorap ##########################
+c############### end subroutine buildjets ##############################
 
 c############### subroutine isjetparticle ##############################
 c determines if particle contributes to a jet

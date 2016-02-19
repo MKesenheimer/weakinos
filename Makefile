@@ -54,7 +54,7 @@ PYTHIA = $(TOOLS)/pythia8215
 
 ALL_FCFLAGS  = $(REC_FCFLAGS) $(OPT) $(WARN)
 
-libs: libdhelas3.a liblooptools.a libSLHA.a print-info
+libs: libdhelas3.a liblooptools.a libSLHA.a pastegnudata print-info
 
 libdhelas3.a:
 	cd $(DHELAS) && make FC="$(FC)" F77="$(FC)" XFFLAGS="$(ALL_FCFLAGS)"
@@ -67,6 +67,9 @@ libSLHA.a:
 	
 libpythia.a:
 	cd $(PYTHIA) && make CXX="$(CXX)" CXXFLAGS="$(REC_CXXFLAGS)" && make install
+	
+pastegnudata:
+	cd ./plot-aux && $(FC) pastegnudata.f -o $@
 
 clean-libs:
 	cd $(TOOLS) && rm -f *.a
@@ -79,6 +82,7 @@ clean clean-all: clean-libs
 	cd neuIneuJ && make clean-all
 	cd neuIchaJ && make clean-all
 	cd chaIchaJ && make clean-all
+	rm ./plot-aux/pastegnudata
 
 print-info:
 	$(info )

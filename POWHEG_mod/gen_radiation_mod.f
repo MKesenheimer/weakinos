@@ -92,6 +92,7 @@ c add a random azimuthal rotation around beam axis
          call add_azimuth
 c --- set up les houches interface
          call gen_leshouches
+         !call borncolour_lh ! MK: added
 c if negative weight, flip the sign of weight
          if(rad_btilde_sign(rad_ubornidx).eq.-1) then
             weight=-weight
@@ -190,6 +191,7 @@ c CH, MK: new part here:
             rad_pt2max=max(rad_ptsqmin,pt2max_osres())
             call set_rad_scales(rad_pt2max)
             call gen_leshouches_osres
+            !call realcolour_lh ! MK: added
             rad_type = iret + 1
          else
             print*, "error in gen_radiation_mod.f: invalid iret-type."

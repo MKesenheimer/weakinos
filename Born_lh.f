@@ -4,14 +4,10 @@ c last modified by MK, 22.01.2015
 c############### subroutine borncolour_lh ##############################
 c Wrapper subroutine to call the MadGraph code to associate
 c a (leading) color structure to an event.
-
       subroutine borncolour_lh
-
         implicit none
-        
 #include "nlegborn.h"
 #include "LesHouches.h"
-
         integer bflav(nlegborn),color(2,nlegborn)
         integer i,j
         do i=1,nlegborn
@@ -24,18 +20,14 @@ c a (leading) color structure to an event.
             icolup(i,j)=color(i,j)
           enddo
         enddo
-        
 #ifdef DEBUGQ
         print*,"[DEBUG] in borncolour_lh"
         print*,"[DEBUG] bflav",bflav
-        do i=1,2
-          do j=1,nlegborn
-            print*,"[DEBUG] icolup(",i,",",j,")",icolup(i,j)
-          enddo
+        do j=1,nlegborn
+          print*,"[DEBUG] icolup(",j,")",icolup(1,j),icolup(2,j)
         enddo
         !stop
 #endif
-        
       end
 c############### end subroutine finalize_lh ############################
 

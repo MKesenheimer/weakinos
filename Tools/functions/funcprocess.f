@@ -23,7 +23,6 @@ c decode two PDG ids for MSSM fermions from a single integer
           print*,"error in decode_pair."
           stop
         endif  
-
       end
 
 c############### end decode_pair subroutine ############################
@@ -58,7 +57,6 @@ c (encodes 1000022,1000022 to 122122 or 1000024,-1000024 to -124124 etc.)
         endif
         
         encode_pair = combination
-
       end
 
 c############### end encode_pair subroutine ############################
@@ -228,7 +226,6 @@ c Changes stuff for crossings (copied from MadGraph V4.5.2)
         integer jc(nexternal),ic(nexternal)
         real*8 p1(0:3,nexternal),p(0:3,nexternal)
         integer i,j
-
         do i=1,nexternal
           do j=0,3
              p(j,ic(i))=p1(j,i)
@@ -245,21 +242,15 @@ c############### end subroutine switchmom ##############################
 c############### function kaellen ######################################
 c calculates the kaellen function and the sqrt of kaellen function
       double precision function kaellen(x, y, z)
-
         implicit none
         double precision x, y, z
-        
         kaellen = x**2+y**2+z**2-2*(x*y+x*z+y*z)
-        
       end function kaellen
 
       double precision function kaellenSqrt(x, y, z)
-
         implicit none
         double precision x, y, z
-        
-        kaellenSqrt = dsqrt(x**2+y**2+z**2-2*(x*y+x*z+y*z))
-        
+        kaellenSqrt = dsqrt(dabs(x**2+y**2+z**2-2*(x*y+x*z+y*z)))
       end function kaellenSqrt
 c############### end function kaellen ##################################
 
