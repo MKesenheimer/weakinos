@@ -1,0 +1,8 @@
+Wie diese Dateien erzeugt wurden:
+
+- bereitgestellt: suspect2_lha.in, sdecay.in
+
+- ausgeführt:
+	$ suspect2 -> erzeugt suspect2_lha.out, suspect2.out
+	umbenennen von suspect2_lha.out in SD_leshouches.in
+	$ sdecay   -> erzeugt die Datei sdecay_slha.out welche nun verwendet werden kann 

@@ -12,43 +12,43 @@ Block SU_ALGO  # !Optional SUSPECT v>=2.3* block: algorithm control parameters
 # !IF block absent (or if any parameter undefined), defaut values are taken  
      2    21  # 2-loop RGE (21 defaut, 1-loop RGE is: 11 instead)
      3    1   # 1: g_1(gut) = g_2(gut) consistently calculated from input
-#   (other possibility is 0: High scale input =HIGH in block EXTPAR below)
+#             # (other possibility is 0: High scale input =HIGH in block EXTPAR below)
      4    2   # RGE accuracy: 1: moderate, 2: accurate (but slower)  
-     6    0   #  1: M_Hu, M_Hd input (default in constrained models)
-#        (other possibility 0: MA_pole, MU(EWSB) input instead)
-     7    2   #  choice for sparticles masses rad. corr. (=/= h):
-#               2 ->all (recommended, defaut); 1->no R.C. in squarks & gauginos.
+     6    1   # 1: M_Hu, M_Hd input (default in constrained models)
+#             # (other possibility 0: MA_pole, MU(EWSB) input instead)
+     7    2   # choice for sparticles masses rad. corr. (=/= h):
+#             # 2 ->all (recommended, defaut); 1->no R.C. in squarks & gauginos.
      8    1   # 1 (defaut): EWSB scale=(mt_L*mt_R)^(1/2) 
-#         (Or = 0: arbitrary EWSB scale: give EWSB in Block EXTPAR below) 
+#             # (Or = 0: arbitrary EWSB scale: give EWSB in Block EXTPAR below)
      9    2   # Final spectrum accuracy: 1 -> 1% acc.; 2 -> 0.01 % acc.(defaut)
      10   2   # Higgs boson masses rad. corr. calculation options: 
-#             A simple (but very good) approximation (advantage=fast)  : 0
-#             Full one-loop calculation                                : 1
-#             One-loop  + dominant DSVZ 2-loop (defaut,recommended)    : 2
+#             # A simple (but very good) approximation (advantage=fast)  : 0
+#             # Full one-loop calculation                                : 1
+#             # One-loop  + dominant DSVZ 2-loop (defaut,recommended)    : 2
      11   0   # Higher order Higgs 'scheme' choice in rad. corr. at mZ:
-#          RUNNING DRbar Higgs masses at loop-level at mZ (defaut)    : 0
-#          POLE          Higgs masses at loop-level at mZ             : 1
+#             # RUNNING DRbar Higgs masses at loop-level at mZ (defaut)    : 0
+#             # POLE          Higgs masses at loop-level at mZ             : 1
 #
 Block SMINPUTS   # Standard Model inputs (if any undefined, defaut values taken)
-     1     127.934     # alpha_em^(-1)(MZ) SM MSbar 
+     1     127.934      # alpha_em^(-1)(MZ) SM MSbar
 #     2     1.16639d-5  # G_F
-     3     0.118      # alpha_s(mZ) SM, MSbar
-     4     91.1876     # mZ pole mass 
+     3     0.118        # alpha_s(mZ) SM, MSbar
+     4     91.1876      # mZ pole mass
      5     4.00         # Mb(mb) SM MSbar
-     6     173.3       # Mtop(pole)
-     7     1.777       # Mtau(pole)
+     6     173.3        # Mtop(pole)
+     7     1.777        # Mtau(pole)
 #
 Block MINPAR  # specific model input parameters
 #   input for SUGRA models (! comment (#) all other (GMSB,AMSB) lines):
-     1    5.00E+03    # m0
-     2    7.00E+02    # m1/2
-     5   -8.30E+03    # A0
-     3    1.00E+01    # tanbeta(MZ)
-     4    1.0         # sign(mu)
+     1    4.00000000e+03   # m0
+#     2    4.70000000e+02   # m12
+     3    3.00000000e+01   # tanb, DRbar, Feynman gauge
+     4    1.00000000e+00   # sign(mu)
+     5   -7.00000000e+03   # A0
 #   input for GMSB models (! comment (#) all other (mSUGRA,AMSB) lines):
 #     1    100.d3  # Lambda_susy
 #     2    200.d3  # Lambda_mess
-#     3    10     # tanbeta(MZ) 
+#     3    10      # tanbeta(MZ)
 #     4    1.      # sign(MU)
 #     5    1       # Nl_mes  
 #     6    1       # Nq_mes  
@@ -66,32 +66,32 @@ Block MINPAR  # specific model input parameters
 #     11   1.      # cHd : weight of m0 for Hd 
 #
 Block EXTPAR  # general MSSM input (! IF uncommented, values replace MINPAR ones)
-#         0      4.65294922E+02   # EWSB_scale
-         0      5E+10   # EWSB_scale
-#         1     1.0024E+02   # M_1                 
-#         2     2.0E+02   # M_2                 
-#         3     8.0E+02   # M_3                 
-#        11    2.007E+03   # A_t                 
-#        12    2.007E+03   # A_b                 
+#         0     4.65294922E+02   # EWSB_scale
+#         0     5.00000000E+10   # EWSB_scale
+         1     9.80000000E+02   # M_1
+         2     5.20000000E+02   # M_2
+         3     5.50000000E+02   # M_3
+#        11     2.00700000E+03   # A_t
+#        12     2.00700000E+03   # A_b
 #        13    -2.51737263E+02   # A_tau               
 #        14    -6.77437438E+02   # A_u                 
 #        15    -8.59633345E+02   # A_d                 
 #        16    -2.53493493E+01   # A_e                 
-        23     1.10E+02   # mu(EWSB)
-        26     1.00E+03   # MA_pole
-#        25     3.00000000E+01   # tanbeta(MZ)         
-#        31     1.335E+04   # M_eL
-#        32     1.335E+04   # M_muL
-#        33     7.600E+02   # M_tauL
-#        34     1.335E+04   # M_eR
-#        35     1.335E+04   # M_muR
-#        36     7.600E+02   # M_tauR
-#        41     1.335E+04   # M_q1L
-#        42     1.335E+04   # M_q2L
-#        43     7.600E+02   # M_q3L
-#        44     1.335E+04   # M_uR
-#        45     1.335E+04   # M_cR
-#        46     7.600E+02   # M_tR
-#        47     1.335E+04   # M_dR
-#        48     1.335E+04   # M_sR
-#        49     7.600E+02   # M_bR
+#        23     1.10000000E+02   # mu(EWSB)
+#        26     1.00000000E+03   # MA_pole
+#        25     3.00000000E+01   # tanbeta(MZ)
+#        31     1.33500000E+04   # M_eL
+#        32     1.33500000E+04   # M_muL
+#        33     7.60000000E+02   # M_tauL
+#        34     1.33500000E+04   # M_eR
+#        35     1.33500000E+04   # M_muR
+#        36     7.60000000E+02   # M_tauR
+#        41     1.33500000E+04   # M_q1L
+#        42     1.33500000E+04   # M_q2L
+#        43     7.60000000E+02   # M_q3L
+#        44     1.33500000E+04   # M_uR
+#        45     1.33500000E+04   # M_cR
+#        46     7.60000000E+02   # M_tR
+#        47     1.33500000E+04   # M_dR
+#        48     1.33500000E+04   # M_sR
+#        49     7.60000000E+02   # M_bR

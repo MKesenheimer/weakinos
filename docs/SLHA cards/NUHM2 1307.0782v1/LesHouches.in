@@ -1,0 +1,25 @@
+Block MODSEL            # Select model
+ 1    1                 # mSugra, mNUHM2 1307.0782
+Block SMINPUTS          # Standard Model inputs
+ 2   1.166379E-05       # G_F, Fermi constant
+ 3   1.184000E-01       # alpha_s(MZ) SM MSbar
+ 4   9.118760E+01       # Z-boson pole mass
+ 5   4.000000E+00       # m_b(mb) SM MSbar
+ 6   1.733000E+02       # m_top(pole)
+ 7   1.776820E+00       # m_tau(pole)
+Block MINPAR            # Input parameters
+ 1   1.000000E+04       # m0
+ 2   5.000000E+02       # m12
+ 4   1                  # sign(mu)
+ 5  -1.600000E+04       # A0
+Block EXTPAR            # external parameters
+ 0   1.000000E+04       # Q
+25   7.000000E+00       # tanb
+23   6.00000000E+03     # mu
+26   9.50000000E+02     # m_A
+Block SPhenoInput       # SPheno specific input
+ 1   -1                  # error level
+ 2   1                  # if =1, then SPA conventions are used
+11   0                  # calculate branching ratios
+12   0.0001             # BRmin
+21   0                  # calculate cross section 

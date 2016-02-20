@@ -45,53 +45,7 @@ Block MINPAR  # specific model input parameters
      5   -8.30E+03    # A0
      3    1.00E+01    # tanbeta(MZ)
      4    1.0         # sign(mu)
-#   input for GMSB models (! comment (#) all other (mSUGRA,AMSB) lines):
-#     1    100.d3  # Lambda_susy
-#     2    200.d3  # Lambda_mess
-#     3    10     # tanbeta(MZ) 
-#     4    1.      # sign(MU)
-#     5    1       # Nl_mes  
-#     6    1       # Nq_mes  
-#   input for AMSB models (! comment (#) all other (mSUGRA,GMSB) lines):
-#     1    450.    # m0
-#     2    60.d3   # M_3%2 gravitino mass
-#     3    10.     # tanbeta(MZ)
-#     4    1.      # sign(MU)
-#     5    1.      # cQ  : weight of m0 for Q_L (3rd gen.) doublet 
-#     6    1.      # cuR : weight of m0 for u_R
-#     7    1.      # cdR : weight of m0 for d_R 
-#     8    1.      # cL  : weight of m0 for L (1st, 2d gen.) doublet 
-#     9    1.      # ceR : weight of m0 for e_R (1st, 2d gen.)
-#     10   1.      # cHu : weight of m0 for Hu 
-#     11   1.      # cHd : weight of m0 for Hd 
-#
 Block EXTPAR  # general MSSM input (! IF uncommented, values replace MINPAR ones)
-#         0      4.65294922E+02   # EWSB_scale
          0      5E+10   # EWSB_scale
-#         1     1.0024E+02   # M_1                 
-#         2     2.0E+02   # M_2                 
-#         3     8.0E+02   # M_3                 
-#        11    2.007E+03   # A_t                 
-#        12    2.007E+03   # A_b                 
-#        13    -2.51737263E+02   # A_tau               
-#        14    -6.77437438E+02   # A_u                 
-#        15    -8.59633345E+02   # A_d                 
-#        16    -2.53493493E+01   # A_e                 
         23     1.10E+02   # mu(EWSB)
         26     1.00E+03   # MA_pole
-#        25     3.00000000E+01   # tanbeta(MZ)         
-#        31     1.335E+04   # M_eL
-#        32     1.335E+04   # M_muL
-#        33     7.600E+02   # M_tauL
-#        34     1.335E+04   # M_eR
-#        35     1.335E+04   # M_muR
-#        36     7.600E+02   # M_tauR
-#        41     1.335E+04   # M_q1L
-#        42     1.335E+04   # M_q2L
-#        43     7.600E+02   # M_q3L
-#        44     1.335E+04   # M_uR
-#        45     1.335E+04   # M_cR
-#        46     7.600E+02   # M_tR
-#        47     1.335E+04   # M_dR
-#        48     1.335E+04   # M_sR
-#        49     7.600E+02   # M_bR
