@@ -4,47 +4,99 @@ c book all histograms, will be filled later
         implicit none
 #include "LesHouches.h"
 #include "pwhg_math.h"
+#include "PhysPars.h"
         ! tell this analysis file which program is running it
         character*6 WHCPRG
         common/cWHCPRG/WHCPRG
         integer ndecay,i
         parameter (ndecay = 4)
+        ! external functions
+        double precision powheginput
+        external powheginput
+        double precision mm, mp, ptm, ptp, ptjm, ptjp, em, ep, mdm, mdp
+        double precision phim, phip
+        integer n1, n2
         character*4 cstr(ndecay)
         data cstr/"dec1","dec2","dec3","dec4"/
 
         call inihists
-        
+
+        ! check program that runs analysis
+        print*,
+        print*, "===================================================="
+        if(whcprg.eq."NLO") then
+          print*, "fixed-order NLO analysis"
+        elseif(whcprg.eq."LHE") then
+          print*, "LHE analysis"
+          call init_couplings
+        elseif(whcprg.eq."HERWIG") then
+          print*, "HERWIG analysis"
+          print*, "not implemented analysis"
+          print*, "no plots will be present at the end of the run"
+          call init_couplings
+        elseif(whcprg.eq."PYTHIA") then
+          print*, "PYTHIA analysis"
+          call init_couplings
+        endif
+        print*, "===================================================="
+
+        n1 = 80
+        ! mass(A+B)
+        mm = par_Fin1mass + par_Fin2mass
+        mp = mm + 800D0
+        ! Pt(A), Pt(B)
+        ptm = 0D0
+        ptp = ptm + 504D0
+        ! Pt(J)
+        ptjm = 0D0
+        ptjp = ptjm + 100D0
+
+        n2 = 40
+        ! eta(A)
+        em = -4D0
+        ep = em + 8D0
+        ! mass(dec1+dec2)
+        mdm = 0D0
+        mdp = mdm + 600D0
+        ! dPhi(dec1+dec2)
+        phim = -pi
+        phip = pi
+
         ! no cuts
         call bookupeqbins("xsec",1D0,-0.5D0,0.5D0)
-        call bookupeqbins("mass(A+B)",10D0,200D0,1000D0)
-        call bookupeqbins("Pt(A)",6D0,0D0,504D0)
-        call bookupeqbins("Pt(B)",6D0,0D0,504D0)
-        call bookupeqbins("eta(A)",0.2D0,-4D0,4D0)
+        call bookupeqbins("mass(A+B)",(mp-mm)/n1,mm,mp)
+        call bookupeqbins("Pt(A)",(ptp-ptm)/n1,ptm,ptp)
+        call bookupeqbins("Pt(B)",(ptp-ptm)/n1,ptm,ptp)
+        call bookupeqbins("eta(A)",(ep-em)/n2,em,ep)
         call bookupeqbins("N(J)",1D0,-0.5D0,2.5D0)
-        call bookupeqbins("Pt(J)",2D0,0D0,100D0)
-        call bookupeqbins("eta(J)",0.2D0,-4D0,4D0)
+        call bookupeqbins("Pt(J)",(ptjp-ptjm)/n1,ptjm,ptjp)
+        call bookupeqbins("eta(J)",(ep-em)/n2,em,ep)
         
         ! jet cuts
         call bookupeqbins("xsec(Jcuts)",1D0,-0.5D0,0.5D0)
-        call bookupeqbins("mass(A+B,Jcuts)",10D0,200D0,1000D0)
-        call bookupeqbins("Pt(A,Jcuts)",6D0,0D0,504D0)
-        call bookupeqbins("Pt(B,Jcuts)",6D0,0D0,504D0)
-        call bookupeqbins("eta(A,Jcuts)",0.2D0,-4D0,4D0)
+        call bookupeqbins("mass(A+B,Jcuts)",(mp-mm)/n1,mm,mp)
+        call bookupeqbins("Pt(A,Jcuts)",(ptp-ptm)/n1,ptm,ptp)
+        call bookupeqbins("Pt(B,Jcuts)",(ptp-ptm)/n1,ptm,ptp)
+        call bookupeqbins("eta(A,Jcuts)",(ep-em)/n2,em,ep)
         call bookupeqbins("N(J,Jcuts)",1D0,-0.5D0,2.5D0)
-        call bookupeqbins("Pt(J,Jcuts)",50D0,0D0,1000D0)
-        call bookupeqbins("eta(J,Jcuts)",0.2D0,-4D0,4D0)
+        call bookupeqbins("Pt(J,Jcuts)",(ptjp-ptjm)/n1,ptjm,ptjp)
+        call bookupeqbins("eta(J,Jcuts)",(ep-em)/n2,em,ep)
         
         if(WHCPRG.eq."PYTHIA") then
           ! lepton cuts
           ! book all possible histograms although we don't need
           ! all of them for every process
-          call bookupeqbins("xsec(Lcuts)",1d0,-0.5d0,0.5d0)
-          call bookupeqbins("dPhi(L1+L2,Lcuts)",pi/20d0,-pi,pi)
-          call bookupeqbins("mass(dec1+dec2,Jcuts)",10D0,20D0,600D0)
-          call bookupeqbins("Pt(,Lcuts)",6d0,0d0,600d0)
+          call bookupeqbins("xsec(Dcuts)",1d0,-0.5d0,0.5d0)
+          call bookupeqbins("dPhi(dec1+dec2,Dcuts)",
+     &                     (phip-phim)/n2,phim,phip)
+          call bookupeqbins("mass(dec1+dec2,Jcuts)",
+     &                     (mdp-mdm)/n1,mdm,mdp)
+          call bookupeqbins("Pt(,Dcuts)",(ptp-ptm)/n1,ptm,ptp)
           do i=1,ndecay
-            call bookupeqbins("Pt("//cstr(i)//",Lcuts)",6d0,0d0,600d0)
-            call bookupeqbins("eta("//cstr(i)//",Lcuts)",0.2d0,-4d0,4d0)
+            call bookupeqbins("Pt("//cstr(i)//",Dcuts)",
+     &                       (ptp-ptm)/n1,ptm,ptp)
+            call bookupeqbins("eta("//cstr(i)//",Dcuts)",
+     &                       (ep-em)/n2,em,ep)
           enddo
         endif  
         
@@ -85,10 +137,12 @@ c fill histograms
         double precision kt(maxjet), eta(maxjet), rap(maxjet)
         double precision phi(maxjet), pj(4,maxjet), ptrel(maxjet)
         ! ptJmin is a technical cut
+        double precision mJmin
         double precision ptJmin, etaJmax, R
         common /jetcuts/ptJmin, etaJmax, R
         ! pt_min for lepton cuts (physical cut)
         double precision ptLmin, etaLmax
+        save ptLmin, etaLmax
         ! IDs
         integer id_finA, id_finB
         ! decays
@@ -116,32 +170,13 @@ c fill histograms
         ! indices
         integer mu, ihep, i, j, ij
         ! cuts
-        logical JcutsPassed, Lcutspassed
+        logical JcutsPassed, Dcutspassed
         ! flags for decay
         logical fdecA, fdecB, decayed
         save fdecA, fdecB, decayed
         
         ! at first call
-        if (ini) then            
-          ! check program that runs analysis
-          print*,
-          print*, "===================================================="
-          if(whcprg.eq."NLO") then
-            print*, "fixed-order NLO analysis"
-          elseif(whcprg.eq."LHE") then
-            print*, "LHE analysis"
-            call init_couplings    
-          elseif(whcprg.eq."HERWIG") then
-            print*, "HERWIG analysis"
-            print*, "not implemented analysis"
-            print*, "no plots will be present at the end of the run"
-            call init_couplings
-          elseif(whcprg.eq."PYTHIA") then
-            print*, "PYTHIA analysis"
-            call init_couplings
-          endif
-          print*, "===================================================="
-          
+        if (ini) then
           ! determine the decay products from powheg.input
           ! remember that not every number is needed for every process
           do i=1,ndecay
@@ -183,28 +218,22 @@ c fill histograms
           print*, "the final state pair: ", id_finA, ", ", id_finB
           print*, "the decay products:   ", id_dec(1), ", ", id_dec(2)
           print*, "                      ", id_dec(3), ", ", id_dec(4)
-          
-          ! jets
-          ! initialize
-          do j = 1,maxjet
-            kt(j)    = 0D0
-            eta(j)   = 0D0
-            rap(j)   = 0D0
-            phi(j)   = 0D0
-            pj(:,j)  = 0D0
-            ptrel(j) = 0D0
-          enddo
-        
-          ! init cuts (change here if needed)
-          ! jet cuts
-          ptJmin  = 1D0
-          etaJmax = 4.5D0
-          R       = 0.4D0
-          mjets   = 40
-          ! lepton cuts
-          ptLmin  = 20D0 ! physical cut
-          etaLmax = 2.5D0
+        endif
 
+        ! init cuts (change here if needed)
+        ! should not be in if(init)... since we want to make sure
+        ! that the variables are always filled
+        ! jet cuts
+        mJmin   = 1D0
+        ptJmin  = 1D0
+        etaJmax = 4.5D0
+        R       = 0.4D0
+        mjets   = 40
+        ! lepton cuts
+        ptLmin  = 20D0 ! physical cut
+        etaLmax = 2.5D0
+
+        if(ini) then
           ! write out informations
           print*, "===================================================="
           ! write out all cuts
@@ -248,6 +277,15 @@ c fill histograms
         call getrapidity(p_finAfinB,y_finAfinB) 
         
         ! build jets
+        ! initialize
+        do j = 1,maxjet
+          kt(j)    = 0D0
+          eta(j)   = 0D0
+          rap(j)   = 0D0
+          phi(j)   = 0D0
+          pj(:,j)  = 0D0
+          ptrel(j) = 0D0
+        enddo
         call buildjets(mjets,kt,eta,rap,phi,pj,ptrel)
         ! determine number of visible jets
         num_vis_jets = 0
@@ -363,8 +401,12 @@ c fill histograms
           !    to get another distribution
           if( (pt_dec(1).ne.0D0) .and. (pt_dec(2).ne.0D0) ) then
             dphi_dec1dec2 = phi_dec(2)-phi_dec(1)
-            if(dphi_dec1dec2.lt.(-pi)) dphi_dec1dec2=dphi_dec1dec2+2d0*pi
-            if(dphi_dec1dec2.gt.pi)    dphi_dec1dec2=dphi_dec1dec2-2d0*pi
+            if(dphi_dec1dec2.lt.(-pi)) then
+              dphi_dec1dec2=dphi_dec1dec2+2d0*pi
+            endif
+            if(dphi_dec1dec2.gt.pi) then
+              dphi_dec1dec2=dphi_dec1dec2-2d0*pi
+            endif
             do mu=0,3
               p_dec1dec2(mu) = p_dec(mu,1)+p_dec(mu,2)
             enddo
@@ -385,10 +427,10 @@ c fill histograms
 
         ! determine if jet cuts have passed
         JcutsPassed = .true.
-        if(mjets.lt.1) JcutsPassed = .false.
+        if(mjets.lt.mJmin) JcutsPassed = .false.
         if(kt(1).le.ptJmin) JcutsPassed = .false.
         if(dabs(eta(1)).ge.etaJmax) JcutsPassed = .false.
-        
+
         ! fill histograms if jet cuts have passed
         if(JcutsPassed) then
           call filld("xsec(Jcuts)",0D0,dsig)
@@ -402,24 +444,24 @@ c fill histograms
         endif
         
         ! determine if lepton cuts have passed
-        Lcutspassed = .true.
-        if(.not.decayed) Lcutspassed = .false.
+        Dcutspassed = .true.
+        if(.not.decayed) Dcutspassed = .false.
         do i=1,ndecay
           ! apply only cut if decay ID is not empty
           if(id_dec(i).ne.0) then
-            if(pt_dec(i).le.ptLmin) Lcutspassed = .false.
-            if(dabs(eta_dec(i)).ge.etaLmax) Lcutspassed = .false.
+            if(pt_dec(i).le.ptLmin) Dcutspassed = .false.
+            if(dabs(eta_dec(i)).ge.etaLmax) Dcutspassed = .false.
           endif  
         enddo
         
-        ! cutsL
-        if(Lcutspassed) then
-          call filld("xsec(Lcuts)",0d0,dsig)
-          call filld("dPhi(L1+L2,Lcuts)",dphi_dec1dec2,dsig)
+        ! decay cuts
+        if(Dcutspassed) then
+          call filld("xsec(Dcuts)",0d0,dsig)
+          call filld("dPhi(dec1+dec2,Dcuts)",dphi_dec1dec2,dsig)
           call filld("mass(dec1+dec2,Jcuts)",m_dec1dec2,dsig)
           do i=1,ndecay
-            call filld("Pt("//cstr(i)//",Lcuts)",pt_dec(i),dsig)
-            call filld("eta("//cstr(i)//",Lcuts)",eta_dec(i),dsig)
+            call filld("Pt("//cstr(i)//",Dcuts)",pt_dec(i),dsig)
+            call filld("eta("//cstr(i)//",Dcuts)",eta_dec(i),dsig)
           enddo
         endif
       end
@@ -814,7 +856,7 @@ c############### subroutine buildjets ##################################
 c jets are orderd by decreasing pt
       subroutine buildjets(mjets,kt,eta,rap,phi,pjet,ptrel)
         implicit none
-#include   "hepevt.h"
+#include "hepevt.h"
         ! input
         integer mjets
         ! output
@@ -878,7 +920,7 @@ c jets are orderd by decreasing pt
         palg=-1
         call fastjetppgenkt(ptrack,ntracks,R,palg,ptJmin,pjet,njets,
      &                      jetvec)
-
+        mjets = min(mjets,njets)
 #ifdef DEBUG1
         print*,"phep(1): ", phep(1:4,1)
         print*,"phep(2): ", phep(1:4,2)
@@ -894,10 +936,8 @@ c jets are orderd by decreasing pt
         print*,"jetvec: ", jetvec(1)
         print*,"mjets: ", mjets
         print*,"njets: ", njets
-        stop
+        !stop
 #endif
-     
-        mjets = min(mjets,njets)
         if(njets.eq.0) return
         ! check consistency
         do k=1,ntracks
