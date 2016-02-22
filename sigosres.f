@@ -375,7 +375,7 @@ c set all new totals concerning regulars/remnants/osres to zero
 
 c############### end subroutine addupweightsosres ######################
 
-c############### subroutine addupweightsosres ##########################
+c############### subroutine finaltotalsosres ###########################
 c similar to corresponding routine in btilde
       subroutine finaltotalsosres
         implicit none
@@ -421,3 +421,4 @@ c keep this order
      &                                     etotnegosres(j),ncalls)
         enddo
       end
+c############### end subroutine finaltotalsosres #######################

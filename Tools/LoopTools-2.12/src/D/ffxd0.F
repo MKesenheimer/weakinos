@@ -596,6 +596,9 @@ c
 	ComplexType cd0,cd0p
 	integer inew(13,6),irota,ier0,ier1,i,j,ialsav
 	save inew
+	integer ncalls ! MK: added to suppress huge output
+	data ncalls /0/
+	save ncalls
 #include "ff.h"
 	data inew /1,2,3,4,5,6,7,8,9,10,11,12,13,
      +		   4,1,2,3,8,5,6,7,10,9,11,13,12,
@@ -618,13 +621,18 @@ c
 		ner = 0
 		id = id + 1
 		isgnal = ialsav
-		print '(a,i1,a,i2)','---#[ rotation ',irota,': isgnal ',
+        if(ncalls.lt.10) then
+		  print '(a,i1,a,i2)','---#[ rotation ',irota,': isgnal ',
      +			isgnal
+        endif
 		call ffxd0(cd0p,xqi,ier1)
 		ier1 = ier1 + ner
-		print '(a,i1,a,i2,a)','---#] rotation ',irota,
+        if(ncalls.lt.10) then
+		  print '(a,i1,a,i2,a)','---#] rotation ',irota,
      +			': isgnal ',isgnal,' '
-		print '(a,2g28.16,i3)','d0 = ',cd0p,ier1
+		  print '(a,2g28.16,i3)','d0 = ',cd0p,ier1
+          ncalls = ncalls + 1
+        endif
 		if ( ier1 .lt. ier ) then
 		    cd0 = cd0p
 		    ier = ier1

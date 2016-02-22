@@ -42,7 +42,7 @@ c book all histograms, will be filled later
 
         n1 = 80
         ! mass(A+B)
-        mm = par_Fin1mass + par_Fin2mass
+        mm = dabs(par_Fin1mass) + dabs(par_Fin2mass)
         mp = mm + 800D0
         ! Pt(A), Pt(B)
         ptm = 0D0
@@ -755,13 +755,13 @@ c (this was not possible in dislepton_jet)
         print*,"PDG_ID2",PDG_ID2
         print*,"p2",p2
         ! check on-shell condition
-        print*,"m1",dsqrt(momsq(p1)),par_Fin1mass
-        print*,"m2",dsqrt(momsq(p2)),par_Fin2mass
+        print*,"m1",dsqrt(momsq(p1)),dabs(par_Fin1mass)
+        print*,"m2",dsqrt(momsq(p2)),dabs(par_Fin2mass)
         !stop
 #endif
         ! check if the extracted particles are indeed the final state particles
-        relerror = (dsqrt(momsq(p1))-par_Fin1mass)
-     &             /(dsqrt(momsq(p1))+par_Fin1mass)
+        relerror = (dsqrt(momsq(p1))-dabs(par_Fin1mass))
+     &             /(dsqrt(momsq(p1))+dabs(par_Fin1mass))
         if( dabs(relerror) .gt. 1D-6 ) then
           print*,"error: wrong particle extracted in "
           print*,"subroutine get4momentum_fin_pair"
@@ -769,8 +769,8 @@ c (this was not possible in dislepton_jet)
           print*,"m1**2 = ",par_Fin1mass**2
           stop
         endif
-        relerror = (dsqrt(momsq(p2))-par_Fin2mass)
-     &             /(dsqrt(momsq(p2))+par_Fin2mass)
+        relerror = (dsqrt(momsq(p2))-dabs(par_Fin2mass))
+     &             /(dsqrt(momsq(p2))+dabs(par_Fin2mass))
         if( dabs(relerror) .gt. 1D-6 ) then
           print*,"error: wrong particle extracted in "
           print*,"subroutine get4momentum_fin_pair"

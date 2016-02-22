@@ -577,6 +577,9 @@
 	integer nerr,ierr
 	integer noccur(nmax),i,inone,nnerr
 	save error,noccur
+	integer ncalls ! MK: added to suppress huge output
+	data ncalls /0/
+	save ncalls
 #include "ff.h"
 #include "fferr.h"
 *  #] declarations:
@@ -611,7 +614,14 @@
 	endif
 	noccur(nnerr) = noccur(nnerr) + 1
 	ierr = ierr + 100
-	print '(a,a)', 'error in ', error(nnerr)
+	if(ncalls.lt.10) then
+	  print '(a,a)', 'error in ', error(nnerr)
+	  ncalls = ncalls + 1
+	endif
+	if(ncalls.eq.10) then
+	  print*,"further error messages will be suppressed."
+      ncalls = 100
+	endif
 *  #] print error:
 *###] fferr:
 	end

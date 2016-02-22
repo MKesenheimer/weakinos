@@ -124,6 +124,9 @@
 	ComplexType cc0,cc0p,cpi(6),cqi(6)
 	integer inew(6,2),irota,ier1,i,j,ialsav
 	save inew
+	integer ncalls ! MK: added to suppress huge output
+	data ncalls /0/
+	save ncalls
 #include "ff.h"
 	data inew /1,2,3,4,5,6,
      +		   1,3,2,6,5,4/
@@ -137,17 +140,22 @@
 		do 10 i=1,6
 		    cqi(inew(i,irota)) = cpi(i)
    10		continue
-		print '(a,i1,a,i2)','---#[ rotation ',irota,': isgnal ',
+        if(ncalls.lt.10) then
+		  print '(a,i1,a,i2)','---#[ rotation ',irota,': isgnal ',
      +			isgnal
+        endif
 		ier1 = 0
 		ner = 0
 		id = id + 1
 		isgnal = ialsav
 		call ffcc0(cc0p,cqi,ier1)
 		ier1 = ier1 + ner
-		print '(a,i1,a,i2)','---#] rotation ',irota,': isgnal ',
+        if(ncalls.lt.10) then
+		  print '(a,i1,a,i2)','---#] rotation ',irota,': isgnal ',
      +			isgnal
-		print '(a,2g28.16,i3)','c0 = ',cc0p,ier1
+		  print '(a,2g28.16,i3)','c0 = ',cc0p,ier1
+          ncalls = ncalls + 1
+        endif
 		if ( ier1 .lt. ier ) then
 		    cc0 = cc0p
 		    ier = ier1

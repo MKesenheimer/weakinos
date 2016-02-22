@@ -121,6 +121,12 @@ c modifies the jacobian.
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
         call set_channel(chan,i,j,k,mi,mj,mk,mij) ! OK, but better check again!
 
+        ! in case a weakino mass is negative
+        mi = dabs(mi)
+        mj = dabs(mj)
+        mk = dabs(mk)
+        mij = dabs(mij)
+
         ! calculate the invariants
         s12  = momsum2sq(p(0:3,1),p(0:3,2)) ! invariant mass of particle 1 + 2
         sij  = momsum2sq(p(0:3,i),p(0:3,j)) ! invariant mass of particle i + j

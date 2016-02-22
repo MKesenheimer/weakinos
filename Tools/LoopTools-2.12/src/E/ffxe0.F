@@ -767,6 +767,9 @@
 	logical lcon
 	parameter (icon=3)
 	save inew,init,lcon
+	integer ncalls ! MK: added to suppress huge output
+	data ncalls /0/
+	save ncalls
 #include "ff.h"
 	data inew
      +	       /1,2,3,4,5, 6,7,8,9,10,11,12,13,14,15, 16,17,18,19,20,
@@ -802,9 +805,11 @@
 			xqi(inew(i,irota)) = xpi(i)
 		    endif
    10		continue
-		print '(a,i2,a,i2)','---#[ rotation ',irota,
+        if(ncalls.lt.10) then
+		  print '(a,i2,a,i2)','---#[ rotation ',irota,
      +			': isgnal ',isgnal
-		if (lcon) write(icon,'(a,i2,a,i2)') 'rotation ',irota,
+        endif
+        if (lcon) write(icon,'(a,i2,a,i2)') 'rotation ',irota,
      +                  ', isgnal ',isgnal
 		ier1 = 0
 		ner = 0
@@ -812,12 +817,16 @@
 		isgnal = ialsav
 		call ffxe0(ce0p,cd0ip,xqi,ier1)
 		ier1 = ier1 + ner
-		print '(a,i1,a,i2)','---#] rotation ',irota,': isgnal ',
+        if(ncalls.lt.10) then
+		  print '(a,i1,a,i2)','---#] rotation ',irota,': isgnal ',
      +			isgnal
-		print '(a,2g28.16,i3)','e0 = ',ce0p,ier1
+		  print '(a,2g28.16,i3)','e0 = ',ce0p,ier1
+        endif
 		do 15 k=1,5
 		    cd0ipp(k) = cd0ip(inew(k,irota))
-		    print '(a,2g28.16,i3)','d0 = ',cd0ipp(k),k
+            if(ncalls.lt.10) then
+		      print '(a,2g28.16,i3)','d0 = ',cd0ipp(k),k
+            endif
    15		continue
 		if (lcon) write(icon,'(a,2g28.16,i3)')'e0 = ',ce0p,ier1
 		if ( ier1 .lt. ier ) then

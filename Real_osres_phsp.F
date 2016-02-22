@@ -62,6 +62,11 @@ c -> do so by modifying the jacobian kn_jacborn.
         ! do not introduce a new jacobian-variable -> should be ok
         kn_jacreal = 1D0
 
+        ! in case a weakino mass is negative
+        mi = dabs(mi)
+        mj = dabs(mj)
+        mk = dabs(mk)
+        mij = dabs(mij)
         minmass = mi+mj+mk
         ! generate the x1-x2-phase space
         call x1x2phspace(kn_sbeams,minmass,xx(1:2),kn_x1,kn_x2,
