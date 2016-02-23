@@ -526,6 +526,9 @@ if [ "$GENEVENTS" = true ]; then
   done
 
   # experimental
+  # merge the lhe event files
   cat $RUNDIR/pwgevents-*.lhe | grep -v "/LesHouchesEvents" > $RUNDIR/pwgevents.lhe
   echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
+  # merge the NLO top files
+  cd $RUNDIR && ../merge-data 1 $(ls pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
 fi
