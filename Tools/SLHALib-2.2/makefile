@@ -1,19 +1,19 @@
 # --- variables defined by configure ---
 
 SRC = ./src
-PREFIX = unknown
+PREFIX = x86_64-linux
 
 EXE = 
 DEF = -D
 UNDERSCORE = 1
 
-FC = f77
-FFLAGS = -O0 -g -ffixed-line-length-none -Wall   -DU77EXT=0
+FC = fort77
+FFLAGS = -O -g -DU77EXT=0
 
 CC = gcc
 CFLAGS = -O3 -g -fomit-frame-pointer -ffast-math -Wall  -m64
 
-LDFLAGS = -lpthread -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0 -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0/../../.. -lgfortran -lSystem -lgcc_ext.10.5 -lquadmath -lm -lgcc_ext.10.5 -lSystem -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0 -L/usr/local/lib/gcc/x86_64-apple-darwin14.4.0/5.1.0/../../.. -lgfortran -lSystem -lgcc_ext.10.5 -lquadmath -lm -lgcc_ext.10.5 -lSystem
+LDFLAGS = -lpthread
 
 # --- end defs by configure ---
 

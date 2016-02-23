@@ -63,6 +63,12 @@ Optional arguments:
   --lopdf <n>              only LO calculation with LO pdf and LHA number n
   -g, --genfolder          generate a new run directory with default input files 
                            (the directory "testrun_clean" is needed)
+  --fin1 <n>               PDG number of first final particle
+  --fin2 <n>               PDG number of second final particle
+  --dec1 <n>               PDG number of first decay particle
+  --dec2 <n>               PDG number of second decay particle
+  --dec3 <n>               PDG number of third decay particle
+  --dec4 <n>               PDG number of fourth decay particle
 EOM
    exit 0
 }
@@ -197,6 +203,37 @@ case $KEY in
         shift
         shift
         ;;
+    --fin1)
+        FIN1="$2"
+        shift
+        shift
+        ;;
+    --fin2)
+        FIN2="$2"
+        shift
+        shift
+        ;;
+        ;;
+    --dec1)
+        DEC1="$2"
+        shift
+        shift
+        ;;
+    --dec2)
+        DEC2="$2"
+        shift
+        shift
+        ;;
+    --dec3)
+        DEC3="$2"
+        shift
+        shift
+        ;;
+    --dec4)
+        DEC4="$2"
+        shift
+        shift
+        ;;
     --usemsub)
         USEMSUB=true
         shift
@@ -324,6 +361,30 @@ if [ "$LOPDF" != "" ]; then
    overwrite_powheg_var "lhans1" $LOPDF
    overwrite_powheg_var "lhans2" $LOPDF
    overwrite_powheg_var "bornonly" 1
+fi
+
+if [ "$FIN1" != "" ]; then
+   overwrite_powheg_var "fin1" "$FIN1"
+fi
+
+if [ "$FIN2" != "" ]; then
+   overwrite_powheg_var "fin2" "$FIN2"
+fi
+
+if [ "$DEC1" != "" ]; then
+   overwrite_powheg_var "dec1" "$DEC1"
+fi
+
+if [ "$DEC2" != "" ]; then
+   overwrite_powheg_var "dec2" "$DEC2"
+fi
+
+if [ "$DEC3" != "" ]; then
+   overwrite_powheg_var "dec3" "$DEC3"
+fi
+
+if [ "$DEC4" != "" ]; then
+   overwrite_powheg_var "dec4" "$DEC4"
 fi
 
 # start the POWHEG-main executable
