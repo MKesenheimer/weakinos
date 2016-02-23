@@ -213,7 +213,6 @@ case $KEY in
         shift
         shift
         ;;
-        ;;
     --dec1)
         DEC1="$2"
         shift
@@ -526,7 +525,6 @@ if [ "$GENEVENTS" = true ]; then
   done
 
   # experimental
-  # merge the lhe event files
   cat $RUNDIR/pwgevents-*.lhe | grep -v "/LesHouchesEvents" > $RUNDIR/pwgevents.lhe
   echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
   # merge the NLO top files
