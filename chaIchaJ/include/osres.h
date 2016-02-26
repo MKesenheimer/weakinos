@@ -2,11 +2,7 @@ c############### osres.h ###############################################
 c last modified by MK, date 05.12.2015
 c global definitions for treating the on-shell resonant diagrams
 
-c for the case of weakino pair-production, there are eight resonances
-c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 5
-c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
-c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
-c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
+c for the case of weakino pair-production, there are four resonances
 c but if you have less resonances you can simply initialize the variables
 c defined here in a different way.
 c                        mi

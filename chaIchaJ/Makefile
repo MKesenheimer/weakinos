@@ -19,8 +19,9 @@ CFLAGS   = -g
 LDFLAGS  = -ff2c -g
 
 # recommended compiler flags
-REC_FCFLAGS   = -fno-automatic -fno-range-check -fno-second-underscore
-REC_FCFLAGS  += -ffixed-line-length-none -lgfortran -DU77EXT=0 -ff2c -DQuad=0
+REC_FCFLAGS   = -fno-automatic -fno-range-check
+REC_FCFLAGS  += -ffixed-line-length-none -lgfortran -DU77EXT=0 -DQuad=0
+REC_FCFLAGS  += -ff2c -fno-second-underscore
 REC_FCFLAGS  += $(FCFLAGS)
 REC_CXXFLAGS  = -fomit-frame-pointer -ffast-math -Wall -m64
 REC_CXXFLAGS += $(CXXFLAGS)
@@ -55,16 +56,25 @@ LHAPDF_CONFIG = lhapdf-config
 ## path to fastjet config executable
 FASTJET_CONFIG = fastjet-config
 
-## path to fortran libraries (not necessary anymore)
-ifeq ($(UNAME), Darwin)
-  #Mac OSX
-  LIBGFORTRANPATH = /usr/local/lib
-  LIBSTDCPPPATH   = /usr/local/lib
-else
-  #Linux
-  LIBGFORTRANPATH = /usr/lib/gcc/x86_64-linux-gnu/4.8
-  LIBSTDCPPPATH   = /usr/lib/gcc/x86_64-linux-gnu/4.8
-endif
+## Pythia8
+# if you want to use Pythia8 instead of Pythia6 uncomment the following
+#USE_PYTHIA8 = yes
+# path to pythia8-config executable
+# (uncomment only if you want to use a locally installed Pythia8)
+#PYTHIA8_CONFIG = pythia8-config
+
+# (not necessary anymore)
+## path to fortran and c++ libraries
+# (use $locate libstdc++.a to find the library)
+#ifeq ($(UNAME), Darwin)
+#  #Mac OSX
+#  LIBGFORTRANPATH = /usr/local/lib
+#  LIBSTDCPPPATH   = /usr/local/lib
+#else
+#  #Linux 
+#  LIBGFORTRANPATH = /usr/lib/gcc/x86_64-linux-gnu/4.8
+#  LIBSTDCPPPATH   = /usr/lib/gcc/x86_64-linux-gnu/4.8
+#endif
 
 ## warning for type-conversions -> basically useless, as those occur in
 ## too many places
@@ -176,6 +186,7 @@ SCRIPTS  = $(WORKINGDIR)/Scripts
 FJ     = $(TOOLS)/fastjet
 PY     = $(TOOLS)/pythia6425
 PY8    = $(TOOLS)/pythia8215
+PYF    = $(TOOLS)/pythiafortran
 HER    = $(TOOLS)/herwig
 LT     = $(TOOLS)/LoopTools-2.12
 SLHA   = $(TOOLS)/SLHALib-2.2
@@ -195,34 +206,14 @@ PY8INCLUDE  = $(PY8)/include
 ########################################################################
 ## search for the files and set paths
 
-vpath %.f $(PWHGDIR) $(WORKINGDIR) $(TOOLS)/functions $(DHELAS) $(PY) $(HER)
+vpath %.f $(PWHGDIR) $(WORKINGDIR) $(TOOLS)/functions $(DHELAS) $(PY) $(PYF) $(HER)
 vpath %.F $(WORKINGDIR) $(TOOLS)/FormCalcTools $(DHELAS)
 vpath %.F $(VIRT)/RenConsts $(VIRTSUB)
 vpath %.F $(MADMODEL) $(REALSUB)
 vpath %.f $(MADMODEL) $(REALSUB)
 vpath %.f $(MODIFIED)
-vpath %.cc $(FJ) $(PY8)
+vpath %.cc $(FJ) $(PY8) $(PYF)
 vpath %.o $(SUBWORKINGDIR)/build
-
-########################################################################
-## Libraries
-#not necessary anymore
-#LIBS  += $(LIBGFORTRANPATH)/libgfortranbegin.a
-#LIBS  += $(LIBGFORTRANPATH)/libgfortran.a
-#LIBS  += $(LIBSTDCPPPATH)/libstdc++.a
-LIBS  += -lstdc++ 
-
-### LibSLHA in Tools/SLHALib-2.2 ###
-LIBS += $(TOOLS)/libSLHA.a
-
-### LoopTools in Tools/Looptools-2.12 ###
-LIBS += $(TOOLS)/libooptools.a
-
-### DHELAS in Tools/DHELAS ###
-LIBS += $(TOOLS)/libdhelas3.a
-
-### PYTHIA8 in Tools/pythia8215 ###
-LIBS += $(TOOLS)/libpythia8.a
 
 ########################################################################
 ## Source files
@@ -258,6 +249,19 @@ ifdef USE_FASTJET
   PWHGANALYSIS+= fastjetfortran.o
 endif
 
+# the user choosed to use Pythia8
+ifeq ("$(USE_PYTHIA8)","yes")
+# the user choosed to use a locally installed Pythia8
+ifdef PYTHIA8_CONFIG
+  LIBS += $(shell $(PYTHIA8_CONFIG) --libs --plugins )
+  PYCXXFLAGS  += $(shell $(PYTHIA8_CONFIG) --cxxflags)
+else
+  LIBS += $(TOOLS)/libpythia8.a
+  PYCXXFLAGS += -I$(PY8INCLUDE)
+endif
+  PWHGANALYSIS+= pythiafortran.o
+endif
+
 ### USER Files ###
 USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
        init_processes.o init_couplings.o Reals_osres.o \
@@ -266,8 +270,8 @@ USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
 ### Functions in Tools/functions/
 FUNC = hep2pwg.o funcprocess.o Print.o funcbasic.o off_to_on.o
 
-### MadGraph Amplitudes
-MADOBJ = couplings.o hardstop.o printout.o read_slha.o \
+### MadGraph mandatory files
+MMADOBJ = couplings.o hardstop.o printout.o read_slha.o \
 	set_general_couplings.o 
 
 ### Formcalc Files in Tools/FormcalcTools/###
@@ -315,7 +319,7 @@ PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
 	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 		\
 	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
 	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o \
-	pdfcalls.o newunit_mod.o pythiafortran.o
+	pdfcalls.o newunit_mod.o
 
 ### LHEF ###
 # analyze LHEF output
@@ -330,14 +334,18 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
 # NOTE: pythia-6.4.25-decay.f is based on POWHEG-BOX/pythia-6.4.25.f,
 # to which we applied a simple patch to enable slepton decays
 # (for clarity a separate patch file is included which is not needed otherwise)
-PYTHIA = main-PYTHIA.o setup-PYTHIA-lhef.o	\
-	boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
+PYTHIA = boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
 	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o		\
 	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
 	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
-PYTHIA += pythia-6.4.25-decay.o
-#PYTHIA += pythia6428.o
-PYTHIA += pythiafortran.o
+ifeq ("$(USE_PYTHIA8)","yes")
+  # TODO:
+  PYTHIA += main-PYTHIA_mod.o
+else
+  PYTHIA += main-PYTHIA.o setup-PYTHIA-lhef.o
+  PYTHIA += pythia-6.4.25-decay.o
+  #PYTHIA += pythia6428.o
+endif
 
 ### HERWIG ###
 # this is work in progress
@@ -348,6 +356,7 @@ HERWIG = main-HERWIG.o setup-HERWIG-lhef.o herwig6510.o boostrot.o 	\
      bra_ket_subroutines.o off_to_on.o funcbasic.o
 
 # MadGraph born amplitudes
+MADOBJ += sborn_proc.o
 MADOBJ += b_cl_xIxI_001_001.o  b_cl_xIxI_006_001.o  b_sf_xIxI_001_003.o  b_sf_xIxI_006_003.o	\
 	b_cl_xIxI_001_002.o  b_cl_xIxI_006_002.o  b_sf_xIxI_001_004.o  b_sf_xIxI_006_004.o	\
 	b_cl_xIxI_002_001.o  b_cl_xIxI_007_001.o  b_sf_xIxI_002_003.o  b_sf_xIxI_007_003.o	\
@@ -362,7 +371,7 @@ MADOBJ += sborn_cl_xIxI_001.o  sborn_cl_xIxI_007.o  sborn_sf_xIxI_002.o  sborn_s
 	sborn_cl_xIxI_002.o  sborn_cl_xIxI_008.o  sborn_sf_xIxI_003.o  sborn_sf_xIxI_009.o	\
 	sborn_cl_xIxI_003.o  sborn_cl_xIxI_009.o  sborn_sf_xIxI_004.o  sborn_sf_xIxI_010.o	\
 	sborn_cl_xIxI_004.o  sborn_cl_xIxI_010.o  sborn_sf_xIxI_005.o			\
-	sborn_cl_xIxI_005.o  sborn_proc.o    sborn_sf_xIxI_006.o			\
+	sborn_cl_xIxI_005.o  sborn_sf_xIxI_006.o			\
 	sborn_cl_xIxI_006.o  sborn_sf_xIxI_001.o  sborn_sf_xIxI_007.o
 
 # real Amplitudes
@@ -456,16 +465,35 @@ VIRTUALS += uubar_x2x2_abbr0h.o uubar_x2x2_abbr0s.o			\
           ddbar_x2x2_vert.o ddbar_x2x2_vert_Sfe5.o
 
 SOURCESMAIN = $(PWHG) $(PDFPACK) $(USER) $(PWHGANALYSIS) $(FUNC) $(VIRTUALS)  \
-	$(FORMCALC) $(MADOBJ)
+	$(FORMCALC) $(MMADOBJ) $(MADOBJ)
 
-SOURCESLHEF = $(LHEF) $(PWHGANALYSIS) $(MADOBJ)
+SOURCESLHEF = $(LHEF) $(PWHGANALYSIS) $(MMADOBJ)
 
-SOURCESPYTHIA = $(PYTHIA) $(PWHGANALYSIS)  $(MADOBJ)
+SOURCESPYTHIA = $(PYTHIA) $(PWHGANALYSIS) $(MMADOBJ)
 
-SOURCESHERWIG = $(HERWIG) $(PWHGANALYSIS)  $(MADOBJ)
+SOURCESHERWIG = $(HERWIG) $(PWHGANALYSIS) $(MMADOBJ)
           
 # Additional FormCalc Files (maybe custom ones)
-#VIRTUALS += BornEps_x1x1.o
+#VIRTUALS += BornEps_n1x1.o
+
+########################################################################
+## Libraries
+### LibSLHA in Tools/SLHALib-2.2 ###
+LIBS += $(TOOLS)/libSLHA.a
+
+### LoopTools in Tools/Looptools-2.12 ###
+LIBS += $(TOOLS)/libooptools.a
+
+### DHELAS in Tools/DHELAS ###
+LIBS += $(TOOLS)/libdhelas3.a
+
+#not necessary anymore
+#LIBS += $(LIBGFORTRANPATH)/libgfortranbegin.a
+#LIBS += $(LIBGFORTRANPATH)/libgfortran.a
+#LIBS += $(LIBSTDCPPPATH)/libstdc++.a
+
+### Libraries for linking c++ code
+LIBS += -ldl -lstdc++
 
 ########################################################################
 ## combine all flags, libraries and includes
@@ -478,16 +506,14 @@ ALL_FCFLAGS  += -I$(SINCLUDE)
 ALL_CFLAGS    = $(REC_CFLAGS) $(OPT)
 ALL_CFLAGS   += -I$(LTINCLUDE)
 
-ALL_CXXFLAGS  = $(REC_CXXFLAGS) $(FJCXXFLAGS) $(OPT) -I$(PY8INCLUDE)
+ALL_CXXFLAGS  = $(REC_CXXFLAGS) $(OPT)
 
-LINKER = $(CPPFLAGS) $(LIBS) $(LDFLAGS) 
+LINKER = $(CPPFLAGS) $(LIBS) $(LDFLAGS)
 
 HEADERS  = $(wildcard *.h $(UINCLUDE)/*.h  $(PINCLUDE)/*.h $(VINCLUDE)/*.h)
 HEADERS += $(wildcard *.h $(LTINCLUDE)/*.h $(SLHAINCLUDE)/*.h)
 HEADERS += $(wildcard *.h $(MDINCLUDE)/*.h $(SINCLUDE)/*.h)
 HEADERS += $(wildcard *.inc $(MDINCLUDE)/*.inc $(UINCLUDE)/*.inc)
-#CCHEADERS = $(wildcard *.h $(PY8INCLUDE)/Pythia8/*.h)
-CCHEADERS += $(wildcard *.h $(PY8INCLUDE)/*.h)
      
 ########################################################################
 ## Rules, generate objects
@@ -500,9 +526,13 @@ CCHEADERS += $(wildcard *.h $(PY8INCLUDE)/*.h)
 	@echo "Compiling:" $<
 	@$(FC) $(ALL_FCFLAGS) -c -o build/$@ $<
 
-%.o: %.cc
+pythiafortran.o: pythiafortran.cc
 	@echo "Compiling:" $<
-	@$(CXX) $(ALL_CXXFLAGS) -c -o build/$@ $^
+	@$(CXX) $(ALL_CXXFLAGS) $(PYCXXFLAGS) -c -o build/$@ $^
+
+fastjetfortran.o: fastjetfortran.cc
+	@echo "Compiling:" $<
+	@$(CXX) $(ALL_CXXFLAGS) $(FJCXXFLAGS) -c -o build/$@ $^
 
 %.o: %.c $(HEADERS)
 	@echo "Compiling:" $<
@@ -538,7 +568,7 @@ copy-scripts:
 all: pwhg_main_xixj copy-scripts merge-pwg-stat merge-data lhef_analysis main-PYTHIA-lhef
 
 clean:
-	rm -f build/*.o pwhg_main_xixj merge-pwg-stat merge-data runparallel.sh clean_rundir.sh
+	rm -f build/*.o pwhg_main_nixj lhef_analysis main-PYTHIA-lhef merge-pwg-stat merge-data runparallel.sh clean_rundir.sh
 
 clean-results:
 	find ./testrun ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) \

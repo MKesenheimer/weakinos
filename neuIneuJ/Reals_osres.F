@@ -11,18 +11,6 @@ c by on-shell counter terms) evaluated at a phase space point where
 c sij = mij**2 holds.
 c the corrfac factor accounts for the restriction of the pahse-space and
 c modifies the jacobian.
-c
-c In principle, we can have a resonance between particle i=3 and j=5
-c or i=4 and j=5. This can be distinguished by the flag "chan":
-c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 5
-c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
-c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
-c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
-c (only required for neutralino pair production:)
-c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 & 5
-c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
-c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
-c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4 & 5
       subroutine  setosresreal(p,rflav,chan,ampreal)
         implicit none
 
@@ -132,6 +120,12 @@ c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4
         
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
         call set_channel(chan,i,j,k,mi,mj,mk,mij) ! OK, but better check again!
+        
+        ! in case a weakino mass is negative
+        mi = dabs(mi)
+        mj = dabs(mj)
+        mk = dabs(mk)
+        mij = dabs(mij)
 
         ! calculate the invariants
         s12  = momsum2sq(p(0:3,1),p(0:3,2)) ! invariant mass of particle 1 + 2

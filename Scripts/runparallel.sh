@@ -69,6 +69,9 @@ Optional arguments:
   --dec2 <n>               PDG number of second decay particle
   --dec3 <n>               PDG number of third decay particle
   --dec4 <n>               PDG number of fourth decay particle
+  --mur <n>                set renscfact
+  --muf <n>                set facscfact
+  --ewi <n>                set the regulator ewi
 EOM
    exit 0
 }
@@ -233,6 +236,21 @@ case $KEY in
         shift
         shift
         ;;
+    --muf)
+        FACSCFACT="$2"
+        shift
+        shift
+        ;;
+    --mur)
+        RENSCFACT="$2"
+        shift
+        shift
+        ;;
+    --ewi)
+        EWI="$2"
+        shift
+        shift
+        ;;
     --usemsub)
         USEMSUB=true
         shift
@@ -384,6 +402,18 @@ fi
 
 if [ "$DEC4" != "" ]; then
    overwrite_powheg_var "dec4" "$DEC4"
+fi
+
+if [ "$RENSCFACT" != "" ]; then
+   overwrite_powheg_var "renscfact" "$RENSCFACT"
+fi
+
+if [ "$FACSCFACT" != "" ]; then
+   overwrite_powheg_var "facscfact" "$FACSCFACT"
+fi
+
+if [ "$EWI" != "" ]; then
+   overwrite_powheg_var "ewi" "$EWI"
 fi
 
 # start the POWHEG-main executable

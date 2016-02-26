@@ -202,6 +202,12 @@ c
 #endif
       
 #ifdef DEBUGQ
+      print*, "[DEBUG] zwidth = ", zwidth
+      print*, "[DEBUG] wwidth = ", wwidth
+      print*, "[DEBUG] twidth = ", twidth
+      print*, "[DEBUG] wh1    = ", wh1
+      print*, "[DEBUG] wh2    = ", wh2
+      print*, "[DEBUG] wh3    = ", wh3
       print*, "[DEBUG] wdl    = ", wdl
       print*, "[DEBUG] wdr    = ", wdr
       print*, "[DEBUG] wul    = ", wul
@@ -210,10 +216,10 @@ c
       print*, "[DEBUG] wsr    = ", wsr
       print*, "[DEBUG] wcl    = ", wcl
       print*, "[DEBUG] wcr    = ", wcr
-      print*, "[DEBUG] wbl    = ", wb1
-      print*, "[DEBUG] wbr    = ", wb2
-      print*, "[DEBUG] wtl    = ", wt1
-      print*, "[DEBUG] wtr    = ", wt2
+      print*, "[DEBUG] wb1    = ", wb1
+      print*, "[DEBUG] wb2    = ", wb2
+      print*, "[DEBUG] wt1    = ", wt1
+      print*, "[DEBUG] wt2    = ", wt2
       stop
 #endif
       

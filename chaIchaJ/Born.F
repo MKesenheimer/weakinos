@@ -266,6 +266,7 @@ c ---------------------------- Formcalc Born ---------------------------
           print*, "MN = ", par_Fin1mass
           print*, "MN = ", par_Fin2mass
           print*, "MZ = ", par_Zmass
+          print*, "MSD= ", MSf(1,3,1)
 #endif
           print*, "born (formcalc) = ", fborn
 #ifdef DEBUGQ 
@@ -307,6 +308,7 @@ c endif preprocessor condition "if defined(CHECK_FORM_MAD) || defined(FORM_BORN)
           print*, "MN = ", par_Fin1mass
           print*, "MN = ", par_Fin2mass
           print*, "MZ = ", par_Zmass
+          print*, "MSD= ", MSf(1,3,1)
 #endif
           print*, "born (madgraph) = ", mborn
 #ifdef DEBUGQ

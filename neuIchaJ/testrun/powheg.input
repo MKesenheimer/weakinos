@@ -5,7 +5,7 @@ fin2  1000024   ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
 ! we only care for lepton pairs as decay products
 ! the user should take care of which decay products are meaningful
 dec1  -11       ! electron = 11, muon = 13, tauon = 15
-dec2  0        ! positron = -11 ...
+dec2  0         ! positron = -11 ...
 dec3  0
 dec4  0
 
@@ -56,7 +56,7 @@ itmx2osres  8        ! number of iterations for computing the integral of on-she
 foldcsi  2           ! number of folds on csi integration
 foldy    2           ! number of folds on  y  integration
 foldphi  2           ! number of folds on phi integration
-nubound  0         ! number of bbarra calls to setup norm of upper bounding function
+nubound  0           ! number of bbarra calls to setup norm of upper bounding function
 icsimax  1           ! <= 100, number of csi subdivision when computing the upper bounds
 iymax    1           ! <= 100, number of y subdivision when computing the upper bounds
 xupbound 2d0         ! increase upper bound for radiation generation
@@ -67,17 +67,17 @@ runningscale   0     ! (default 0) use ref. scale=virtuality Q (default 0, use f
 #fakevirtuals  1     ! (default 0) generate the grid with fake virtuals
 #softtest      1     ! (default 0) check soft singularities
 #colltest      1     ! (default 0) check collinear singularities
-renscfact     0.5d0  ! (default 1d0) ren scale factor: muren  = muref * renscfact
-facscfact     0.5d0  ! (default 1d0) fac scale factor: mufact = muref * facscfact
+renscfact     1d0    ! (default 1d0) ren scale factor: muren  = muref * renscfact
+facscfact     1d0    ! (default 1d0) fac scale factor: mufact = muref * facscfact
 #bornonly      1     ! (default 0) if 1 do Born only
 smartsig       1     ! (default 1) remember equal amplitudes (0 do not remember)
-testplots     1     ! write data for gnuplot histograms to *.top
+testplots     1      ! write data for gnuplot histograms to *.top
 #bornsuppfact  1     ! (default 0, do not use) use Born suppression factor
 #withdamp      1     ! (default 0, do not use) use Born-zero damping factor
 #hfact        100d0  ! (default no damping factor) damp factor for high-pt radiation: > 0 dampfac=h**2/(pt2+h**2)
 #hdamp        100d0  ! damping factor h**2/(pt2+h**2) to separate real contributions between Sudakov and remnants
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
-ewi           1d-7   ! regulator for on-shell divergences
+ewi           1d-2   ! regulator for on-shell divergences
  
 iseed         5602  ! (default 5602) initialize random number sequence
 #pdfreweight    1     ! (default 0) write extra pdf infos on LHEF

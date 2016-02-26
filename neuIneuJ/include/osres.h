@@ -3,14 +3,6 @@ c last modified by MK, date 05.12.2015
 c global definitions for treating the on-shell resonant diagrams
 
 c for the case of weakino pair-production, there are eight resonances
-c osresID 1 = dl35: left handed up-type squark gets resonant with particles 3 & 5
-c osresID 2 = dl45: left handed up-type squark gets resonant with particles 4 & 5
-c osresID 3 = ul35: left handed down-type squark gets resonant with particles 3 & 5
-c osresID 4 = ul45: left handed down-type squark gets resonant with particles 4 & 5
-c osresID 5 = dr35: right handed up-type squark gets resonant with particles 3 & 5
-c osresID 6 = dr45: right handed up-type squark gets resonant with particles 4 & 5
-c osresID 7 = ur35: right handed down-type squark gets resonant with particles 3 & 5
-c osresID 8 = ur45: right handed down-type squark gets resonant with particles 4 & 5
 c but if you have less resonances you can simply initialize the variables
 c defined here in a different way.
 c                        mi
