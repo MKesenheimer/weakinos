@@ -186,7 +186,7 @@ c just set xphi to zero - the jacobian will be still correct.
         parameter (m_pi = 4.D0*datan(1.D0))
         double precision tiny, tiny2
         parameter (tiny = 1d-6)
-        parameter (tiny2 = 1d-10)
+        parameter (tiny2 = 1d-8)
 
         ! reset the jacobian
         jac = 1D0

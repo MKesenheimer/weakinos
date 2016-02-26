@@ -1,0 +1,19 @@
+Zu Debug-Zwecken hier die Integrationsergebnisse in Abhängigkeit von ewi mit niedriger Präzision:
+
+- input_orig.slha
+- ebeam1 = 7000
+- lhans1 = 10550
+- runningscale = 0
+- ncall = 2000
+- ncallosres = 20000
+- itmx = 4
+- itmxosres = 4
+- scafac = 0.5
+
+DSUB_II
+1D-7 0.79876892081973416      +-   2.0305779976674192E-002
+1D-6 0.80602181832715625      +-   8.8381307616668316E-003
+1D-5 0.80130623794032041      +-   1.1010957419766577E-002
+1D-4 0.81544653543771517      +-   8.8726908511054629E-003
+1D-3 0.82563084913649842      +-   5.1485821162622555E-003
+1D-2 0.81698374153847331      +-   3.7145596590484093E-003

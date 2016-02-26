@@ -217,10 +217,10 @@ C ----------
       CALL IOSCXX(W(1,4),W(1,13),W(1,17),GDLXJM,AMP(8))        
       
       ! S35 = MDL^2
-      if(CHAN.eq."dl35") then
+      if(CHAN.eq."ul35") then
         JAMP(1) = -AMP(2)-AMP(3)
       ! S45 = MUL^2
-      else if (CHAN.eq."ul45") then
+      else if (CHAN.eq."dl45") then
         JAMP(1) = -AMP(7)-AMP(8)
       ! both resonant channels
       else if (CHAN.eq."allr") then
