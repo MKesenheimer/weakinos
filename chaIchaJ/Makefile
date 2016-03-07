@@ -89,6 +89,12 @@ OPT = -O2
 ### generate directory build, if not yet existing
 $(shell mkdir -p build)
 
+### version control
+GV = $(shell git rev-parse --short HEAD)
+$(shell echo "      subroutine print_version" > ../version.f)
+$(shell echo "        print*,'        git version $(GV)'" >> ../version.f)
+$(shell echo "      end" >> ../version.f)
+
 ########################################################################
 ## Runtime flags
 
@@ -265,7 +271,7 @@ endif
 ### USER Files ###
 USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
        init_processes.o init_couplings.o Reals_osres.o \
-       Real_osres_phsp.o phi1_2.o sigosres.o \
+       Real_osres_phsp.o phi1_2.o sigosres.o version.o
 
 ### Functions in Tools/functions/
 FUNC = hep2pwg.o funcprocess.o Print.o funcbasic.o off_to_on.o

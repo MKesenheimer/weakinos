@@ -27,7 +27,4 @@ c azimuthal degree of freedom in Real_osres_phsp
 
         integer maxalr
         parameter (maxalr=maxprocreal*nlegreal*(nlegreal-1)/2)
-
-        
-        
 c############### nlegborn header #######################################
