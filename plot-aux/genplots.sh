@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 function exitmessage {
 echo " genplot called with $narg arguments $fil1 $fil2 $out"
 echo "usage: genplots.sh file1 file2 nameoutput"
 echo "   or: genplots.sh file nameoutput"
-exit -1
+exit 0
 }
 
 function check {

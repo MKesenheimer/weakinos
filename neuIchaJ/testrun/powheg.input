@@ -1,11 +1,11 @@
 ! Particle ids for final state weakinos A and B. PDG convention.
-fin1  1000022   ! neu10 = 1000022, neu20 = 1000023, neu30 = 1000025,
-fin2  -1000024   ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
+fin1  1000023   ! neu10 = 1000022, neu20 = 1000023, neu30 = 1000025,
+fin2  1000024   ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
 
 ! we only care for lepton pairs as decay products
 ! the user should take care of which decay products are meaningful
 dec1  -11       ! electron = 11, muon = 13, tauon = 15
-dec2  0         ! positron = -11 ...
+dec2  11         ! positron = -11 ...
 dec3  0
 dec4  0
 
@@ -79,7 +79,7 @@ testplots      1     ! write data for gnuplot histograms to *.top
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
 ewi           1d-2   ! regulator for on-shell divergences
 storeinfo_rwgt 1     ! write informations into the event file that are necessary for reweighting
-lhrwgt_id '000'      ! reweighting id 
+lhrwgt_id '000'      ! reweighting id
 #compute_rwgt  1     ! reweight the events corresponding to different pdf's or scale choice
  
 iseed         5602   ! (default 5602) initialize random number sequence

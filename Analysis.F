@@ -305,6 +305,8 @@ c fill histograms
         endif
         
         if(decayed) then
+#define PTORDERED
+#ifdef PTORDERED
            ! book keeping: sort the decay IDs in decreasing order, but ignore zeros
           do i=1,ndecay
             ! sort zero entries to the end of the list    
@@ -316,6 +318,7 @@ c fill histograms
             ! replace -999 with zero   
             if(id_dec(i).eq.-999) id_dec(i) = 0
           enddo
+
           ! first assign the largest pt for every particle ID...
           do i=1,ndecay
             call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))
@@ -387,6 +390,15 @@ c fill histograms
             id_dec(iid_dec(i)) = id_dectemp(i)
           enddo
 
+#ifdef DEBUG
+          if(p_dec(0,1).ne.0D0 .or. p_dec(0,2).ne.0D0) then
+            print*,"id_dec",id_dec(:)
+            print*,"p_dec(1)",p_dec(:,1)
+            print*,"p_dec(2)",p_dec(:,2)
+          endif  
+#endif
+#endif
+
           ! assign observables for the decay products
           do i=1,ndecay
             pt_dec(i) = pt(p_dec(:,i))
@@ -453,6 +465,10 @@ c fill histograms
             if(dabs(eta_dec(i)).ge.etaLmax) Dcutspassed = .false.
           endif  
         enddo
+        
+#ifdef DEBUGQ
+        Dcutspassed = .true.
+#endif
         
         ! decay cuts
         if(Dcutspassed) then
