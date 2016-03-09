@@ -20,10 +20,18 @@ for j in `seq -$N 1 $N`; do
   echo "mur = $MUR, muf = $MUF"
   ./runparallel.sh -p 4 -g -c -e pwhg_main_ninj -d "run_input_nsusy_wevents_${PROC}_mur${MUR}_muF${MUF}" \
   --fin1 1000022 --fin2 1000022 --slha input_nsusy_1410.4999.slha --genevents \
-  --mur $MUR --muf $MUF > "log_input_nsusy_wevents_${PROC}_mur${MUR}_muF${MUF}"
+  --mur $MUR --muf $MUF > "log_input_nsusy_wevents_${PROC}_muR${MUR}_muF${MUF}"
   for job in `jobs -p`; do
     wait $job
     echo "  job with pid=$job finished"
   done
 done
 done
+
+# generate the output file
+echo "# muR muF sig err" > mu_scan_results
+grep --with-filename "total (btilde" ./log* | \
+sed "s/.\\/log_input_nsusy_wevents_${PROC}_muR//g" | \
+sed "s/: total (btilde+remnants+regulars+osresR) cross section in pb  / /g" | \
+sed "s/  +-    / /g" | \
+sed "s/_muF/  /g">> mu_scan_results

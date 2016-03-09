@@ -638,12 +638,13 @@ merge-data:
 
 copy-scripts:
 	cp $(SCRIPTS)/runparallel.sh  $(SUBWORKINGDIR) && \
-	cp $(SCRIPTS)/clean_rundir.sh $(SUBWORKINGDIR)
+	cp $(SCRIPTS)/clean_rundir.sh $(SUBWORKINGDIR) && \
+	cp $(SCRIPTS)/reweight.sh     $(SUBWORKINGDIR)
 
 all: pwhg_main_nixj copy-scripts merge-pwg-stat merge-data lhef_analysis main-PYTHIA-lhef
 
 clean:
-	rm -f build/*.o pwhg_main_nixj lhef_analysis main-PYTHIA-lhef merge-pwg-stat merge-data runparallel.sh clean_rundir.sh
+	rm -f build/*.o pwhg_main_nixj lhef_analysis main-PYTHIA-lhef merge-pwg-stat merge-data runparallel.sh clean_rundir.sh reweight.sh
 
 clean-results:
 	find ./testrun ! \( -name '*.slha' -o -name '*.input' -o -name 'pwgseeds.dat' \) \

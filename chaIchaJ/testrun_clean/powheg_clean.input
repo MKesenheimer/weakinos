@@ -34,8 +34,8 @@ ebeam2  7000d0       ! energy of beam 2
 #lhans1 10042        ! CTeQ6l1 PDF LO, pdf set for hadron 1 (LHA numbering)
 #lhans2 10042        ! CTeQ6l1 PDF LO, pdf set for hadron 2 (LHA numbering)
 ! NLO:
-#lhans1 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 1 (LHA numbering)
-#lhans2 10550         ! CTeQ6.6M PDF NLO, pdf set for hadron 2 (LHA numbering)
+#lhans1 10550        ! CTeQ6.6M PDF NLO, pdf set for hadron 1 (LHA numbering)
+#lhans2 10550        ! CTeQ6.6M PDF NLO, pdf set for hadron 2 (LHA numbering)
 lhans1 90400         ! PDF4LHC15_nlo_30_pdfas
 lhans2 90400         ! PDF4LHC15_nlo_30_pdfas   
 ! To be set only if using different pdf sets for the two incoming hadrons
@@ -45,22 +45,22 @@ lhans2 90400         ! PDF4LHC15_nlo_30_pdfas
 use-old-grid    0    ! if 1 use old grid if file pwggrids.dat is present (0 regenerate)
 use-old-ubound  0    ! if 1 use norm of upper bounding function stored in pwgubound.dat if present (0 regenerate)
 
-ncall1   20000        ! number of calls for initializing the integration grid
+ncall1   20000       ! number of calls for initializing the integration grid
 itmx1    4           ! number of iterations for initializing the integration grid
-ncall2   20000        ! number of calls for computing the integral and finding upper bound
+ncall2   20000       ! number of calls for computing the integral and finding upper bound
 itmx2    4           ! number of iterations for computing the integral and finding upper bound
-ncall1osres 2000000    ! number of calls for initializing the integration grid of on-shell resonances (only required for DSUB_II)
+ncall1osres 2000000  ! number of calls for initializing the integration grid of on-shell resonances (only required for DSUB_II)
 itmx1osres  6        ! number of iterations for initializing the integration grid of on-shell resonances (only required for DSUB_II)
-ncall2osres 2000000    ! number of calls for computing the integral of on-shell resonances (only required for DSUB_II)
+ncall2osres 2000000  ! number of calls for computing the integral of on-shell resonances (only required for DSUB_II)
 itmx2osres  8        ! number of iterations for computing the integral of on-shell resonances (only required for DSUB_II)
 foldcsi  2           ! number of folds on csi integration
 foldy    2           ! number of folds on  y  integration
 foldphi  2           ! number of folds on phi integration
-nubound  200000           ! number of bbarra calls to setup norm of upper bounding function
+nubound  200000      ! number of bbarra calls to setup norm of upper bounding function
 icsimax  1           ! <= 100, number of csi subdivision when computing the upper bounds
 iymax    1           ! <= 100, number of y subdivision when computing the upper bounds
 xupbound 2d0         ! increase upper bound for radiation generation
-numevts  200000           ! number of events to be generated
+numevts  200000      ! number of events to be generated
 
 ! OPTIONAL PARAMETERS
 runningscale   0     ! (default 0) use ref. scale=virtuality Q (default 0, use fixed scale)
@@ -71,16 +71,19 @@ renscfact     1d0    ! (default 1d0) ren scale factor: muren  = muref * renscfac
 facscfact     1d0    ! (default 1d0) fac scale factor: mufact = muref * facscfact
 #bornonly      1     ! (default 0) if 1 do Born only
 smartsig       1     ! (default 1) remember equal amplitudes (0 do not remember)
-testplots     1      ! write data for gnuplot histograms to *.top
+testplots      1     ! write data for gnuplot histograms to *.top
 #bornsuppfact  1     ! (default 0, do not use) use Born suppression factor
 #withdamp      1     ! (default 0, do not use) use Born-zero damping factor
 #hfact        100d0  ! (default no damping factor) damp factor for high-pt radiation: > 0 dampfac=h**2/(pt2+h**2)
 #hdamp        100d0  ! damping factor h**2/(pt2+h**2) to separate real contributions between Sudakov and remnants
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
 ewi           1d-2   ! regulator for on-shell divergences
+storeinfo_rwgt 1     ! write informations into the event file that are necessary for reweighting
+lhrwgt_id '000'      ! reweighting id
+#compute_rwgt  1     ! reweight the events corresponding to different pdf's or scale choice
  
-iseed         5602  ! (default 5602) initialize random number sequence
-#pdfreweight    1     ! (default 0) write extra pdf infos on LHEF
+iseed         5602   ! (default 5602) initialize random number sequence
+#pdfreweight    1    ! (default 0) write extra pdf infos on LHEF
 #manyseeds      1    ! (default 0) allow for the generation of different statistically independent samples (see Docs/Manyseeds.pdf) 
 #xgriditeration 1    ! identifier for grid generation
 #parallelstage  1    ! identifier for parallel running stages

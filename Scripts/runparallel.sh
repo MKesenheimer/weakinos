@@ -72,6 +72,7 @@ Optional arguments:
   --mur <n>                set renscfact
   --muf <n>                set facscfact
   --ewi <n>                set the regulator ewi
+  --merge                  merge the event files and delete the old ones
 EOM
    exit 0
 }
@@ -103,6 +104,7 @@ NICENESS=10
 USEMSUB=false
 GENEVENTS=false
 GENFOLGDER=false
+MERGE=false
 
 # go through the options
 while [[ $# -gt 0 ]]; do
@@ -255,12 +257,13 @@ case $KEY in
         USEMSUB=true
         shift
         ;;
+    --merge)
+        MERGE=true
+        shift
+        ;;
     -g|--genfolder)
         GENFOLGDER=true
         shift
-        ;;
-    --default)
-        DEFAULT=YES
         ;;
     *)
         usage    # unknown option
@@ -301,6 +304,7 @@ if [ "$GENFOLGDER" = true ]; then
       exit 0
    fi
    cp -r testrun_clean/ ./$RUNDIR
+   cp ./$RUNDIR/powheg_clean.input ./$RUNDIR/powheg.input
 fi
 
 # check if EXE is set
@@ -554,9 +558,15 @@ if [ "$GENEVENTS" = true ]; then
       echo "  job with pid=$job finished"
   done
 
-  # experimental
-  cat $RUNDIR/pwgevents-*.lhe | grep -v "/LesHouchesEvents" > $RUNDIR/pwgevents.lhe
-  echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
-  # merge the NLO top files
-  cd $RUNDIR && ../merge-data 1 $(ls pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
+  if [ "$MERGE" = true ]; then
+    # merge the event files
+    cat $RUNDIR/pwgevents-*.lhe | grep -v "/LesHouchesEvents" > $RUNDIR/pwgevents.lhe
+    echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
+    #if [ -e "$RUNDIR/pwgevents.lhe" ]; then
+    #  echo "merged event files succesfully, deleting old event files..."
+    #  find $RUNDIR -type f -name "pwgevents-*" -exec rm -f '{}' \;
+    #fi
+    # merge the NLO top files
+    cd $RUNDIR && ../merge-data 1 $(ls pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
+  fi  
 fi

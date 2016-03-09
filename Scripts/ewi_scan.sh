@@ -34,3 +34,10 @@ for i in `seq 1 $N`; do
     echo "  job with pid=$job finished"
   done
 done
+
+# generate the output file
+echo "# ewi sig err" > ewi_scan_results
+grep --with-filename "total (btilde" ./log* | \
+sed "s/.\\/log_input_nsusy_${PROC}_ewi//g" | \
+sed "s/: total (btilde+remnants+regulars+osresR) cross section in pb  / /g" | \
+sed "s/  +-    / /g" >> ewi_scan_results
