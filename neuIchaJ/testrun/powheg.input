@@ -2,12 +2,20 @@
 fin1  1000023   ! neu10 = 1000022, neu20 = 1000023, neu30 = 1000025,
 fin2  1000024   ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
 
-! we only care for lepton pairs as decay products
+! Analysis
 ! the user should take care of which decay products are meaningful
-dec1  -11       ! electron = 11, muon = 13, tauon = 15
-dec2  11         ! positron = -11 ...
-dec3  0
+! electron = 11, muon = 13, tauon = 15, positron = -11 ...
+! it is assumed that dec1 and dec2 are daughters of fin1, and
+! dec3 and dec4 are daughters of fin2
+dec1  11
+dec2  0
+dec3  -11
 dec4  0
+! for which particle pair do we want to calculate correlations?
+! (e.g. difference in azimuthal angle dphi or invariant mass) 
+! corI and corJ should be different and a number between 1 and 4
+corI  1
+corJ  3
 
 ! physics
 incomingflavors 4    ! (default 4) number of incoming flavor
@@ -56,11 +64,11 @@ itmx2osres  8        ! number of iterations for computing the integral of on-she
 foldcsi  2           ! number of folds on csi integration
 foldy    2           ! number of folds on  y  integration
 foldphi  2           ! number of folds on phi integration
-nubound  0           ! number of bbarra calls to setup norm of upper bounding function
+nubound  1000           ! number of bbarra calls to setup norm of upper bounding function
 icsimax  1           ! <= 100, number of csi subdivision when computing the upper bounds
 iymax    1           ! <= 100, number of y subdivision when computing the upper bounds
 xupbound 2d0         ! increase upper bound for radiation generation
-numevts  0           ! number of events to be generated
+numevts  1000           ! number of events to be generated
 
 ! OPTIONAL PARAMETERS
 runningscale   0     ! (default 0) use ref. scale=virtuality Q (default 0, use fixed scale)

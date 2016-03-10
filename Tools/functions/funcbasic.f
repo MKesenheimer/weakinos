@@ -366,6 +366,17 @@ c list(3) = 4, ilist(3) = 3
         do i=1,lgth
           list(i) = b(i)
         enddo
-      end 
+      end
+
+c stops the program if gets called for n times (useful for debugging)
+      subroutine nstop(n)
+        integer n,i
+        save i
+        i = i + 1
+        if(i.ge.n) then
+          i = 0
+          stop
+        endif
+      end
 
 c############### end functions #########################################

@@ -18,16 +18,16 @@ c     print some pythia configuration
       common/pymssm/imss(0:99),rmss(0:99)
       common/pyssmt/zmix(4,4),umix(2,2),vmix(2,2),smz(4),smw(2),
      &              sfmix(16,4),zmixi(4,4),umixi(2,2),vmixi(2,2)
-      write(*,*) "===================================================="
-      write(*,*) " pythia sm parameters"
-      write(*,*) "===================================================="
-      write(*,*) "1/alphem(0)   = ", (1d0/pyalem(0d0))
-      write(*,*) "1/alphem(mz2) = ", (1d0/pyalem(pmas(23,1)**2))
-      write(*,*) "mw = ", pmas(24,1)
-      write(*,*) "mz = ", pmas(23,1)
-      write(*,*) "s2w = ", paru(102)
-      write(*,*) "gfermi = ",paru(105)
-      write(*,*) "===================================================="
+      print*, "===================================================="
+      print*, " pythia sm parameters"
+      print*, "===================================================="
+      print*, "1/alphem(0)   = ", (1d0/pyalem(0d0))
+      print*, "1/alphem(mz2) = ", (1d0/pyalem(pmas(23,1)**2))
+      print*, "mw = ", pmas(24,1)
+      print*, "mz = ", pmas(23,1)
+      print*, "s2w = ", paru(102)
+      print*, "gfermi = ",paru(105)
+      print*, "===================================================="
       end
 
 
@@ -50,21 +50,21 @@ c     tells pythia to use slha data and where to find them
       !tuneid = 320
       tuneid = -1 ! no tune setting
       if (tuneid.ge.0) then
-        write(*,*) "setting pythia tune ", tuneid
+        print*, "setting pythia tune ", tuneid
         call pytune(tuneid)
       else
-        write(*,*) "no pythia tune is set"
+        print*, "no pythia tune is set"
       endif
       ! set susy parameters using slha input
       ! switch on susy mssm input from an slha file
-      imss(1)=11
+      imss(1) = 11
       ! open the slha file and tell pythia on which lun to find it:
-      lunspc=22
+      lunspc = 22
       open(lunspc,file=slhafilename,status='old')
-      imss(21)=lunspc
+      imss(21) = lunspc
       ! if the file also contains an slha decay table that you want to use,
       ! uncomment the next line:
-c      imss(22)=lunspc
+      imss(22) = lunspc
       end
 
 
@@ -118,45 +118,47 @@ c     hands over sm parameters from init_couplings to pythia
         paru(102) = sw2
         paru(105) = gfermi
         ! special parameters (might not be used at all)
-        parj(123)=pmas(23,1)  ! set z mass for e+e- routines
-        parj(124)=pmas(23,2)  ! set z witdh for e+e- routines
+        parj(123) = pmas(23,1)  ! set z mass for e+e- routines
+        parj(124) = pmas(23,2)  ! set z witdh for e+e- routines
         call pythia_print_some_params
       endif
       ! multiple interactions
       ! (mi can increase a lot the execution time)
       if(.not.mult_inter) then
-         write(*,*) "deselecting mpi in pythia"
-         mstp(81)=20   ! no multiple interactions. force a call to pyevnw 
+         print*, "deselecting mpi in pythia"
+         mstp(81) = 20   ! no multiple interactions. force a call to pyevnw
       else
-         write(*,*) "selecting mpi in pythia"
-         mstp(81)=21   ! mpi on in the pyevnw mpi scenario
+         print*, "selecting mpi in pythia"
+         mstp(81) = 21   ! mpi on in the pyevnw mpi scenario
       endif
-      write(*,*) "other pythia settings:"
-      !mstj(41)=12 ! photon radiation off quarks and leptons
-      mstj(41)=11 ! no photon radiation off quarks and leptons
-      write(*,*) "control of photon radiation mstj(41): ", mstj(41)
-      !mstp(61)=0                ! no is shower
-      mstp(61)=1                ! is shower just qcd in hadronic events
-      write(*,*) "is shower control mstp(61):           ", mstp(61)
-      !mstp(71)=0                ! no fs shower
-      write(*,*) "fs shower control mstp(71):           ", mstp(71)
-      !mstp(91)=0                ! no primordial kt
-      write(*,*) "primordial kt control mstp(91):       ", mstp(91)
-      mstp(131)=0               ! no pile up
-      write(*,*) "pile-up control mstp(131):            ", mstp(131)
-      mstp(111)=0               ! no hadronization
-      write(*,*) "hadronisation control mstp(111):      ", mstp(111)
+      print*, "other pythia settings:"
+      !mstj(41) = 12 ! photon radiation off quarks and leptons
+      mstj(41) = 11 ! no photon radiation off quarks and leptons
+      print*, "control of photon radiation mstj(41): ", mstj(41)
+      !mstp(61) = 0                ! no initial state shower
+      mstp(61) = 1                ! initial state shower just qcd in hadronic events
+      print*, "initial state shower control mstp(61):", mstp(61)
+      !mstp(71) = 0                ! no fs shower
+      print*, "final state shower control mstp(71):  ", mstp(71)
+      !mstp(91) = 0                ! no primordial kt
+      print*, "primordial kt control mstp(91):       ", mstp(91)
+      mstp(131) = 0               ! no pile up
+      !mstp(131) = 1               ! with pile up
+      print*, "pile-up control mstp(131):            ", mstp(131)
+      mstp(111) = 0               ! no hadronization
+      !mstp(111) = 1               ! with hadronization
+      print*, "hadronisation control mstp(111):      ", mstp(111)
       ! decays without hadronization need a patched pythia code
-      mstp(41)=1               ! force all resonance decays
-      !mstp(41)=0               ! prevent all resonance decays
-      write(*,*) "resonance decays:                     ", mstp(41)
-      !mstp(64) =3   ! use lambda_mc for is shower > 6.4.19
-      !mstp(64) =1   ! use lambda_msbar (default)
+      mstp(41) = 1               ! force all resonance decays
+      !mstp(41) = 0               ! prevent all resonance decays
+      print*, "resonance decays:                     ", mstp(41)
+      !mstp(64) = 3   ! use lambda_mc for is shower > 6.4.19
+      !mstp(64) = 1   ! use lambda_msbar (default)
       ! number of warnings printed on the shell
-      mstu(26)=20
-      !call pylist(12)  ! to see the pythia decay table
+      mstu(26) = 20
+      call pylist(12)  ! to see the pythia decay table
       ! tolerate 2% of killed events
-      mstu(22)=maxev/50
+      mstu(22) = maxev/50
       end
 
 
@@ -246,8 +248,8 @@ c     jumps to next event and calls analysis
       parameter (verbose=.false.)
       if(mint(51).ne.0) then
          if(verbose) then
-            write(*,*) 'killed event'
-            write(*,*) 'scalup= ',scalup
+            print*, 'killed event'
+            print*, 'scalup= ',scalup
             call pylist(7)      !hepeup
             call pylist(2)      !all the event
          endif
