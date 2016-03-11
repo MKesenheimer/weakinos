@@ -14,6 +14,7 @@ c book all histograms, will be filled later
         double precision powheginput
         external powheginput
         double precision mm, mp, ptm, ptp, ptjm, ptjp, em, ep, mdm, mdp
+        double precision ptdm, ptdp
         double precision phim, phip
         integer n1, n2
         character*4 cstr(ndecay)
@@ -40,6 +41,7 @@ c book all histograms, will be filled later
         endif
         print*, "===================================================="
 
+        ! number of bins
         n1 = 80
         ! mass(A+B)
         mm = dabs(par_Fin1mass) + dabs(par_Fin2mass)
@@ -51,13 +53,17 @@ c book all histograms, will be filled later
         ptjm = 0D0
         ptjp = ptjm + 100D0
 
+        ! number of bins
         n2 = 40
         ! eta(A)
         em = -4D0
         ep = em + 8D0
         ! mass(decI+decJ)
         mdm = 0D0
-        mdp = mdm + 600D0
+        mdp = mdm + 60D0
+        ! Pt(decI)
+        ptdm = 0D0
+        ptdp = ptm + 50D0
         ! dPhi(decI+decJ)
         phim = -pi
         phip = pi
@@ -89,12 +95,11 @@ c book all histograms, will be filled later
           call bookupeqbins("xsec(Dcuts)",1d0,-0.5d0,0.5d0)
           call bookupeqbins("dPhi(decI+decJ,Dcuts)",
      &                     (phip-phim)/n2,phim,phip)
-          call bookupeqbins("mass(decI+decJ,Jcuts)",
+          call bookupeqbins("mass(decI+decJ,Dcuts)",
      &                     (mdp-mdm)/n1,mdm,mdp)
-          call bookupeqbins("Pt(,Dcuts)",(ptp-ptm)/n1,ptm,ptp)
           do i=1,ndecay
             call bookupeqbins("Pt("//cstr(i)//",Dcuts)",
-     &                       (ptp-ptm)/n1,ptm,ptp)
+     &                       (ptdp-ptdm)/n2,ptdm,ptdp)
             call bookupeqbins("eta("//cstr(i)//",Dcuts)",
      &                       (ep-em)/n2,em,ep)
           enddo
@@ -105,8 +110,7 @@ c############### end subroutine init_hist ##############################
 
 c############### subroutine analysis ###################################
 c extract all data required for the histograms
-c calculate quantities that shall be plotted
-c fill histograms
+c calculate quantities that shall be plotted and fill histograms
       subroutine analysis(dsig0)
         implicit none
 #include "pwhg_math.h"
@@ -210,19 +214,10 @@ c fill histograms
           do i=1,ndecay
             id_dec(i) = powheginput(cstr(i)) ! if zero: don't observe this decay
           enddo
-          if(id_dec(1).eq.id_dec(2)) then
-            print*,"error in Analysis.f: dec1 and dec2 should not be "//
-     &            "equal."
-            stop
-          endif
-          if(id_dec(3).eq.id_dec(4)) then
-            print*,"error in Analysis.f: dec3 and dec4 should not be "//
-     &            "equal."
-            stop
-          endif
           ! for which particles do we want to calculate correlations?
           corI = powheginput("corI")
           corJ = powheginput("corJ")
+          ! switch to distinguish different combinations of decay IDs
           ! sdec = 0: all decay IDs are different
           ! sdec = 1: two decay IDs are the same, the other different
           ! sdec = 2: two pairs
@@ -277,8 +272,8 @@ c fill histograms
         R       = 0.4D0
         mjets   = 40
         ! lepton cuts
-        ptDmin  = 1D0 ! physical cut
-        etaDmax = 5D0
+        ptDmin  = 6D0 ! physical cut
+        etaDmax = 2.5D0
 
         if(ini) then
           ! write out informations
@@ -362,6 +357,9 @@ c fill histograms
           decayed = .false.
         endif
         
+        
+        ! handle the decay products (uncomment or delete if decays are
+        ! not necessary)
         if(decayed) then
 c choose:
 c determine the momenta of the decay products via pt ordering: PTORDERED
@@ -380,26 +378,22 @@ c#define IHEPSEARCH1
      &                      ptemp(:,1),ptemp(:,2))
           call getdaughters(id_finB,.false.,id_dghtr(3),id_dghtr(4),
      &                      ptemp(:,3),ptemp(:,4))
-
-          ! assign momenta
-          if(id_dghtr(1).ne.id_dghtr(2)) then
-            do i=1,2
-              do j=1,2
-                if(id_dec(i) .eq. id_dghtr(j)) then
-                  p_dec(:,i) = ptemp(:,j)
-                endif
-              enddo
+          ! assign momenta only if p_dec is empty (avoids that p_dec
+          ! gets overwritten by a possible second call)
+          do i=1,2
+            do j=1,2
+              if(p_dec(0,i).eq.0D0 .and. id_dec(i).eq.id_dghtr(j)) then
+                p_dec(:,i) = ptemp(:,j)
+              endif
             enddo
-          endif
-          if(id_dghtr(3).ne.id_dghtr(4)) then
-            do i=3,4
-              do j=3,4
-                if(id_dec(i) .eq. id_dghtr(j)) then
-                  p_dec(:,i) = ptemp(:,j)
-                endif
-              enddo
+          enddo
+          do i=3,4
+            do j=3,4
+              if(p_dec(0,i).eq.0D0 .and. id_dec(i).eq.id_dghtr(j)) then
+                p_dec(:,i) = ptemp(:,j)
+              endif
             enddo
-          endif
+          enddo
 #ifdef DEBUGQ
           if(p_dec(0,corI).ne.0D0 .and. p_dec(0,corJ).ne.0D0) then
           print*,id_finA,"->",id_dghtr(1),id_dghtr(2)
@@ -424,16 +418,13 @@ c#define IHEPSEARCH1
           ! products we want
           call getihep(id_finA,2,.true.,ihep_finA)
           call getihep(id_finB,2,.false.,ihep_finB)
-
           ! first decay
           ihep_decchainA(1,0) = ihep_finA
           ihep_decchainA(1,1) = jdahep(1,ihep_decchainA(1,0))
           ihep_decchainA(1,2) = jdahep(2,ihep_decchainA(1,0))
-
           ihep_decchainB(1,0) = ihep_finB
           ihep_decchainB(1,1) = jdahep(1,ihep_decchainB(1,0))
           ihep_decchainB(1,2) = jdahep(2,ihep_decchainB(1,0))
-
           ! further decays
           do i=2,20
             ihep_decchainA(i,0) = ihep_decchainA(i/2,1+mod(i,2))
@@ -451,7 +442,6 @@ c#define IHEPSEARCH1
               exit ! if first mother is zero, skip the loop
             endif
           enddo
-
           ! now check if there are the requested particles in the 
           ! decay chain.
           ! remember: dec1 and dec2 are assumed to be daughters of finA,
@@ -494,8 +484,7 @@ c#define IHEPSEARCH1
               exit
             endif
           enddo
-
-#ifdef DEBUG
+#ifdef DEBUGQ
           if(p_dec(0,corI).ne.0D0 .and. p_dec(0,corJ).ne.0D0) then
           do i=1,20
             print*,idhep(ihep_decchainA(i,0)),"->",
@@ -520,7 +509,20 @@ c#define IHEPSEARCH1
           ! sort the momenta of the decay products by pt and get the
           ! largest contributions -> the decay products with largest pt
           ! are the one we want
-          ! book keeping: sort the decay IDs in decreasing order, but ignore zeros
+          ! Note: these routines to assign pt ordered momenta to the 
+          ! decay products are totally general. It is straight forward
+          ! to extend these routines to five or more decay products,
+          ! though the algorithm gets a bit more complicated.
+          ! The idea is the following: We sort the momenta for every
+          ! particle ID by pt. The particles with the largest pt are
+          ! the decay products. If we have two or more particles with
+          ! the same ID (say id_dec(1) = 11 and id_dec(2) = 11), the 
+          ! particle with id_dec(1) gets the momentum with largest pt
+          ! and the particle with id_dec(2) gets the momentum with
+          ! second largest pt.
+          ! TODO: optimize with invariant mass reconstruction of mother!
+          ! book keeping: sort the decay IDs in decreasing order, but 
+          ! ignore zeros, this simplifies the following momenta assignment
           do i=1,ndecay
             ! sort zero entries to the end of the list    
             if(id_dec(i).eq.0) id_dec(i) = -999
@@ -531,12 +533,10 @@ c#define IHEPSEARCH1
             ! replace -999 with zero   
             if(id_dec(i).eq.-999) id_dec(i) = 0
           enddo
-
           ! first assign the largest pt for every particle ID...
           do i=1,ndecay
             call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))
           enddo
-
           ! ... then overwrite:
           ! all decay IDs are the same
           if(sdec.eq.((ndecay-1)*(ndecay)/2)) then
@@ -544,7 +544,6 @@ c#define IHEPSEARCH1
               call get4momentum_sortedpt(id_dec(i),i,p_dec(:,i))
             enddo
           endif
-          
           ! one pair
           ! since the list id_dec(i) is sorted, the two IDs must be next to each other
           if(sdec.eq.1) then
@@ -555,7 +554,6 @@ c#define IHEPSEARCH1
               endif  
             enddo
           endif
-          
           ! two pairs
           if(sdec.eq.2) then
             ! (no loops for ndecay = 4, but for arbitrary number > 4)
@@ -571,7 +569,6 @@ c#define IHEPSEARCH1
               enddo
             enddo  
           endif
-          
           ! three are equal
           if(sdec.eq.3) then
             do i=1,ndecay-2
@@ -583,12 +580,10 @@ c#define IHEPSEARCH1
               endif  
             enddo
           endif
-          
           ! for ndecay>4: TODO
           ! four decay IDs are equal
           ! pair of three and two
           ! ...
-
           ! reverse the sorting to get back to the order the user requested
           do i=1,ndecay
             do mu=0,3
@@ -679,7 +674,7 @@ c#define IHEPSEARCH1
           if(Dcutspassed(corI).and.Dcutspassed(corJ)) then
             call filld("xsec(Dcuts)",0d0,dsig)
             call filld("dPhi(decI+decJ,Dcuts)",dphi_decIdecJ,dsig)
-            call filld("mass(decI+decJ,Jcuts)",m_decIdecJ,dsig)
+            call filld("mass(decI+decJ,Dcuts)",m_decIdecJ,dsig)
           endif
           ! fill the other histogramms for every decay product indivdually
           do i=1,ndecay
@@ -691,16 +686,17 @@ c#define IHEPSEARCH1
           enddo
         endif
 
-#ifdef DEBUG
         ! print the ratio of decays that passed the cuts and the total
         ! number of decays.
         ! this could be used to determine how good the cut is or to
         ! compare with the branching ratio of the SLHA file.
         if(mod(nevents,20000).eq.1) then
-          print*,"ratio of 'Dcuts passed' to 'number of decays' [%] = ",
-     &           (real(counter_dcuts(1:ndecay))*100)/counter_decays
+          if(WHCPRG.eq."PYTHIA") then
+            print*,"BR_cuts(finA+finB->dec(i)+X) [%] = ",
+     &             (real(counter_dcuts(1:ndecay))*100)/counter_decays
+          endif
         endif
-#endif
+
         ! increment number of events processed
         nevents = nevents + 1
       end

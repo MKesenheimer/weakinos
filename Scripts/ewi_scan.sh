@@ -15,7 +15,7 @@ for i in `seq 1 $N`; do
   EWI="1d-$i"
   echo "ewi = $EWI"
   ./runparallel.sh -p 4 -g -c -e pwhg_main_ninj -d "run_input_nsusy_${PROC}_ewi${EWI}" \
-  --fin1 1000022 --fin2 1000022 --slha input_nsusy_1410.4999.slha \
+  --fin1 1000022 --fin2 1000022 --slha input_nsusy_1307.0782.slha --merge \
   --ewi $EWI > "log_input_nsusy_${PROC}_ewi$EWI"
   for job in `jobs -p`; do
     wait $job
@@ -27,7 +27,7 @@ for i in `seq 1 $N`; do
   EWI="3d-$i"
   echo "ewi = $EWI"
   ./runparallel.sh -p 4 -g -c -e pwhg_main_ninj -d "run_input_nsusy_${PROC}_ewi$EWI" \
-  --fin1 1000022 --fin2 1000022 --slha input_nsusy_1410.4999.slha \
+  --fin1 1000022 --fin2 1000022 --slha input_nsusy_1307.0782.slha --merge \
   --ewi $EWI > "log_input_nsusy_${PROC}_ewi$EWI"
   for job in `jobs -p`; do
     wait $job

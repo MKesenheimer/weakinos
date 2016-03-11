@@ -13,13 +13,13 @@ cd $DIR
 N=1
 for i in `seq -$N 1 $N`; do
 for j in `seq -$N 1 $N`; do
-  MUR=$(bc -l <<< "scale=1; 2^$i")
+  MUR=$(bc -l <<< "scale=3; 2^$i")
   MUR="${MUR}d0"
-  MUF=$(bc -l <<< "scale=1; 2^$j")
+  MUF=$(bc -l <<< "scale=3; 2^$j")
   MUF="${MUF}d0"
   echo "mur = $MUR, muf = $MUF"
   ./runparallel.sh -p 4 -g -c -e pwhg_main_ninj -d "run_input_nsusy_wevents_${PROC}_mur${MUR}_muF${MUF}" \
-  --fin1 1000022 --fin2 1000022 --slha input_nsusy_1410.4999.slha --genevents \
+  --fin1 1000022 --fin2 1000022 --slha input_nsusy_1307.0782.slha --genevents --merge \
   --mur $MUR --muf $MUF > "log_input_nsusy_wevents_${PROC}_muR${MUR}_muF${MUF}"
   for job in `jobs -p`; do
     wait $job
