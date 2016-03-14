@@ -13,8 +13,8 @@ c book all histograms, will be filled later
         ! external functions
         double precision powheginput
         external powheginput
-        double precision mm, mp, ptm, ptp, ptjm, ptjp, em, ep, mdm, mdp
-        double precision ptdm, ptdp
+        double precision mm, mp, ptm, ptp, ptjm, ptjp, em, ep, ym, yp
+        double precision mdm, mdp, ptdm, ptdp
         double precision phim, phip
         integer n1, n2
         character*4 cstr(ndecay)
@@ -58,6 +58,9 @@ c book all histograms, will be filled later
         ! eta(A)
         em = -4D0
         ep = em + 8D0
+        ! y(A)
+        ym = -4D0
+        yp = ym + 8D0
         ! mass(decI+decJ)
         mdm = 0D0
         mdp = mdm + 60D0
@@ -74,6 +77,9 @@ c book all histograms, will be filled later
         call bookupeqbins("Pt(A)",(ptp-ptm)/n1,ptm,ptp)
         call bookupeqbins("Pt(B)",(ptp-ptm)/n1,ptm,ptp)
         call bookupeqbins("eta(A)",(ep-em)/n2,em,ep)
+        call bookupeqbins("eta(B)",(ep-em)/n2,em,ep)
+        call bookupeqbins("y(A)",(yp-ym)/n2,ym,yp)
+        call bookupeqbins("y(B)",(yp-ym)/n2,ym,yp)
         call bookupeqbins("N(J)",1D0,-0.5D0,2.5D0)
         call bookupeqbins("Pt(J)",(ptjp-ptjm)/n1,ptjm,ptjp)
         call bookupeqbins("eta(J)",(ep-em)/n2,em,ep)
@@ -127,13 +133,13 @@ c calculate quantities that shall be plotted and fill histograms
         common/cWHCPRG/WHCPRG
         data WHCPRG/'NLO'/ ! default, should be set when analysis is called
         ! external functions
-        double precision powheginput, pt
-        external powheginput, pt
+        double precision powheginput, pt, rsepn
+        external powheginput, pt, rsepn
         ! kinematical quantities
         double precision p_finA(0:3), p_finB(0:3), p_finAfinB(0:3)
         double precision pt_finA, pt_finB
-        double precision eta_finA
-        double precision y_finA
+        double precision eta_finA,eta_finB
+        double precision y_finA,y_finB
         double precision m_finAfinB
         double precision pt_finAfinB, y_finAfinB
         ! jet parameters
@@ -141,13 +147,6 @@ c calculate quantities that shall be plotted and fill histograms
         parameter (maxjet=2048)
         double precision kt(maxjet), eta(maxjet), rap(maxjet)
         double precision phi(maxjet), pj(4,maxjet), ptrel(maxjet)
-        ! ptJmin is a technical cut
-        double precision mJmin
-        double precision ptJmin, etaJmax, R
-        common /jetcuts/ptJmin, etaJmax, R
-        ! pt_min for lepton cuts (physical cut)
-        double precision ptDmin, etaDmax
-        save ptDmin, etaDmax
         ! PDG and HEP IDs
         integer id_finA, id_finB
         integer ihep_finA, ihep_finB
@@ -182,7 +181,16 @@ c calculate quantities that shall be plotted and fill histograms
         ! indices
         integer mu, ihep, i, j, ij
         ! cuts
-        logical JcutsPassed, Dcutspassed(0:ndecay)
+        ! ptJmin is a technical cut
+        double precision mJmin
+        double precision ptJmin, etaJmax, R
+        common /jetcuts/ptJmin, etaJmax, R
+        ! decay cuts
+        double precision RDsepmin
+        double precision RDmin(ndecay), RDsep(ndecay,ndecay)
+        double precision ptDmin, etaDmax
+        save ptDmin, etaDmax
+        logical JcutsPassed, Dcutspassed(0:ndecay), Dcorrcutspassed
         ! flags for decay
         logical fdecA, fdecB, decayed
         save fdecA, fdecB, decayed
@@ -266,14 +274,15 @@ c calculate quantities that shall be plotted and fill histograms
         ! should not be in if(ini)... since we want to make sure
         ! that the variables are always filled
         ! jet cuts
-        mJmin   = 1D0
-        ptJmin  = 1D0
-        etaJmax = 4.5D0
-        R       = 0.4D0
-        mjets   = 40
+        mJmin    = 1D0
+        ptJmin   = 1D0
+        etaJmax  = 4.5D0
+        R        = 0.4D0
+        mjets    = 40
         ! lepton cuts
-        ptDmin  = 6D0 ! physical cut
-        etaDmax = 2.5D0
+        ptDmin   = 6D0 ! physical cut
+        etaDmax  = 2.5D0
+        RDsepmin = 0.2D0
 
         if(ini) then
           ! write out informations
@@ -314,10 +323,12 @@ c calculate quantities that shall be plotted and fill histograms
         ! final state A, B transverse momentum
         pt_finA = pt(p_finA)
         pt_finB = pt(p_finB)
-        ! final state A pseudorapidity
+        ! final states pseudorapidity
         call getpseudorap(p_finA,eta_finA)
-        ! final state A rapidity
+        call getpseudorap(p_finB,eta_finB)
+        ! final states rapidity
         call getrapidity(p_finA,y_finA)
+        call getrapidity(p_finB,y_finB)
         ! invariant mass of the final state system
         do mu=0,3
           p_finAfinB(mu) = p_finB(mu)+p_finA(mu)
@@ -598,7 +609,6 @@ c#define IHEPSEARCH1
             id_dec(iid_dec(i)) = id_dectemp(i)
           enddo
 #endif
-
           ! assign observables for the decay products
           do i=1,ndecay
             pt_dec(i) = pt(p_dec(:,i))
@@ -607,6 +617,17 @@ c#define IHEPSEARCH1
               call getpseudorap(p_dec(:,i),eta_dec(i))
               call getazimuth(p_dec(:,i),phi_dec(i))
             endif  
+          enddo
+          ! compute min R separations
+          do i=1,ndecay
+            RDmin(i) = 1D50 
+            do j=1,ndecay
+              RDsep(i,j) = 1D50
+              if(i.ne.j .and. p_dec(0,i).ne.0D0 .and. p_dec(0,j).ne.0D0) then
+                RDsep(i,j) = rsepn(p_dec(:,i),p_dec(:,j))
+                RDmin(i) = min(RDmin(i),RDsep(i,j))
+              endif  
+            enddo
           enddo
           ! calculate only for particle corI & corJ the difference in phi
           ! -> the user can simply change the correlation indices corI and corJ
@@ -632,6 +653,9 @@ c#define IHEPSEARCH1
         call filld("Pt(A)",pt_finA,dsig)
         call filld("Pt(B)",pt_finB,dsig)
         call filld("eta(A)",eta_finA,dsig)
+        call filld("eta(B)",eta_finB,dsig)
+        call filld("y(A)",y_finA,dsig)
+        call filld("y(B)",y_finB,dsig)
         call filld("N(J)",dble(num_vis_jets),dsig)
         call filld("Pt(J)",kt(1),dsig)
         call filld("eta(J)",eta(1),dsig)
@@ -664,6 +688,7 @@ c#define IHEPSEARCH1
           if(id_dec(i).ne.0) then
             if(pt_dec(i).le.ptDmin) Dcutspassed(i) = .false.
             if(dabs(eta_dec(i)).ge.etaDmax) Dcutspassed(i) = .false.
+            if(RDmin(i).le.RDsepmin) Dcutspassed(i) = .false.
           endif  
         enddo
         
@@ -676,7 +701,7 @@ c#define IHEPSEARCH1
             call filld("dPhi(decI+decJ,Dcuts)",dphi_decIdecJ,dsig)
             call filld("mass(decI+decJ,Dcuts)",m_decIdecJ,dsig)
           endif
-          ! fill the other histogramms for every decay product indivdually
+          ! fill the other histogramms for every decay product individually
           do i=1,ndecay
             if(Dcutspassed(i)) then
               counter_dcuts(i) = counter_dcuts(i) + 1
@@ -1051,6 +1076,46 @@ c (this was not possible in dislepton_jet)
         endif
       end
 c############### end subroutine get4momentum_fin_pair ##################
+
+c############### function rsepn ########################################
+c calculate the separation in the lego plot between the two momenta
+c p1 and p2
+      function rsepn(p1,p2)
+        implicit none
+        include 'pwhg_math.h'  
+        double precision rsepn,p1(0:3),p2(0:3)
+        double precision y1,phi1,y2,phi2
+        double precision delphi
+        y1 = 0D0
+        y2 = 0D0
+        delphi = 0D0
+        if(p1(0).eq.0D0 .or. p2(0).eq.0D0) then
+          goto 111
+        endif
+
+        call getazimuth(p1(:),phi1)
+        call getazimuth(p2(:),phi2)
+        call getrapidity(p1(:),y1)
+        call getrapidity(p2(:),y2)
+      
+        delphi = dabs(phi1-phi2)
+        if (delphi.gt.pi) then
+          delphi = 2*pi-delphi
+        endif
+        if (delphi.lt.0 .or. delphi.gt.pi) then
+          print*,' problem in rsepn. delphi = ',delphi
+        endif
+#ifdef DEBUGQ
+        print*,p1
+        print*,p2
+        print*,y1,y2
+        print*,phi1,phi2
+        print*,"rsepn",dsqrt((y1-y2)**2 + delphi**2)
+#endif
+ 111    continue
+        rsepn = dsqrt((y1-y2)**2 + delphi**2)
+      end
+c############### function rsepn ########################################
 
 c############### subroutine getazimuth #################################
 c calculates azimuth phi in [0,2pi] from x-axis

@@ -136,7 +136,8 @@ c     hands over sm parameters from init_couplings to pythia
       mstj(41) = 11 ! no photon radiation off quarks and leptons
       print*, "control of photon radiation mstj(41): ", mstj(41)
       !mstp(61) = 0                ! no initial state shower
-      mstp(61) = 1                ! initial state shower just qcd in hadronic events
+      !mstp(61) = 1                ! initial state shower just qcd in hadronic events
+      mstp(61) = 2                ! QCD and QED radiation
       print*, "initial state shower control mstp(61):", mstp(61)
       !mstp(71) = 0                ! no fs shower
       print*, "final state shower control mstp(71):  ", mstp(71)
@@ -156,7 +157,7 @@ c     hands over sm parameters from init_couplings to pythia
       !mstp(64) = 1   ! use lambda_msbar (default)
       ! number of warnings printed on the shell
       mstu(26) = 20
-      call pylist(12)  ! to see the pythia decay table
+      !call pylist(12)  ! to see the pythia decay table
       ! tolerate 2% of killed events
       mstu(22) = maxev/50
       end
