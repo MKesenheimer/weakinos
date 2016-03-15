@@ -105,7 +105,6 @@ USEMSUB=false
 GENEVENTS=false
 GENFOLGDER=false
 MERGE=false
-ARG1=""
 
 # go through the options
 while [[ $# -gt 0 ]]; do
@@ -272,6 +271,14 @@ case $KEY in
 esac
 done
 
+# throw a warning if the user wants to use msub
+if [ "$USEMSUB" = true ]; then
+   echo "Note: use 'msub -I -V -l nodes=1:ppn=$JOBS,walltime=02:00:00' to start an interactive shell and start again."
+   echo "Use 'exit' when your calculation is completed."
+   echo "Script stopped."
+   exit 0
+fi
+
 # check if RUNDIR is set
 if [ "$RUNDIR" == "" ]; then
    echo "Error: no directory specified."
@@ -413,284 +420,153 @@ if [ "$EWI" != "" ]; then
    overwrite_powheg_var "ewi" "$EWI"
 fi
 
-# back up the old parameters
-NEVENTSOLD=$(read_powheg_var "numevts")
-NUBOUNDOLD=$(read_powheg_var "nubound")
-
-#echo "Note: numevts was $NEVENTSOLD"
-#echo "Note: nubound was $NUBOUNDOLD"
-
-# generate the scripts to start the POWHEG-main executable
+# start the POWHEG-main executable
 
 # STEP 1a
-echo "" >> $RUNDIR/powheg.input
-echo "#Stage 1a: Generating Grids, iteration 1" >> $RUNDIR/powheg.input
+echo ""
+echo "Stage 1a: Generating Grids, iteration 1"
+echo "" >> powheg.input
+echo "#Stage 1a: Generating Grids, iteration 1" >> powheg.input
+
 overwrite_powheg_var "fakevirtuals" 1
 overwrite_powheg_var "parallelstage" 1
 overwrite_powheg_var "xgriditeration" 1
-cp $RUNDIR/powheg.input $RUNDIR/powheg_st1a.input
 
-cat <<EOM > $WORKINGDIR/run_st1a.sh
-#!/bin/bash
-cd $RUNDIR
-cp $RUNDIR/powheg_st1a.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
-$EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
-EOM
-chmod +x $WORKINGDIR/run_st1a.sh
+echo "  starting $JOBS job(s)..."
+for i in `seq 1 $JOBS`; do
+   NSEED=$((i+NSEEDOFFSET))
+   echo "  job $i with nseed $NSEED"
+   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step1a_$i.output 2>&1 &
+done
+
+for job in `jobs -p`; do
+    wait $job
+    echo "  job with pid=$job finished"
+done
 
 # STEP 1b
-echo "" >> $RUNDIR/powheg.input
-echo "#Stage 1b: Generating Grids, iteration 2" >> $RUNDIR/powheg.input
+echo ""
+echo "Stage 1b: Generating Grids, iteration 2"
+echo "" >> powheg.input
+echo "#Stage 1b: Generating Grids, iteration 2" >> powheg.input
+
 overwrite_powheg_var "fakevirtuals" 1
 overwrite_powheg_var "parallelstage" 1
 overwrite_powheg_var "xgriditeration" 2
-cp $RUNDIR/powheg.input $RUNDIR/powheg_st1b.input
 
-cat <<EOM > $WORKINGDIR/run_st1b.sh
-#!/bin/bash
-cd $RUNDIR
-cp $RUNDIR/powheg_st1b.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
-$EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
-EOM
-chmod +x $WORKINGDIR/run_st1b.sh
+echo "  starting $JOBS job(s)..."
+for i in `seq 1 $JOBS`; do
+   NSEED=$((i+NSEEDOFFSET))
+   echo "  job $i with nseed $NSEED"
+   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step1b_$i.output 2>&1 &
+done
+
+for job in `jobs -p`; do
+    wait $job
+    echo "  job with pid=$job finished"
+done
 
 # STEP 2
-echo "" >> $RUNDIR/powheg.input
-echo "#Stage 2: NLO run" >> $RUNDIR/powheg.input
+echo ""
+echo "Stage 2: NLO run"
+echo "" >> powheg.input
+echo "#Stage 2: NLO run" >> powheg.input
+
 overwrite_powheg_var "fakevirtuals" 0
 # TODO: xgriditeration = 1 necessary?
 overwrite_powheg_var "xgriditeration" 1
 overwrite_powheg_var "parallelstage" 2
+
+# back up the old parameters
+NEVENTSOLD=$(read_powheg_var "numevts")
+NUBOUNDOLD=$(read_powheg_var "nubound")
+
+echo "Note: numevts was $NEVENTSOLD, replace it temporarily with 0"
+echo "Note: nubound was $NUBOUNDOLD, replace it temporarily with 0"
+
 overwrite_powheg_var "numevts" 0
 overwrite_powheg_var "nubound" 0
-cp $RUNDIR/powheg.input $RUNDIR/powheg_st2.input
 
-cat <<EOM > $WORKINGDIR/run_st2.sh
-#!/bin/bash
-cd $RUNDIR
-cp $RUNDIR/powheg_st2.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
-$EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
-EOM
-chmod +x $WORKINGDIR/run_st2.sh
-
-# if the user wants to generate events
-if [ "$GENEVENTS" = true ]; then
-
-# STEP 3
-echo "" >> $RUNDIR/powheg.input
-echo "#Stage 3: Upper bound" >> $RUNDIR/powheg.input
-if [ "$NUBOUND" != "" ]; then
-  overwrite_powheg_var "nubound" $NUBOUND
-else
-  overwrite_powheg_var "nubound" $NUBOUNDOLD
-fi
-overwrite_powheg_var "parallelstage" 3
-cp $RUNDIR/powheg.input $RUNDIR/powheg_st3.input
-
-cat <<EOM > $WORKINGDIR/run_st3.sh
-#!/bin/bash
-cd $RUNDIR
-cp $RUNDIR/powheg_st3.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
-$EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
-EOM
-chmod +x $WORKINGDIR/run_st3.sh
-
-# STEP 4
-echo "" >> $RUNDIR/powheg.input
-echo "#Stage 4: Events" >> $RUNDIR/powheg.input
-if [ "$NEVENTS" != "" ]; then
-  overwrite_powheg_var "numevts" $NEVENTS
-else
-  overwrite_powheg_var "numevts" $NEVENTSOLD
-fi
-overwrite_powheg_var "parallelstage" 4
-cp $RUNDIR/powheg.input $RUNDIR/powheg_st4.input
-
-cat <<EOM > $WORKINGDIR/run_st4.sh
-#!/bin/bash
-cd $RUNDIR
-cp $RUNDIR/powheg_st4.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
-$EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
-EOM
-chmod +x $WORKINGDIR/run_st4.sh
-fi
-
-# generate and run the run.sh script
-if [ "$USEMSUB" = false ]; then
-cat <<EOM > $WORKINGDIR/run.sh
-#!/bin/bash
-echo ""
-echo "Stage 1a: Generating Grids, iteration 1"
 echo "  starting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-  NSEED=\$((\$i+$NSEEDOFFSET))
-  echo "  job \$i with nseed \$NSEED"
-  nohup nice -n $NICENESS $WORKINGDIR/run_st1a.sh \$NSEED > $RUNDIR/powheg_st1a_\$i.output 2>&1 &
-done
-for job in \`jobs -p\`; do
-    wait \$job
-    echo "  job with pid=\$job finished"
+for i in `seq 1 $JOBS`; do
+   NSEED=$((i+NSEEDOFFSET))
+   echo "  job $i with nseed $NSEED"
+   nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step2_$i.output 2>&1 &
 done
 
-echo ""
-echo "Stage 1b: Generating Grids, iteration 2"
-echo "  starting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-   NSEED=\$((i+$NSEEDOFFSET))
-   echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st1b.sh \$NSEED > $RUNDIR/powheg_st1b_\$i.output 2>&1 &
-done
-for job in \`jobs -p\`; do
-    wait \$job
-    echo "  job with pid=\$job finished"
+for job in `jobs -p`; do
+    wait $job
+    echo "  job with pid=$job finished"
 done
 
-echo ""
-echo "Stage 2: NLO run"
-echo "  starting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-   NSEED=\$((i+$NSEEDOFFSET))
-   echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st2.sh \$NSEED > $RUNDIR/powheg_st2_\$i.output 2>&1 &
-done
-for job in \`jobs -p\`; do
-    wait \$job
-    echo "  job with pid=\$job finished"
-done
 # combined results for stage 2
 echo ""
 echo "Combined results for stage 2:"
-$WORKINGDIR/merge-pwg-stat \$(ls $RUNDIR/pwg-st2-*-stat.dat) > $RUNDIR/pwg-st2-combined-stat.dat
+#$(find \( -name 'pwg-*-stat.dat' -and ! \( -name 'pwg-st2*' \) \) -type f | awk '{print}' ORS=' ')
+$WORKINGDIR/merge-pwg-stat $(ls ./pwg-st2-*-stat.dat) > $RUNDIR/pwg-st2-combined-stat.dat
 cat $RUNDIR/pwg-st2-combined-stat.dat
-EOM
 
+# if the user wants to generate events
 if [ "$GENEVENTS" = true ]; then
-cat <<EOM >> $WORKINGDIR/run.sh
-echo ""
-echo "Stage 3: Upper bound"
-echo "  starting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-   NSEED=\$((i+$NSEEDOFFSET))
-   echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st3.sh \$NSEED > $RUNDIR/powheg_st3_\$i.output 2>&1 &
-done
-for job in \`jobs -p\`; do
-    wait \$job
-    echo "  job with pid=\$job finished"
-done
+  # STEP 3
+  echo ""
+  echo "Stage 3: Upper bound"
+  echo "" >> powheg.input
+  echo "#Stage 3: Upper bound" >> powheg.input
 
-echo ""
-echo "Stage 4: Events"
-echo "  starting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-   NSEED=\$((i+$NSEEDOFFSET))
-   echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st4.sh \$NSEED > $RUNDIR/powheg_st4_\$i.output 2>&1 &
-done
-for job in \`jobs -p\`; do
-    wait \$job
-    echo "  job with pid=\$job finished"
-done
+  if [ "$NUBOUND" != "" ]; then
+    overwrite_powheg_var "nubound" $NUBOUND
+  else
+    overwrite_powheg_var "nubound" $NUBOUNDOLD
+  fi  
+  overwrite_powheg_var "parallelstage" 3
 
-EOM
+  echo "  starting $JOBS job(s)..."
+  for i in `seq 1 $JOBS`; do
+     NSEED=$((i+NSEEDOFFSET))
+     echo "  job $i with nseed $NSEED"
+     nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step3_$i.output 2>&1 &
+  done
 
-if [ "$MERGE" = true ]; then
-cat <<EOM >> $WORKINGDIR/run.sh
-# merge the event files
-cat $RUNDIR/pwgevents-*.lhe | grep -v "/LesHouchesEvents" > $RUNDIR/pwgevents.lhe
-echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
-#if [ -e "$RUNDIR/pwgevents.lhe" ]; then
-#  echo "merged event files succesfully, deleting old event files..."
-#  find $RUNDIR -type f -name "pwgevents-*" -exec rm -f '{}' \;
-#fi
-# merge the NLO top files
-cd $RUNDIR && ../merge-data 1 \$(ls $RUNDIR/pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
+  for job in `jobs -p`; do
+      wait $job
+      echo "  job with pid=$job finished"
+  done
+  
+  # STEP 4
+  echo ""
+  echo "Stage 4: Events"
+  echo "" >> powheg.input
+  echo "#Stage 4: Events" >> powheg.input
 
-EOM
-fi #if MERGE
-fi #if GENEVENTS
+  if [ "$NEVENTS" != "" ]; then
+    overwrite_powheg_var "numevts" $NEVENTS
+  else
+    overwrite_powheg_var "numevts" $NEVENTSOLD
+  fi  
+  overwrite_powheg_var "parallelstage" 4
 
-chmod +x $WORKINGDIR/run.sh
-$WORKINGDIR/run.sh
+  echo "  starting $JOBS job(s)..."
+  for i in `seq 1 $JOBS`; do
+     NSEED=$((i+NSEEDOFFSET))
+     echo "  job $i with nseed $NSEED"
+     nohup nice -n $NICENESS $EXEPATH <<< $NSEED > $RUNDIR/powheg_step4_$i.output 2>&1 &
+  done
 
-# if finished delete the old files
-rm $WORKINGDIR/run_st*
-rm $RUNDIR/powheg_st*.input
-rm $WORKINGDIR/run.sh
-fi
+  for job in `jobs -p`; do
+      wait $job
+      echo "  job with pid=$job finished"
+  done
 
-
-# if the user wants to use msub:
-if [ "$USEMSUB" = true ]; then
-cat <<EOM > $WORKINGDIR/runmsub.sh
-#!/bin/bash
-echo ""
-echo "Stage 1a: Generating Grids, iteration 1"
-echo "  submitting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-  NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=05:00:00 -v ARG1=\$NSEED -o $RUNDIR/powheg_st1a_\$i.output -e $RUNDIR/powheg_st1a_\$i.error $WORKINGDIR/run_st1a.sh | grep -v -e '^$')
-  echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
-  dependIDs1a="\$dependIDs1a:\${job[\$i]}"
-  #echo \$dependIDs
-done
-
-echo ""
-echo "Stage 1b: Generating Grids, iteration 2"
-echo "  submitting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-  NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=05:00:00,depend=afterok\${dependIDs1a} -v ARG1=\$NSEED -o $RUNDIR/powheg_st1b_\$i.output -e $RUNDIR/powheg_st1b_\$i.error $WORKINGDIR/run_st1b.sh | grep -v -e '^$')
-  echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
-  dependIDs1b="\$dependIDs1b:\${job[\$i]}"
-done
-
-echo ""
-echo "Stage 2: NLO run"
-echo "  submitting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-  NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=10:00:00,depend=afterok\${dependIDs1b} -v ARG1=\$NSEED -o $RUNDIR/powheg_st2_\$i.output -e $RUNDIR/powheg_st2_\$i.error $WORKINGDIR/run_st2.sh | grep -v -e '^$')
-  echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
-  dependIDs2="\$dependIDs2:\${job[\$i]}"
-done
-
-EOM
-if [ "$GENEVENTS" = true ]; then
-cat <<EOM >> $WORKINGDIR/runmsub.sh
-echo ""
-echo "Stage 3: Upper bound"
-echo "  submitting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-  NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=01:00:00,depend=afterok\${dependIDs2} -v ARG1=\$NSEED -o $RUNDIR/powheg_st3_\$i.output -e $RUNDIR/powheg_st3_\$i.error $WORKINGDIR/run_st3.sh | grep -v -e '^$')
-  echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
-  dependIDs3="\$dependIDs3:\${job[\$i]}"
-done
-
-echo ""
-echo "Stage 4: Events"
-echo "  submitting $JOBS job(s)..."
-for i in \`seq 1 $JOBS\`; do
-  NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=10:10:00,depend=afterok\${dependIDs3} -v ARG1=\$NSEED -o $RUNDIR/powheg_st4_\$i.output -e $RUNDIR/powheg_st4_\$i.error $WORKINGDIR/run_st4.sh | grep -v -e '^$')
-  echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
-  dependIDs4="\$dependIDs4:\${job[\$i]}"
-done
-
-EOM
-fi #if GENEVENTS
-
-chmod +x $WORKINGDIR/runmsub.sh
-$WORKINGDIR/runmsub.sh
-
-# if finished delete the old files
-#rm $WORKINGDIR/run_st*
-#rm $RUNDIR/powheg_st*.input
-#rm $WORKINGDIR/runmsub.sh
+  if [ "$MERGE" = true ]; then
+    # merge the event files
+    cat $RUNDIR/pwgevents-*.lhe | grep -v "/LesHouchesEvents" > $RUNDIR/pwgevents.lhe
+    echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
+    #if [ -e "$RUNDIR/pwgevents.lhe" ]; then
+    #  echo "merged event files succesfully, deleting old event files..."
+    #  find $RUNDIR -type f -name "pwgevents-*" -exec rm -f '{}' \;
+    #fi
+    # merge the NLO top files
+    cd $RUNDIR && ../merge-data 1 $(ls pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
+  fi  
 fi
