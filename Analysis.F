@@ -80,6 +80,7 @@ c book all histograms, will be filled later
         call bookupeqbins("eta(B)",(ep-em)/n2,em,ep)
         call bookupeqbins("y(A)",(yp-ym)/n2,ym,yp)
         call bookupeqbins("y(B)",(yp-ym)/n2,ym,yp)
+        call bookupeqbins("Pt(miss)",(ptp-ptm)/n1,ptm,ptp)
         call bookupeqbins("N(J)",1D0,-0.5D0,2.5D0)
         call bookupeqbins("Pt(J)",(ptjp-ptjm)/n1,ptjm,ptjp)
         call bookupeqbins("eta(J)",(ep-em)/n2,em,ep)
@@ -134,7 +135,8 @@ c calculate quantities that shall be plotted and fill histograms
         data WHCPRG/'NLO'/ ! default, should be set when analysis is called
         ! external functions
         double precision powheginput, pt, rsepn
-        external powheginput, pt, rsepn
+        logical isdetectable
+        external powheginput, pt, rsepn, isdetectable
         ! kinematical quantities
         double precision p_finA(0:3), p_finB(0:3), p_finAfinB(0:3)
         double precision pt_finA, pt_finB
@@ -178,6 +180,8 @@ c calculate quantities that shall be plotted and fill histograms
         ! counter to keep track how many decays and cuts have took place
         integer counter_decays, counter_dcuts(ndecay)
         save counter_decays, counter_dcuts
+        ! variables for missing energy
+        double precision p_miss(0:3), pt_miss
         ! indices
         integer mu, ihep, i, j, ij
         ! cuts
@@ -189,6 +193,7 @@ c calculate quantities that shall be plotted and fill histograms
         double precision RDsepmin
         double precision RDmin(ndecay), RDsep(ndecay,ndecay)
         double precision ptDmin, etaDmax
+        double precision ptmissmax
         save ptDmin, etaDmax
         logical JcutsPassed, Dcutspassed(0:ndecay), Dcorrcutspassed
         ! flags for decay
@@ -283,6 +288,9 @@ c calculate quantities that shall be plotted and fill histograms
         ptDmin   = 6D0 ! physical cut
         etaDmax  = 2.5D0
         RDsepmin = 0.2D0
+        ! the maximal detectable energy (every particle momentum with
+        ! lower energy is treated as missing pt)
+        ptmissmax = 10D0
 
         if(ini) then
           ! write out informations
@@ -609,6 +617,7 @@ c#define IHEPSEARCH1
             id_dec(iid_dec(i)) = id_dectemp(i)
           enddo
 #endif
+
           ! assign observables for the decay products
           do i=1,ndecay
             pt_dec(i) = pt(p_dec(:,i))
@@ -643,7 +652,42 @@ c#define IHEPSEARCH1
               p_decIdecJ(mu) = p_dec(mu,corI)+p_dec(mu,corJ)
             enddo
             call getinvmass(p_decIdecJ,m_decIdecJ)
-          endif  
+          endif
+          ! calculate missing Pt
+          p_miss(:) = 0D0
+          pt_miss   = 0D0
+          do i=1,nhep
+            ! if the particle is stable and not detectable
+            if(isthep(i).eq.1 .and. .not.(isdetectable(idhep(i)))) then
+              call get4momentum_ihep(i,ptemp(:,1))
+              do mu=0,3
+                p_miss(mu) = p_miss(mu) + ptemp(mu,1)
+              enddo
+#             ifdef DEBUGQ
+              print*,idhep(i),ptemp(:,1)
+#             endif
+            ! if the particle is stable and detectable
+            else if(isthep(i).eq.1) then
+              call get4momentum_ihep(i,ptemp(:,1))
+              ! and has low momentum
+              if(pt(ptemp(:,1)).lt.ptmissmax) then
+                do mu=0,3
+                  p_miss(mu) = p_miss(mu) + ptemp(mu,1)
+                enddo
+#               ifdef DEBUGQ
+                print*,idhep(i),pt(ptemp(:,1))
+#               endif
+              endif
+            endif
+            ! exit the loop if all particles handled
+            if(idhep(i).eq.0) exit
+          enddo
+          pt_miss = pt(p_miss(:))
+#ifdef DEBUGQ
+          print*,"p_miss",p_miss(:)
+          print*,"pt_miss",pt_miss
+          print*
+#endif
         endif
         
         ! fill histograms
@@ -694,6 +738,8 @@ c#define IHEPSEARCH1
         
         ! decay cuts
         if(Dcutspassed(0)) then
+          ! missing pt, only if decayed
+          call filld("Pt(miss)",pt_miss,dsig)
           ! fill the invariant mass histogramm only if decay products
           ! decI and decJ have passed the cuts
           if(Dcutspassed(corI).and.Dcutspassed(corJ)) then
@@ -1312,14 +1358,14 @@ c determines if particle contributes to a jet
       end
 c############### end subroutine isjetparticle ##########################
 
-c############### subroutine injetwhitelist #############################
-c determines if particle is in whitelist
-c of particles that contribute to a jet
+c############### function injetwhitelist ###############################
+c determines if particle is in whitelist of particles that contribute
+c to a jet
       logical function injetwhitelist(PDG_ID)
         implicit none
         integer PDG_ID, id
-        injetwhitelist=.false.
-        id=iabs(PDG_ID)
+        injetwhitelist = .false.
+        id = iabs(PDG_ID)
         ! the following particles contribute to a jet
         ! quarks
         if (1.le.id .and. id.le.6) injetwhitelist = .true.
@@ -1345,16 +1391,16 @@ c of particles that contribute to a jet
           injetwhitelist = .true.
         endif
       end
-c############### end subroutine injetwhitelist #########################
+c############### end function injetwhitelist ###########################
 
-c############### subroutine injetblacklist #############################
-c     determines if particle is in blacklist
-c     of particles that do not contribute to a jet
+c############### function injetblacklist ###############################
+c determines if particle is in blacklist of particles that do not
+c contribute to a jet
       logical function injetblacklist(PDG_ID)
         implicit none
         integer PDG_ID, id
-        injetblacklist=.false.
-        id=iabs(PDG_ID)
+        injetblacklist = .false.
+        id = iabs(PDG_ID)
         ! the following particles may occur
         ! but do not contribute to a jet
         ! leptons
@@ -1374,7 +1420,7 @@ c     of particles that do not contribute to a jet
         if (id.eq.2000011) injetblacklist=.true.  ! ~e_R
         if (id.eq.2000013) injetblacklist=.true.  ! ~mu_R
         if (id.eq.2000015) injetblacklist=.true.  ! ~stau_2
-        ! fintralinos
+        ! neutralinos
         if (id.eq.1000022) injetblacklist=.true.  ! ~n(1)
         if (id.eq.1000023) injetblacklist=.true.  ! ~n(2)
         if (id.eq.1000025) injetblacklist=.true.  ! ~n(3)
@@ -1384,6 +1430,29 @@ c     of particles that do not contribute to a jet
         if (id.eq.1000037) injetblacklist=.true.  ! ~x(2)
         ! photon
         if (id.eq.22) injetblacklist=.true.
+      end
+c############### end function injetblacklist ###########################
+
+c############### subroutine injetblacklist #############################
+c determines if particle is detectable or not (for PT_miss)
+      logical function isdetectable(PDG_ID)
+        implicit none
+        integer PDG_ID, id
+        isdetectable = .true.
+        id = iabs(PDG_ID)
+        ! leptons
+        if (id.eq.12) isdetectable=.false.  ! nue
+        if (id.eq.14) isdetectable=.false.  ! numu
+        if (id.eq.16) isdetectable=.false.  ! nu_tau
+        ! sleptons
+        if (id.eq.1000012) isdetectable=.false.  ! ~snue_L
+        if (id.eq.1000014) isdetectable=.false.  ! ~snumu_L
+        if (id.eq.1000016) isdetectable=.false.  ! ~snu_tau_L
+        ! neutralinos
+        if (id.eq.1000022) isdetectable=.false.  ! ~n(1)
+        if (id.eq.1000023) isdetectable=.false.  ! ~n(2)
+        if (id.eq.1000025) isdetectable=.false.  ! ~n(3)
+        if (id.eq.1000035) isdetectable=.false.  ! ~n(4)
       end
 c############### end subroutine injetblacklist #########################
 

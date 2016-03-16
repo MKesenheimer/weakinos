@@ -1,0 +1,122 @@
+# showq -c -u tu_pticl..
+# low precision job: 20 parallel jobs
+# ncall1   20000
+# itmx1    4
+# ncall2   20000
+# itmx2    4
+# ncall1osres 2000000
+# itmx1osres  6
+# ncall2osres 2000000
+# itmx2osres  8 
+# nubound 50000
+# numevts 50000
+
+Stage 1a:
+655724              C 0             nem  99.26      1.0 PR tu_pticl0    tu_tu          c040314     1    00:07:22   Tue Mar 15 18:10:32
+655722              C 0             nem  98.94      1.0 PR tu_pticl0    tu_tu          c040316     1    00:07:24   Tue Mar 15 18:10:32
+655723              C 0             nem  99.36      1.0 PR tu_pticl0    tu_tu          c040315     1    00:07:22   Tue Mar 15 18:10:32
+655727              C 0             nem  99.13      1.0 PR tu_pticl0    tu_tu          c040309     1    00:07:23   Tue Mar 15 18:10:46
+655725              C 0             nem  99.28      1.0 PR tu_pticl0    tu_tu          c040313     1    00:07:36   Tue Mar 15 18:10:46
+655726              C 0             nem  92.85      1.0 PR tu_pticl0    tu_tu          c040312     1    00:07:24   Tue Mar 15 18:10:46
+655732              C 0             nem  98.80      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:04   Tue Mar 15 18:11:42
+655733              C 0             nem  98.73      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:04   Tue Mar 15 18:11:42
+655736              C 0             nem  99.21      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:02   Tue Mar 15 18:11:53
+655735              C 0             nem  98.83      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:02   Tue Mar 15 18:11:53
+655734              C 0             nem  99.36      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:07   Tue Mar 15 18:11:58
+655737              C 0             nem  99.11      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:07   Tue Mar 15 18:11:58
+655730              C 0             nem  98.21      1.0 PR tu_pticl0    tu_tu          c010301     1    00:08:21   Tue Mar 15 18:11:58
+655738              C 0             nem  99.11      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:13   Tue Mar 15 18:12:04
+655741              C 0             nem  98.89      1.0 PR tu_pticl0    tu_tu          c010412     1    00:08:01   Tue Mar 15 18:12:04
+655739              C 0             nem  99.35      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:01   Tue Mar 15 18:12:04
+655740              C 0             nem  99.27      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:06   Tue Mar 15 18:12:09
+655731              C 0             nem  98.75      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:49   Tue Mar 15 18:12:27
+655729              C 0             nem  98.59      1.0 PR tu_pticl0    tu_tu          c040301     1    00:11:51   Tue Mar 15 18:15:14
+
+Stage 1b:
+655728              C 0             nem  98.80      1.0 PR tu_pticl0    tu_tu          c040307     1    00:12:14   Tue Mar 15 18:15:37
+655744              C 0             nem  99.27      1.0 PR tu_pticl0    tu_tu          c040314     1    00:07:06   Tue Mar 15 18:22:45
+655743              C 0             nem  99.27      1.0 PR tu_pticl0    tu_tu          c040315     1    00:07:12   Tue Mar 15 18:22:51
+655747              C 0             nem  99.19      1.0 PR tu_pticl0    tu_tu          c040309     1    00:07:11   Tue Mar 15 18:22:51
+655745              C 0             nem  98.78      1.0 PR tu_pticl0    tu_tu          c040313     1    00:07:12   Tue Mar 15 18:22:51
+655746              C 0             nem  98.73      1.0 PR tu_pticl0    tu_tu          c040312     1    00:07:12   Tue Mar 15 18:22:51
+655742              C 0             nem  99.17      1.0 PR tu_pticl0    tu_tu          c040316     1    00:07:22   Tue Mar 15 18:23:01
+655758              C 0             nem  99.10      1.0 PR tu_pticl0    tu_tu          c010413     1    00:07:59   Tue Mar 15 18:23:39
+655755              C 0             nem  98.93      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:04   Tue Mar 15 18:23:44
+655753              C 0             nem  99.29      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:04   Tue Mar 15 18:23:44
+655760              C 0             nem  98.23      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:04   Tue Mar 15 18:23:44
+655752              C 0             nem  99.47      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:04   Tue Mar 15 18:23:44
+655759              C 0             nem  99.10      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:04   Tue Mar 15 18:23:44
+655757              C 0             nem  99.10      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:04   Tue Mar 15 18:23:44
+655761              C 0             nem  98.85      1.0 PR tu_pticl0    tu_tu          c010412     1    00:08:08   Tue Mar 15 18:23:49
+655754              C 0             nem  99.39      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:09   Tue Mar 15 18:23:49
+655756              C 0             nem  99.22      1.0 PR tu_pticl0    tu_tu          c010413     1    00:08:09   Tue Mar 15 18:23:49
+655750              C 0             nem  99.43      1.0 PR tu_pticl0    tu_tu          c010301     1    00:08:14   Tue Mar 15 18:23:54
+655751              C 0             nem  99.43      1.0 PR tu_pticl0    tu_tu          c010414     1    00:08:48   Tue Mar 15 18:24:28
+655749              C 0             nem  99.10      1.0 PR tu_pticl0    tu_tu          c040301     1    00:11:42   Tue Mar 15 18:27:22
+655748              C 0             nem  99.12      1.0 PR tu_pticl0    tu_tu          c040307     1    00:11:52   Tue Mar 15 18:27:32
+
+Stage 2:
+655763              C 0             nem  99.01      1.0 PR tu_pticl0    tu_tu          c040315     1     2:01:21   Tue Mar 15 20:28:56
+655776              C 0             nem  99.07      1.0 PR tu_pticl0    tu_tu          c010413     1     2:01:25   Tue Mar 15 20:29:01
+655778              C 0             nem  99.07      1.0 PR tu_pticl0    tu_tu          c010413     1     2:01:30   Tue Mar 15 20:29:06
+655777              C 0             nem  99.03      1.0 PR tu_pticl0    tu_tu          c010413     1     2:01:50   Tue Mar 15 20:29:26
+655767              C 0             nem  98.99      1.0 PR tu_pticl0    tu_tu          c040309     1     2:01:56   Tue Mar 15 20:29:31
+655766              C 0             nem  99.02      1.0 PR tu_pticl0    tu_tu          c040312     1     2:01:56   Tue Mar 15 20:29:31
+655765              C 0             nem  99.02      1.0 PR tu_pticl0    tu_tu          c040313     1     2:02:08   Tue Mar 15 20:29:43
+655781              C 0             nem  99.07      1.0 PR tu_pticl0    tu_tu          c010412     1     2:02:13   Tue Mar 15 20:29:49
+655762              C 0             nem  99.01      1.0 PR tu_pticl0    tu_tu          c040316     1     2:02:14   Tue Mar 15 20:29:49
+655780              C 0             nem  98.97      1.0 PR tu_pticl0    tu_tu          c010413     1     2:02:25   Tue Mar 15 20:30:01
+655764              C 0             nem  99.01      1.0 PR tu_pticl0    tu_tu          c040314     1     2:02:32   Tue Mar 15 20:30:07
+655779              C 0             nem  98.99      1.0 PR tu_pticl0    tu_tu          c010413     1     2:02:31   Tue Mar 15 20:30:07
+655775              C 0             nem  99.04      1.0 PR tu_pticl0    tu_tu          c010414     1     2:03:19   Tue Mar 15 20:30:55
+655773              C 0             nem  98.94      1.0 PR tu_pticl0    tu_tu          c010414     1     2:03:20   Tue Mar 15 20:30:55
+655772              C 0             nem  98.94      1.0 PR tu_pticl0    tu_tu          c010414     1     2:03:26   Tue Mar 15 20:31:01
+655774              C 0             nem  98.94      1.0 PR tu_pticl0    tu_tu          c010414     1     2:03:26   Tue Mar 15 20:31:01
+655770              C 0             nem  98.99      1.0 PR tu_pticl0    tu_tu          c010301     1     2:06:05   Tue Mar 15 20:33:40
+655771              C 0             nem  98.96      1.0 PR tu_pticl0    tu_tu          c010414     1     2:34:54   Tue Mar 15 21:02:29
+655769              C 0             nem  98.98      1.0 PR tu_pticl0    tu_tu          c040301     1     2:51:46   Tue Mar 15 21:19:21
+655768              C 0             nem  98.98      1.0 PR tu_pticl0    tu_tu          c040307     1     2:55:50   Tue Mar 15 21:23:25
+
+Stage 3:
+655797              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040309     1    00:00:19   Tue Mar 15 21:23:50
+655790              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040314     1    00:00:20   Tue Mar 15 21:23:50
+655796              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040312     1    00:00:19   Tue Mar 15 21:23:50
+655784              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040316     1    00:00:21   Tue Mar 15 21:23:50
+655787              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040315     1    00:00:20   Tue Mar 15 21:23:50
+655793              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040313     1    00:00:20   Tue Mar 15 21:23:50
+655801              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c010414     1    00:00:17   Tue Mar 15 21:23:50
+655792              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040313     1    00:00:25   Tue Mar 15 21:23:55
+655800              C 0             nem  75.75      4.3 PR tu_pticl0    tu_tu          c010414     1    00:00:23   Tue Mar 15 21:23:55
+655782              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040316     1    00:00:26   Tue Mar 15 21:23:55
+655794              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040312     1    00:00:25   Tue Mar 15 21:23:55
+655785              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040315     1    00:00:26   Tue Mar 15 21:23:55
+655788              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040314     1    00:00:25   Tue Mar 15 21:23:55
+655799              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040301     1    00:00:23   Tue Mar 15 21:23:55
+655786              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040315     1    00:00:26   Tue Mar 15 21:23:55
+655783              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040316     1    00:00:26   Tue Mar 15 21:23:55
+655798              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040307     1    00:00:24   Tue Mar 15 21:23:55
+655795              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040312     1    00:00:24   Tue Mar 15 21:23:55
+655789              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040314     1    00:00:25   Tue Mar 15 21:23:55
+655791              C 0             nem 100.00      4.3 PR tu_pticl0    tu_tu          c040313     1    00:00:25   Tue Mar 15 21:23:55
+
+Stage 4:
+655804              C 0             nem  98.55      1.3 PR tu_pticl0    tu_tu          c040316     1    00:14:40   Tue Mar 15 21:38:39
+655813              C 0             nem  98.76      1.3 PR tu_pticl0    tu_tu          c040313     1    00:14:39   Tue Mar 15 21:38:39
+655816              C 0             nem  98.83      1.3 PR tu_pticl0    tu_tu          c040312     1    00:14:44   Tue Mar 15 21:38:44
+655807              C 0             nem  98.86      1.3 PR tu_pticl0    tu_tu          c040315     1    00:14:44   Tue Mar 15 21:38:44
+655810              C 0             nem  98.86      1.3 PR tu_pticl0    tu_tu          c040314     1    00:14:50   Tue Mar 15 21:38:50
+655817              C 0             nem  98.51      1.3 PR tu_pticl0    tu_tu          c040309     1    00:15:10   Tue Mar 15 21:39:10
+655821              C 0             nem  98.28      1.3 PR tu_pticl0    tu_tu          c010414     1    00:17:29   Tue Mar 15 21:41:29
+655820              C 0             nem  98.38      1.3 PR tu_pticl0    tu_tu          c010414     1    00:20:24   Tue Mar 15 21:44:24
+655819              C 0             nem  98.59      1.3 PR tu_pticl0    tu_tu          c040301     1    00:22:07   Tue Mar 15 21:46:07
+655818              C 0             nem  98.65      1.3 PR tu_pticl0    tu_tu          c040307     1    00:22:53   Tue Mar 15 21:46:53
+655802              C 0             nem  98.71      1.3 PR tu_pticl0    tu_tu          c040316     1    00:23:05   Tue Mar 15 21:47:04
+655803              C 0             nem  98.71      1.3 PR tu_pticl0    tu_tu          c040316     1    00:23:05   Tue Mar 15 21:47:04
+655808              C 0             nem  98.91      1.3 PR tu_pticl0    tu_tu          c040314     1    00:23:09   Tue Mar 15 21:47:09
+655805              C 0             nem  98.91      1.3 PR tu_pticl0    tu_tu          c040315     1    00:23:09   Tue Mar 15 21:47:09
+655815              C 0             nem  98.89      1.3 PR tu_pticl0    tu_tu          c040312     1    00:23:09   Tue Mar 15 21:47:09
+655806              C 0             nem  98.91      1.3 PR tu_pticl0    tu_tu          c040315     1    00:23:09   Tue Mar 15 21:47:09
+655814              C 0             nem  98.89      1.3 PR tu_pticl0    tu_tu          c040312     1    00:23:09   Tue Mar 15 21:47:09
+655809              C 0             nem  98.91      1.3 PR tu_pticl0    tu_tu          c040314     1    00:23:15   Tue Mar 15 21:47:15
+655812              C 0             nem  98.85      1.3 PR tu_pticl0    tu_tu          c040313     1    00:23:15   Tue Mar 15 21:47:15
+655811              C 0             nem  98.85      1.3 PR tu_pticl0    tu_tu          c040313     1    00:23:15   Tue Mar 15 21:47:15

@@ -359,6 +359,8 @@ c#define SLHA_ALPHA
         sinW        = dsqrt(1d0-par_Wmass**2/par_Zmass**2)
         par_alpha   = dsqrt(2d0)*par_Wmass**2*sinW**2*par_gf/pi
 #endif
+        !print*,1/par_alpha
+        !stop
         par_Zmass2  = par_Zmass**2
         par_Wmass2  = par_Wmass**2
 

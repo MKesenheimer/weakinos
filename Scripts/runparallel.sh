@@ -626,6 +626,47 @@ fi
 
 
 # if the user wants to use msub:
+# the approximate runtime is determined with the following parameters for the nemo cluster in freiburg:
+# low precision job: 20 parallel jobs
+# ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 20 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --nevents 50000 --nubound 50000 --genevents --usemsub
+# ncall1   20000
+# itmx1    4
+# ncall2   20000
+# itmx2    4
+# ncall1osres 2000000
+# itmx1osres  6
+# ncall2osres 2000000
+# itmx2osres  8 
+# nubound 50000
+# numevts 50000
+#
+# stage 1a: 8-12min
+# stage 1b: 8-12min
+# stage 2: 2-3h
+# stage 3: 20-30sec
+# stage 4: 15-25min
+# total: ~4h
+
+# high precision job: 100 parallel jobs
+# ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 100 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub
+# ncall1 200000
+# itmx1    4
+# ncall2 300000
+# itmx2    4
+# ncall1osres 2000000
+# itmx1osres  6
+# ncall2osres 2000000
+# itmx2osres  8 
+# nubound 100000
+# numevts 100000
+#
+# stage 1a: 10min
+# stage 1b: 15min
+# stage 2: 5h
+# stage 3: 3min
+# stage 4: 40min
+# total: ~6h
+
 if [ "$USEMSUB" = true ]; then
 cat <<EOM > $WORKINGDIR/runmsub.sh
 #!/bin/bash
@@ -634,7 +675,7 @@ echo "Stage 1a: Generating Grids, iteration 1"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=05:00:00 -v ARG1=\$NSEED -o $RUNDIR/powheg_st1a_\$i.output -e $RUNDIR/powheg_st1a_\$i.error $WORKINGDIR/run_st1a.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=01:00:00 -v ARG1=\$NSEED -o $RUNDIR/powheg_st1a_\$i.output -e $RUNDIR/powheg_st1a_\$i.error $WORKINGDIR/run_st1a.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs1a="\$dependIDs1a:\${job[\$i]}"
   #echo \$dependIDs
@@ -645,7 +686,7 @@ echo "Stage 1b: Generating Grids, iteration 2"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=05:00:00,depend=afterok\${dependIDs1a} -v ARG1=\$NSEED -o $RUNDIR/powheg_st1b_\$i.output -e $RUNDIR/powheg_st1b_\$i.error $WORKINGDIR/run_st1b.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=01:00:00,depend=afterok\${dependIDs1a} -v ARG1=\$NSEED -o $RUNDIR/powheg_st1b_\$i.output -e $RUNDIR/powheg_st1b_\$i.error $WORKINGDIR/run_st1b.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs1b="\$dependIDs1b:\${job[\$i]}"
 done
@@ -655,7 +696,7 @@ echo "Stage 2: NLO run"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=10:00:00,depend=afterok\${dependIDs1b} -v ARG1=\$NSEED -o $RUNDIR/powheg_st2_\$i.output -e $RUNDIR/powheg_st2_\$i.error $WORKINGDIR/run_st2.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=12:00:00,depend=afterok\${dependIDs1b} -v ARG1=\$NSEED -o $RUNDIR/powheg_st2_\$i.output -e $RUNDIR/powheg_st2_\$i.error $WORKINGDIR/run_st2.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs2="\$dependIDs2:\${job[\$i]}"
 done
@@ -668,7 +709,7 @@ echo "Stage 3: Upper bound"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=01:00:00,depend=afterok\${dependIDs2} -v ARG1=\$NSEED -o $RUNDIR/powheg_st3_\$i.output -e $RUNDIR/powheg_st3_\$i.error $WORKINGDIR/run_st3.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=00:30:00,depend=afterok\${dependIDs2} -v ARG1=\$NSEED -o $RUNDIR/powheg_st3_\$i.output -e $RUNDIR/powheg_st3_\$i.error $WORKINGDIR/run_st3.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs3="\$dependIDs3:\${job[\$i]}"
 done
@@ -678,7 +719,7 @@ echo "Stage 4: Events"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=10:10:00,depend=afterok\${dependIDs3} -v ARG1=\$NSEED -o $RUNDIR/powheg_st4_\$i.output -e $RUNDIR/powheg_st4_\$i.error $WORKINGDIR/run_st4.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=02:00:00,depend=afterok\${dependIDs3} -v ARG1=\$NSEED -o $RUNDIR/powheg_st4_\$i.output -e $RUNDIR/powheg_st4_\$i.error $WORKINGDIR/run_st4.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs4="\$dependIDs4:\${job[\$i]}"
 done
