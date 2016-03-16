@@ -663,9 +663,6 @@ c#define IHEPSEARCH1
               do mu=0,3
                 p_miss(mu) = p_miss(mu) + ptemp(mu,1)
               enddo
-#             ifdef DEBUGQ
-              print*,idhep(i),ptemp(:,1)
-#             endif
             ! if the particle is stable and detectable
             else if(isthep(i).eq.1) then
               call get4momentum_ihep(i,ptemp(:,1))
@@ -674,9 +671,6 @@ c#define IHEPSEARCH1
                 do mu=0,3
                   p_miss(mu) = p_miss(mu) + ptemp(mu,1)
                 enddo
-#               ifdef DEBUGQ
-                print*,idhep(i),pt(ptemp(:,1))
-#               endif
               endif
             endif
             ! exit the loop if all particles handled
