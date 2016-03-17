@@ -536,7 +536,8 @@ chmod +x $WORKINGDIR/run_st4_${IDENT}.sh
 fi
 
 # generate and run the run.sh script
-# nohup ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub > log_run1_nsusy_n2x1+ &
+# nohup ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 20000 --ncall2 20000 --ncall1osres 2000000 --ncall2osres 2000000 --nevents 500000 --nubound 500000 --genevents --merge > log_run1_nsusy_n2x1+ &
+# nohup ./runparallel.sh -g -c -e pwhg_main_nixj -d run_mSUGRA_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 --slha input_mSUGRA_1410.4999.slha --ncall1 20000 --ncall2 20000 --ncall1osres 2000000 --ncall2osres 2000000 --nevents 500000 --nubound 500000 --genevents --merge > log_run_mSUGRA_n2x1+ &
 if [ "$USEMSUB" = false ]; then
 cat <<EOM > $WORKINGDIR/run_${IDENT}.sh
 #!/bin/bash
