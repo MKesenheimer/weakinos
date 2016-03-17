@@ -16,6 +16,10 @@ dec4  0
 ! corI and corJ should be different and a number between 1 and 4
 corI  1
 corJ  3
+! number of total decay products in the final state (incl. not 
+! detectable particles). This is used to determine the correct
+! decay channel
+nfinal 6
 
 ! physics
 incomingflavors 4    ! (default 4) number of incoming flavor
