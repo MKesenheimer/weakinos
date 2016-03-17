@@ -2,25 +2,25 @@
 #
 # Examples:
 #
-# $ runparallel.sh -d testrun_1 -e pwhg_main_nixj
+# $ ./runparallel.sh -d testrun_1 -e pwhg_main_nixj
 # -> runs pwhg_main_nixj in testrun_1 on 4 cores (default)
 #
 #
-# $ runparallel.sh -c -d testrun_1 -e pwhg_main_nixj --itmx1 4 \
+# $ ./runparallel.sh -c -d testrun_1 -e pwhg_main_nixj --itmx1 4 \
 # --itmx2 4 --itmx1osres 6 --itmx2osres 8 --ncall1 2000 --ncall2 2000 \
 # --ncall1osres 20000 --ncall2osres 20000
 # -> runs pwhg_main_nixj in testrun_1 on 4 cores and overwrites some powheg
 #    parameters in powheg.input
 #
 #
-# $ runparallel.sh -g -c -e pwhg_main_nixj -d run_wevents --genevents > log_wevents
+# $ ./runparallel.sh -g -c -e pwhg_main_nixj -d run_wevents --genevents > log_wevents
 # -> copies the folder testrun_clean (and renames it to run_wevents),
 #    generates events (nubound and nevents in powheg.input must be greater than zero,
 #    or use --nevents and --nubound to set the numbers)
 #
 #
 # $ softpoint.x sugra --m0=125 --m12=200 --a0=-300 --tanBeta=10 > ./testrun_clean/input.slha 
-# $ runparallel.sh -g -c -e pwhg_main_nixj --lopdf 10042 --slha input.slha -d testrun_1
+# $ ./runparallel.sh -g -c -e pwhg_main_nixj --lopdf 10042 --slha input.slha -d testrun_1
 # -> use softpoint (must be installed separately) to generate a slha input file which
 #    is then processed with powheg.
 #    Copies the folder testrun_clean (and renames it to testrun_1) and proceeds to
@@ -521,6 +521,7 @@ chmod +x $WORKINGDIR/run_st4.sh
 fi
 
 # generate and run the run.sh script
+# nohup ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub > log_run1_nsusy_n2x1+ &
 if [ "$USEMSUB" = false ]; then
 cat <<EOM > $WORKINGDIR/run.sh
 #!/bin/bash
@@ -647,9 +648,9 @@ fi
 # stage 4: 15-25min
 # total: ~4h
 
-# high precision job: 100 parallel jobs
-# ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 20 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub > submit1_run_nsusy_n2x1+ &
-# ./runparallel.sh -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 20 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub --offset 20 > submit2_run_nsusy_n2x1+ &
+# high precision job: 20 parallel jobs
+# ./runparallel.sh -g -c -e pwhg_main_nixj -d run1_nsusy_n2x1+ -p 20 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub > submit_run1_nsusy_n2x1+ &
+# ./runparallel.sh -g -c -e pwhg_main_nixj -d run2_nsusy_n2x1+ -p 20 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub --offset 20 > submit_run2_nsusy_n2x1+ &
 # tail -f submit_run_old_nsusy_n2x1+
 # ncall1 200000
 # itmx1    4

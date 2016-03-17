@@ -352,7 +352,7 @@ c sets the PhysPars.h parameters
         par_Zmass   = dreal(SMInputs_MZ)
         par_Wmass   = dreal(Mass_MW)
         par_gf      = dreal(SMInputs_GF)
-c#define SLHA_ALPHA
+#define SLHA_ALPHA
 #ifdef SLHA_ALPHA
         par_alpha   = 1d0/dreal(SMInputs_invAlfaMZ)
 #else

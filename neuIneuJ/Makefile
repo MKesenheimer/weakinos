@@ -662,7 +662,7 @@ copy-scripts:
 	cp $(SCRIPTS)/runparallel.sh  $(SUBWORKINGDIR) && \
 	cp $(SCRIPTS)/clean_rundir.sh $(SUBWORKINGDIR) && \
 	cp $(SCRIPTS)/reweight.sh     $(SUBWORKINGDIR) && \
-	cp $(SCRIPTS)/merge.sh        $(SUBWORKINGDIR) &&
+	cp $(SCRIPTS)/merge.sh        $(SUBWORKINGDIR)
 
 all: pwhg_main_ninj copy-scripts merge-pwg-stat merge-data lhef_analysis main-PYTHIA-lhef
 

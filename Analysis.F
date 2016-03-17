@@ -56,17 +56,17 @@ c book all histograms, will be filled later
         ! number of bins
         n2 = 40
         ! eta(A)
-        em = -4D0
-        ep = em + 8D0
+        em = -3D0
+        ep = em + 6D0
         ! y(A)
         ym = -4D0
         yp = ym + 8D0
         ! mass(decI+decJ)
         mdm = 0D0
-        mdp = mdm + 60D0
+        mdp = mdm + 1000D0
         ! Pt(decI)
         ptdm = 0D0
-        ptdp = ptm + 50D0
+        ptdp = ptm + 600D0
         ! dPhi(decI+decJ)
         phim = -pi
         phip = pi
@@ -153,7 +153,8 @@ c calculate quantities that shall be plotted and fill histograms
         integer id_finA, id_finB
         integer ihep_finA, ihep_finB
         ! decay list of finA and finB
-        integer ihep_decchainA(20,0:2), ihep_decchainB(20,0:2)
+        integer ihep_decchainA(nhep,0:2), ihep_decchainB(nhep,0:2)
+        integer num_decchainA, num_decchainB
         ! decays
         ! number of decay products to consider
         integer ndecay
@@ -162,7 +163,9 @@ c calculate quantities that shall be plotted and fill histograms
         ! iid_dec: saves the user requested order of decay products
         integer id_dectemp(ndecay)
         integer id_dec(ndecay), iid_dec(ndecay)
-        save id_dec, iid_dec
+        ! number of non zero decay IDs, of channel A and channel B
+        integer nid_dec, nid_decA, nid_decB
+        save id_dec, iid_dec, nid_dec
         ! momenta, pt, eta, y of decay products
         double precision ptemp(0:3,ndecay) ! temporary momenta
         double precision p_dec(0:3,ndecay), pt_dec(ndecay)
@@ -203,6 +206,8 @@ c calculate quantities that shall be plotted and fill histograms
         integer nevents
         ! debugging
         integer id_dghtr(10)
+        double precision var(10)
+        save var
 
         ! at first call
         if (ini) then
@@ -220,12 +225,18 @@ c calculate quantities that shall be plotted and fill histograms
 #endif
           endif
 
+          ! reset the number of non zero decay IDs: we analyze only 
+          ! events, which has exactly this number of decay products
+          ! in the final state.
+          nid_dec = 0
           ! determine the decay products from powheg.input
           ! remember that not every number is needed for every process
           ! it is assumed that dec1 and dec2 are daughters of fin1, and
           ! dec3 and dec4 are daughters of fin2
           do i=1,ndecay
             id_dec(i) = powheginput(cstr(i)) ! if zero: don't observe this decay
+            ! number of nonzero dec IDs
+            if(id_dec(i).ne.0) nid_dec = nid_dec + 1
           enddo
           ! for which particles do we want to calculate correlations?
           corI = powheginput("corI")
@@ -285,9 +296,9 @@ c calculate quantities that shall be plotted and fill histograms
         R        = 0.4D0
         mjets    = 40
         ! lepton cuts
-        ptDmin   = 6D0 ! physical cut
+        ptDmin   = 5D0 ! physical cut
         etaDmax  = 2.5D0
-        RDsepmin = 0.2D0
+        RDsepmin = 0.05D0
         ! the maximal detectable energy (every particle momentum with
         ! lower energy is treated as missing pt)
         ptmissmax = 10D0
@@ -444,29 +455,43 @@ c#define IHEPSEARCH1
           ihep_decchainB(1,0) = ihep_finB
           ihep_decchainB(1,1) = jdahep(1,ihep_decchainB(1,0))
           ihep_decchainB(1,2) = jdahep(2,ihep_decchainB(1,0))
+          num_decchainA = 0
+          num_decchainB = 0
           ! further decays
-          do i=2,20
+          do i=2,nhep
             ihep_decchainA(i,0) = ihep_decchainA(i/2,1+mod(i,2))
             ihep_decchainA(i,1) = jdahep(1,ihep_decchainA(i,0))
             ihep_decchainA(i,2) = jdahep(2,ihep_decchainA(i,0))
+            ! count how many "zero" decays took place
             if(ihep_decchainA(i,0).eq.0) then
-              exit ! if first mother is zero, skip the loop
+              num_decchainA = num_decchainA + 1
+            else
+              num_decchainA = 0
             endif
           enddo
-          do i=2,20
+          do i=2,nhep
             ihep_decchainB(i,0) = ihep_decchainB(i/2,1+mod(i,2))
             ihep_decchainB(i,1) = jdahep(1,ihep_decchainB(i,0))
             ihep_decchainB(i,2) = jdahep(2,ihep_decchainB(i,0))
+            ! count how many "zero" decays took place
             if(ihep_decchainB(i,0).eq.0) then
-              exit ! if first mother is zero, skip the loop
-            endif
+              num_decchainB = num_decchainB + 1
+            else
+              num_decchainB = 0
+            endif  
           enddo
           ! now check if there are the requested particles in the 
           ! decay chain.
           ! remember: dec1 and dec2 are assumed to be daughters of finA,
           ! dec3 and dec4 are assumed to be daughters of finB
           p_dec(:,:) = 0D0
-          do i=1,20
+          nid_decA = 0
+          nid_decB = 0
+          do i=1,nhep-num_decchainA
+            ! count the number of stable decay products
+            if(idhep(ihep_decchainA(i,0)).ne.0 .and. isthep(ihep_decchainA(i,0)).eq.1 ) then
+              nid_decA = nid_decA + 1
+            endif
             ! if the momentum of the first decay particle was not already
             ! assigned and the ihep pdg number is equal to the 
             ! requested decay number id_dec
@@ -479,13 +504,13 @@ c#define IHEPSEARCH1
      &         idhep(ihep_decchainA(i,0)).eq.id_dec(2)) then
               call get4momentum_ihep(ihep_decchainA(i,0),p_dec(:,2))
             endif
-            ! stop the loop if all momenta was assigned
-            if(p_dec(0,1).ne.0D0 .and. p_dec(0,2).ne.0D0) then
-              exit
-            endif
           enddo
           ! decay chain of final state particle B
-          do i=1,20
+          do i=1,nhep-num_decchainB
+            ! count the number of stable decay products
+            if(idhep(ihep_decchainB(i,0)).ne.0 .and. isthep(ihep_decchainB(i,0)).eq.1) then
+              nid_decB = nid_decB + 1
+            endif
             ! if the momentum of the first decay particle was not already
             ! assigned and the ihep pdg number is equal to the 
             ! requested decay number id_dec
@@ -498,27 +523,33 @@ c#define IHEPSEARCH1
      &         idhep(ihep_decchainB(i,0)).eq.id_dec(4)) then
               call get4momentum_ihep(ihep_decchainB(i,0),p_dec(:,4))
             endif
-            ! stop the loop if all momenta was assigned
-            if(p_dec(0,3).ne.0D0 .and. p_dec(0,4).ne.0D0) then
-              exit
-            endif
           enddo
-#ifdef DEBUGQ
+          ! TODO: Überprüfe ob das auch für andere Zerfallskanäle OK ist
+          ! if the number of requested decay IDs is not the sum of the
+          ! number of reconstructed decay IDs, sort out the event
+          nid_dec = 6
+          if((nid_decA+nid_decB).ne.nid_dec) then
+            p_dec(:,:) = 0D0
+          endif  
+#ifdef DEBUG
           if(p_dec(0,corI).ne.0D0 .and. p_dec(0,corJ).ne.0D0) then
-          do i=1,20
-            print*,idhep(ihep_decchainA(i,0)),"->",
-     &       idhep(ihep_decchainA(i,1)),idhep(ihep_decchainA(i,2))
-            print*,idhep(ihep_decchainB(i,0)),"->",
-     &       idhep(ihep_decchainB(i,1)),idhep(ihep_decchainB(i,2))
-            if(ihep_decchainA(i,0).eq.0 .and.
-     &         ihep_decchainB(i,0).eq.0) then
-              exit ! if all mothers are zero, skip the loop
-            endif
-          enddo
           print*,id_finA,p_finA
           print*,id_finB,p_finB
           print*,id_dec(corI),p_dec(:,corI)
           print*,id_dec(corJ),p_dec(:,corJ)
+          print*,nid_dec,nid_decA,nid_decB
+          print*,"Decay chain of", id_finA
+          do i=1,nhep-num_decchainA
+            print*,idhep(ihep_decchainA(i,0)),"->",
+     &       idhep(ihep_decchainA(i,1)),idhep(ihep_decchainA(i,2))
+          enddo
+          print*
+          print*,"Decay chain of", id_finB
+          do i=1,nhep-num_decchainB
+            print*,idhep(ihep_decchainB(i,0)),"->",
+     &       idhep(ihep_decchainB(i,1)),idhep(ihep_decchainB(i,2))
+          enddo
+          print*
           !call nstop(3)
           endif
 #endif
@@ -653,6 +684,16 @@ c#define IHEPSEARCH1
             enddo
             call getinvmass(p_decIdecJ,m_decIdecJ)
           endif
+#ifdef DEBUGQ
+          if(var(1).lt.pt_dec(1)) var(1) = pt_dec(1)
+          if(var(2).lt.pt_dec(2)) var(2) = pt_dec(2)
+          if(var(3).lt.pt_dec(3)) var(3) = pt_dec(3)
+          if(var(4).lt.pt_dec(4)) var(4) = pt_dec(4)
+          if(var(5).lt.m_decIdecJ) var(5) = m_decIdecJ
+          print*,"max pt_dec",var(1:4)
+          print*,"max m_decIdecJ",var(5)
+          print*
+#endif
           ! calculate missing Pt
           p_miss(:) = 0D0
           pt_miss   = 0D0
@@ -995,10 +1036,11 @@ c the phep momenta is in the laboratory frame
           p(mu)=0D0
         enddo
         if(ihep.lt.0 .or. ihep.gt.nhep) then
-          print*, "no particle with ihep number", ihep,
+          print*, "Warning: no particle with ihep number", ihep,
      &              "in current event"
           print*, "could not determine four-momentum"
-          stop
+          return
+          !stop
         else
           ! p is defined in the laboratory frame (~kn_pborn(i))
           p(0) = phep(4,ihep)
