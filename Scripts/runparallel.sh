@@ -91,6 +91,20 @@ function read_powheg_var {
   grep "$1" powheg.input | sed 's/[^0-9]//g' | head -1
 }
 
+function checksum {
+  if type md5 1>/dev/null 2>/dev/null; then
+    md5 "$@"
+  elif type md5sum 1>/dev/null 2>/dev/null; then
+    md5sum "$@"
+  elif type sha1sum 1>/dev/null 2>/dev/null; then
+    sha1sum "$@"
+  elif type sha256sum 1>/dev/null 2>/dev/null; then
+    sha256sum "$@"
+  else
+    echo $(date +%s)
+  fi
+}
+
 # if there are no arguments print help
 if [ $# -lt 1 ] 
   then usage
@@ -312,6 +326,11 @@ then
    usage
 fi
 
+# generate an individual identifier for every run
+IDENT=$(echo -n "$RUNDIR" | checksum | cut -c1-8)
+echo ""
+echo "Identifier is $IDENT"
+
 # change into the directory where to execute pwhg_main
 cd $RUNDIR
 
@@ -430,14 +449,14 @@ overwrite_powheg_var "parallelstage" 1
 overwrite_powheg_var "xgriditeration" 1
 cp $RUNDIR/powheg.input $RUNDIR/powheg_st1a.input
 
-cat <<EOM > $WORKINGDIR/run_st1a.sh
+# wheter \$1 or \$ARG1 is defined (msub sets ARG1)
+cat <<EOM > $WORKINGDIR/run_st1a_${IDENT}.sh
 #!/bin/bash
 cd $RUNDIR
 cp $RUNDIR/powheg_st1a.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
 $EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
 EOM
-chmod +x $WORKINGDIR/run_st1a.sh
+chmod +x $WORKINGDIR/run_st1a_${IDENT}.sh
 
 # STEP 1b
 echo "" >> $RUNDIR/powheg.input
@@ -447,14 +466,13 @@ overwrite_powheg_var "parallelstage" 1
 overwrite_powheg_var "xgriditeration" 2
 cp $RUNDIR/powheg.input $RUNDIR/powheg_st1b.input
 
-cat <<EOM > $WORKINGDIR/run_st1b.sh
+cat <<EOM > $WORKINGDIR/run_st1b_${IDENT}.sh
 #!/bin/bash
 cd $RUNDIR
 cp $RUNDIR/powheg_st1b.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
 $EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
 EOM
-chmod +x $WORKINGDIR/run_st1b.sh
+chmod +x $WORKINGDIR/run_st1b_${IDENT}.sh
 
 # STEP 2
 echo "" >> $RUNDIR/powheg.input
@@ -467,14 +485,13 @@ overwrite_powheg_var "numevts" 0
 overwrite_powheg_var "nubound" 0
 cp $RUNDIR/powheg.input $RUNDIR/powheg_st2.input
 
-cat <<EOM > $WORKINGDIR/run_st2.sh
+cat <<EOM > $WORKINGDIR/run_st2_${IDENT}.sh
 #!/bin/bash
 cd $RUNDIR
 cp $RUNDIR/powheg_st2.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
 $EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
 EOM
-chmod +x $WORKINGDIR/run_st2.sh
+chmod +x $WORKINGDIR/run_st2_${IDENT}.sh
 
 # if the user wants to generate events
 if [ "$GENEVENTS" = true ]; then
@@ -490,14 +507,13 @@ fi
 overwrite_powheg_var "parallelstage" 3
 cp $RUNDIR/powheg.input $RUNDIR/powheg_st3.input
 
-cat <<EOM > $WORKINGDIR/run_st3.sh
+cat <<EOM > $WORKINGDIR/run_st3_${IDENT}.sh
 #!/bin/bash
 cd $RUNDIR
 cp $RUNDIR/powheg_st3.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
 $EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
 EOM
-chmod +x $WORKINGDIR/run_st3.sh
+chmod +x $WORKINGDIR/run_st3_${IDENT}.sh
 
 # STEP 4
 echo "" >> $RUNDIR/powheg.input
@@ -510,20 +526,20 @@ fi
 overwrite_powheg_var "parallelstage" 4
 cp $RUNDIR/powheg.input $RUNDIR/powheg_st4.input
 
-cat <<EOM > $WORKINGDIR/run_st4.sh
+cat <<EOM > $WORKINGDIR/run_st4_${IDENT}.sh
 #!/bin/bash
 cd $RUNDIR
 cp $RUNDIR/powheg_st4.input $RUNDIR/powheg.input
-# wheter \$1 or \$ARG1 is defined (msub uses ARG1)
 $EXEPATH < <(printf "%s\n" "\$1" "\$ARG1")
 EOM
-chmod +x $WORKINGDIR/run_st4.sh
+chmod +x $WORKINGDIR/run_st4_${IDENT}.sh
 fi
 
 # generate and run the run.sh script
-# nohup ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 200000 --ncall2 300000 --nevents 100000 --nubound 100000 --genevents --usemsub > log_run1_nsusy_n2x1+ &
+# nohup ./runparallel.sh -g -c -e pwhg_main_nixj -d run_nsusy_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 --slha input_nsusy_1307.0782.slha --ncall1 20000 --ncall2 20000 --ncall1osres 2000000 --ncall2osres 2000000 --nevents 500000 --nubound 500000 --genevents --merge > log_run1_nsusy_n2x1+ &
+# nohup ./runparallel.sh -g -c -e pwhg_main_nixj -d run_mSUGRA_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 --slha input_mSUGRA_1410.4999.slha --ncall1 20000 --ncall2 20000 --ncall1osres 2000000 --ncall2osres 2000000 --nevents 500000 --nubound 500000 --genevents --merge > log_run_mSUGRA_n2x1+ &
 if [ "$USEMSUB" = false ]; then
-cat <<EOM > $WORKINGDIR/run.sh
+cat <<EOM > $WORKINGDIR/run_${IDENT}.sh
 #!/bin/bash
 echo ""
 echo "Stage 1a: Generating Grids, iteration 1"
@@ -531,7 +547,7 @@ echo "  starting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
   echo "  job \$i with nseed \$NSEED"
-  nohup nice -n $NICENESS $WORKINGDIR/run_st1a.sh \$NSEED > $RUNDIR/powheg_st1a_\${i}_\${NSEED}.output 2>&1 &
+  nohup nice -n $NICENESS $WORKINGDIR/run_st1a_${IDENT}.sh \$NSEED > $RUNDIR/powheg_st1a_\${i}_${IDENT}.output 2>&1 &
 done
 for job in \`jobs -p\`; do
     wait \$job
@@ -544,7 +560,7 @@ echo "  starting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
    NSEED=\$((i+$NSEEDOFFSET))
    echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st1b.sh \$NSEED > $RUNDIR/powheg_st1b_\${i}_\${NSEED}.output 2>&1 &
+   nohup nice -n $NICENESS $WORKINGDIR/run_st1b_${IDENT}.sh \$NSEED > $RUNDIR/powheg_st1b_\${i}_${IDENT}.output 2>&1 &
 done
 for job in \`jobs -p\`; do
     wait \$job
@@ -557,7 +573,7 @@ echo "  starting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
    NSEED=\$((i+$NSEEDOFFSET))
    echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st2.sh \$NSEED > $RUNDIR/powheg_st2_\${i}_\${NSEED}.output 2>&1 &
+   nohup nice -n $NICENESS $WORKINGDIR/run_st2_${IDENT}.sh \$NSEED > $RUNDIR/powheg_st2_\${i}_${IDENT}.output 2>&1 &
 done
 for job in \`jobs -p\`; do
     wait \$job
@@ -566,19 +582,19 @@ done
 # combined results for stage 2
 echo ""
 echo "Combined results for stage 2:"
-$WORKINGDIR/merge-pwg-stat \$(ls $RUNDIR/pwg-st2-*-stat.dat) > $RUNDIR/pwg-st2-combined-stat.dat
+cd $RUNDIR && ../merge-pwg-stat \$(ls ./pwg-st2-*-stat.dat) > pwg-st2-combined-stat.dat
 cat $RUNDIR/pwg-st2-combined-stat.dat
 EOM
 
 if [ "$GENEVENTS" = true ]; then
-cat <<EOM >> $WORKINGDIR/run.sh
+cat <<EOM >> $WORKINGDIR/run_${IDENT}.sh
 echo ""
 echo "Stage 3: Upper bound"
 echo "  starting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
    NSEED=\$((i+$NSEEDOFFSET))
    echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st3.sh \$NSEED > $RUNDIR/powheg_st3_\${i}_\${NSEED}.output 2>&1 &
+   nohup nice -n $NICENESS $WORKINGDIR/run_st3_${IDENT}.sh \$NSEED > $RUNDIR/powheg_st3_\${i}_${IDENT}.output 2>&1 &
 done
 for job in \`jobs -p\`; do
     wait \$job
@@ -591,7 +607,7 @@ echo "  starting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
    NSEED=\$((i+$NSEEDOFFSET))
    echo "  job \$i with nseed \$NSEED"
-   nohup nice -n $NICENESS $WORKINGDIR/run_st4.sh \$NSEED > $RUNDIR/powheg_st4_\${i}_\${NSEED}.output 2>&1 &
+   nohup nice -n $NICENESS $WORKINGDIR/run_st4_${IDENT}.sh \$NSEED > $RUNDIR/powheg_st4_\${i}_${IDENT}.output 2>&1 &
 done
 for job in \`jobs -p\`; do
     wait \$job
@@ -601,7 +617,7 @@ done
 EOM
 
 if [ "$MERGE" = true ]; then
-cat <<EOM >> $WORKINGDIR/run.sh
+cat <<EOM >> $WORKINGDIR/run_${IDENT}.sh
 # merge the event files
 cat $RUNDIR/pwgevents-*.lhe | grep -v "/LesHouchesEvents" > $RUNDIR/pwgevents.lhe
 echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
@@ -610,19 +626,23 @@ echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
 #  find $RUNDIR -type f -name "pwgevents-*" -exec rm -f '{}' \;
 #fi
 # merge the NLO top files
-cd $RUNDIR && ../merge-data 1 \$(ls $RUNDIR/pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
+cd $RUNDIR && ../merge-data 1 \$(ls ./pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
 
 EOM
 fi #if MERGE
 fi #if GENEVENTS
 
-chmod +x $WORKINGDIR/run.sh
-$WORKINGDIR/run.sh
+chmod +x $WORKINGDIR/run_${IDENT}.sh
+$WORKINGDIR/run_${IDENT}.sh
 
 # if finished delete the old files
-rm $WORKINGDIR/run_st*
+rm $WORKINGDIR/run_st1a_${IDENT}.sh
+rm $WORKINGDIR/run_st1b_${IDENT}.sh
+rm $WORKINGDIR/run_st2_${IDENT}.sh
+rm $WORKINGDIR/run_st3_${IDENT}.sh
+rm $WORKINGDIR/run_st4_${IDENT}.sh
+rm $WORKINGDIR/run_${IDENT}.sh
 rm $RUNDIR/powheg_st*.input
-rm $WORKINGDIR/run.sh
 fi
 
 
@@ -671,14 +691,14 @@ fi
 # total: ~6h
 
 if [ "$USEMSUB" = true ]; then
-cat <<EOM > $WORKINGDIR/runmsub.sh
+cat <<EOM > $WORKINGDIR/runmsub_${IDENT}.sh
 #!/bin/bash
 echo ""
 echo "Stage 1a: Generating Grids, iteration 1"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=01:00:00 -v ARG1=\$NSEED -o $RUNDIR/powheg_st1a_\${i}_\${NSEED}.output -e $RUNDIR/powheg_st1a_\${i}_\${NSEED}.error $WORKINGDIR/run_st1a.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=01:00:00 -v ARG1=\$NSEED -o $RUNDIR/powheg_st1a_\${i}_${IDENT}.output -e $RUNDIR/powheg_st1a_\${i}_${IDENT}.error $WORKINGDIR/run_st1a_${IDENT}.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs1a="\$dependIDs1a:\${job[\$i]}"
   #echo \$dependIDs
@@ -689,7 +709,7 @@ echo "Stage 1b: Generating Grids, iteration 2"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=01:00:00,depend=afterok\${dependIDs1a} -v ARG1=\$NSEED -o $RUNDIR/powheg_st1b_\${i}_\${NSEED}.output -e $RUNDIR/powheg_st1b_\${i}_\${NSEED}.error $WORKINGDIR/run_st1b.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=01:00:00,depend=afterok\${dependIDs1a} -v ARG1=\$NSEED -o $RUNDIR/powheg_st1b_\${i}_${IDENT}.output -e $RUNDIR/powheg_st1b_\${i}_${IDENT}.error $WORKINGDIR/run_st1b_${IDENT}.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs1b="\$dependIDs1b:\${job[\$i]}"
 done
@@ -699,20 +719,20 @@ echo "Stage 2: NLO run"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=12:00:00,depend=afterok\${dependIDs1b} -v ARG1=\$NSEED -o $RUNDIR/powheg_st2_\${i}_\${NSEED}.output -e $RUNDIR/powheg_st2_\${i}_\${NSEED}.error $WORKINGDIR/run_st2.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=12:00:00,depend=afterok\${dependIDs1b} -v ARG1=\$NSEED -o $RUNDIR/powheg_st2_\${i}_${IDENT}.output -e $RUNDIR/powheg_st2_\${i}_${IDENT}.error $WORKINGDIR/run_st2_${IDENT}.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs2="\$dependIDs2:\${job[\$i]}"
 done
 
 EOM
 if [ "$GENEVENTS" = true ]; then
-cat <<EOM >> $WORKINGDIR/runmsub.sh
+cat <<EOM >> $WORKINGDIR/runmsub_${IDENT}.sh
 echo ""
 echo "Stage 3: Upper bound"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=00:30:00,depend=afterok\${dependIDs2} -v ARG1=\$NSEED -o $RUNDIR/powheg_st3_\${i}_\${NSEED}.output -e $RUNDIR/powheg_st3_\${i}_\${NSEED}.error $WORKINGDIR/run_st3.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=00:30:00,depend=afterok\${dependIDs2} -v ARG1=\$NSEED -o $RUNDIR/powheg_st3_\${i}_${IDENT}.output -e $RUNDIR/powheg_st3_\${i}_${IDENT}.error $WORKINGDIR/run_st3_${IDENT}.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs3="\$dependIDs3:\${job[\$i]}"
 done
@@ -722,7 +742,7 @@ echo "Stage 4: Events"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=02:00:00,depend=afterok\${dependIDs3} -v ARG1=\$NSEED -o $RUNDIR/powheg_st4_\${i}_\${NSEED}.output -e $RUNDIR/powheg_st4_\${i}_\${NSEED}.error $WORKINGDIR/run_st4.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=02:00:00,depend=afterok\${dependIDs3} -v ARG1=\$NSEED -o $RUNDIR/powheg_st4_\${i}_${IDENT}.output -e $RUNDIR/powheg_st4_\${i}_${IDENT}.error $WORKINGDIR/run_st4_${IDENT}.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs4="\$dependIDs4:\${job[\$i]}"
 done
@@ -730,11 +750,16 @@ done
 EOM
 fi #if GENEVENTS
 
-chmod +x $WORKINGDIR/runmsub.sh
-$WORKINGDIR/runmsub.sh
+chmod +x $WORKINGDIR/runmsub_${IDENT}.sh
+$WORKINGDIR/runmsub_${IDENT}.sh
 
 # if finished delete the old files
-#rm $WORKINGDIR/run_st*
-#rm $RUNDIR/powheg_st*.input
-#rm $WORKINGDIR/runmsub.sh
+# if finished delete the old files
+rm $WORKINGDIR/run_st1a_${IDENT}.sh
+rm $WORKINGDIR/run_st1b_${IDENT}.sh
+rm $WORKINGDIR/run_st2_${IDENT}.sh
+rm $WORKINGDIR/run_st3_${IDENT}.sh
+rm $WORKINGDIR/run_st4_${IDENT}.sh
+rm $WORKINGDIR/runmsub_${IDENT}.sh
+rm $RUNDIR/powheg_st*.input
 fi
