@@ -63,10 +63,10 @@ c book all histograms, will be filled later
         yp = ym + 8D0
         ! mass(decI+decJ)
         mdm = 0D0
-        mdp = mdm + 1000D0
+        mdp = mdm + 200D0
         ! Pt(decI)
         ptdm = 0D0
-        ptdp = ptm + 600D0
+        ptdp = ptm + 500D0
         ! dPhi(decI+decJ)
         phim = -pi
         phip = pi
@@ -230,9 +230,7 @@ c calculate quantities that shall be plotted and fill histograms
           ! it is assumed that dec1 and dec2 are daughters of fin1, and
           ! dec3 and dec4 are daughters of fin2
           do i=1,ndecay
-            if(powheginput("#"//cstr(i)).gt.0) then
-              id_dec(i) = powheginput(cstr(i)) ! if zero: don't observe this decay
-            endif
+            id_dec(i) = int(powheginput(cstr(i))) ! if zero: don't observe this decay
           enddo
           ! for which particles do we want to calculate correlations?
           if(powheginput("#corI").gt.0) then
@@ -439,10 +437,6 @@ c#define IHEPSEARCH1
           print*,id_finB,"->",id_dghtr(3),id_dghtr(4)
           print*,id_finA,p_finA
           print*,id_finB,p_finB
-          !print*,id_dghtr(1),ptemp(:,1)
-          !print*,id_dghtr(2),ptemp(:,2)
-          !print*,id_dghtr(3),ptemp(:,3)
-          !print*,id_dghtr(4),ptemp(:,4)
           print*,id_dec(corI),p_dec(:,corI)
           print*,id_dec(corJ),p_dec(:,corJ)
           print*
@@ -542,25 +536,40 @@ c#define IHEPSEARCH1
             p_dec(:,:) = 0D0
           endif  
 #ifdef DEBUG
-          if(p_dec(0,corI).ne.0D0 .and. p_dec(0,corJ).ne.0D0) then
+          if(mod(nevents,20000).eq.1) then
+          if(p_dec(0,1).ne.0D0 .or. p_dec(0,2).ne.0D0) then
+          print*,"Decay chain of A", id_finA
           print*,id_finA,p_finA
+          do i=1,2
+          if(p_dec(0,i).ne.0D0) then
+          print*,id_dec(i),p_dec(:,i)
+          endif
+          enddo
+          do j=1,nhep-num_decchainA
+          if(idhep(ihep_decchainA(j,0)) .ne. 0) then
+            print*,idhep(ihep_decchainA(j,0)),"->",
+     &       idhep(ihep_decchainA(j,1)),idhep(ihep_decchainA(j,2))
+          endif
+          enddo
+          print*
+          endif
+          
+          if(p_dec(0,3).ne.0D0 .or. p_dec(0,4).ne.0D0) then
+          print*,"Decay chain of B", id_finB
           print*,id_finB,p_finB
-          print*,id_dec(corI),p_dec(:,corI)
-          print*,id_dec(corJ),p_dec(:,corJ)
-          print*,nfinal,nfinalA,nfinalB
-          print*,"Decay chain of", id_finA
-          do i=1,nhep-num_decchainA
-            print*,idhep(ihep_decchainA(i,0)),"->",
-     &       idhep(ihep_decchainA(i,1)),idhep(ihep_decchainA(i,2))
+          do i=3,4
+          if(p_dec(0,i).ne.0D0) then
+          print*,id_dec(i),p_dec(:,i)
+          endif
+          enddo
+          do j=1,nhep-num_decchainB
+          if(idhep(ihep_decchainB(j,0)) .ne. 0) then
+            print*,idhep(ihep_decchainB(j,0)),"->",
+     &       idhep(ihep_decchainB(j,1)),idhep(ihep_decchainB(j,2))
+          endif
           enddo
           print*
-          print*,"Decay chain of", id_finB
-          do i=1,nhep-num_decchainB
-            print*,idhep(ihep_decchainB(i,0)),"->",
-     &       idhep(ihep_decchainB(i,1)),idhep(ihep_decchainB(i,2))
-          enddo
-          print*
-          !call nstop(3)
+          endif
           endif
 #endif
 #endif
