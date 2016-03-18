@@ -752,14 +752,4 @@ fi #if GENEVENTS
 
 chmod +x $WORKINGDIR/runmsub_${IDENT}.sh
 $WORKINGDIR/runmsub_${IDENT}.sh
-
-# if finished delete the old files
-# if finished delete the old files
-rm $WORKINGDIR/run_st1a_${IDENT}.sh
-rm $WORKINGDIR/run_st1b_${IDENT}.sh
-rm $WORKINGDIR/run_st2_${IDENT}.sh
-rm $WORKINGDIR/run_st3_${IDENT}.sh
-rm $WORKINGDIR/run_st4_${IDENT}.sh
-rm $WORKINGDIR/runmsub_${IDENT}.sh
-rm $RUNDIR/powheg_st*.input
 fi

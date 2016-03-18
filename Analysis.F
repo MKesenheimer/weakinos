@@ -80,12 +80,8 @@ c book all histograms, will be filled later
         call bookupeqbins("eta(B)",(ep-em)/n2,em,ep)
         call bookupeqbins("y(A)",(yp-ym)/n2,ym,yp)
         call bookupeqbins("y(B)",(yp-ym)/n2,ym,yp)
-        call bookupeqbins("Pt(miss)",(ptp-ptm)/n1,ptm,ptp)
-        call bookupeqbins("N(J)",1D0,-0.5D0,2.5D0)
-        call bookupeqbins("Pt(J)",(ptjp-ptjm)/n1,ptjm,ptjp)
-        call bookupeqbins("eta(J)",(ep-em)/n2,em,ep)
         
-        ! jet cuts
+        ! with jet cuts
         call bookupeqbins("xsec(Jcuts)",1D0,-0.5D0,0.5D0)
         call bookupeqbins("mass(A+B,Jcuts)",(mp-mm)/n1,mm,mp)
         call bookupeqbins("Pt(A,Jcuts)",(ptp-ptm)/n1,ptm,ptp)
@@ -96,7 +92,7 @@ c book all histograms, will be filled later
         call bookupeqbins("eta(J,Jcuts)",(ep-em)/n2,em,ep)
         
         if(WHCPRG.eq."PYTHIA") then
-          ! lepton cuts
+          ! decays and missing Pt
           ! book all possible histograms although we don't need
           ! all of them for every process
           call bookupeqbins("xsec(Dcuts)",1d0,-0.5d0,0.5d0)
@@ -104,6 +100,7 @@ c book all histograms, will be filled later
      &                     (phip-phim)/n2,phim,phip)
           call bookupeqbins("mass(decI+decJ,Dcuts)",
      &                     (mdp-mdm)/n1,mdm,mdp)
+          call bookupeqbins("Pt(miss)",(ptp-ptm)/n1,ptm,ptp)
           do i=1,ndecay
             call bookupeqbins("Pt("//cstr(i)//",Dcuts)",
      &                       (ptdp-ptdm)/n2,ptdm,ptdp)
@@ -196,9 +193,9 @@ c calculate quantities that shall be plotted and fill histograms
         double precision RDsepmin
         double precision RDmin(ndecay), RDsep(ndecay,ndecay)
         double precision ptDmin, etaDmax
-        double precision ptmissmax
+        double precision ptmissmin
         save ptDmin, etaDmax
-        logical JcutsPassed, Dcutspassed(0:ndecay), Dcorrcutspassed
+        logical JcutsPassed, DcutsPassed(0:ndecay)
         ! flags for decay
         logical fdecA, fdecB, decayed
         save fdecA, fdecB, decayed
@@ -213,7 +210,6 @@ c calculate quantities that shall be plotted and fill histograms
         if (ini) then
           ! reset number of events processed
           nevents = 0
-
           ! check if multiple weights are present
           if(weights_num.eq.0) then
             call setupmulti(1)
@@ -224,7 +220,6 @@ c calculate quantities that shall be plotted and fill histograms
             stop
 #endif
           endif
-
           ! determine the decay products from powheg.input
           ! remember that not every number is needed for every process
           ! it is assumed that dec1 and dec2 are daughters of fin1, and
@@ -263,16 +258,13 @@ c calculate quantities that shall be plotted and fill histograms
               endif
             enddo
           enddo
-
           ! init the counters
           counter_decays = 1 ! to not divide by zero
           do i=1,ndecay
             counter_dcuts(i) = 0
           enddo
-          
           ! extract final state types from process id
           call decode_pair(lprup(1),id_finA,id_finB)
-
           ! check final state
           if (.not.((id_finA.eq.1000022 .or. id_finA.eq. 1000023  .or.
      &               id_finA.eq.1000025 .or. id_finA.eq. 1000035  .or.
@@ -285,7 +277,6 @@ c calculate quantities that shall be plotted and fill histograms
             print*, "analysis: final state not supported"
             stop
           endif
-          
           ! if everything is ok print status
           print*, "extracted from process ID: ", lprup(1)
           print*, "the final state pair: ", id_finA, ", ", id_finB
@@ -294,6 +285,7 @@ c calculate quantities that shall be plotted and fill histograms
         endif
 
         ! init cuts (change here if needed)
+        ! cuts are mainly taken from arXiv:1501.07110v2
         ! should not be in if(ini)... since we want to make sure
         ! that the variables are always filled
         ! jet cuts
@@ -303,17 +295,15 @@ c calculate quantities that shall be plotted and fill histograms
         R        = 0.4D0
         mjets    = 40
         ! lepton cuts
-        ptDmin   = 5D0 ! physical cut
+        ptDmin   = 10D0 ! physical cut
         etaDmax  = 2.5D0
         RDsepmin = 0.05D0
-        ! the maximal detectable energy (every particle momentum with
-        ! lower energy is treated as missing pt)
-        ptmissmax = 10D0
+        ! the missing pt threshold
+        ptmissmin = 100D0
 
         if(ini) then
-          ! write out informations
-          print*, "===================================================="
           ! write out all cuts
+          print*, "===================================================="
           print*, "cuts in analysis routines"
           print*
           print*, "cuts (jet):"
@@ -394,61 +384,16 @@ c calculate quantities that shall be plotted and fill histograms
           decayed = .false.
         endif
         
-        
-        ! handle the decay products (uncomment or delete if decays are
-        ! not necessary)
+        ! handle the decay products
         if(decayed) then
 c choose:
-c determine the momenta of the decay products via pt ordering: PTORDERED
+c determine the momenta of the decay products via pt ordering (mostly untested): PTORDERED
 c or use the ihep list filled by pythia to get the momenta: IHEPSEARCH
 c#define PTORDERED
-c#define IHEPSEARCH1
-#define IHEPSEARCH2
-
-#ifdef IHEPSEARCH1
-          ! a simple search: get the PDG numbers of the first daughters
-          ! and their momentum. Then check if the PDG number is what we 
-          ! want: if yes, this is the requested decay product.
-          ptemp(:,:) = 0D0
-          p_dec(:,:) = 0D0
-          call getdaughters(id_finA,.true.,id_dghtr(1),id_dghtr(2),
-     &                      ptemp(:,1),ptemp(:,2))
-          call getdaughters(id_finB,.false.,id_dghtr(3),id_dghtr(4),
-     &                      ptemp(:,3),ptemp(:,4))
-          ! assign momenta only if p_dec is empty (avoids that p_dec
-          ! gets overwritten by a possible second call)
-          do i=1,2
-            do j=1,2
-              if(p_dec(0,i).eq.0D0 .and. id_dec(i).eq.id_dghtr(j)) then
-                p_dec(:,i) = ptemp(:,j)
-              endif
-            enddo
-          enddo
-          do i=3,4
-            do j=3,4
-              if(p_dec(0,i).eq.0D0 .and. id_dec(i).eq.id_dghtr(j)) then
-                p_dec(:,i) = ptemp(:,j)
-              endif
-            enddo
-          enddo
-#ifdef DEBUGQ
-          if(p_dec(0,corI).ne.0D0 .and. p_dec(0,corJ).ne.0D0) then
-          print*,id_finA,"->",id_dghtr(1),id_dghtr(2)
-          print*,id_finB,"->",id_dghtr(3),id_dghtr(4)
-          print*,id_finA,p_finA
-          print*,id_finB,p_finB
-          print*,id_dec(corI),p_dec(:,corI)
-          print*,id_dec(corJ),p_dec(:,corJ)
-          print*
-          !call nstop(3)
-          endif
-#endif
-#endif
-
-#ifdef IHEPSEARCH2
-          ! a little bit more complicated: store the whole decay chain
-          ! of the final states in an array and search for the decay
-          ! products we want
+#define IHEPSEARCH
+#ifdef IHEPSEARCH
+          ! store the whole decay chain of the final states in an array 
+          ! and search for the decay products we want
           call getihep(id_finA,2,.true.,ihep_finA)
           call getihep(id_finB,2,.false.,ihep_finB)
           ! first decay
@@ -536,7 +481,7 @@ c#define IHEPSEARCH1
             p_dec(:,:) = 0D0
           endif  
 #ifdef DEBUG
-          if(mod(nevents,20000).eq.1) then
+          if(nevents.lt.100) then
           if(p_dec(0,1).ne.0D0 .or. p_dec(0,2).ne.0D0) then
           print*,"Decay chain of A", id_finA
           print*,id_finA,p_finA
@@ -553,7 +498,6 @@ c#define IHEPSEARCH1
           enddo
           print*
           endif
-          
           if(p_dec(0,3).ne.0D0 .or. p_dec(0,4).ne.0D0) then
           print*,"Decay chain of B", id_finB
           print*,id_finB,p_finB
@@ -573,7 +517,6 @@ c#define IHEPSEARCH1
           endif
 #endif
 #endif
-
 #ifdef PTORDERED
           ! sort the momenta of the decay products by pt and get the
           ! largest contributions -> the decay products with largest pt
@@ -677,12 +620,13 @@ c#define IHEPSEARCH1
               call getazimuth(p_dec(:,i),phi_dec(i))
             endif  
           enddo
-          ! compute min R separations
+          ! compute min R separations for the decay products
           do i=1,ndecay
             RDmin(i) = 1D50 
             do j=1,ndecay
               RDsep(i,j) = 1D50
-              if(i.ne.j .and. p_dec(0,i).ne.0D0 .and. p_dec(0,j).ne.0D0) then
+              if(i.ne.j .and. p_dec(0,i).ne.0D0 .and.
+     &           p_dec(0,j).ne.0D0) then
                 RDsep(i,j) = rsepn(p_dec(:,i),p_dec(:,j))
                 RDmin(i) = min(RDmin(i),RDsep(i,j))
               endif  
@@ -690,7 +634,7 @@ c#define IHEPSEARCH1
           enddo
           ! calculate only for particle corI & corJ the difference in phi
           ! -> the user can simply change the correlation indices corI and corJ
-          if( (pt_dec(corI).ne.0D0) .and. (pt_dec(corJ).ne.0D0) ) then
+          if((pt_dec(corI).ne.0D0) .and. (pt_dec(corJ).ne.0D0)) then
             dphi_decIdecJ = phi_dec(corI)-phi_dec(corJ)
             if(dphi_decIdecJ.lt.(-pi)) then
               dphi_decIdecJ=dphi_decIdecJ+2d0*pi
@@ -703,45 +647,20 @@ c#define IHEPSEARCH1
             enddo
             call getinvmass(p_decIdecJ,m_decIdecJ)
           endif
-#ifdef DEBUGQ
-          if(var(1).lt.pt_dec(1)) var(1) = pt_dec(1)
-          if(var(2).lt.pt_dec(2)) var(2) = pt_dec(2)
-          if(var(3).lt.pt_dec(3)) var(3) = pt_dec(3)
-          if(var(4).lt.pt_dec(4)) var(4) = pt_dec(4)
-          if(var(5).lt.m_decIdecJ) var(5) = m_decIdecJ
-          print*,"max pt_dec",var(1:4)
-          print*,"max m_decIdecJ",var(5)
-          print*
-#endif
           ! calculate missing Pt
           p_miss(:) = 0D0
           pt_miss   = 0D0
-          do i=1,nhep
-            ! if the particle is stable and not detectable
-            if(isthep(i).eq.1 .and. .not.(isdetectable(idhep(i)))) then
-              call get4momentum_ihep(i,ptemp(:,1))
+          ! a experimental-like approach: negative momentum sum
+          ! of all detectable particles, this is missing P since the
+          ! incoming partons have momentum sum 0
+          do i=1,ndecay
+            if(isdetectable(id_dec(i))) then
               do mu=0,3
-                p_miss(mu) = p_miss(mu) + ptemp(mu,1)
+                p_miss(mu) = p_miss(mu) - p_dec(mu,i)
               enddo
-            ! if the particle is stable and detectable
-            else if(isthep(i).eq.1) then
-              call get4momentum_ihep(i,ptemp(:,1))
-              ! and has low momentum
-              if(pt(ptemp(:,1)).lt.ptmissmax) then
-                do mu=0,3
-                  p_miss(mu) = p_miss(mu) + ptemp(mu,1)
-                enddo
-              endif
             endif
-            ! exit the loop if all particles handled
-            if(idhep(i).eq.0) exit
           enddo
           pt_miss = pt(p_miss(:))
-#ifdef DEBUGQ
-          print*,"p_miss",p_miss(:)
-          print*,"pt_miss",pt_miss
-          print*
-#endif
         endif
         
         ! fill histograms
@@ -754,9 +673,6 @@ c#define IHEPSEARCH1
         call filld("eta(B)",eta_finB,dsig)
         call filld("y(A)",y_finA,dsig)
         call filld("y(B)",y_finB,dsig)
-        call filld("N(J)",dble(num_vis_jets),dsig)
-        call filld("Pt(J)",kt(1),dsig)
-        call filld("eta(J)",eta(1),dsig)
 
         ! determine if jet cuts have passed
         JcutsPassed = .true.
@@ -778,38 +694,53 @@ c#define IHEPSEARCH1
         
         ! determine if lepton cuts have passed
         do i=0,ndecay
-          Dcutspassed(i) = .true.
+          DcutsPassed(i) = .true.
         enddo
-        if(.not.decayed) Dcutspassed(0) = .false.
         do i=1,ndecay
           ! apply cut only if decay ID is not empty
           if(id_dec(i).ne.0) then
-            if(pt_dec(i).le.ptDmin) Dcutspassed(i) = .false.
-            if(dabs(eta_dec(i)).ge.etaDmax) Dcutspassed(i) = .false.
-            if(RDmin(i).le.RDsepmin) Dcutspassed(i) = .false.
+            if(pt_dec(i).le.ptDmin) DcutsPassed(i) = .false.
+            if(dabs(eta_dec(i)).ge.etaDmax) DcutsPassed(i) = .false.
+            if(RDmin(i).le.RDsepmin) DcutsPassed(i) = .false.
+            ! store in DcutsPassed(0) if all cuts have passed
+            ! (only for observable decay products)
+            if(.not.DcutsPassed(i) .and. isdetectable(id_dec(i))) then
+              DcutsPassed(0) = .false.
+            endif  
           endif  
         enddo
         
-        ! decay cuts
-        if(Dcutspassed(0)) then
-          ! missing pt, only if decayed
-          call filld("Pt(miss)",pt_miss,dsig)
+        ! decay histogramms
+        if(decayed) then
           ! fill the invariant mass histogramm only if decay products
           ! decI and decJ have passed the cuts
-          if(Dcutspassed(corI).and.Dcutspassed(corJ)) then
+          if(DcutsPassed(corI).and.DcutsPassed(corJ)) then
             call filld("xsec(Dcuts)",0d0,dsig)
             call filld("dPhi(decI+decJ,Dcuts)",dphi_decIdecJ,dsig)
             call filld("mass(decI+decJ,Dcuts)",m_decIdecJ,dsig)
           endif
           ! fill the other histogramms for every decay product individually
           do i=1,ndecay
-            if(Dcutspassed(i)) then
+            if(DcutsPassed(i)) then
               counter_dcuts(i) = counter_dcuts(i) + 1
               call filld("Pt("//cstr(i)//",Dcuts)",pt_dec(i),dsig)
               call filld("eta("//cstr(i)//",Dcuts)",eta_dec(i),dsig)
             endif
           enddo
+          ! missing pt, only if decayed = true and all observable decay   
+          ! products are visible in the final state
+          if(DcutsPassed(0) .and. pt_miss.ge.ptmissmin) then
+            call filld("Pt(miss)",pt_miss,dsig)
+          endif
         endif
+        
+#ifdef DEBUG
+          if(DcutsPassed(0) .and. pt_miss.ge.ptmissmin) then
+          print*
+          print*,"p_miss",p_miss(:)
+          print*,"pt_miss",pt_miss
+          endif
+#endif
 
         ! print the ratio of decays that passed the cuts and the total
         ! number of decays.

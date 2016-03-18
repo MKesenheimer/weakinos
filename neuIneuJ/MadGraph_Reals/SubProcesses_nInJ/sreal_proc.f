@@ -14,81 +14,72 @@
       
       if (str.eq."-11100002210000220") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif (str.eq."-1010000221000022-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif (str.eq."1-1100002210000220") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif (str.eq."10100002210000221") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> Fehler in srealmtrx_004
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif (str.eq."-22100002210000220") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif (str.eq."-2010000221000022-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif (str.eq."2-2100002210000220") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif (str.eq."20100002210000222") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> Fehler in srealmtrx_008
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif (str.eq."-44100002210000220") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif (str.eq."-4010000221000022-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif (str.eq."4-4100002210000220") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif (str.eq."40100002210000224") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> Fehler in srealmtrx_012
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif (str.eq."-33100002210000220") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif (str.eq."-3010000221000022-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif (str.eq."3-3100002210000220") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif (str.eq."30100002210000223") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> Fehler in srealmtrx_016
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif (str.eq."-55100002210000220") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -99,143 +90,125 @@
          goto 20
       elseif (str.eq."-5010000221000022-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif (str.eq."5-5100002210000220") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif (str.eq."50100002210000225") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif (str.eq."0-110000221000022-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif (str.eq."01100002210000221") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif (str.eq."0-210000221000022-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif (str.eq."02100002210000222") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif (str.eq."0-410000221000022-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif (str.eq."04100002210000224") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif (str.eq."0-310000221000022-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif (str.eq."03100002210000223") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif (str.eq."0-510000221000022-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif (str.eq."05100002210000225") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002210000230") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000221000023-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002210000230") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002210000231") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002210000230") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000221000023-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002210000230") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002210000232") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002210000230") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000221000023-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002210000230") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002210000234") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002210000230") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000221000023-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002210000230") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002210000233") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002210000230") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -246,143 +219,125 @@
          goto 20
       elseif(str.eq."-5010000221000023-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002210000230") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002210000235") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000221000023-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002210000231") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000221000023-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002210000232") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000221000023-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002210000234") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000221000023-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002210000233") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000221000023-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002210000235") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002310000230") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000231000023-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002310000230") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002310000231") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> Fehler in srealmtrx_004
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002310000230") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000231000023-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002310000230") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002310000232") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> Fehler in srealmtrx_008
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002310000230") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000231000023-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002310000230") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002310000234") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> Fehler in srealmtrx_012
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002310000230") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000231000023-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002310000230") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002310000233") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> Fehler in srealmtrx_016
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002310000230") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -393,143 +348,125 @@
          goto 20
       elseif(str.eq."-5010000231000023-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002310000230") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002310000235") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000231000023-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002310000231") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000231000023-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002310000232") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000231000023-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002310000234") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000231000023-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002310000233") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000231000023-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002310000235") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002210000250") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000221000025-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002210000250") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002210000251") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002210000250") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000221000025-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002210000250") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002210000252") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002210000250") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000221000025-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002210000250") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002210000254") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002210000250") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000221000025-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002210000250") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002210000253") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002210000250") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -540,143 +477,125 @@
          goto 20
       elseif(str.eq."-5010000221000025-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002210000250") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002210000255") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000221000025-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002210000251") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000221000025-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002210000252") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000221000025-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002210000254") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000221000025-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002210000253") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000221000025-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002210000255") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002210000350") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000221000035-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002210000350") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002210000351") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002210000350") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000221000035-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002210000350") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002210000352") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002210000350") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000221000035-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002210000350") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002210000354") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002210000350") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000221000035-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002210000350") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002210000353") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002210000350") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -687,143 +606,125 @@
          goto 20
       elseif(str.eq."-5010000221000035-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002210000350") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002210000355") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000221000035-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002210000351") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000221000035-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002210000352") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000221000035-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002210000354") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000221000035-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002210000353") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000221000035-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002210000355") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002310000250") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000231000025-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002310000250") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002310000251") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002310000250") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000231000025-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002310000250") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002310000252") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002310000250") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000231000025-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002310000250") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002310000254") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002310000250") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000231000025-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002310000250") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002310000253") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002310000250") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -834,143 +735,125 @@
          goto 20
       elseif(str.eq."-5010000231000025-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002310000250") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002310000255") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000231000025-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002310000251") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000231000025-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002310000252") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000231000025-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002310000254") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000231000025-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002310000253") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000231000025-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002310000255") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002310000350") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000231000035-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002310000350") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002310000351") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002310000350") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000231000035-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002310000350") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002310000352") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002310000350") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000231000035-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002310000350") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002310000354") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002310000350") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000231000035-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002310000350") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002310000353") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002310000350") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -981,143 +864,125 @@
          goto 20
       elseif(str.eq."-5010000231000035-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002310000350") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002310000355") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000231000035-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002310000351") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000231000035-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002310000352") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000231000035-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002310000354") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000231000035-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002310000353") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000231000035-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002310000355") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002510000250") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000251000025-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002510000250") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002510000251") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002510000250") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000251000025-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002510000250") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002510000252") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002510000250") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000251000025-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002510000250") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002510000254") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002510000250") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000251000025-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002510000250") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002510000253") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002510000250") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -1128,143 +993,125 @@
          goto 20
       elseif(str.eq."-5010000251000025-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002510000250") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002510000255") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000251000025-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002510000251") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000251000025-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002510000252") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000251000025-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002510000254") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000251000025-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002510000253") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000251000025-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002510000255") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
       elseif(str.eq."-11100002510000350") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000251000035-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100002510000350") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100002510000351") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100002510000350") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000251000035-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100002510000350") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100002510000352") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100002510000350") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000251000035-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100002510000350") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100002510000354") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100002510000350") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000251000035-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100002510000350") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100002510000353") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100002510000350") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -1275,143 +1122,125 @@
          goto 20
       elseif(str.eq."-5010000251000035-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100002510000350") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100002510000355") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000251000035-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100002510000351") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000251000035-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100002510000352") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000251000035-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100002510000354") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000251000035-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100002510000353") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000251000035-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100002510000355") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20        
          
       elseif(str.eq."-11100003510000350") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-1010000351000035-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."1-1100003510000350") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."10100003510000351") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_NINJD(p,wgt) ! >> OK!
+         call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."-22100003510000350") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-2010000351000035-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."2-2100003510000350") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."20100003510000352") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_NINJU(p,wgt) ! >> OK!
+         call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-44100003510000350") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-4010000351000035-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."4-4100003510000350") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."40100003510000354") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_NINJC(p,wgt) ! >> OK!
          call SMATRIX_UG_NINJU(p,wgt)
          goto 20
       elseif(str.eq."-33100003510000350") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_NINJG(p,wgt)
          goto 20
       elseif(str.eq."-3010000351000035-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_NINJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."3-3100003510000350") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."30100003510000353") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_NINJS(p,wgt) ! >> OK!
          call SMATRIX_DG_NINJD(p,wgt) 
          goto 20
       elseif(str.eq."-55100003510000350") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_NINJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_NINJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_NINJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -1422,63 +1251,54 @@
          goto 20
       elseif(str.eq."-5010000351000035-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."5-5100003510000350") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_NINJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_NINJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_NINJG(p,wgt)
          goto 20
       elseif(str.eq."50100003510000355") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_NINJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-110000351000035-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."01100003510000351") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_NINJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-210000351000035-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."02100003510000352") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_NINJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-410000351000035-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_NINJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_NINJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_NINJUX(p,wgt)
          goto 20
       elseif(str.eq."04100003510000354") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_NINJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_NINJU(p,wgt)
          goto 20
       elseif(str.eq."0-310000351000035-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_NINJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."03100003510000353") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_NINJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
       elseif(str.eq."0-510000351000035-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_NINJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_NINJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_NINJDX(p,wgt)
          goto 20
       elseif(str.eq."05100003510000355") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_NINJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_NINJD(p,wgt)
          goto 20
          
@@ -1606,15 +1426,6 @@
       integer iflow,ifl
       
       call convert_to_string(nexternal,legs,str,lstr)
-
-#ifdef DEBUG
-      print*, "[DEBUG] str   = ", str
-      print*, "[DEBUG] legs  = ", legs
-      print*, "[DEBUG] color = ", color
-      print*, "TODO: s-, c-, b-Amplituden aus u-, d-Amplituden in"
-     &        //"subroutine real_color noch nicht implementiert." 
-      stop
-#endif
 
       if (str.eq."-11100002210000220") then
          include "leshouches_R_001.inc"

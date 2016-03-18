@@ -14,81 +14,72 @@
       
       if (str.eq."-111000024-10000240") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."-101000024-1000024-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXIDX(p,wgt)
          goto 20
       elseif (str.eq."1-11000024-10000240") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."101000024-10000241") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_XIXID(p,wgt) ! >> Fehler in srealmtrx_004
+         call SMATRIX_DG_XIXID(p,wgt)
          goto 20
       elseif (str.eq."-221000024-10000240") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."-201000024-1000024-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_XIXIUX(p,wgt)
          goto 20
       elseif (str.eq."2-21000024-10000240") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."201000024-10000242") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_XIXIU(p,wgt) ! >> Fehler in srealmtrx_008
+         call SMATRIX_UG_XIXIU(p,wgt)
          goto 20
       elseif (str.eq."-441000024-10000240") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."-401000024-1000024-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_XIXICX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_XIXIUX(p,wgt)
          goto 20
       elseif (str.eq."4-41000024-10000240") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."401000024-10000244") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_XIXIC(p,wgt) ! >> Fehler in srealmtrx_012
          call SMATRIX_UG_XIXIU(p,wgt)
          goto 20
       elseif (str.eq."-331000024-10000240") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."-301000024-1000024-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_XIXISX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXIDX(p,wgt)
          goto 20
       elseif (str.eq."3-31000024-10000240") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."301000024-10000243") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_XIXIS(p,wgt) ! >> Fehler in srealmtrx_016
          call SMATRIX_DG_XIXID(p,wgt) 
          goto 20
       elseif (str.eq."-551000024-10000240") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_XIXIG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_XIXIG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_XIXIG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -99,143 +90,125 @@
          goto 20
       elseif (str.eq."-501000024-1000024-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_XIXIBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXIDX(p,wgt)
          goto 20
       elseif (str.eq."5-51000024-10000240") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXIG(p,wgt)
          goto 20
       elseif (str.eq."501000024-10000245") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_XIXIB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_XIXID(p,wgt)
          goto 20
       elseif (str.eq."0-11000024-1000024-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_XIXIDX(p,wgt)
          goto 20
       elseif (str.eq."011000024-10000241") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_XIXID(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_XIXID(p,wgt)
          goto 20
       elseif (str.eq."0-21000024-1000024-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_XIXIUX(p,wgt)
          goto 20
       elseif (str.eq."021000024-10000242") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_XIXIU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_XIXIU(p,wgt)
          goto 20
       elseif (str.eq."0-41000024-1000024-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_XIXICX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_XIXIUX(p,wgt)
          goto 20
       elseif (str.eq."041000024-10000244") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_XIXIC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_XIXIU(p,wgt)
          goto 20
       elseif (str.eq."0-31000024-1000024-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_XIXISX(p,wgt) ! >> OK!
          call SMATRIX_GDX_XIXIDX(p,wgt)
          goto 20
       elseif (str.eq."031000024-10000243") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_XIXIS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_XIXID(p,wgt)
          goto 20
       elseif (str.eq."0-51000024-1000024-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_XIXIBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_XIXIDX(p,wgt)
          goto 20
       elseif (str.eq."051000024-10000245") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_XIXIB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_XIXID(p,wgt)
          goto 20
          
       elseif(str.eq."-111000024-10000370") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."-101000024-1000037-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_XIXJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXJDX(p,wgt)
          goto 20
       elseif(str.eq."1-11000024-10000370") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."101000024-10000371") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_XIXJD(p,wgt) ! >> Fehler in srealmtrx_004
+         call SMATRIX_DG_XIXJD(p,wgt)
          goto 20
       elseif(str.eq."-221000024-10000370") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."-201000024-1000037-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_XIXJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_XIXJUX(p,wgt)
          goto 20
       elseif(str.eq."2-21000024-10000370") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."201000024-10000372") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_XIXJU(p,wgt) ! >> Fehler in srealmtrx_008
+         call SMATRIX_UG_XIXJU(p,wgt)
          goto 20
       elseif(str.eq."-441000024-10000370") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_XIXJG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."-401000024-1000037-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_XIXJCX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_XIXJUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_XIXJUX(p,wgt)
          goto 20
       elseif(str.eq."4-41000024-10000370") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_XIXJG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."401000024-10000374") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_XIXJC(p,wgt) ! >> Fehler in srealmtrx_012
          call SMATRIX_UG_XIXJU(p,wgt)
          goto 20
       elseif(str.eq."-331000024-10000370") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_XIXJG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."-301000024-1000037-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_XIXJSX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_XIXJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXJDX(p,wgt)
          goto 20
       elseif(str.eq."3-31000024-10000370") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_XIXJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."301000024-10000373") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_XIXJS(p,wgt) ! >> Fehler in srealmtrx_016
          call SMATRIX_DG_XIXJD(p,wgt) 
          goto 20
       elseif(str.eq."-551000024-10000370") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_XIXJG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_XIXJG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_XIXJG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -246,143 +219,125 @@
          goto 20
       elseif(str.eq."-501000024-1000037-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_XIXJBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_XIXJDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXJDX(p,wgt)
          goto 20
       elseif(str.eq."5-51000024-10000370") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_XIXJG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_XIXJG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXJG(p,wgt)
          goto 20
       elseif(str.eq."501000024-10000375") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_XIXJB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_XIXJD(p,wgt)
          goto 20
       elseif(str.eq."0-11000024-1000037-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_XIXJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_XIXJDX(p,wgt)
          goto 20
       elseif(str.eq."011000024-10000371") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_XIXJD(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_XIXJD(p,wgt)
          goto 20
       elseif(str.eq."0-21000024-1000037-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_XIXJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_XIXJUX(p,wgt)
          goto 20
       elseif(str.eq."021000024-10000372") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_XIXJU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_XIXJU(p,wgt)
          goto 20
       elseif(str.eq."0-41000024-1000037-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_XIXJCX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_XIXJUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_XIXJUX(p,wgt)
          goto 20
       elseif(str.eq."041000024-10000374") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_XIXJC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_XIXJU(p,wgt)
          goto 20
       elseif(str.eq."0-31000024-1000037-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_XIXJSX(p,wgt) ! >> OK!
          call SMATRIX_GDX_XIXJDX(p,wgt)
          goto 20
       elseif(str.eq."031000024-10000373") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_XIXJS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_XIXJD(p,wgt)
          goto 20
       elseif(str.eq."0-51000024-1000037-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_XIXJBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_XIXJDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_XIXJDX(p,wgt)
          goto 20
       elseif(str.eq."051000024-10000375") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_XIXJB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_XIXJD(p,wgt)
          goto 20
          
       elseif(str.eq."-111000037-10000370") then
          !call srealmtrx_001(p,wgt)
-         call SMATRIX_DXD_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."-101000037-1000037-1") then
          !call srealmtrx_002(p,wgt)
-         call SMATRIX_DXG_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXIDX(p,wgt)
          goto 20
       elseif(str.eq."1-11000037-10000370") then
          !call srealmtrx_003(p,wgt)
-         call SMATRIX_DDX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."101000037-10000371") then
          !call srealmtrx_004(p,wgt)
-         call SMATRIX_DG_XIXID(p,wgt) ! >> Fehler in srealmtrx_004
+         call SMATRIX_DG_XIXID(p,wgt)
          goto 20
       elseif(str.eq."-221000037-10000370") then
          !call srealmtrx_005(p,wgt)
-         call SMATRIX_UXU_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."-201000037-1000037-2") then
          !call srealmtrx_006(p,wgt)
-         call SMATRIX_UXG_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_XIXIUX(p,wgt)
          goto 20
       elseif(str.eq."2-21000037-10000370") then
          !call srealmtrx_007(p,wgt)
-         call SMATRIX_UUX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."201000037-10000372") then
          !call srealmtrx_008(p,wgt)
-         call SMATRIX_UG_XIXIU(p,wgt) ! >> Fehler in srealmtrx_008
+         call SMATRIX_UG_XIXIU(p,wgt)
          goto 20
       elseif(str.eq."-441000037-10000370") then
          !call srealmtrx_009(p,wgt)
-         !call SMATRIX_CXC_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_UXU_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UXU_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."-401000037-1000037-4") then
          !call srealmtrx_010(p,wgt)
-         !call SMATRIX_CXG_XIXICX(p,wgt) ! >> OK!
-         call SMATRIX_UXG_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_UXG_XIXIUX(p,wgt)
          goto 20
       elseif(str.eq."4-41000037-10000370") then
          !call srealmtrx_011(p,wgt)
-         !call SMATRIX_CCX_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_UUX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_UUX_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."401000037-10000374") then
          !call srealmtrx_012(p,wgt)
-         !call SMATRIX_CG_XIXIC(p,wgt) ! >> Fehler in srealmtrx_012
          call SMATRIX_UG_XIXIU(p,wgt)
          goto 20
       elseif(str.eq."-331000037-10000370") then
          !call srealmtrx_013(p,wgt)
-         !call SMATRIX_SXS_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_DXD_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DXD_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."-301000037-1000037-3") then
          !call srealmtrx_014(p,wgt)
-         !call SMATRIX_SXG_XIXISX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXIDX(p,wgt)
          goto 20
       elseif(str.eq."3-31000037-10000370") then
          !call srealmtrx_015(p,wgt)
-         !call SMATRIX_SSX_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."301000037-10000373") then
          !call srealmtrx_016(p,wgt)
-         !call SMATRIX_SG_XIXIS(p,wgt) ! >> Fehler in srealmtrx_016
          call SMATRIX_DG_XIXID(p,wgt) 
          goto 20
       elseif(str.eq."-551000037-10000370") then
          !call srealmtrx_017(p,wgt)
-         ! call SMATRIX_BXB_XIXIG(p,wgt) ! >> OK!
 #ifdef NEGLECTBMASS
-          call SMATRIX_DXD_XIXIG(p,wgt) ! >> OK!
+          call SMATRIX_DXD_XIXIG(p,wgt)
 #else
           print*,"ERROR: MadGraph b-quark amplitudes not yet "
                  //"implemented."
@@ -393,63 +348,54 @@
          goto 20
       elseif(str.eq."-501000037-1000037-5") then
          !call srealmtrx_018(p,wgt)
-         !call SMATRIX_BXG_XIXIBX(p,wgt) ! >> OK!
-         call SMATRIX_DXG_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_DXG_XIXIDX(p,wgt)
          goto 20
       elseif(str.eq."5-51000037-10000370") then
          !call srealmtrx_019(p,wgt)
-         !call SMATRIX_BBX_XIXIG(p,wgt) ! >> OK!
-         call SMATRIX_DDX_XIXIG(p,wgt) ! >> OK!
+         call SMATRIX_DDX_XIXIG(p,wgt)
          goto 20
       elseif(str.eq."501000037-10000375") then
          !call srealmtrx_020(p,wgt)
-         !call SMATRIX_BG_XIXIB(p,wgt) ! >> Fehler in srealmtrx_020
          call SMATRIX_DG_XIXID(p,wgt)
          goto 20
       elseif(str.eq."0-11000037-1000037-1") then
          !call srealmtrx_021(p,wgt)
-         call SMATRIX_GDX_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_XIXIDX(p,wgt)
          goto 20
       elseif(str.eq."011000037-10000371") then
          !call srealmtrx_022(p,wgt)
-         call SMATRIX_GD_XIXID(p,wgt) ! >> Fehler in srealmtrx_022
+         call SMATRIX_GD_XIXID(p,wgt)
          goto 20
       elseif(str.eq."0-21000037-1000037-2") then
          !call srealmtrx_023(p,wgt)
-         call SMATRIX_GUX_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_XIXIUX(p,wgt)
          goto 20
       elseif(str.eq."021000037-10000372") then
          !call srealmtrx_024(p,wgt)
-         call SMATRIX_GU_XIXIU(p,wgt) ! >> Fehler in srealmtrx_024
+         call SMATRIX_GU_XIXIU(p,wgt)
          goto 20
       elseif(str.eq."0-41000037-1000037-4") then
          !call srealmtrx_025(p,wgt)
-         !call SMATRIX_GCX_XIXICX(p,wgt) ! >> OK!
-         call SMATRIX_GUX_XIXIUX(p,wgt) ! >> OK!
+         call SMATRIX_GUX_XIXIUX(p,wgt)
          goto 20
       elseif(str.eq."041000037-10000374") then
          !call srealmtrx_026(p,wgt)
-         !call SMATRIX_GC_XIXIC(p,wgt) ! >> Fehler in srealmtrx_026
          call SMATRIX_GU_XIXIU(p,wgt)
          goto 20
       elseif(str.eq."0-31000037-1000037-3") then
          !call srealmtrx_027(p,wgt)
-         !call SMATRIX_GSX_XIXISX(p,wgt) ! >> OK!
          call SMATRIX_GDX_XIXIDX(p,wgt)
          goto 20
       elseif(str.eq."031000037-10000373") then
          !call srealmtrx_028(p,wgt)
-         !call SMATRIX_GS_XIXIS(p,wgt) ! >> Fehler in srealmtrx_028
          call SMATRIX_GD_XIXID(p,wgt)
          goto 20
       elseif(str.eq."0-51000037-1000037-5") then
          !call srealmtrx_029(p,wgt)
-         !call SMATRIX_GBX_XIXIBX(p,wgt) ! >> OK!
-         call SMATRIX_GDX_XIXIDX(p,wgt) ! >> OK!
+         call SMATRIX_GDX_XIXIDX(p,wgt)
          goto 20
       elseif(str.eq."051000037-10000375") then
          !call srealmtrx_030(p,wgt)
-         !call SMATRIX_GB_XIXIB(p,wgt) ! >> Fehler in srealmtrx_030
          call SMATRIX_GD_XIXID(p,wgt)
          goto 20
       endif
@@ -575,15 +521,6 @@
       integer iflow,ifl
       
       call convert_to_string(nexternal,legs,str,lstr)
-
-#ifdef DEBUG
-      print*, "[DEBUG] str   = ", str
-      print*, "[DEBUG] legs  = ", legs
-      print*, "[DEBUG] color = ", color
-      print*, "TODO: s-, c-, b-Amplituden aus u-, d-Amplituden in"
-     &        //"subroutine real_color noch nicht implementiert." 
-      stop
-#endif
 
       if (str.eq."-111000024-10000240") then
          include "leshouches_R_001.inc"
