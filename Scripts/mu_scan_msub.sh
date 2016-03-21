@@ -2,7 +2,7 @@
 #
 
 PWD=$(pwd)
-PROC=n1n1_3
+PROC=n1n2
 DIR=$PWD/mu_scan_$PROC
 
 mkdir $DIR

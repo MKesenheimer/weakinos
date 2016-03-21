@@ -71,6 +71,9 @@ c book all histograms, will be filled later
         phim = -pi
         phip = pi
 
+        ! book all possible histograms although we don't need
+        ! all of them for every process
+
         ! no cuts
         call bookupeqbins("xsec",1D0,-0.5D0,0.5D0)
         call bookupeqbins("mass(A+B)",(mp-mm)/n1,mm,mp)
@@ -80,21 +83,30 @@ c book all histograms, will be filled later
         call bookupeqbins("eta(B)",(ep-em)/n2,em,ep)
         call bookupeqbins("y(A)",(yp-ym)/n2,ym,yp)
         call bookupeqbins("y(B)",(yp-ym)/n2,ym,yp)
-        
-        ! with jet cuts
+        call bookupeqbins("N(J)",1D0,-0.5D0,2.5D0)
+        call bookupeqbins("Pt(J)",(ptjp-ptjm)/n1,ptjm,ptjp)
+        call bookupeqbins("eta(J)",(ep-em)/n2,em,ep)
+
+        ! jet cuts
         call bookupeqbins("xsec(Jcuts)",1D0,-0.5D0,0.5D0)
-        call bookupeqbins("mass(A+B,Jcuts)",(mp-mm)/n1,mm,mp)
-        call bookupeqbins("Pt(A,Jcuts)",(ptp-ptm)/n1,ptm,ptp)
-        call bookupeqbins("Pt(B,Jcuts)",(ptp-ptm)/n1,ptm,ptp)
-        call bookupeqbins("eta(A,Jcuts)",(ep-em)/n2,em,ep)
         call bookupeqbins("N(J,Jcuts)",1D0,-0.5D0,2.5D0)
         call bookupeqbins("Pt(J,Jcuts)",(ptjp-ptjm)/n1,ptjm,ptjp)
         call bookupeqbins("eta(J,Jcuts)",(ep-em)/n2,em,ep)
-        
+     
+        ! decays and missing Pt
         if(WHCPRG.eq."PYTHIA") then
-          ! decays and missing Pt
-          ! book all possible histograms although we don't need
-          ! all of them for every process
+          ! no cuts
+          call bookupeqbins("dPhi(decI+decJ)",
+     &                     (phip-phim)/n2,phim,phip)
+          call bookupeqbins("mass(decI+decJ)",
+     &                     (mdp-mdm)/n1,mdm,mdp)
+          do i=1,ndecay
+            call bookupeqbins("Pt("//cstr(i)//")",
+     &                       (ptdp-ptdm)/n2,ptdm,ptdp)
+            call bookupeqbins("eta("//cstr(i)//")",
+     &                       (ep-em)/n2,em,ep)
+          enddo
+          ! decay cuts
           call bookupeqbins("xsec(Dcuts)",1d0,-0.5d0,0.5d0)
           call bookupeqbins("dPhi(decI+decJ,Dcuts)",
      &                     (phip-phim)/n2,phim,phip)
@@ -107,8 +119,7 @@ c book all histograms, will be filled later
             call bookupeqbins("eta("//cstr(i)//",Dcuts)",
      &                       (ep-em)/n2,em,ep)
           enddo
-        endif  
-        
+        endif
       end
 c############### end subroutine init_hist ##############################
 
@@ -314,6 +325,9 @@ c calculate quantities that shall be plotted and fill histograms
           print*, "cuts (leptons:)"
           print*, "hardest lepton   p_t >",ptDmin," GeV"
           print*, "hardest lepton |eta| <",etaDmax
+          print*, "R-separation   R_min >",RDsepmin
+          print*,
+          print*, "p_t-threshold        >",ptmissmin," GeV"
           print*
           print*, "===================================================="
           ini=.false.
@@ -673,6 +687,9 @@ c#define PTORDERED
         call filld("eta(B)",eta_finB,dsig)
         call filld("y(A)",y_finA,dsig)
         call filld("y(B)",y_finB,dsig)
+        call filld("N(J)",dble(num_vis_jets),dsig)
+        call filld("Pt(J)",kt(1),dsig)
+        call filld("eta(J)",eta(1),dsig)
 
         ! determine if jet cuts have passed
         JcutsPassed = .true.
@@ -683,10 +700,6 @@ c#define PTORDERED
         ! fill histograms if jet cuts have passed
         if(JcutsPassed) then
           call filld("xsec(Jcuts)",0D0,dsig)
-          call filld("mass(A+B,Jcuts)",m_finAfinB,dsig)
-          call filld("Pt(A,Jcuts)",pt_finA,dsig)
-          call filld("Pt(B,Jcuts)",pt_finB,dsig)
-          call filld("eta(A,Jcuts)",eta_finA,dsig)
           call filld("N(J,Jcuts)",dble(num_vis_jets),dsig)
           call filld("Pt(J,Jcuts)",kt(1),dsig)
           call filld("eta(J,Jcuts)",eta(1),dsig)
@@ -712,10 +725,16 @@ c#define PTORDERED
         
         ! decay histogramms
         if(decayed) then
+          ! no cuts
+          call filld("dPhi(decI+decJ)",dphi_decIdecJ,dsig)
+          call filld("mass(decI+decJ)",m_decIdecJ,dsig)
+          do i=1,ndecay
+            call filld("Pt("//cstr(i)//")",pt_dec(i),dsig)
+            call filld("eta("//cstr(i)//")",eta_dec(i),dsig)
+          enddo
           ! fill the invariant mass histogramm only if decay products
           ! decI and decJ have passed the cuts
           if(DcutsPassed(corI).and.DcutsPassed(corJ)) then
-            call filld("xsec(Dcuts)",0d0,dsig)
             call filld("dPhi(decI+decJ,Dcuts)",dphi_decIdecJ,dsig)
             call filld("mass(decI+decJ,Dcuts)",m_decIdecJ,dsig)
           endif
@@ -727,14 +746,18 @@ c#define PTORDERED
               call filld("eta("//cstr(i)//",Dcuts)",eta_dec(i),dsig)
             endif
           enddo
-          ! missing pt, only if decayed = true and all observable decay   
+          ! cross section with decay cuts
+          if(DcutsPassed(0)) then
+            call filld("xsec(Dcuts)",0d0,dsig)
+          endif
+          ! missing pt, only if decayed = true and all observable decay 
           ! products are visible in the final state
           if(DcutsPassed(0) .and. pt_miss.ge.ptmissmin) then
             call filld("Pt(miss)",pt_miss,dsig)
           endif
         endif
         
-#ifdef DEBUG
+#ifdef DEBUGQ
           if(DcutsPassed(0) .and. pt_miss.ge.ptmissmin) then
           print*
           print*,"p_miss",p_miss(:)
@@ -998,23 +1021,6 @@ c the phep momenta is in the laboratory frame
             p(mu) = phep(mu,ihep)
           enddo
         endif
-#ifdef DEBUGQ
-        print*,"p(",ihep,"): ",p(:)
-        print*,"phep(1): ", phep(4,1),phep(1,1),phep(2,1),phep(3,1)
-        print*,"phep(2): ", phep(4,2),phep(1,2),phep(2,2),phep(3,2)
-        print*,"phep(3): ", phep(4,3),phep(1,3),phep(2,3),phep(3,3)
-        print*,"phep(4): ", phep(4,4),phep(1,4),phep(2,4),phep(3,4)
-        print*,"phep(5): ", phep(4,5),phep(1,5),phep(2,5),phep(3,5)
-        print*,"kn_preal(1): ",kn_preal(:,1)
-        print*,"kn_preal(2): ",kn_preal(:,2)
-        print*,"kn_preal(3): ",kn_preal(:,3)
-        print*,"kn_preal(4): ",kn_preal(:,4)
-        print*,"kn_preal(5): ",kn_preal(:,5)
-        print*,"kn_pborn(1): ",kn_pborn(:,1)
-        print*,"kn_pborn(2): ",kn_pborn(:,2)
-        print*,"kn_pborn(3): ",kn_pborn(:,3)
-        print*,"kn_pborn(4): ",kn_pborn(:,4)
-#endif
       end
 c############### end subroutine get4momentum_ihep ######################
 
@@ -1239,10 +1245,6 @@ c jets are orderd by decreasing pt
         enddo
         ! Extract final state particles to feed to jet finder
         do j=1,nhep
-#ifdef DEBUGQ
-#define DEBUG1
-          print*,"idhep = ", idhep(j)
-#endif
           if (isthep(j).eq.1 .and. isjetparticle(idhep(j))) then
             if(ntracks.eq.maxtrack) then
               print*, "analyze: need to increase maxtrack!"
@@ -1256,37 +1258,28 @@ c jets are orderd by decreasing pt
             enddo
           endif
         enddo
-#ifdef DEBUGQ
-#define DEBUG1
-        print*,"ntracks = ", ntracks
-#endif
         if (ntracks.eq.0) then
           mjets=0
           return
         endif
 
         ! note: ptJmin and R are in common block "jetcuts"
-        ! anti-kT (c.f. ZZ code):
+        ! palg=-1 -> anti-kT (c.f. ZZ code):
         palg=-1
         call fastjetppgenkt(ptrack,ntracks,R,palg,ptJmin,pjet,njets,
      &                      jetvec)
         mjets = min(mjets,njets)
-#ifdef DEBUG1
-        print*,"phep(1): ", phep(1:4,1)
-        print*,"phep(2): ", phep(1:4,2)
-        print*,"phep(3): ", phep(1:4,3)
-        print*,"phep(4): ", phep(1:4,4)
-        print*,"phep(5): ", phep(1:4,5)
-        print*,"ptrack: ", ptrack(:,1)
+#ifdef DEBUGQ
         print*,"ntracks: ", ntracks
-        print*,"R: ", R
-        print*,"palg: ", palg
-        print*,"ptJmin: ", ptJmin
-        print*,"pjet: ", pjet(:,1)
-        print*,"jetvec: ", jetvec(1)
-        print*,"mjets: ", mjets
-        print*,"njets: ", njets
-        !stop
+        print*,"id,ptrack(1): ",idhep(itrackhep(1)),ptrack(:,1)
+        print*,"id,ptrack(2): ",idhep(itrackhep(2)),ptrack(:,2)
+        print*,"id,ptrack(3): ",idhep(itrackhep(3)),ptrack(:,3)
+        print*,"id,ptrack(4): ",idhep(itrackhep(4)),ptrack(:,4)
+        print*,"id,ptrack(5): ",idhep(itrackhep(5)),ptrack(:,5)
+        print*,"pjet(1): ", pjet(:,1)
+        !print*,"phep(9): ",phep(1:4,9)
+        print*,"phep_sum: ",phep(1:4,5)+phep(1:4,6)-phep(1:4,7)-phep(1:4,8)-phep(1:4,9)
+        call nstop(5)
 #endif
         if(njets.eq.0) return
         ! check consistency
@@ -1306,19 +1299,17 @@ c jets are orderd by decreasing pt
         if(tmp.gt.1d-4) then
           print*, "error in buildjets:894"
         endif
-        ! end check consistency
-
         ! computing arrays of useful kinematics quantities for hardest jets
         do j=1,mjets
           kt(j) = dsqrt(pjet(1,j)**2+pjet(2,j)**2)
           pp = dsqrt(kt(j)**2+pjet(3,j)**2)
-          eta(j) = 0.5D0*dlog((pjet(4,j)+pjet(3,j))/(pjet(4,j)-pjet(3,j)))
-          rap(j) = 0.5D0*dlog((pjet(4,j)+pjet(3,j))/(pjet(4,j)-pjet(3,j)))
+          eta(j) = 0.5D0*dlog((pjet(4,j)+pjet(3,j))/
+     &                        (pjet(4,j)-pjet(3,j)))
+          rap(j) = 0.5D0*dlog((pjet(4,j)+pjet(3,j))/
+     &                        (pjet(4,j)-pjet(3,j)))
           phi(j) = datan2(pjet(2,j),pjet(1,j))
         enddo
-
         call computeptrel(ptrack,ntracks,rap,kt,phi,mjets,jetvec,ptrel)
-
       end
 c############### end subroutine buildjets ##############################
 
@@ -1334,6 +1325,9 @@ c determines if particle contributes to a jet
         ! jetblacklist: particles that do not contribute to a jet
         if (injetwhitelist(PDG_ID)) then
           isjetparticle = .true.
+#ifdef DEBUGQ
+          print*,"is jetparticle: ",PDG_ID
+#endif
         else if (injetblacklist(PDG_ID)) then
           isjetparticle = .false.
         else
@@ -1465,7 +1459,7 @@ c momentum in the frame where the jet has zero rapidity
             kj2 = ktjets(j)*dsin(phijets(j))
             ! rapidity of track i
             y = 0.5D0*dlog((ptracks(4,i)+ptracks(3,i))
-     &                 /(ptracks(4,i)-ptracks(3,i)))
+     &                   /(ptracks(4,i)-ptracks(3,i)))
             ! rapidity of track i in frame where the jet has zero rapidity
             y = y-yj
             ! find momentum of track i in frame where the jet has zero rapidity
@@ -1475,9 +1469,9 @@ c momentum in the frame where the jet has zero rapidity
             ! pt rel is sum of the ptrack momentum projection ortogonal to the jet
             ! momentum in the frame where the jet has zero rapidity
             ptrel(j) = dsqrt(((pt(1)*kj2-pt(2)*kj1)**2+
-     &                     (         -pt(3)*kj2)**2+
-     &                     (pt(3)*kj1          )**2)/
-     &                     (kj1**2+kj2**2)) + ptrel(j)
+     &                       (         -pt(3)*kj2)**2+
+     &                       (pt(3)*kj1          )**2)/
+     &                       (kj1**2+kj2**2)) + ptrel(j)
           endif
         enddo
       end

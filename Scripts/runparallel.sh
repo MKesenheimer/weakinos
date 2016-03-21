@@ -582,6 +582,7 @@ done
 # combined results for stage 2
 echo ""
 echo "Combined results for stage 2:"
+rm $RUNDIR/pwg-st2-combined-stat.dat
 cd $RUNDIR && ../merge-pwg-stat \$(ls ./pwg-st2-*-stat.dat) > pwg-st2-combined-stat.dat
 cat $RUNDIR/pwg-st2-combined-stat.dat
 EOM
@@ -626,6 +627,7 @@ echo "</LesHouchesEvents>" >> $RUNDIR/pwgevents.lhe
 #  find $RUNDIR -type f -name "pwgevents-*" -exec rm -f '{}' \;
 #fi
 # merge the NLO top files
+rm $RUNDIR/pwg-NLO.top
 cd $RUNDIR && ../merge-data 1 \$(ls ./pwg-*-NLO.top) && mv fort.12 pwg-NLO.top
 
 EOM

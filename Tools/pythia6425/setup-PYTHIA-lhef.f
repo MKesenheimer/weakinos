@@ -136,8 +136,8 @@ c     hands over sm parameters from init_couplings to pythia
       mstj(41) = 11 ! no photon radiation off quarks and leptons
       print*, "control of photon radiation mstj(41): ", mstj(41)
       !mstp(61) = 0                ! no initial state shower
-      !mstp(61) = 1                ! initial state shower just qcd in hadronic events
-      mstp(61) = 2                ! QCD and QED radiation
+      mstp(61) = 1                ! initial state shower just qcd in hadronic events
+      !mstp(61) = 2                ! QCD and QED radiation
       print*, "initial state shower control mstp(61):", mstp(61)
       !mstp(71) = 0                ! no fs shower
       print*, "final state shower control mstp(71):  ", mstp(71)

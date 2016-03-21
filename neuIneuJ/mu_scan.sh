@@ -2,7 +2,7 @@
 #
 
 PWD=$(pwd)
-PROC=n1n2
+PROC=n1n2_LO
 DIR=$PWD/mu_scan_$PROC
 
 mkdir $DIR
@@ -19,7 +19,7 @@ for j in `seq -$N 1 $N`; do
   MUF="${MUF}d0"
   echo "mur = $MUR, muf = $MUF"
   ./runparallel.sh -p 4 -g -c -e pwhg_main_ninj -d "run_mSUGRA_${PROC}_muR${MUR}_muF${MUF}" \
-  --fin1 1000022 --fin2 1000022 --slha input_mSUGRA_1410.4999.slha --merge \
+  --fin1 1000022 --fin2 1000023 --slha input_mSUGRA_1410.4999.slha --lopdf 90400 --merge \
   --mur $MUR --muf $MUF > "log_mSUGRA_${PROC}_muR${MUR}_muF${MUF}"
   for job in `jobs -p`; do
     wait $job
