@@ -967,6 +967,9 @@ c we divide by two simply because we multiply by 2 in the main program
       implicit none
       double precision lam50,q2low0,q2high0
       double precision dgauss
+      ! MK: added
+      double precision simplesudakov0
+      !external simplesudakov0
 
       lam5 = lam50
       q2low = q2low0
