@@ -8,14 +8,14 @@ fin2  1000024   ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
 ! it is assumed that dec1 and dec2 are daughters of fin1, and
 ! dec3 and dec4 are daughters of fin2
 dec1  11
-dec2  0
-dec3  -11
-dec4  0
+dec2  -11
+dec3  -13
+dec4  14
 ! for which particle pair do we want to calculate correlations?
 ! (e.g. difference in azimuthal angle dphi or invariant mass) 
 ! corI and corJ should be different and a number between 1 and 4
 corI  1
-corJ  3
+corJ  2
 ! number of total decay products in the final state (incl. not 
 ! detectable particles). This is used to determine the correct
 ! decay channel

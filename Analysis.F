@@ -19,6 +19,9 @@ c book all histograms, will be filled later
         integer n1, n2
         character*4 cstr(ndecay)
         data cstr/"dec1","dec2","dec3","dec4"/
+        ! correlations
+        integer corI, corJ
+        common /icorr/ corI,corJ
 
         call inihists
 
@@ -41,6 +44,14 @@ c book all histograms, will be filled later
         endif
         print*, "===================================================="
 
+        ! for which particles do we want to calculate correlations?
+        if(powheginput("#corI").gt.0) then
+          corI = powheginput("corI")
+        endif
+        if(powheginput("#corJ").gt.0) then
+          corJ = powheginput("corJ")
+        endif
+          
         ! number of bins
         n1 = 80
         ! mass(A+B)
@@ -96,9 +107,9 @@ c book all histograms, will be filled later
         ! decays and missing Pt
         if(WHCPRG.eq."PYTHIA") then
           ! no cuts
-          call bookupeqbins("dPhi(decI+decJ)",
+          call bookupeqbins("dPhi("//cstr(corI)//"+"//cstr(corJ)//")",
      &                     (phip-phim)/n2,phim,phip)
-          call bookupeqbins("mass(decI+decJ)",
+          call bookupeqbins("mass("//cstr(corI)//"+"//cstr(corJ)//")",
      &                     (mdp-mdm)/n1,mdm,mdp)
           do i=1,ndecay
             call bookupeqbins("Pt("//cstr(i)//")",
@@ -108,10 +119,10 @@ c book all histograms, will be filled later
           enddo
           ! decay cuts
           call bookupeqbins("xsec(Dcuts)",1d0,-0.5d0,0.5d0)
-          call bookupeqbins("dPhi(decI+decJ,Dcuts)",
-     &                     (phip-phim)/n2,phim,phip)
-          call bookupeqbins("mass(decI+decJ,Dcuts)",
-     &                     (mdp-mdm)/n1,mdm,mdp)
+          call bookupeqbins("dPhi("//cstr(corI)//"+"//cstr(corJ)//
+     &                     ",Dcuts)",(phip-phim)/n2,phim,phip)
+          call bookupeqbins("mass("//cstr(corI)//"+"//cstr(corJ)//
+     &                     ",Dcuts)",(mdp-mdm)/n1,mdm,mdp)
           call bookupeqbins("Pt(miss)",(ptp-ptm)/n1,ptm,ptp)
           do i=1,ndecay
             call bookupeqbins("Pt("//cstr(i)//",Dcuts)",
@@ -182,6 +193,7 @@ c calculate quantities that shall be plotted and fill histograms
         double precision p_decIdecJ(0:3), m_decIdecJ
         ! variables to store which correlation (I,J) we want to consider
         integer corI, corJ
+        common /icorr/ corI,corJ
         ! handling the decays
         character*4 cstr(ndecay)
         data cstr/"dec1","dec2","dec3","dec4"/
@@ -238,13 +250,6 @@ c calculate quantities that shall be plotted and fill histograms
           do i=1,ndecay
             id_dec(i) = int(powheginput(cstr(i))) ! if zero: don't observe this decay
           enddo
-          ! for which particles do we want to calculate correlations?
-          if(powheginput("#corI").gt.0) then
-            corI = powheginput("corI")
-          endif
-          if(powheginput("#corJ").gt.0) then
-            corJ = powheginput("corJ")
-          endif
           ! number of finale states, this is used to determine the 
           ! correct decay channel.
           if(powheginput("#nfinal").gt.0) then
@@ -492,10 +497,11 @@ c#define PTORDERED
           ! if the number of requested decay IDs is not the sum of the
           ! number of reconstructed decay IDs, sort out the event
           if((nfinalA+nfinalB).ne.nfinal) then
+            !print*,"vetoed",nfinalA+nfinalB,nfinal
+            !print*
             p_dec(:,:) = 0D0
           endif  
-#ifdef DEBUG
-          if(nevents.lt.100) then
+#ifdef DEBUGQ
           if(p_dec(0,1).ne.0D0 .or. p_dec(0,2).ne.0D0) then
           print*,"Decay chain of A", id_finA
           print*,id_finA,p_finA
@@ -527,7 +533,6 @@ c#define PTORDERED
           endif
           enddo
           print*
-          endif
           endif
 #endif
 #endif
@@ -726,8 +731,10 @@ c#define PTORDERED
         ! decay histogramms
         if(decayed) then
           ! no cuts
-          call filld("dPhi(decI+decJ)",dphi_decIdecJ,dsig)
-          call filld("mass(decI+decJ)",m_decIdecJ,dsig)
+          call filld("dPhi("//cstr(corI)//"+"//cstr(corJ)//")",
+     &               dphi_decIdecJ,dsig)
+          call filld("mass("//cstr(corI)//"+"//cstr(corJ)//")",
+     &               m_decIdecJ,dsig)
           do i=1,ndecay
             call filld("Pt("//cstr(i)//")",pt_dec(i),dsig)
             call filld("eta("//cstr(i)//")",eta_dec(i),dsig)
@@ -735,8 +742,10 @@ c#define PTORDERED
           ! fill the invariant mass histogramm only if decay products
           ! decI and decJ have passed the cuts
           if(DcutsPassed(corI).and.DcutsPassed(corJ)) then
-            call filld("dPhi(decI+decJ,Dcuts)",dphi_decIdecJ,dsig)
-            call filld("mass(decI+decJ,Dcuts)",m_decIdecJ,dsig)
+            call filld("dPhi("//cstr(corI)//"+"//cstr(corJ)//",Dcuts)",
+     &                 dphi_decIdecJ,dsig)
+            call filld("mass("//cstr(corI)//"+"//cstr(corJ)//",Dcuts)",
+     &                 m_decIdecJ,dsig)
           endif
           ! fill the other histogramms for every decay product individually
           do i=1,ndecay
@@ -1245,7 +1254,7 @@ c jets are orderd by decreasing pt
         enddo
         ! Extract final state particles to feed to jet finder
         do j=1,nhep
-          if (isthep(j).eq.1 .and. isjetparticle(idhep(j))) then
+          if(isthep(j).eq.1 .and. isjetparticle(idhep(j))) then
             if(ntracks.eq.maxtrack) then
               print*, "analyze: need to increase maxtrack!"
               print*, "ntracks: ",ntracks
@@ -1271,15 +1280,11 @@ c jets are orderd by decreasing pt
         mjets = min(mjets,njets)
 #ifdef DEBUGQ
         print*,"ntracks: ", ntracks
-        print*,"id,ptrack(1): ",idhep(itrackhep(1)),ptrack(:,1)
-        print*,"id,ptrack(2): ",idhep(itrackhep(2)),ptrack(:,2)
-        print*,"id,ptrack(3): ",idhep(itrackhep(3)),ptrack(:,3)
-        print*,"id,ptrack(4): ",idhep(itrackhep(4)),ptrack(:,4)
-        print*,"id,ptrack(5): ",idhep(itrackhep(5)),ptrack(:,5)
-        print*,"pjet(1): ", pjet(:,1)
+        !print*,"id,ptrack(1): ",idhep(itrackhep(1)),ptrack(4,1),ptrack(1:3,1)
+        print*,jetvec(1),ptrack(:,jetvec(1))
+        print*,"pjet(1): ", pjet(4,1),pjet(1:3,1)
         !print*,"phep(9): ",phep(1:4,9)
-        print*,"phep_sum: ",phep(1:4,5)+phep(1:4,6)-phep(1:4,7)-phep(1:4,8)-phep(1:4,9)
-        call nstop(5)
+        call nstop(1)
 #endif
         if(njets.eq.0) return
         ! check consistency
@@ -1348,25 +1353,25 @@ c to a jet
         id = iabs(PDG_ID)
         ! the following particles contribute to a jet
         ! quarks
-        if (1.le.id .and. id.le.6) injetwhitelist = .true.
+        if(1.le.id .and. id.le.6) injetwhitelist = .true.
         ! photon is not in whitelist
-        if (id.eq.22) injetwhitelist = .false.
+        if(id.eq.22) injetwhitelist = .false.
         ! gluon
-        if (id.eq.21) injetwhitelist = .true.
-        if (id.eq.0) injetwhitelist = .true.  ! POWHEG numbering
+        if(id.eq.21) injetwhitelist = .true.
+        if(id.eq.0) injetwhitelist = .true.  ! POWHEG numbering
         ! diquarks
-        if ((1000.le.id .and. id.le.6000)
+        if((1000.le.id .and. id.le.6000)
      &      .and. (mod(id,100).eq.1 .or. mod(id,100).eq.3)) then
           injetwhitelist = .true.
         endif
         ! mesons
-        if ((111.le.id .and. id.le.600)
+        if((111.le.id .and. id.le.600)
      &      .or. (10000.le.id .and. id.le.999999)
      &      .or. (9000000.le.id .and. id.le.9100000)) then
           injetwhitelist = .true.
         endif
         ! baryons
-        if ((1000.le.id .and. id.le.6000)
+        if((1000.le.id .and. id.le.6000)
      &      .and. (mod(id,10).eq.2 .or. mod(id,10).eq.4)) then
           injetwhitelist = .true.
         endif
@@ -1384,32 +1389,36 @@ c contribute to a jet
         ! the following particles may occur
         ! but do not contribute to a jet
         ! leptons
-        if (id.eq.11) injetblacklist=.true.  ! e
-        if (id.eq.12) injetblacklist=.true.  ! nue
-        if (id.eq.13) injetblacklist=.true.  ! mu
-        if (id.eq.14) injetblacklist=.true.  ! numu
-        if (id.eq.15) injetblacklist=.true.  ! tau
-        if (id.eq.16) injetblacklist=.true.  ! nu_tau
+        if(id.eq.11) injetblacklist=.true.  ! e
+        if(id.eq.12) injetblacklist=.true.  ! nue
+        if(id.eq.13) injetblacklist=.true.  ! mu
+        if(id.eq.14) injetblacklist=.true.  ! numu
+        if(id.eq.15) injetblacklist=.true.  ! tau
+        if(id.eq.16) injetblacklist=.true.  ! nu_tau
         ! sleptons
-        if (id.eq.1000011) injetblacklist=.true.  ! ~e_L
-        if (id.eq.1000012) injetblacklist=.true.  ! ~snue_L
-        if (id.eq.1000013) injetblacklist=.true.  ! ~mu_L
-        if (id.eq.1000014) injetblacklist=.true.  ! ~snumu_L
-        if (id.eq.1000015) injetblacklist=.true.  ! ~stau_1
-        if (id.eq.1000016) injetblacklist=.true.  ! ~snu_tau_L
-        if (id.eq.2000011) injetblacklist=.true.  ! ~e_R
-        if (id.eq.2000013) injetblacklist=.true.  ! ~mu_R
-        if (id.eq.2000015) injetblacklist=.true.  ! ~stau_2
+        if(id.eq.1000011) injetblacklist=.true.  ! ~e_L
+        if(id.eq.1000012) injetblacklist=.true.  ! ~snue_L
+        if(id.eq.1000013) injetblacklist=.true.  ! ~mu_L
+        if(id.eq.1000014) injetblacklist=.true.  ! ~snumu_L
+        if(id.eq.1000015) injetblacklist=.true.  ! ~stau_1
+        if(id.eq.1000016) injetblacklist=.true.  ! ~snu_tau_L
+        if(id.eq.2000011) injetblacklist=.true.  ! ~e_R
+        if(id.eq.2000013) injetblacklist=.true.  ! ~mu_R
+        if(id.eq.2000015) injetblacklist=.true.  ! ~stau_2
         ! neutralinos
-        if (id.eq.1000022) injetblacklist=.true.  ! ~n(1)
-        if (id.eq.1000023) injetblacklist=.true.  ! ~n(2)
-        if (id.eq.1000025) injetblacklist=.true.  ! ~n(3)
-        if (id.eq.1000035) injetblacklist=.true.  ! ~n(4)
+        if(id.eq.1000022) injetblacklist=.true.  ! ~n(1)
+        if(id.eq.1000023) injetblacklist=.true.  ! ~n(2)
+        if(id.eq.1000025) injetblacklist=.true.  ! ~n(3)
+        if(id.eq.1000035) injetblacklist=.true.  ! ~n(4)
         ! charginos
-        if (id.eq.1000024) injetblacklist=.true.  ! ~x(1)
-        if (id.eq.1000037) injetblacklist=.true.  ! ~x(2)
+        if(id.eq.1000024) injetblacklist=.true.  ! ~x(1)
+        if(id.eq.1000037) injetblacklist=.true.  ! ~x(2)
         ! photon
-        if (id.eq.22) injetblacklist=.true.
+        if(id.eq.22) injetblacklist=.true.
+        ! W,Z,Higgs
+        if(id.eq.23) injetblacklist=.true.
+        if(id.eq.24) injetblacklist=.true.
+        if(id.eq.25) injetblacklist=.true.
       end
 c############### end function injetblacklist ###########################
 

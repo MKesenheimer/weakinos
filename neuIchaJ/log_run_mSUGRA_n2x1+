@@ -1,0 +1,70 @@
+
+Identifier is 0657f2f0
+
+Stage 1a: Generating Grids, iteration 1
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=13060 finished
+  job with pid=13061 finished
+  job with pid=13062 finished
+  job with pid=13063 finished
+
+Stage 1b: Generating Grids, iteration 2
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=13078 finished
+  job with pid=13079 finished
+  job with pid=13080 finished
+  job with pid=13081 finished
+
+Stage 2: NLO run
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=13098 finished
+  job with pid=13099 finished
+  job with pid=13100 finished
+  job with pid=13101 finished
+
+Combined results for stage 2:
+rm: cannot remove '/home/hepuser/kesenheimer/POWHEG-BOX-V2/weakinos/neuIchaJ/run_mSUGRA_n2x1+/pwg-st2-combined-stat.dat': No such file or directory
+ mergedata found           4 files on the command line ...
+ btilde pos.   weights:    8.8249250816497732E-002  +-    4.8252186998584733E-005
+ btilde |neg.| weights:    1.0667204641472239E-006  +-    1.2702883800851963E-007
+ btilde Total (pos.-|neg.|):    8.8248184096033688E-002  +-    4.8249107825969350E-005
+ real_osres pos.   weights:    1.1001801681775200E-007  +-    1.9026496170376233E-010
+ real_osres |neg.| weights:    7.4690653931479476E-010  +-    4.3810758379488971E-011
+ real_osres total (pos.-|neg.|):    1.0927111027843725E-007  +-    1.9582501042670976E-010
+ total (btilde+remnants+regulars+osresR) cross section in pb    8.8248293367143973E-002  +-    4.8249107826152648E-005
+
+Stage 3: Upper bound
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=13169 finished
+  job with pid=13170 finished
+  job with pid=13171 finished
+  job with pid=13172 finished
+
+Stage 4: Events
+  starting 4 job(s)...
+  job 1 with nseed 1
+  job 2 with nseed 2
+  job 3 with nseed 3
+  job 4 with nseed 4
+  job with pid=13217 finished
+  job with pid=13218 finished
+  job with pid=13219 finished
+  job with pid=13220 finished
+rm: cannot remove '/home/hepuser/kesenheimer/POWHEG-BOX-V2/weakinos/neuIchaJ/run_mSUGRA_n2x1+/pwg-NLO.top': No such file or directory
+ mergedata.exe found           4 files on the command line ...
