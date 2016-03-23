@@ -17,11 +17,10 @@ and if you want the Pythia8 static library
 
 * libpythia.a
 
-for your own operating system. To do this, call configuration scripts by simply typing
+for your own operating system. To do this, call the configuration scripts in the main directory by simply typing
 
         $ ./configure
 
-in the main directory.
 Afterwards you can compile the libraries by typing
 
         $ make libdhelas3.a
@@ -101,7 +100,7 @@ Please refer to the Makefile for a detailed overview.
 
         $ make do
 
-compiles the source and runs the program in ./run.
+compiles the source and runs the program in ./testrun.
 
         $ make clean
 
@@ -109,7 +108,7 @@ removes all object files in ./build. This has no effect on the compiled program.
 
         $ make clean-results
 
-removes the results.
+removes the results in ./testrun.
 
         $ make clean-all
 
@@ -119,12 +118,22 @@ removes the results, the object files and the compiled programs.
 
 removes the libraries in ./Tools.
 
-All parameters are read from a single slha-file in ./run. Runtime variables, such as 
+All parameters are read from a single slha-file in ./testrun. Runtime variables, such as 
 integration points, number of events to generate, etc. has to be specified in powheg.input.
 If you want to change the Z-mass, Z-width or alpha_em you can do this in powheg.input, too.
 Please refer to the provided manual.
 
 ### Scripts
+
+We have added several helpful scripts to the whole package, which could be used to generate 
+results or clean old runs. The most important one is ./Scripts/runparallel.sh, which is used 
+to run the POWHEG-BOX-V2 executable totally automated in parallel mode. 
+Type
+
+        $ ./runparallel.sh -h
+
+to get an overview of the functionality of the script. This script works even with the MOAB 
+submitting system msub.
 
 If you want to run the Mathematica script ./Scripts/qqbchichib.m follow the instructions in ./Scripts/README.
 

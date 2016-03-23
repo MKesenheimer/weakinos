@@ -45,6 +45,7 @@ c book all histograms, will be filled later
         print*, "===================================================="
 
         ! for which particles do we want to calculate correlations?
+        ! corI and corJ is saved in the common block icorr
         if(powheginput("#corI").gt.0) then
           corI = powheginput("corI")
         endif
@@ -178,13 +179,14 @@ c calculate quantities that shall be plotted and fill histograms
         ! number of decay products to consider
         integer ndecay
         parameter (ndecay = 4)
-        ! IDs of leptonic decay products
+        ! IDs of decay products
         ! iid_dec: saves the user requested order of decay products
         integer id_dectemp(ndecay)
         integer id_dec(ndecay), iid_dec(ndecay)
+        save id_dec, iid_dec
         ! total number of decay products in final state (w/ channel A and B)
         integer nfinal, nfinalA, nfinalB
-        save id_dec, iid_dec, nfinal
+        save nfinal
         ! momenta, pt, eta, y of decay products
         double precision ptemp(0:3,ndecay) ! temporary momenta
         double precision p_dec(0:3,ndecay), pt_dec(ndecay)
@@ -197,16 +199,15 @@ c calculate quantities that shall be plotted and fill histograms
         ! handling the decays
         character*4 cstr(ndecay)
         data cstr/"dec1","dec2","dec3","dec4"/
-        ! decay switch (which decay process do we want to observe?)
+        ! decay switch (which decay process do we want to observe? see below)
         integer sdec
         save sdec
         ! counter to keep track how many decays and cuts have took place
+        ! is used to determine the branching ratios of the decays
         integer counter_decays, counter_dcuts(ndecay)
         save counter_decays, counter_dcuts
         ! variables for missing energy
         double precision p_miss(0:3), pt_miss
-        ! indices
-        integer mu, ihep, i, j, ij
         ! cuts
         ! ptJmin is a technical cut
         double precision mJmin
@@ -224,10 +225,8 @@ c calculate quantities that shall be plotted and fill histograms
         save fdecA, fdecB, decayed
         ! number of events processed
         integer nevents
-        ! debugging
-        integer id_dghtr(10)
-        double precision var(10)
-        save var
+        ! indices
+        integer mu, i, j
 
         ! at first call
         if (ini) then
@@ -387,8 +386,8 @@ c calculate quantities that shall be plotted and fill histograms
         call buildjets(mjets,kt,eta,rap,phi,pj,ptrel)
         ! determine number of visible jets
         num_vis_jets = 0
-        do ij = 1,mjets
-          if ((kt(ij).gt.ptJmin).and.(dabs(eta(ij)).lt.etaJmax)) then
+        do i = 1,mjets
+          if ((kt(i).gt.ptJmin).and.(dabs(eta(i)).lt.etaJmax)) then
             num_vis_jets=num_vis_jets+1
           endif
         enddo
@@ -951,13 +950,6 @@ c returns list with ihep numbers of these particles sorted by pt in list
           ! sort by pt
           call sortbypt(n,list)
         endif
-#ifdef DEBUGQ
-        print*,"PDG_ID",PDG_ID
-        do n=1,10
-        print*,"list(",n,") = ",list(n)
-        enddo
-        stop
-#endif
       end
 c############### end subroutine getptsortedlist ########################
 
@@ -1025,13 +1017,25 @@ c the phep momenta is in the laboratory frame
           !stop
         else
           ! p is defined in the laboratory frame (~kn_pborn(i))
-          p(0) = phep(4,ihep)
-          do mu=1,3
-            p(mu) = phep(mu,ihep)
-          enddo
+          call convert_hep_momenta(phep(:,ihep),p(:))
         endif
       end
 c############### end subroutine get4momentum_ihep ######################
+
+c############### subroutine convert_hep_momenta ########################
+c converts the hep momentum standard to the conventional momentum
+c standard: hep (p_i, E, m) -> conventional (E, p_i)
+      subroutine convert_hep_momenta(p_hep,p_con)
+        implicit none
+        integer mu
+        double precision p_hep(1:5)
+        double precision p_con(0:3)
+        p_con(0) = p_hep(4)
+        do mu=1,3
+          p_con(mu) = p_hep(mu)
+        enddo
+      end
+c############### end subroutine convert_hep_momenta ####################
 
 c############### subroutine get4momentum_fin_pair ######################
 c takes particle data group identity code of the final state pair

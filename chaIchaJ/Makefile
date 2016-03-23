@@ -5,6 +5,7 @@
 SHELL = /bin/sh
 .SUFFIXES:
 .SUFFIXES: .c .f .F .cc .cpp .h .hh .inc .o .a
+.DEFAULT_GOAL := all
 
 ########################################################################
 ## Flags
@@ -274,7 +275,7 @@ USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
        Real_osres_phsp.o phi1_2.o sigosres.o version.o
 
 ### Functions in Tools/functions/
-FUNC = hep2pwg.o funcprocess.o Print.o funcbasic.o off_to_on.o
+FUNC = funcprocess.o Print.o funcbasic.o off_to_on.o
 
 ### MadGraph mandatory files
 MMADOBJ = couplings.o hardstop.o printout.o read_slha.o \

@@ -1,5 +1,5 @@
 In order to run the Mathematica script properly you have to replace the 
-provided files in "./Modified Files" with the ones in your FeynArts and 
+provided files in ./Modified_Files with the ones in your FeynArts and 
 FormCalc directory, respectively.
 If you are not sure what you do, create backups of your original files.
 
@@ -9,5 +9,5 @@ create Fortran code for MSSM processes and to get a better inside what
 FeynArts is doing (FeynArts creates now Adobe PDFs even for RenConst
 diagrams). Additionally one can now calculate the RenConst without writing
 them directly into a Fortran file. So it is possible to have some functions
-operating on the RenConst and after this writing them into a Fortran file.
-See script qqbchichi.m for more informations.
+operating on the RenConst and afterwards writing them into a Fortran file.
+See script ./FormCalc/qqbchichi.m for more informations.

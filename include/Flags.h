@@ -12,7 +12,7 @@ c store here the flags which are necessary for this process
         
         ! flg_rad: when subtracting: for radiation-generation and 
         ! modified reals: R might turn negative 
-        ! -> cut around the resonant gluino-mass 
+        ! -> cut around the resonant squark-mass
         logical flg_rad
         
         common/flags/ flg_fakevirtuals, flg_btilde, flg_rad

@@ -1,5 +1,5 @@
 Im Ordner Scripts ist eine Sammlung von Skripten und Dateien zu finden, 
-die hilfreich in der Generierung der Amplituden sind.
+die hilfreich in der Generierung der Amplituden und der Ergebnisse sind.
 
 
 Ordner Modified_Files:
@@ -8,7 +8,7 @@ Ordner Modified_Files:
   Dateien an die richtigen Orte kopiert werden, damit die Skripte und
   das spätere Programm laufen.
   
-Ordner MadGraphStuff_new:
+Ordner ./MadGraph/MadGraphStuff_new:
 - Im Ordner MadGraphStuff_new befindet sich alles notwendige um
   die reellen Amplituden zu erzeugen. Dieser Ordner wurde aus der
   POWHEG-BOX(-V1) kopiert und um das MSSM-Modell erweitert. Die 
@@ -17,13 +17,13 @@ Ordner MadGraphStuff_new:
   Prozessen auftreten können. MadGraphStuff_new kann gut dazu verwendet
   werden um die allgemeine Datei- und Ordnerstruktur zu erzeugen und
   um die Dateien real.f, virtual.f, init_couplings.f, init_processes.f 
-  zu erzeugen. Die Amplituden sollten anschließend allerdings mit 
-  MG_ME_V4.5.2_standalone erzeugt werden.
+  zu erzeugen. Die korrekten Amplituden sollten anschließend allerdings 
+  mit MG_ME_V4.5.2_standalone erzeugt werden.
   
-Ordner MG_ME_V4.5.2_standalone:
+Ordner ./MadGraph/MG_ME_V4.5.2_standalone:
 - Mit der Standalone-Version von MadGraph können sowohl die Born- als
   auch die reellen Amplituden erzeugt werden. Ggf. müssen die Dateien
-  für die Amplituden eindeutig umbenannt werden. 
+  für die Amplituden eindeutig von Hand umbenannt werden. 
   
 Skript copy_form_amps:
 - Kopiert alle benötigten FormCalc-Dateien für die virtuellen Amplituden
@@ -32,13 +32,13 @@ Skript copy_form_amps:
   Variablen.
   
 Skript mad_rename_script
-- wird in die Ordner ../(PROZESS)/MadGraph_Reals/SubProcesses/rename_script
+- wird in die Ordner ../(PROZESS)/MadGraph_Reals/SubProcesses/
   kopiert und verändert dort bei Aufruf die Amplituden-Dateien, die von 
   MadGraph erzeugt wurden. Es ersetzt in den Dateien Variablennamen 
   durch individuelle Variablen, sodass die Variablen nicht mit FormCalc 
   in Konflikt kommen.
   
-Datei proc_card.dat
+Datei ./MadGraph/proc_card.dat
 - Process Card, mit der die MadGraph Amplituden erzeugt wurden.
 
 Skript qqbchichi.m
@@ -48,3 +48,21 @@ Skript make_pretty
 - kann aufgerufen werden um die MadGraph Amplituden hübscher zu machen.
 - es werden unnötige Leerzeichen gelöscht, so dass die Amplituden 
   schöner angeordnet werden.
+
+Skript runparallel.sh
+- kann verwendet werden, um automatisierte und parallelisierte Rechnungen 
+  durchzuführen. Siehe ./runparallel.sh -h für eine detailierte Übersicht.
+- Erlaubt Rechnung auf dem Cluster!
+
+Skript reweight.sh
+- wird verwendet um *.lhe Event-Dateien neu zu gewichten. Zum Beispiel
+  kann eine bereits durchgeführte Rechnung mit der Renormierungsskala
+  mu_R = 1D0 in eine Rechnung mit mu_R = 0.5D0 umgewandelt werden.
+  Die neuen Gewichte werden der Event-Datei hinzugefügt.
+
+Skript ewi_scan.sh
+- kann verwendet werden um einen Parameterscan vom Regulator ewi 
+  durchzuführen.
+
+Skript mu_scan.sh
+- wird verwendet um einen Parameterscan vom Skalenfaktor mu durchzuführen.
