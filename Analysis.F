@@ -14,9 +14,9 @@ c book all histograms, will be filled later
         double precision powheginput
         external powheginput
         double precision mm, mp, ptm, ptp, ptjm, ptjp, em, ep, ym, yp
-        double precision mdm, mdp, ptdm, ptdp
+        double precision mdm, mdp, ptdm, ptdp, edm, edp
         double precision phim, phip
-        integer n1, n2
+        integer n1, n2, n3
         character*4 cstr(ndecay)
         data cstr/"dec1","dec2","dec3","dec4"/
         ! correlations
@@ -58,28 +58,32 @@ c book all histograms, will be filled later
         ! mass(A+B)
         mm = dabs(par_Fin1mass) + dabs(par_Fin2mass)
         mp = mm + 800D0
-        ! Pt(A), Pt(B)
+        ! Pt(A), Pt(B), binwidth = 10GeV
         ptm = 0D0
-        ptp = ptm + 504D0
-        ! Pt(J)
+        ptp = ptm + 800D0
+        ! Pt(J), binwidth = 2.5GeV
         ptjm = 0D0
-        ptjp = ptjm + 100D0
-
+        ptjp = ptjm + 200D0
+        ! Pt(decI), binwidth = 10GeV
+        ptdm = 0D0
+        ptdp = ptdm + 800D0
+        
         ! number of bins
         n2 = 40
-        ! eta(A)
-        em = -3D0
-        ep = em + 6D0
-        ! y(A)
+        n3 = 48
+        ! eta(A), eta(B), eta(J), binwidth = 0.25
+        em = -5D0
+        ep = em + 10D0
+        ! eta(decI), binwidth = 0.125
+        edm = -3D0
+        edp = edm + 6D0
+        ! y(A), binwidth = 0.2
         ym = -4D0
         yp = ym + 8D0
-        ! mass(decI+decJ)
+        ! mass(decI+decJ), binwidth = 2.5GeV
         mdm = 0D0
         mdp = mdm + 200D0
-        ! Pt(decI)
-        ptdm = 0D0
-        ptdp = ptm + 500D0
-        ! dPhi(decI+decJ)
+        ! dPhi(decI+decJ), binwidth = 2pi/40 ~ 0.16
         phim = -pi
         phip = pi
 
@@ -114,9 +118,9 @@ c book all histograms, will be filled later
      &                     (mdp-mdm)/n1,mdm,mdp)
           do i=1,ndecay
             call bookupeqbins("Pt("//cstr(i)//")",
-     &                       (ptdp-ptdm)/n2,ptdm,ptdp)
+     &                       (ptdp-ptdm)/n1,ptdm,ptdp)
             call bookupeqbins("eta("//cstr(i)//")",
-     &                       (ep-em)/n2,em,ep)
+     &                       (edp-edm)/n3,edm,edp)
           enddo
           ! decay cuts
           call bookupeqbins("xsec(Dcuts)",1d0,-0.5d0,0.5d0)
@@ -127,9 +131,9 @@ c book all histograms, will be filled later
           call bookupeqbins("Pt(miss)",(ptp-ptm)/n1,ptm,ptp)
           do i=1,ndecay
             call bookupeqbins("Pt("//cstr(i)//",Dcuts)",
-     &                       (ptdp-ptdm)/n2,ptdm,ptdp)
+     &                       (ptdp-ptdm)/n1,ptdm,ptdp)
             call bookupeqbins("eta("//cstr(i)//",Dcuts)",
-     &                       (ep-em)/n2,em,ep)
+     &                       (edp-edm)/n3,edm,edp)
           enddo
         endif
       end
