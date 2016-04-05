@@ -85,8 +85,8 @@ plot infil1 index  iindex using ($1+$2)/2:3:1:2:($3-$4):($3+$4) title mytitle
 EOF
 else
 cat <<'EOF' >> genplots.gp
-plot infil1 index  iindex using ($1+$2)/2:(1000*$3):1:2:(1000*($3-$4)):(1000*($3+$4)) title mytitle,\
-    infil2 index  iindex  using ($1+$2)/2:(1000*$3):1:2:(1000*($3-$4)):(1000*($3+$4)) title mytitle
+plot infil1 index  iindex using ($1+$2)/2:(1*$3):1:2:(1*($3-$4)):(1*($3+$4)) title mytitle,\
+    infil2 index  iindex  using ($1+$2)/2:(1*$3):1:2:(1*($3-$4)):(1*($3+$4)) title mytitle
 
 set tmargin at screen 0.4
 set bmargin at screen 0.15
