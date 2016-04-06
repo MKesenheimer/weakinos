@@ -154,7 +154,7 @@ c Result is R2(s) = 1/4 * |p|/sqrts * domega
 c Expression evaluated is 
 c R2(s) = d^3p1/(2 E1) d^3p2/(2 E2) delta^4(p0 - p1 - p2)
 c if you don't want to integrate over the azimuthal degree of freedom
-c just set xphi to zero - the jacobian will be still correct.
+c just set xphi to zero - the jacobian will still be correct.
       subroutine R2phsp(xth,xphi,m1,m2,p0,p1,p2,jac)
         implicit none
         ! masses of decaying particles

@@ -28,6 +28,19 @@ c and the Jacobi factor for the phase space volume
         integer nu
         ! check 4-momentum conservation
         logical lresult
+        
+! check the distribution of x1 and x2
+#ifdef DEBUGQ
+#define DEBUG2
+        integer nges
+        double precision bin1, bin2
+        integer nbins
+        parameter (nbins = 20)
+        integer ni(nbins), i, j
+        double precision ri(nbins), rtot
+        save nges, ni, ri
+        rtot = 0
+#endif
 
         ! reset the jacobians
         jac = 1D0
@@ -110,9 +123,6 @@ c and the Jacobi factor for the phase space volume
         if(.not.lresult) kn_jacborn = 0D0
 
 #ifdef DEBUG1
-        print*,"bjorken x:"
-        print*,"kn_xb1 = ", kn_xb1
-        print*,"kn_xb2 = ", kn_xb2
         print*,"energy and momenta in lab frame:"
         print*,"E1, pz1  = ", kn_xb1*dsqrt(kn_sbeams)/2
         print*,"E2, -pz2 = ", kn_xb2*dsqrt(kn_sbeams)/2
@@ -129,6 +139,23 @@ c and the Jacobi factor for the phase space volume
         print*,"kn_cmpborn(2) = ", kn_cmpborn(:,2)
         print*,"kn_cmpborn(3) = ", kn_cmpborn(:,3)
         print*,"kn_cmpborn(4) = ", kn_cmpborn(:,4)
+#endif
+
+#ifdef DEBUG2
+        nges = nges + 1
+        print*
+        print*,"# bin1, bin2, P(x1 in [bin1, bin2])"
+        do i=1,nbins
+          bin1 = 10D0**(1D0-5*(i+1)/real(nbins))
+          bin2 = 10D0**(1D0-5*i/real(nbins))
+          if(kn_xb1.gt.bin1.and.kn_xb1.lt.bin2) then
+            ni(i) = ni(i) + 1
+            ri(i) = real(ni(i))/real(nges)
+          endif
+          rtot = rtot + ri(i)
+          print*, bin1, bin2, ri(i)
+        enddo
+        print*,"check: ",rtot
 #endif
       end
 

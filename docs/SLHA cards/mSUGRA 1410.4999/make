@@ -1,0 +1,4 @@
+#!/bin/bash
+suspect2
+cp suspect2_lha.out ./SD_leshouches.in
+sdecay
