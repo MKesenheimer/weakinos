@@ -55,10 +55,10 @@ c book all histograms, will be filled later
           
         ! number of bins
         n1 = 80
-        ! mass(A+B)
+        ! mass(A+B), binwidth = 10GeV
         mm = dabs(par_Fin1mass) + dabs(par_Fin2mass)
         mp = mm + 800D0
-        ! Pt(A), Pt(B), binwidth = 10GeV
+        ! Pt(A), Pt(B), Pt(miss), binwidth = 10GeV
         ptm = 0D0
         ptp = ptm + 800D0
         ! Pt(J), binwidth = 2.5GeV
