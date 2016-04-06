@@ -394,6 +394,7 @@ if [ "$LOPDF" != "" ]; then
    overwrite_powheg_var "lhans1" $LOPDF
    overwrite_powheg_var "lhans2" $LOPDF
    overwrite_powheg_var "bornonly" 1
+   overwrite_powheg_var "LOevents" 1
 fi
 
 if [ "$FIN1" != "" ]; then
