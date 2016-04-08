@@ -733,12 +733,12 @@ c#define PTORDERED
         ! NOTE: the correction factor brcor is not used if bratio
         ! is equal to 0D0. If a modified decay is requested, the
         ! variable bratio should be set in setup-PYTHIA-lhef.f.
-        if(bratio.ne.0D0) then
-          brcor = bratio/
-     &            (((real(counter_dcuts(1)))/counter_decays)*
-     &             ((real(counter_dcuts(3)))/counter_decays))
-          dsig(:) = dsig(:)*brcor
-        endif
+        !if(bratio.ne.0D0) then
+        !  brcor = bratio/
+        !&            (((real(counter_dcuts(1)))/counter_decays)*
+        !&             ((real(counter_dcuts(3)))/counter_decays))
+        !  dsig(:) = dsig(:)*brcor
+        !endif
         !print*,bratio,brcor
         
         ! fill histograms

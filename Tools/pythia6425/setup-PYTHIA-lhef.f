@@ -220,24 +220,24 @@ c     initialize pythia
       ! to determine which idc "decay number" should be set or unset
 
       ! W should decay always in (mu,v_mu)
-      do idc=190,209
-        mdme(idc,1)=0
-      enddo
-      mdme(207,1)=1
+      !do idc=190,209
+      !  mdme(idc,1)=0
+      !enddo
+      !mdme(207,1)=1
       
       ! Z should decay always in (e+,e-)
-      do idc=174,189
-        mdme(idc,1)=0
-      enddo
-      mdme(182,1)=1
+      !do idc=174,189
+      !  mdme(idc,1)=0
+      !enddo
+      !mdme(182,1)=1
 
       ! n2 should decay always in (n0,Z0)
-      mdme(5271,1)=1
-      mdme(5272,1)=0
+      !mdme(5271,1)=1
+      !mdme(5272,1)=0
       
       ! x1 should decay always in (n1,W+)
-      mdme(5266,1)=1
-!=================================================================
+      !mdme(5266,1)=1
+      !=================================================================
       end
 
 
@@ -313,11 +313,11 @@ c     jumps to next event and calls analysis
       ! even if you changed just one decay, you have to uncomment all of
       ! the following lines to make sure that the correct branching
       ! ratio is used.
-      bratio = 1D0
-      bratio = bratio*brat(5266) ! BR(x2+ -> n1 W+)
-      bratio = bratio*brat(207)  ! BR(W -> mu v_mu)
-      bratio = bratio*brat(5271) ! BR(n2 -> n1 Z0)
-      bratio = bratio*brat(182)  ! BR(Z -> e+ e-)
+      !bratio = 1D0
+      !bratio = bratio*brat(5266) ! BR(x2+ -> n1 W+)
+      !bratio = bratio*brat(207)  ! BR(W -> mu v_mu)
+      !bratio = bratio*brat(5271) ! BR(n2 -> n1 Z0)
+      !bratio = bratio*brat(182)  ! BR(Z -> e+ e-)
       !print*,bratio
       !stop
       !=================================================================
