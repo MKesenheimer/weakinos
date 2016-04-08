@@ -83,7 +83,7 @@ c book all histograms, will be filled later
         ! mass(decI+decJ), binwidth = 2.5GeV
         mdm = 0D0
         mdp = mdm + 200D0
-        ! dPhi(decI+decJ), binwidth = 2pi/40 ~ 0.16
+        ! dPhi(decI+decJ), binwidth = 2pi/40 ~ 0.15708
         phim = -pi
         phip = pi
 
