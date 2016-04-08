@@ -154,7 +154,7 @@ c     hands over sm parameters from init_couplings to pythia
       !mstp(41) = 0               ! prevent all resonance decays
       print*, "resonance decays:                     ", mstp(41)
       !mstp(64) = 3   ! use lambda_mc for is shower > 6.4.19
-      !mstp(64) = 1   ! use lambda_msbar (default)
+      mstp(64) = 1   ! use lambda_msbar (default)
       ! number of warnings printed on the shell
       mstu(26) = 20
       !call pylist(12)  ! to see the pythia decay table
@@ -186,16 +186,66 @@ c     initialize pythia
       integer mdcy,mdme,kfdp
       real *8 brat
       common/pydat3/mdcy(500,3),mdme(8000,2),brat(8000),kfdp(8000,5)
+      ! pass the modified branching ratio to Analysis.f
+      double precision bratio
+      common/pybratio/bratio
       integer pycomp
       external pycomp
       integer maxev
       common/mcmaxev/maxev
+      integer idc
+      logical charginodecays
+      data charginodecays/.false./
       nevhep=0
       ! read the header first, so lprup is set
       call lhefreadhdr(97)
-      ! make pi0 stable as in herwig default
+      ! make pi0 stable as in herwig default: 
+      ! mdcy(pycomp(PDG_IDnumber),1) = 1 -> not stable
+      ! mdcy(pycomp(PDG_IDnumber),1) = 0 -> stable
       mdcy(pycomp(111),1)=0
-      if (lprup(1).eq.10015)  mdcy(pycomp(15),1)=0
+      ! we don't want to simulate decays for the chargino pair-procution
+      ! processes (to get the right jet-distribution in Analysis.f)
+      ! TODO: check!
+      if(.not. charginodecays .and.
+     &   (abs(lprup(1)).eq.137137 .or. abs(lprup(1)).eq.124137 .or.
+     &    abs(lprup(1)).eq.137124 .or. abs(lprup(1)).eq.137124)) then
+        mdcy(pycomp(1000024),1)=0
+        mdcy(pycomp(1000037),1)=0
+        print*,"WARNING: Charginos are stable. If you want to "//
+     &         "simulate decays, set charginodecays to true."
+      endif    
+      ! MK: new
+      !=================================================================
+      ! force or prevent decays, see page 417 in PY-manual.
+      ! this method is highly dependent on the used SUSY parameter 
+      ! point, so be careful!
+      ! uncomment call pylist(12) to see the pythia decay table and
+      ! to determine which idc "decay number" should be set or unset
+      bratio = 1D0      
+
+      ! W should decay always in (mu,v_mu)
+      !do idc=190,209
+      !  mdme(idc,1)=0
+      !enddo
+      !mdme(207,1)=1
+      !bratio = bratio*brat(207) ! BR(W -> mu v_mu)
+      
+      ! Z should decay always in (e+,e-)
+      !do idc=174,189
+      !  mdme(idc,1)=0
+      !enddo
+      !mdme(182,1)=1
+      !bratio = bratio*brat(182) ! BR(Z -> e+ e-)
+      
+      ! n2 should decay always in (n0,Z0)
+      !mdme(5271,1)=1
+      !mdme(5272,1)=0
+      !bratio = bratio*brat(5271)  ! BR(n2 -> n1 Z0)
+      
+      ! x1 should decay always in (n1,W+)
+      !mdme(5266)=1
+      !bratio = bratio*brat(5266) ! BR(x2+ -> n1 W+)
+!=================================================================
       end
 
 
@@ -244,9 +294,15 @@ c     jumps to next event and calls analysis
       integer mint
       real *8 vint
       common/pyint1/mint(400),vint(400)
+      integer mdcy,mdme,kfdp
+      double precision brat
+      common/pydat3/mdcy(500,3),mdme(8000,2),brat(8000),kfdp(8000,5)
       ! check parameters
       logical verbose
       parameter (verbose=.false.)
+      double precision bratio(4)
+      ! default value
+      bratio(:) = 1D0
       if(mint(51).ne.0) then
          if(verbose) then
             print*, 'killed event'

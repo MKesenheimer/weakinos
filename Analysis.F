@@ -210,6 +210,11 @@ c calculate quantities that shall be plotted and fill histograms
         ! is used to determine the branching ratios of the decays
         integer counter_decays, counter_dcuts(ndecay)
         save counter_decays, counter_dcuts
+        ! correct for modified branching ratios
+        double precision brcor
+        ! acces the branching corrected ratios of PYTHIA (this is set in setup-PYTHIA-lhef.f)
+        double precision bratio
+        common/pybratio/bratio
         ! variables for missing energy
         double precision p_miss(0:3), pt_miss
         ! cuts
@@ -231,6 +236,9 @@ c calculate quantities that shall be plotted and fill histograms
         integer nevents
         ! indices
         integer mu, i, j
+        ! debug
+        logical isvetoed
+        isvetoed = .true.
 
         ! at first call
         if (ini) then
@@ -317,6 +325,11 @@ c calculate quantities that shall be plotted and fill histograms
         ptDmin   = 10D0 ! physical cut
         etaDmax  = 2.5D0
         RDsepmin = 0.05D0
+#ifdef DEBUGQ
+        ptDmin   = 0D0 ! physical cut
+        etaDmax  = 1D10
+        RDsepmin = 0D0
+#endif
         ! the missing pt threshold
         ptmissmin = 100D0
 
@@ -470,11 +483,13 @@ c#define PTORDERED
             if(p_dec(0,1).eq.0D0 .and.
      &         idhep(ihep_decchainA(i,0)).eq.id_dec(1)) then
               call get4momentum_ihep(ihep_decchainA(i,0),p_dec(:,1))
+              isvetoed = .false.
             endif
             ! same for second decay product
             if(p_dec(0,2).eq.0D0 .and.
      &         idhep(ihep_decchainA(i,0)).eq.id_dec(2)) then
               call get4momentum_ihep(ihep_decchainA(i,0),p_dec(:,2))
+              isvetoed = .false.
             endif
           enddo
           ! decay chain of final state particle B
@@ -490,11 +505,13 @@ c#define PTORDERED
             if(p_dec(0,3).eq.0D0 .and.
      &         idhep(ihep_decchainB(i,0)).eq.id_dec(3)) then
               call get4momentum_ihep(ihep_decchainB(i,0),p_dec(:,3))
+              isvetoed = .false.
             endif
             ! same for second decay product
             if(p_dec(0,4).eq.0D0 .and.
      &         idhep(ihep_decchainB(i,0)).eq.id_dec(4)) then
               call get4momentum_ihep(ihep_decchainB(i,0),p_dec(:,4))
+              isvetoed = .false.
             endif
           enddo
           ! if the number of requested decay IDs is not the sum of the
@@ -503,9 +520,11 @@ c#define PTORDERED
             !print*,"vetoed",nfinalA+nfinalB,nfinal
             !print*
             p_dec(:,:) = 0D0
-          endif  
+            isvetoed = .true.
+          endif
 #ifdef DEBUGQ
           if(p_dec(0,1).ne.0D0 .or. p_dec(0,2).ne.0D0) then
+          !if(isvetoed) then
           print*,"Decay chain of A", id_finA
           print*,id_finA,p_finA
           do i=1,2
@@ -685,6 +704,43 @@ c#define PTORDERED
           pt_miss = pt(p_miss(:))
         endif
         
+        ! print the ratio of the number of requested decays and the total
+        ! number of decays (this is the branching ratio).
+        ! this could be used to compare with the branching ratio of 
+        ! the SLHA file.
+        do i=1,ndecay
+          if(p_dec(0,i).ne.0D0) then ! p_dec is only filled if particle decayed
+            counter_dcuts(i) = counter_dcuts(i) + 1
+          endif  
+        enddo
+        ! do not overload the screen
+        if(mod(nevents,20000).eq.1) then
+          if(WHCPRG.eq."PYTHIA") then
+            print*
+            print*,"BR(finA/B->dec(i)+X) [%] = ",
+     &             (real(counter_dcuts(1:ndecay))*100)/counter_decays
+            print*,"BR(finA->dec(1)+dec(2)+X) x "//
+     &             "BR(finB->dec(3)+dec(4)+X) [%] = ",
+     &             (((real(counter_dcuts(1)*100))/counter_decays)*
+     &              ((real(counter_dcuts(3)*100))/counter_decays))
+            print*
+          endif
+        endif
+        ! increment number of events processed
+        nevents = nevents + 1
+        ! if the branching ratios are modified in PYTHIA by hand
+        ! correct the weight here:
+        ! NOTE: the correction factor brcor is not used if bratio
+        ! is equal to 1D0. If a modified decay is requested, the
+        ! variable bratio should be set in setup-PYTHIA-lhef.f.
+        if(bratio.ne.1D0) then
+          brcor = bratio/
+     &            (((real(counter_dcuts(1)))/counter_decays)*
+     &             ((real(counter_dcuts(3)))/counter_decays))
+          dsig(:) = dsig(:)*brcor
+        endif
+        !print*,brcor
+        
         ! fill histograms
         ! no cuts
         call filld("xsec",0D0,dsig)
@@ -725,7 +781,7 @@ c#define PTORDERED
             if(RDmin(i).le.RDsepmin) DcutsPassed(i) = .false.
             ! store in DcutsPassed(0) if all cuts have passed
             ! (only for observable decay products)
-            if(.not.DcutsPassed(i) .and. isdetectable(id_dec(i))) then
+            if(isdetectable(id_dec(i)) .and. .not.DcutsPassed(i)) then
               DcutsPassed(0) = .false.
             endif  
           endif  
@@ -753,7 +809,6 @@ c#define PTORDERED
           ! fill the other histogramms for every decay product individually
           do i=1,ndecay
             if(DcutsPassed(i)) then
-              counter_dcuts(i) = counter_dcuts(i) + 1
               call filld("Pt("//cstr(i)//",Dcuts)",pt_dec(i),dsig)
               call filld("eta("//cstr(i)//",Dcuts)",eta_dec(i),dsig)
             endif
@@ -768,28 +823,6 @@ c#define PTORDERED
             call filld("Pt(miss)",pt_miss,dsig)
           endif
         endif
-        
-#ifdef DEBUGQ
-          if(DcutsPassed(0) .and. pt_miss.ge.ptmissmin) then
-          print*
-          print*,"p_miss",p_miss(:)
-          print*,"pt_miss",pt_miss
-          endif
-#endif
-
-        ! print the ratio of decays that passed the cuts and the total
-        ! number of decays.
-        ! this could be used to determine how good the cut is or to
-        ! compare with the branching ratio of the SLHA file.
-        if(mod(nevents,20000).eq.1) then
-          if(WHCPRG.eq."PYTHIA") then
-            print*,"BR_cuts(finA+finB->dec(i)+X) [%] = ",
-     &             (real(counter_dcuts(1:ndecay))*100)/counter_decays
-          endif
-        endif
-
-        ! increment number of events processed
-        nevents = nevents + 1
       end
 c############### end subroutine analysis ###############################
 
