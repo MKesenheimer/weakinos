@@ -708,8 +708,10 @@ c#define PTORDERED
         ! number of decays (this is the branching ratio).
         ! this could be used to compare with the branching ratio of 
         ! the SLHA file.
+        ! p_dec is only filled if requested particle was found in the 
+        ! decay chain
         do i=1,ndecay
-          if(p_dec(0,i).ne.0D0) then ! p_dec is only filled if particle decayed
+          if(p_dec(0,i).ne.0D0) then
             counter_dcuts(i) = counter_dcuts(i) + 1
           endif  
         enddo
@@ -726,20 +728,18 @@ c#define PTORDERED
             print*
           endif
         endif
-        ! increment number of events processed
-        nevents = nevents + 1
         ! if the branching ratios are modified in PYTHIA by hand
         ! correct the weight here:
         ! NOTE: the correction factor brcor is not used if bratio
-        ! is equal to 1D0. If a modified decay is requested, the
+        ! is equal to 0D0. If a modified decay is requested, the
         ! variable bratio should be set in setup-PYTHIA-lhef.f.
-        if(bratio.ne.1D0) then
+        if(bratio.ne.0D0) then
           brcor = bratio/
      &            (((real(counter_dcuts(1)))/counter_decays)*
      &             ((real(counter_dcuts(3)))/counter_decays))
           dsig(:) = dsig(:)*brcor
         endif
-        !print*,brcor
+        !print*,bratio,brcor
         
         ! fill histograms
         ! no cuts
@@ -823,6 +823,9 @@ c#define PTORDERED
             call filld("Pt(miss)",pt_miss,dsig)
           endif
         endif
+
+        ! increment number of events processed
+        nevents = nevents + 1
       end
 c############### end subroutine analysis ###############################
 

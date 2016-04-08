@@ -186,9 +186,6 @@ c     initialize pythia
       integer mdcy,mdme,kfdp
       real *8 brat
       common/pydat3/mdcy(500,3),mdme(8000,2),brat(8000),kfdp(8000,5)
-      ! pass the modified branching ratio to Analysis.f
-      double precision bratio
-      common/pybratio/bratio
       integer pycomp
       external pycomp
       integer maxev
@@ -214,37 +211,32 @@ c     initialize pythia
         print*,"WARNING: Charginos are stable. If you want to "//
      &         "simulate decays, set charginodecays to true."
       endif    
-      ! MK: new
+      ! MK: new for p p -> n2 x1+ -> e+ e- mu+ nu_mu
       !=================================================================
       ! force or prevent decays, see page 417 in PY-manual.
       ! this method is highly dependent on the used SUSY parameter 
       ! point, so be careful!
       ! uncomment call pylist(12) to see the pythia decay table and
       ! to determine which idc "decay number" should be set or unset
-      bratio = 1D0      
 
       ! W should decay always in (mu,v_mu)
-      !do idc=190,209
-      !  mdme(idc,1)=0
-      !enddo
-      !mdme(207,1)=1
-      !bratio = bratio*brat(207) ! BR(W -> mu v_mu)
+      do idc=190,209
+        mdme(idc,1)=0
+      enddo
+      mdme(207,1)=1
       
       ! Z should decay always in (e+,e-)
-      !do idc=174,189
-      !  mdme(idc,1)=0
-      !enddo
-      !mdme(182,1)=1
-      !bratio = bratio*brat(182) ! BR(Z -> e+ e-)
-      
+      do idc=174,189
+        mdme(idc,1)=0
+      enddo
+      mdme(182,1)=1
+
       ! n2 should decay always in (n0,Z0)
-      !mdme(5271,1)=1
-      !mdme(5272,1)=0
-      !bratio = bratio*brat(5271)  ! BR(n2 -> n1 Z0)
+      mdme(5271,1)=1
+      mdme(5272,1)=0
       
       ! x1 should decay always in (n1,W+)
-      !mdme(5266)=1
-      !bratio = bratio*brat(5266) ! BR(x2+ -> n1 W+)
+      mdme(5266,1)=1
 !=================================================================
       end
 
@@ -300,9 +292,11 @@ c     jumps to next event and calls analysis
       ! check parameters
       logical verbose
       parameter (verbose=.false.)
-      double precision bratio(4)
+      ! pass the modified branching ratio to Analysis.f
+      double precision bratio
+      common/pybratio/bratio
       ! default value
-      bratio(:) = 1D0
+      bratio = 0D0
       if(mint(51).ne.0) then
          if(verbose) then
             print*, 'killed event'
@@ -314,6 +308,19 @@ c     jumps to next event and calls analysis
       endif
       nevhep=nevhep+1
       if(abs(idwtup).eq.3) xwgtup=xwgtup*xsecup(1)
+      ! MK: new for p p -> n2 x1+ -> e+ e- mu+ nu_mu
+      !=================================================================
+      ! even if you changed just one decay, you have to uncomment all of
+      ! the following lines to make sure that the correct branching
+      ! ratio is used.
+      bratio = 1D0
+      bratio = bratio*brat(5266) ! BR(x2+ -> n1 W+)
+      bratio = bratio*brat(207)  ! BR(W -> mu v_mu)
+      bratio = bratio*brat(5271) ! BR(n2 -> n1 Z0)
+      bratio = bratio*brat(182)  ! BR(Z -> e+ e-)
+      !print*,bratio
+      !stop
+      !=================================================================
       call analysis(xwgtup)
       call pwhgaccumup
       end
