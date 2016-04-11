@@ -745,7 +745,7 @@ echo "Stage 4: Events"
 echo "  submitting $JOBS job(s)..."
 for i in \`seq 1 $JOBS\`; do
   NSEED=\$((\$i+$NSEEDOFFSET))
-  job[\$i]=\$(msub -l walltime=02:00:00,depend=afterok\${dependIDs3} -v ARG1=\$NSEED -o $RUNDIR/powheg_st4_\${NSEED}.output -e $RUNDIR/powheg_st4_\${NSEED}.error $WORKINGDIR/run_st4_${IDENT}.sh | grep -v -e '^$')
+  job[\$i]=\$(msub -l walltime=12:00:00,depend=afterok\${dependIDs3} -v ARG1=\$NSEED -o $RUNDIR/powheg_st4_\${NSEED}.output -e $RUNDIR/powheg_st4_\${NSEED}.error $WORKINGDIR/run_st4_${IDENT}.sh | grep -v -e '^$')
   echo "  job \$i with nseed \$NSEED and ID \${job[\$i]}"
   dependIDs4="\$dependIDs4:\${job[\$i]}"
 done
