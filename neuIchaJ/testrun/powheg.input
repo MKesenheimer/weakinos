@@ -5,8 +5,8 @@ fin2  1000024   ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
 ! Analysis
 ! the user should take care of which decay products are meaningful
 ! electron = 11, muon = 13, tauon = 15, positron = -11 ...
-! it is assumed that dec1 and dec2 are daughters of fin1, and
-! dec3 and dec4 are daughters of fin2
+! it is assumed that dec1 and dec2 are related to fin1, and
+! dec3 and dec4 are related to fin2
 dec1  11
 dec2  -11
 dec3  -13
@@ -16,10 +16,11 @@ dec4  14
 ! corI and corJ should be different and a number between 1 and 4
 corI  1
 corJ  2
-! number of total decay products in the final state (incl. not 
-! detectable particles). This is used to determine the correct
-! decay channel
-nfinal 6
+! decay chains. Don't forget the semi colon at the end of the string!
+chainA '1000023->1000022,23;23->11,-11;'
+chainB '1000024->1000022,24;24->-13,14;'
+#chainA '1000023->1000022,23;'
+#chainB '1000024->1000022,24;'
 
 ! physics
 incomingflavors 4    ! (default 4) number of incoming flavor

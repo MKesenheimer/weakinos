@@ -1,0 +1,20 @@
+--- ../pythia-6.4.25.f	2012-07-19 16:44:40.000000000 +0200
++++ pythia-6.4.25-decay.f	2012-08-10 11:14:27.862000000 +0200
+@@ -3390,7 +3390,7 @@
+  
+ C...Check that no odd resonance left undecayed.
+         MINT(54)=N
+-        IF(MSTP(111).GE.1) THEN
++        IF(MSTP(111).GE.1.OR.MSTP(41).GE.1) THEN
+           NFIX=N
+           DO 150 I=MINT(84)+1,NFIX
+             IF(K(I,1).GE.1.AND.K(I,1).LE.10.AND.K(I,2).NE.21.AND.
+@@ -3858,7 +3858,7 @@
+  
+ C...Check that no odd resonance left undecayed.
+         MINT(54)=N
+-        IF(MSTP(111).GE.1) THEN
++        IF(MSTP(111).GE.1.OR.MSTP(41).GE.1) THEN
+           NFIX=N
+           DO 180 I=MINT(84)+1,NFIX
+             IF(K(I,1).GE.1.AND.K(I,1).LE.10.AND.K(I,2).NE.21.AND.

@@ -358,7 +358,7 @@ ifeq ("$(USE_PYTHIA8)","yes")
 else
   PYTHIA += main-PYTHIA.o setup-PYTHIA-lhef.o
   PYTHIA += pythia-6.4.25-decay.o
-  #PYTHIA += pythia6428.o
+  #PYTHIA += pythia6428-decay.o
 endif
 
 ### HERWIG ###

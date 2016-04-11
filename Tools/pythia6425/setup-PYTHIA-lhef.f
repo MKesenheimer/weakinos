@@ -270,7 +270,14 @@ c     writes pythia analysis output into .top file
       character *100 filename
       integer lprefix
       common/cpwgprefix/pwgprefix,lprefix
-      filename=pwgprefix(1:lprefix)//'POWHEG+PYTHIA-output'
+      ! catch the modified branching ratio
+      double precision bratio
+      common/pybratio/bratio
+      if(bratio.eq.1D0) then
+        filename=pwgprefix(1:lprefix)//'POWHEG+PYTHIA-output'
+      else
+        filename=pwgprefix(1:lprefix)//'POWHEG+PYTHIA-output_BR'
+      endif  
       call pwhgsetout
       call pwhgtopout(filename)
       close(99)
@@ -296,7 +303,7 @@ c     jumps to next event and calls analysis
       double precision bratio
       common/pybratio/bratio
       ! default value
-      bratio = 0D0
+      bratio = 1D0
       if(mint(51).ne.0) then
          if(verbose) then
             print*, 'killed event'
@@ -310,10 +317,6 @@ c     jumps to next event and calls analysis
       if(abs(idwtup).eq.3) xwgtup=xwgtup*xsecup(1)
       ! MK: new for p p -> n2 x1+ -> e+ e- mu+ nu_mu
       !=================================================================
-      ! even if you changed just one decay, you have to uncomment all of
-      ! the following lines to make sure that the correct branching
-      ! ratio is used.
-      !bratio = 1D0
       !bratio = bratio*brat(5266) ! BR(x2+ -> n1 W+)
       !bratio = bratio*brat(207)  ! BR(W -> mu v_mu)
       !bratio = bratio*brat(5271) ! BR(n2 -> n1 Z0)
