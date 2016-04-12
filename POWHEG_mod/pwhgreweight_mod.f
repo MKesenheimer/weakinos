@@ -187,7 +187,7 @@ c...reads event information from a les houches events file on unit nlf.
          goto 998
       endif
       if(string(1:6).eq.'<event') then
-c on error try next event. The error may be cause by merging
+c on error try next event. The error may be caused by merging
 c truncated event files. On EOF return with no event found
          read(nlf,fmt='(a)',err=777,end=666) string
          write(nuo,'(a)') trim(string)
@@ -211,9 +211,15 @@ c no event found:
  777  continue
       write(*,*) "Error in reading"
       write(*,*) string
-      call exit(-1)
+      !call exit(-1) ! MK: changed according to lhefread.f
+      nup=0
+      return
  666  continue
-      iret=-1
+      !iret=-1 ! MK: changed
+      !return
+      print *,"reached EOF"
+      print *,string
+      nup=0
       return
  998  continue
       print *,"read </LesHouchesEvents>"

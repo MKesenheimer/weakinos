@@ -523,10 +523,6 @@ c#define PTORDERED
           ! remember: dec1 and dec2 are assumed to be daughters of finA,
           ! dec3 and dec4 are assumed to be daughters of finB
           do i=1,nhep-num_decchainA
-            ! count the number of stable decay products
-            if(idhep(ihep_decchainA(i,0)).ne.0 .and.
-     &         isthep(ihep_decchainA(i,0)).eq.1 ) then
-            endif
             ! if the momentum of the first decay particle was not already
             ! assigned and the ihep pdg number is equal to the 
             ! requested decay number id_dec
@@ -544,10 +540,6 @@ c#define PTORDERED
           enddo
           ! decay chain of final state particle B
           do i=1,nhep-num_decchainB
-            ! count the number of stable decay products
-            if(idhep(ihep_decchainB(i,0)).ne.0 .and.
-     &         isthep(ihep_decchainB(i,0)).eq.1) then
-            endif
             ! if the momentum of the first decay particle was not already
             ! assigned and the ihep pdg number is equal to the 
             ! requested decay number id_dec
@@ -575,11 +567,17 @@ c#define PTORDERED
           ! increment the counter of how many decays took place
           ! this is used to calculate the branching ratio
           ! do this before cuts are applied
-          do i=1,ndecay  
+          do i=1,ndecay
+            ! number of decays of individual particles
             if(p_dec(0,i).ne.0D0) then
               cnt_decays(i) = cnt_decays(i) + 1
-            endif  
-          enddo        
+            endif
+          enddo
+          ! number of decays with correct final state particles
+          if(p_dec(0,1).ne.0D0 .and. p_dec(0,2).ne.0D0 .and.
+     &       p_dec(0,3).ne.0D0 .and. p_dec(0,4).ne.0D0) then
+            cnt_decays_proc = cnt_decays_proc + 1
+          endif
           ! final test: check if we have the correct decay channel
           ! p_dec is only filled if the requested particle was found
           ! in the decay chain
@@ -594,14 +592,14 @@ c#define PTORDERED
           enddo
 
 #ifdef DEBUGQ
-          if(p_dec(0,1).ne.0D0 .or. p_dec(0,2).ne.0D0) then
-          !if(isvetoed) then
+          if(.not.isvetoed) then
+          print*,"number of good decays: ",cnt_decays_proc
+          print*,"number of total decays: ",cnt_decays_tot
+          print*,"BR of total process: ",real(cnt_decays_proc)/real(cnt_decays_tot)
           print*,"Decay chain of A", id_finA
-          print*,id_finA,p_finA
+          !print*,id_finA,p_finA
           do i=1,2
-          if(p_dec(0,i).ne.0D0) then
-          print*,id_dec(i),p_dec(:,i)
-          endif
+          !print*,id_dec(i),p_dec(:,i)
           enddo
           do j=1,nhep-num_decchainA
           if(idhep(ihep_decchainA(j,0)) .ne. 0) then
@@ -609,17 +607,11 @@ c#define PTORDERED
      &       idhep(ihep_decchainA(j,1)),idhep(ihep_decchainA(j,2))
           endif
           enddo
-          print*,"number of matches with user chainA",nmothersA,nmatchA
-          print*
-          endif
-          if(p_dec(0,3).ne.0D0 .or. p_dec(0,4).ne.0D0) then
-          !if(isvetoed) then
+
           print*,"Decay chain of B", id_finB
-          print*,id_finB,p_finB
+          !print*,id_finB,p_finB
           do i=3,4
-          if(p_dec(0,i).ne.0D0) then
-          print*,id_dec(i),p_dec(:,i)
-          endif
+          !print*,id_dec(i),p_dec(:,i)
           enddo
           do j=1,nhep-num_decchainB
           if(idhep(ihep_decchainB(j,0)) .ne. 0) then
@@ -627,7 +619,6 @@ c#define PTORDERED
      &       idhep(ihep_decchainB(j,1)),idhep(ihep_decchainB(j,2))
           endif
           enddo
-          print*,"number of matches with user chainA",nmothersB,nmatchB
           print*
           endif
 #endif
@@ -861,8 +852,6 @@ c#define PTORDERED
         
         ! histogramms for decay products, with Dcuts
         if(decayed .and. DcutsPassed(0)) then
-          ! count the number of events which have the requested decay
-          cnt_decays_proc = cnt_decays_proc + 1
           ! fill the invariant mass histogramm only if decay products
           ! decI and decJ have passed the cuts
           ! Note: DcutsPassed(corI) is always true if DcutsPassed(0) is

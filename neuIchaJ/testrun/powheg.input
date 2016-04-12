@@ -7,9 +7,13 @@ fin2  1000024   ! neu40 = 1000035, cha1+ = 1000024, cha2+ = 1000037
 ! electron = 11, muon = 13, tauon = 15, positron = -11 ...
 ! it is assumed that dec1 and dec2 are related to fin1, and
 ! dec3 and dec4 are related to fin2
+#dec1  1000022
+#dec2  23
+#dec3  1000022
+#dec4  24
 dec1  11
-dec2  -11
-dec3  -13
+dec2 -11
+dec3 -13
 dec4  14
 ! for which particle pair do we want to calculate correlations?
 ! (e.g. difference in azimuthal angle dphi or invariant mass) 
@@ -17,8 +21,12 @@ dec4  14
 corI  1
 corJ  2
 ! decay chains. Don't forget the semi colon at the end of the string!
+! The final state particles dec1...dec4 should occur at the end of
+! the decay chains.
 chainA '1000023->1000022,23;23->11,-11;'
 chainB '1000024->1000022,24;24->-13,14;'
+#chainA '1000023->1000022,25;25->24,-24;24->-11,12;-24->11,-12;'
+#chainB '1000024->1000022,24;24->-13,14;'
 #chainA '1000023->1000022,23;'
 #chainB '1000024->1000022,24;'
 
