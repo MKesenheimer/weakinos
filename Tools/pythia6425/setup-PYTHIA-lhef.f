@@ -218,6 +218,8 @@ c     initialize pythia
       ! point, so be careful!
       ! uncomment call pylist(12) to see the pythia decay table and
       ! to determine which idc "decay number" should be set or unset
+      ! IMPORTANT NOTE: Changing the BR of W & Z changes the BR of 
+      ! the weakino decays!
 
       ! W should decay always in (mu,v_mu)
       !do idc=190,209

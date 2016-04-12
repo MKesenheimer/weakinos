@@ -15,11 +15,12 @@ dec4  -12
 ! (e.g. difference in azimuthal angle dphi or invariant mass) 
 ! corI and corJ should be different and a number between 1 and 4
 corI  1
-corJ  3
-! number of total decay products in the final state (incl. not 
-! detectable particles). This is used to determine the correct
-! decay channel
-nfinal 6
+corJ  2
+! decay chains. Don't forget the semi colon at the end of the string!
+! The final state particles dec1...dec4 should occur at the end of
+! the decay chains.
+chainA '1000037->1000022,24;24->-11,12;'
+chainB '-1000037->1000022,-24;-24->11,-12;'
 
 ! physics
 incomingflavors 4    ! (default 4) number of incoming flavor
