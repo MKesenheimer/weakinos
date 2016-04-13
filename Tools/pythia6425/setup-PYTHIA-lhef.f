@@ -150,8 +150,9 @@ c     hands over sm parameters from init_couplings to pythia
       !mstp(111) = 1               ! with hadronization
       print*, "hadronisation control mstp(111):      ", mstp(111)
       ! decays without hadronization need a patched pythia code
-      mstp(41) = 1               ! force all resonance decays
       !mstp(41) = 0               ! prevent all resonance decays
+      mstp(41) = 1               ! force all resonance decays
+      !mstp(41) = 2               ! on or off depending on their individual MDCY values
       print*, "resonance decays:                     ", mstp(41)
       !mstp(64) = 3   ! use lambda_mc for is shower > 6.4.19
       mstp(64) = 1   ! use lambda_msbar (default)
@@ -192,7 +193,7 @@ c     initialize pythia
       common/mcmaxev/maxev
       integer idc
       logical charginodecays
-      data charginodecays/.false./
+      data charginodecays/.true./
       nevhep=0
       ! read the header first, so lprup is set
       call lhefreadhdr(97)
@@ -226,7 +227,7 @@ c     initialize pythia
       !  mdme(idc,1)=0
       !enddo
       !mdme(207,1)=1
-      
+
       ! Z should decay always in (e+,e-)
       !do idc=174,189
       !  mdme(idc,1)=0
