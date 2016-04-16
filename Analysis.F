@@ -220,7 +220,7 @@ c calculate quantities that shall be plotted and fill histograms
         double precision bratio
         common/pybratio/bratio
         ! variables for missing energy
-        double precision p_miss(0:3), pt_miss
+        double precision p_miss(0:3), pt_miss, pt_miss1
         ! cuts
         ! ptJmin is a technical cut
         double precision mJmin
@@ -232,7 +232,7 @@ c calculate quantities that shall be plotted and fill histograms
         double precision ptDmin, etaDmax
         double precision ptmissmin
         save ptDmin, etaDmax
-        logical JcutsPassed, DcutsPassed(0:ndecay)
+        logical JcutsPassed, DcutsPassed
         ! flags for decay
         logical fdecA, fdecB, decayed
         save fdecA, fdecB, decayed
@@ -441,12 +441,6 @@ c calculate quantities that shall be plotted and fill histograms
         
         ! handle the decay products
         if(decayed) then
-c choose:
-c determine the momenta of the decay products via pt ordering (mostly untested): PTORDERED
-c or use the ihep list filled by pythia to get the momenta: IHEPSEARCH
-c#define PTORDERED
-#define IHEPSEARCH
-#ifdef IHEPSEARCH
           ! store the whole decay chain of the final states in an array 
           ! and search for the decay products we want
           call getihep(id_finA,2,.true.,ihep_finA)
@@ -622,113 +616,6 @@ c#define PTORDERED
           print*
           endif
 #endif
-#endif
-
-#ifdef PTORDERED
-          ! sort the momenta of the decay products by pt and get the
-          ! largest contributions -> the decay products with largest pt
-          ! are the one we want
-          ! Note: these routines to assign pt ordered momenta to the 
-          ! decay products are totally general. It is straight forward
-          ! to extend these routines to five or more decay products,
-          ! though the algorithm gets a bit more complicated.
-          ! The idea is the following: We sort the momenta for every
-          ! particle ID by pt. The particles with the largest pt are
-          ! the decay products. If we have two or more particles with
-          ! the same ID (say id_dec(1) = 11 and id_dec(2) = 11), the 
-          ! particle with id_dec(1) gets the momentum with largest pt
-          ! and the particle with id_dec(2) gets the momentum with
-          ! second largest pt.
-          ! TODO: optimize with invariant mass reconstruction of mother!
-          ! book keeping: sort the decay IDs in decreasing order, but 
-          ! ignore zeros, this simplifies the following momenta assignment
-          do i=1,ndecay
-            ! sort zero entries to the end of the list    
-            if(id_dec(i).eq.0) id_dec(i) = -999
-          enddo  
-          ! sort list id_dec and keep track of sorting in list iid_dec
-          call sortit(id_dec,iid_dec,ndecay)
-          do i=1,ndecay
-            ! replace -999 with zero   
-            if(id_dec(i).eq.-999) id_dec(i) = 0
-          enddo
-          ! first assign the largest pt for every particle ID...
-          do i=1,ndecay
-            call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))
-          enddo
-          ! ... then overwrite:
-          ! all decay IDs are the same
-          if(sdec.eq.((ndecay-1)*(ndecay)/2)) then
-            do i=1,ndecay
-              call get4momentum_sortedpt(id_dec(i),i,p_dec(:,i))
-            enddo
-          endif
-          ! one pair
-          ! since the list id_dec(i) is sorted, the two IDs must be next to each other
-          if(sdec.eq.1) then
-            do i=1,ndecay-1
-              if(id_dec(i).eq.id_dec(i+1)) then
-                call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))     ! largest Pt
-                call get4momentum_sortedpt(id_dec(i+1),2,p_dec(:,i+1)) ! second largest Pt
-              endif  
-            enddo
-          endif
-          ! two pairs
-          if(sdec.eq.2) then
-            ! (no loops for ndecay = 4, but for arbitrary number > 4)
-            do i=1,ndecay-3
-              do j=i+2,ndecay-1
-                if((id_dec(i).eq.id_dec(i+1)) .and. 
-     &             (id_dec(j).eq.id_dec(j+1))) then
-                  call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))     ! largest Pt
-                  call get4momentum_sortedpt(id_dec(i+1),2,p_dec(:,i+1)) ! second largest Pt
-                  call get4momentum_sortedpt(id_dec(j),1,p_dec(:,j))     ! largest Pt
-                  call get4momentum_sortedpt(id_dec(j+1),2,p_dec(:,j+1)) ! second largest Pt
-                endif
-              enddo
-            enddo  
-          endif
-          ! three are equal
-          if(sdec.eq.3) then
-            do i=1,ndecay-2
-              if((id_dec(i).eq.id_dec(i+1)) .and. 
-     &           (id_dec(i+1).eq.id_dec(i+2))) then
-                call get4momentum_sortedpt(id_dec(i),1,p_dec(:,i))     ! largest Pt
-                call get4momentum_sortedpt(id_dec(i+1),2,p_dec(:,i+1)) ! second largest Pt
-                call get4momentum_sortedpt(id_dec(i+2),3,p_dec(:,i+2)) ! third largest Pt
-              endif  
-            enddo
-          endif
-          ! for ndecay>4: TODO
-          ! four decay IDs are equal
-          ! pair of three and two
-          ! ...
-          ! reverse the sorting to get back to the order the user requested
-          do i=1,ndecay
-            do mu=0,3
-              ptemp(mu,i) = p_dec(mu,i)
-            enddo
-            id_dectemp(i) = id_dec(i)
-          enddo
-          do i=1,ndecay
-            do mu=0,3
-              p_dec(mu,iid_dec(i)) = ptemp(mu,i)
-            enddo
-            id_dec(iid_dec(i)) = id_dectemp(i)
-          enddo
-          ! final test: check if we have the correct decay channel
-          ! p_dec is only filled if the requested particle was found
-          ! in the decay chain
-          ! (all requested momenta must be filled)
-          ! if the decay ID is not specified in powheg.input, don't
-          ! take its momentum into account
-          do i=1,ndecay
-            if(p_dec(0,i).eq.0D0 .and. id_dec(i).ne.0) then
-              p_dec(:,:) = 0D0
-              isvetoed = .true. 
-            endif
-          enddo
-#endif
 
           ! assign observables for the decay products
           do i=1,ndecay
@@ -766,20 +653,40 @@ c#define PTORDERED
             enddo
             call getinvmass(p_decIdecJ,m_decIdecJ)
           endif
-          ! calculate missing Pt
-          p_miss(:) = 0D0
-          pt_miss   = 0D0
-          ! a experimental-like approach: negative momentum sum
-          ! of all detectable particles, this is missing P since the
-          ! incoming partons have momentum sum 0
-          do i=1,ndecay
-            if(isdetectable(id_dec(i))) then
-              do mu=0,3
-                p_miss(mu) = p_miss(mu) - p_dec(mu,i)
+          
+          ! calculate missing Pt if event is not vetoed 
+          ! (not the correct final state or whatever)
+          if(.not.isvetoed) then
+            p_miss(:) = 0D0
+            pt_miss   = 0D0
+            ! a experimental-like approach: negative momentum sum
+            ! over all preselected and detectable particles.
+            ! this is missing p since the incoming partons have 
+            ! momentum sum 0
+            do i=1,ndecay
+              if(isdetectable(id_dec(i))) then
+                do mu=0,3
+                  p_miss(mu) = p_miss(mu) - p_dec(mu,i)
+                enddo
+              endif
+            enddo
+            pt_miss1 = pt(p_miss(:)) ! store for debugging
+            ! add the detectable jets
+            if(mjets.ge.mJmin) then
+              do i=1,mjets
+                if(kt(i).gt.ptJmin .and. eta(i).lt.etaJmax) then
+                  p_miss(0) = p_miss(0) - pj(4,i)
+                  do mu=1,3
+                    p_miss(mu) = p_miss(mu) - pj(mu,i)
+                  enddo
+                endif
               enddo
             endif
-          enddo
-          pt_miss = pt(p_miss(:))
+            pt_miss = pt(p_miss(:))
+#ifdef DEBUGQ
+              print*,pt_miss1,pt_miss
+#endif
+          endif
         endif
         
         ! fill histograms
@@ -810,25 +717,6 @@ c#define PTORDERED
           call filld("eta(J,Jcuts)",eta(1),dsig)
         endif
         
-        ! determine if lepton cuts have passed
-        do i=0,ndecay
-          DcutsPassed(i) = .true.
-        enddo
-        do i=1,ndecay
-          ! apply cut only if decay ID is not empty
-          if(id_dec(i).ne.0) then
-            if(pt_dec(i).le.ptDmin) DcutsPassed(i) = .false.
-            if(dabs(eta_dec(i)).ge.etaDmax) DcutsPassed(i) = .false.
-            if(RDmin(i).le.RDsepmin) DcutsPassed(i) = .false.
-            ! store in DcutsPassed(0) if all cuts of the requested 
-            ! particles have passed
-            ! (only for observable decay products)
-            if(isdetectable(id_dec(i)) .and. .not.DcutsPassed(i)) then
-              DcutsPassed(0) = .false.
-            endif  
-          endif  
-        enddo
-        
         ! if the branching ratios for the decays are modified in PYTHIA 
         ! by hand correct the weight here:
         ! NOTE: If a modified decay is requested, the
@@ -837,6 +725,21 @@ c#define PTORDERED
           bratio = 1D0
         endif  
         dsig(:) = dsig(:)*bratio
+        
+        ! determine if decay cuts have passed
+        DcutsPassed = .true.
+        if(isvetoed) DcutsPassed = .false.
+        if(.not.decayed) DcutsPassed = .false.
+        if(pt_miss.le.ptmissmin) DcutsPassed = .false.
+        do i=1,ndecay
+          ! apply cut only if decay ID is not empty and if particle
+          ! is detectable (don't take cuts of neutrinos.. into account)
+          if(isdetectable(id_dec(i)) .and. id_dec(i).ne.0) then
+            if(pt_dec(i).le.ptDmin) DcutsPassed = .false.
+            if(dabs(eta_dec(i)).ge.etaDmax) DcutsPassed = .false.
+            if(RDmin(i).le.RDsepmin) DcutsPassed = .false.
+          endif  
+        enddo
         
         ! histogramms for decay products, no cuts
         if(decayed) then
@@ -851,32 +754,23 @@ c#define PTORDERED
         endif
         
         ! histogramms for decay products, with Dcuts
-        if(decayed .and. DcutsPassed(0)) then
-          ! fill the invariant mass histogramm only if decay products
-          ! decI and decJ have passed the cuts
-          ! Note: DcutsPassed(corI) is always true if DcutsPassed(0) is
-          ! true, but check anyway. This makes the sources reliable to
-          ! changes.
-          if(DcutsPassed(corI).and.DcutsPassed(corJ)) then
-            call filld("dPhi("//cstr(corI)//"+"//cstr(corJ)//",Dcuts)",
+        if(DcutsPassed) then
+          call filld("dPhi("//cstr(corI)//"+"//cstr(corJ)//",Dcuts)",
      &                 dphi_decIdecJ,dsig)
-            call filld("mass("//cstr(corI)//"+"//cstr(corJ)//",Dcuts)",
+          call filld("mass("//cstr(corI)//"+"//cstr(corJ)//",Dcuts)",
      &                 m_decIdecJ,dsig)
-          endif
-          ! fill the other histogramms for every decay product individually
           do i=1,ndecay
-            if(DcutsPassed(i)) then
-              call filld("Pt("//cstr(i)//",Dcuts)",pt_dec(i),dsig)
-              call filld("eta("//cstr(i)//",Dcuts)",eta_dec(i),dsig)
-            endif
+            call filld("Pt("//cstr(i)//",Dcuts)",pt_dec(i),dsig)
+            call filld("eta("//cstr(i)//",Dcuts)",eta_dec(i),dsig)
           enddo
-          ! cross section with decay cuts
           call filld("xsec(Dcuts)",0d0,dsig)
-          ! missing pt, only if DcutsPassed = true and pt_miss > ptmissmin
-          if(pt_miss.ge.ptmissmin) then
-            call filld("Pt(miss)",pt_miss,dsig)
-          endif
+          call filld("Pt(miss)",pt_miss,dsig)
+          !print*,"cuts passed"
         endif
+        
+        !if(.not.isvetoed .and. .not.DcutsPassed) then
+        !  print*,"cuts not passed"
+        !endif  
 
         ! print the ratio of the number of requested decays and the total
         ! number of decays (this is the branching ratio).

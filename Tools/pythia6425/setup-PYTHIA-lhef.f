@@ -223,10 +223,10 @@ c     initialize pythia
       ! the weakino decays!
 
       ! W should decay always in (mu,v_mu)
-      !do idc=190,209
-      !  mdme(idc,1)=0
-      !enddo
-      !mdme(207,1)=1
+      do idc=190,209
+        mdme(idc,1)=0
+      enddo
+      mdme(207,1)=1
 
       ! Z should decay always in (e+,e-)
       !do idc=174,189
@@ -321,7 +321,7 @@ c     jumps to next event and calls analysis
       ! MK: new for p p -> n2 x1+ -> e+ e- mu+ nu_mu
       !=================================================================
       !bratio = bratio*brat(5266) ! BR(x2+ -> n1 W+)
-      !bratio = bratio*brat(207)  ! BR(W -> mu v_mu)
+      bratio = bratio*brat(207)  ! BR(W -> mu v_mu)
       !bratio = bratio*brat(5271) ! BR(n2 -> n1 Z0)
       !bratio = bratio*brat(182)  ! BR(Z -> e+ e-)
       !print*,bratio
