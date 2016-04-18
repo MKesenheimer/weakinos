@@ -226,6 +226,8 @@ c calculate quantities that shall be plotted and fill histograms
         double precision mJmin
         double precision ptJmin, etaJmax, R
         common /jetcuts/ptJmin, etaJmax, R
+        ! physical Jet Cuts
+        double precision ptJminPhys
         ! decay cuts
         double precision RDsepmin
         double precision RDmin(ndecay), RDsep(ndecay,ndecay)
@@ -339,6 +341,8 @@ c calculate quantities that shall be plotted and fill histograms
         etaJmax  = 4.5D0
         R        = 0.4D0
         mjets    = 40
+        ! physical pt_Jet cut (for pt_miss)
+        ptJminPhys = 20D0
         ! lepton cuts
         ptDmin   = 10D0 ! physical cut
         etaDmax  = 2.5D0
@@ -674,7 +678,7 @@ c calculate quantities that shall be plotted and fill histograms
             ! add the detectable jets
             if(mjets.ge.mJmin) then
               do i=1,mjets
-                if(kt(i).gt.ptJmin .and. eta(i).lt.etaJmax) then
+                if(kt(i).gt.ptJminPhys .and. eta(i).lt.etaJmax) then
                   p_miss(0) = p_miss(0) - pj(4,i)
                   do mu=1,3
                     p_miss(mu) = p_miss(mu) - pj(mu,i)
