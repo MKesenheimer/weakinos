@@ -90,8 +90,8 @@ runningscale   0     ! (default 0) use ref. scale=virtuality Q (default 0, use f
 #colltest      1     ! (default 0) check collinear singularities
 renscfact     1d0    ! (default 1d0) ren scale factor: muren  = muref * renscfact
 facscfact     1d0    ! (default 1d0) fac scale factor: mufact = muref * facscfact
-bornonly       1     ! (default 0) if 1 do Born only
-LOevents       1
+#bornonly       1     ! (default 0) if 1 do Born only
+#LOevents       1
 smartsig       1     ! (default 1) remember equal amplitudes (0 do not remember)
 testplots      1     ! write data for gnuplot histograms to *.top
 #bornsuppfact  1     ! (default 0, do not use) use Born suppression factor

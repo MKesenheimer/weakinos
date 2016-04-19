@@ -191,12 +191,9 @@ c calculate quantities that shall be plotted and fill histograms
         integer ndecay
         parameter (ndecay = 4)
         ! IDs of decay products
-        ! iid_dec: saves the user requested order of decay products
-        integer id_dectemp(ndecay)
-        integer id_dec(ndecay), iid_dec(ndecay)
-        save id_dec, iid_dec
+        integer id_dec(ndecay)
+        save id_dec
         ! momenta, pt, eta, y of decay products
-        double precision ptemp(0:3,ndecay) ! temporary momenta
         double precision p_dec(0:3,ndecay), pt_dec(ndecay)
         double precision eta_dec(ndecay), y_dec(ndecay)
         double precision phi_dec(ndecay), dphi_decIdecJ
@@ -207,15 +204,10 @@ c calculate quantities that shall be plotted and fill histograms
         ! handling the decays
         character*4 cstr(ndecay)
         data cstr/"dec1","dec2","dec3","dec4"/
-        ! decay switch (which decay process do we want to observe? see below)
-        integer sdec
-        save sdec
         ! counter to keep track how many decays and cuts have took place
         ! is used to determine the branching ratios of the decays
         integer cnt_decays_tot, cnt_decays(ndecay), cnt_decays_proc
         save cnt_decays_tot, cnt_decays, cnt_decays_proc
-        ! correct for modified branching ratios
-        double precision brcor
         ! acces the branching corrected ratios of PYTHIA (this is set in setup-PYTHIA-lhef.f)
         double precision bratio
         common/pybratio/bratio
@@ -289,21 +281,6 @@ c calculate quantities that shall be plotted and fill histograms
               exit
             endif  
           enddo
-          ! switch to distinguish different combinations of decay IDs
-          ! sdec = 0: all decay IDs are different
-          ! sdec = 1: two decay IDs are the same, the other different
-          ! sdec = 2: two pairs
-          ! sdec = 3: three decay IDs are the same
-          ! ...
-          ! sdec = 1/2(ndecay-1)(ndecay): all decay IDs are the same 
-          sdec = 0
-          do i=1,ndecay
-            do j=i+1,ndecay
-              if(id_dec(i).ne.0 .and. id_dec(i).eq.id_dec(j)) then
-                sdec = sdec + 1
-              endif
-            enddo
-          enddo
           ! init the counters
           cnt_decays_tot = 1 ! to not divide by zero
           cnt_decays_proc = 0
@@ -349,13 +326,6 @@ c calculate quantities that shall be plotted and fill histograms
         RDsepmin = 0.05D0
         ! the missing pt threshold
         ptmissmin = 100D0
-        
-#ifdef DEBUGQ
-        ptDmin   = 0D0
-        etaDmax  = 1D10
-        RDsepmin = 0D0
-        ptmissmin = 0D0
-#endif
 
         if(ini) then
           ! write out all cuts
@@ -363,7 +333,8 @@ c calculate quantities that shall be plotted and fill histograms
           print*, "cuts in analysis routines"
           print*
           print*, "cuts (jet):"
-          print*, "hardest jet   p_t >",ptJmin," GeV"
+          print*, "hardest jet p_t (selection) >",ptJmin," GeV"
+          print*, "hardest jet p_t (physical)  >",ptJminPhys," GeV"
           print*, "hardest jet |eta| <",etaJmax
           print*, "radius parameter R = ",R
           print*
