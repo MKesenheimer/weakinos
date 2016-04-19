@@ -223,7 +223,7 @@ c calculate quantities that shall be plotted and fill histograms
         double precision p_miss(0:3), pt_miss, pt_miss1
         ! cuts
         ! ptJmin is a technical cut
-        double precision mJmin
+        integer mJmin
         double precision ptJmin, etaJmax, R
         common /jetcuts/ptJmin, etaJmax, R
         ! physical Jet Cuts
@@ -336,7 +336,7 @@ c calculate quantities that shall be plotted and fill histograms
         ! should not be in if(ini)... since we want to make sure
         ! that the variables are always filled
         ! jet cuts
-        mJmin    = 1D0
+        mJmin    = 1
         ptJmin   = 1D0
         etaJmax  = 4.5D0
         R        = 0.4D0
