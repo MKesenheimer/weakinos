@@ -1301,7 +1301,7 @@ CalcRenConst::usage =
 "CalcRenConst[expr] calculates the renormalization constants appearing
 in expr."
 
-(*modified by Matthias Kesenheimer*)
+(*MK: added CalcWriteRenConst*)
 WriteRenConst::usage =
 "WriteRenConst[renconst, dir] writes the renormalization constants
 and generates code from the results.  The resulting files (the 
@@ -1309,7 +1309,6 @@ Fortran program itself and the corresponding declarations) are
 written to the directory dir.  The names of the files are
 determined by the RenConstFile option."
 
-(*added by Matthias Kesenheimer*)
 CalcWriteRenConst::usage =
 "CalcWriteRenConst[expr, dir] calculates the renormalization constants
 appearing in expr and generates code from the results.  The resulting
@@ -6219,7 +6218,7 @@ $(LIB)($(OBJS)): " <> $MakeDeps[[1]] <> "\n\n"];
   Cases[DownValues[ModName], _[_, s_String] -> s]
 ]
 
-(*modified by Matthias Kesenheimer*)
+(*Geaendert von Matthias Kesenheimer, 25.11.2014*)
 CalcWriteRenConst[expr_, dir_, opt___Rule] :=
   WriteRenConst[CalcRenConst[expr], dir, opt]
 
