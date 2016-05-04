@@ -170,7 +170,7 @@ c MK: added
       ! the indices for the on-shell resonances by 2.
       ! => iret = ichan + 2 
       
-c TODO: which version is better?
+c which version is better?
 #define GENOSRES1
 #ifdef GENOSRES1
       ran1 = random()

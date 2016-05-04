@@ -69,6 +69,7 @@ c -> do so by modifying the jacobian kn_jacborn.
         mij = dabs(mij)
         minmass = mi+mj+mk
         ! generate the x1-x2-phase space
+        ! x1x2phspace(sbeams,minmass,xx,x1,x2,s,jac)
         call x1x2phspace(kn_sbeams,minmass,xx(1:2),kn_x1,kn_x2,
      &                   kn_sreal,jac)
         kn_jacreal = kn_jacreal*jac
@@ -86,16 +87,22 @@ c -> do so by modifying the jacobian kn_jacborn.
         kn_cmpreal(2,2) = 0D0
         kn_cmpreal(3,2) = -kn_cmpreal(0,1)
   
-        p12 = kn_cmpreal(:,1)+kn_cmpreal(:,2)
+        p12(:) = kn_cmpreal(:,1)+kn_cmpreal(:,2)
         sijmin = (mi+mj)**2
         
         ! phase space for decay p12 -> pk + pij (1 = with breit wigner)
-        call R2phsp_s2(1,xx(3),xx(4),xx(5),sijmin,mk,mij,WREG,p12,
+        ! R2phsp_s2(psgen,x2,xth,xphi,s2min,m1,bwmass,bwwidth,p0,p1,p2,jac)
+        ! with phi integration
+        !call R2phsp_s2(1,xx(3),xx(4),xx(7),sijmin,mk,mij,WREG,p12,
+        !               kn_cmpreal(:,k),pij,jac)
+        ! without phi integration
+        call R2phsp_s2(1,xx(3),xx(4),0D0,sijmin,mk,mij,WREG,p12,
      &                  kn_cmpreal(:,k),pij,jac)
         kn_jacreal = kn_jacreal*jac
 
         ! phase space for decay pij -> pi + pj
-        call R2phsp(xx(6),xx(7),mi,mj,pij,kn_cmpreal(:,i),
+        ! R2phsp(xth,xphi,m1,m2,p0,p1,p2,jac)
+        call R2phsp(xx(5),xx(6),mi,mj,pij,kn_cmpreal(:,i),
      &               kn_cmpreal(:,j),jac)
         kn_jacreal = kn_jacreal*jac
         
@@ -106,11 +113,6 @@ c -> do so by modifying the jacobian kn_jacborn.
         ! amplitude in sigborn, but it is not implemented
         ! in sigosres for real processes, so we supply it here)
         kn_jacreal = kn_jacreal/(2D0*s12)
-
-        ! TODO: remove
-        ! do not introduce a new jacobian-variable
-        ! -> should be ok
-        !kn_jacborn = kn_jacreal
 
         ! Boost to the LAB frame:
         beta = (kn_x1-kn_x2)/(kn_x1+kn_x2)

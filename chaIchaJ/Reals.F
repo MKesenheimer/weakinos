@@ -49,7 +49,7 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         logical verbose
         logical init_real
         data init_real/.true./
-#ifdef DEBUG
+#ifdef DEBUGQ
 #define DEBUG1
         ! debugging
         integer counter

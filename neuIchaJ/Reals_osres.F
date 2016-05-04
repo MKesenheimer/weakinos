@@ -51,7 +51,7 @@ c modifies the jacobian.
         logical verbose
         logical init_real
         data init_real/.true./
-#ifdef DEBUG
+#ifdef DEBUGQ
 #define DEBUG1
         ! debugging
         integer counter

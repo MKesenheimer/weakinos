@@ -3,9 +3,6 @@ c modified on the basis of disquark/bbinit.f
 c changes marked with "! CH, MK:" or "! MK:"
 c bigger changes over a whole section are marked with ! ===...
 
-c TODO: Nach der Fehlersuche Debug-Elemente und unnütze Funktionsaufrufe
-c entfernen (gekennzeichnet mit "ifdef DEBUG" oder "remove"
-
       subroutine bbinit
       implicit none
       integer iret
@@ -38,12 +35,6 @@ c 2   prepare the upper bounding envelopes for the
 c     generation of the b_tilde function
 c 3   prepare the upper bound for the generation of radiation
 c 4   generate events
-#ifdef DEBUG
-      ! TODO: remove
-      ! gets called only once, no differences in tot_arr
-      print*,"[DEBUG:44] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
       parallelstages =  powheginput('#parallelstage')
       if(flg_newweight .and. parallelstages .gt. 0) then
          write(*,*) ' Since we are running in reweighting mode '
@@ -59,30 +50,13 @@ c 4   generate events
 c Do all stages in one go if needed;
 c first look for <prefix>xgrid.dat file      
          call loadxgrids(iret)
-#ifdef DEBUG
-         ! TODO: remove
-         print*,"[DEBUG:64] checking differences in tot_arr"
-         call diff_rad_totarr
-#endif
          if(iret.ne.0) then
 c if not there look for pwggridinfo-* files from parallel runs
             call loadlatestxgridinfo(iret)
-#ifdef DEBUG
-            ! TODO: remove
-            print*,"[DEBUG:72] checking differences in tot_arr"
-            call diff_rad_totarr
-#endif
             if(iret.ne.0) then
 c if not there generate the xgrid; the argument 0 means:
 c generate *xgrid.dat file
                call bbinitxgrids(0)
-               ! ---> nach debuggen von bbinitxgrids(0) hier weiter
-#ifdef DEBUG
-               ! TODO: remove
-               print*,"[DEBUG:81] checking differences in tot_arr"
-               call diff_rad_totarr
-#endif
-
             endif
          endif
 c make sure the ifold arrays are read in
@@ -107,14 +81,6 @@ c Override real integration parameters with powheg.input values
      #           ifold,ifoldrm,ifoldosres,'grid')
          endif
          if(iret.eq.0) then
-#ifdef DEBUG
-            ! TODO: remove
-            ! wurde bisher noch nicht aufgerufen (iret = 1)
-            print*,"[DEBUG:112] checking differences in tot_arr"
-            call diff_rad_totarr
-            print*,"uncomment to continue"
-            stop
-#endif
             call apply_totarr ! MK: added
             write(*,*) 'upper bound grids successfully loaded'
             write(*,*) 'btilde pos.   weights:', rad_totposbtl,' +-',
@@ -125,17 +91,7 @@ c Override real integration parameters with powheg.input values
      1           'btilde total (pos.-|neg.|):', rad_totbtl,' +-',
      2           rad_etotbtl
          else
-#ifdef DEBUG
-            ! gets called only once, no differences in tot_arr
-            print*,"[DEBUG:128] checking differences in tot_arr"
-            call diff_rad_totarr
-#endif
             call bbinitgrids
-#ifdef DEBUG
-            ! gets called only once, no differences in tot_arr
-            print*,"[DEBUG:134] checking differences in tot_arr"
-            call diff_rad_totarr
-#endif
             !print*,"rad_totosresgen(1)",rad_totosresgen(1)
             !print*,"rad_osres_totarr(1,5,1)",rad_osres_totarr(1,5,1)
             !stop
@@ -174,12 +130,6 @@ c Override real integration parameters with powheg.input values
                !========================================================
             endif
          endif
-
-#ifdef DEBUG
-            ! TODO: remove
-            print*,"[DEBUG:178] checking differences in tot_arr"
-            call diff_rad_totarr
-#endif
 
 c initialize gen; the array xmmm is set up at this stage.
          call gen(btilde,ndiminteg,xgrid,ymax,ymaxrat,xmmm,ifold,0,
@@ -237,11 +187,6 @@ c     print statistics
             do ichan=1,nosres
               rad_totosres_sum = rad_totosres_sum + rad_totosres(ichan)
             enddo
-#ifdef DEBUGQ
-            print*,"[DEBUG]: in bbinit_mod.f:240"
-            print*,"rad_totosres_sum",rad_totosres_sum
-            stop
-#endif
             ! save random number seeds    
             if(dabs(rad_totosres_sum)/rad_totgen.gt.1d-4.and.
      1           powheginput('#skipextratests').lt.0) then
@@ -564,10 +509,6 @@ c add finalized remnant contributions in histograms
 
 #ifdef DSUB_II
 
-#ifdef DEBUGQ
-      print*,"[DEBUG:571] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
       ! MK: combine the results of all on shell resonances:
       ! this is called only once and is mandatory
       call update_totarr ! MK: OK!
@@ -692,11 +633,7 @@ c negligible
       rad_tot  = rad_totreg + rad_totrem + rad_totosres_sum + rad_totbtl
       rad_etot = dsqrt(rad_etotreg**2 + rad_etotrem**2 +
      &                 rad_etotosres_sum2 + rad_etotbtl**2)
-     
-#ifdef DEBUGQ
-      print*,"rad_tot",rad_tot," +- ",rad_etot
-      stop
-#endif
+
       !=================================================================
       
 c Grids are stored in all cases; they contain informations in
@@ -831,11 +768,6 @@ c No folding while generating importance sampling grids
          ifoldrm(j)=1
          ifoldosres(j)=1 ! CH, MK: added
       enddo
-#ifdef DEBUG
-      ! TODO: remove
-      print*,"[DEBUG:834] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
 c         
       if(iparallel.eq.1) then
          iteration = powheginput('#xgriditeration')
@@ -863,11 +795,6 @@ c
          tag=' '
          prevtag=' '
       endif
-#ifdef DEBUG
-      ! TODO: remove
-      print*,"[DEBUG:866] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
 c In this block we compute the importance sampling grid
       write(*,*)
       write(*,*)' POWHEG: initialization'
@@ -938,11 +865,6 @@ c ********** CALL to mint for btilde
      1     xgrid,xint,xacc,nhits,ymax,ymaxrat,sigbtl,errbtl)
 
 c **********
-#ifdef DEBUG
-      ! TODO: remove
-      print*,"[DEBUG:929] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
       call regridplotclose
       if(iteration.ge.1) then
          call storegridinfo('btl-'//trim(tag),xgrid0,xint,
@@ -970,12 +892,6 @@ c **********
      1     rnd_cwhichseed,'rmngrid.top'))
          xgrid0rm=xgridrm
 c ********** CALL to mint for remnants
-
-#ifdef DEBUG
-         print*,"bbinit_mod.f:978: calling mint(sigremnant)"
-         print*,"uncomment to continue"
-         stop
-#endif
          call mint(sigremnant,ndiminteg,ncall1rm,itmx1rm,ifoldrm,imode,
      1        iun,xgridrm,xintrm,xaccrm,nhitsrm,
      1        ymaxrm,ymaxratrm,sigrm,errrm)
@@ -990,11 +906,6 @@ c **********
       ! CH, MK: added the osres-part
       !=================================================================
 #ifdef DSUB_II
-#ifdef DEBUG
-      ! TODO: remove
-      print*,"[DEBUG:981] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
       if(.not.flg_bornonly) then
           flg_nlotest=.false.
           imode=0
@@ -1011,15 +922,9 @@ c **********
 c ********** CALL to mint for osres remnants
          ! CH, MK: set the flg_btilde to false for "osres remnants"
          flg_btilde=.false.
-#ifdef DEBUGQ
-         print*,"ymaxratosres",ymaxratosres
-#endif
          call mint(sigosres,ndiminteg,ncall1osres,itmx1osres,ifoldosres,imode,
      1        iun,xgridosres,xintosres,xaccosres,nhitsosres,
      1        ymaxosres,ymaxratosres,sigos,erros)
-#ifdef DEBUGQ
-         print*,"ymaxratosres",ymaxratosres
-#endif
          flg_btilde=.true.
 c **********
          call regridplotclose
@@ -1028,11 +933,6 @@ c **********
      1           xaccosres,nhitsosres,ndiminteg)
          endif
       endif
-#ifdef DEBUG
-      ! TODO: remove
-      print*,"[DEBUG:1013] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
 #endif
       !=================================================================
       if(iparallel.eq.0) then
@@ -1191,10 +1091,6 @@ c MK: added
       ! via the subroutines update_totarr and apply_totarr they are
       ! related tot rad_totbtl, ...
       !=================================================================
-#ifdef DEBUGQ
-      print*,"[DEBUG:1192] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
       ! this is called only once and is mandatory
       call update_totarr ! MK: OK!
       write(iun) ((rad_totarr(j,k),j=1,2),k=1,ntot)
@@ -1408,13 +1304,6 @@ c random seeds
             enddo
             ! this is called only once and is mandatory
             call apply_totarr ! MK: save the array totarr to the individual variables -> OK!
-#ifdef DEBUGQ
-            print*,"[DEBUG:1408] checking differences in tot_arr"
-            print*,rad_etotosres
-            call diff_rad_totarr
-            print*,"uncomment to continue"
-            stop
-#endif
          else
             do k=1,ndiminteg
                do j=0,nbins
@@ -1493,11 +1382,6 @@ c osres. parts are naturally "mixed"-> simply recalculate these 2 entries at the
      &            tot_osres(1,j,ichan))/jfound
               enddo
             enddo
-#ifdef DEBUGQ
-            print*,"[DEBUG:1501] checking differences in tot_arr"
-            call diff_rad_totarr
-            stop
-#endif
             call apply_totarr ! MK: added -> OK!
          endif
          close(iun)
@@ -1969,10 +1853,6 @@ c MK: added
       ! MK: addded or modified
       ! ================================================================
 #ifdef DSUB_II
-#ifdef DEBUGQ
-      print*,"[DEBUG:1978] checking differences in tot_arr"
-      call diff_rad_totarr
-#endif
       ! MK: combine the results of all on shell resonances:
       ! this is called only once and is mandatory
       call update_totarr ! MK: OK!
@@ -2162,266 +2042,3 @@ c write back the array rad_totarr and rad_osres_totarr to the original values
           rad_etotosresgen(ichan) = rad_osres_totarr(2,5,ichan)
         enddo
       end
-
-c TODO: remove if DSUB_II is working
-c This subroutine is for debugging
-c are there changes in rad_totarr?
-c if yes, return true
-      subroutine diff_rad_totarr
-        implicit none
-
-#include "nlegborn.h"
-#include "pwhg_flst.h"
-#include "pwhg_rad.h"
-#include "osres.h"
-#include "pwhg_rad_add.h"
-
-        integer ichan
-        logical diff
-
-        diff = .false.
-
-        ! btilde contributions 1:4
-        if(rad_totbtl .ne. rad_totarr(1,1)) then
-          print*,"rad_totbtl",rad_totbtl
-          print*,"rad_totarr",rad_totarr(1,1)
-          diff = .true.
-        endif
-        if(rad_etotbtl .ne. rad_totarr(2,1)) then
-          print*,"rad_etotbtl",rad_etotbtl
-          print*,"rad_totarr",rad_totarr(2,1)
-          diff = .true.
-        endif
-        if(rad_totabsbtl .ne. rad_totarr(1,2)) then
-          print*,"rad_totabsbtl",rad_etotbtl
-          print*,"rad_totarr",rad_totarr(1,2)
-          diff = .true.
-        endif
-        if(rad_etotabsbtl .ne. rad_totarr(2,2)) then
-          print*,"rad_etotabsbtl",rad_etotabsbtl
-          print*,"rad_totarr",rad_totarr(2,2)
-          diff = .true.
-        endif
-        if(rad_totposbtl .ne. rad_totarr(1,3)) then
-          print*,"rad_totposbtl",rad_totposbtl
-          print*,"rad_totarr",rad_totarr(1,3)
-          diff = .true.
-        endif
-        if(rad_etotposbtl .ne. rad_totarr(2,3)) then
-          print*,"rad_etotposbtl",rad_etotposbtl
-          print*,"rad_totarr",rad_totarr(2,3)
-          diff = .true.
-        endif
-        if(rad_totnegbtl .ne. rad_totarr(1,4)) then
-          print*,"rad_totnegbtl",rad_totnegbtl
-          print*,"rad_totarr",rad_totarr(1,4)
-          diff = .true.
-        endif
-        if(rad_etotnegbtl .ne. rad_totarr(2,4)) then
-          print*,"rad_etotnegbtl",rad_etotnegbtl
-          print*,"rad_totarr",rad_totarr(2,4)
-          diff = .true.
-        endif
-
-        ! regular contributions 5:8
-        if(rad_totreg .ne. rad_totarr(1,5)) then
-          print*,"rad_totreg",rad_totreg
-          print*,"rad_totarr",rad_totarr(1,5)
-          diff = .true.
-        endif
-        if(rad_etotreg .ne. rad_totarr(2,5)) then
-          print*,"rad_etotreg",rad_etotreg
-          print*,"rad_totarr",rad_totarr(2,5)
-          diff = .true.
-        endif
-        if(rad_totabsreg .ne. rad_totarr(1,6)) then
-          print*,"rad_totabsreg",rad_totabsreg
-          print*,"rad_totarr",rad_totarr(1,6)
-          diff = .true.
-        endif
-        if(rad_etotabsreg .ne. rad_totarr(2,6)) then
-          print*,"rad_etotabsreg",rad_etotabsreg
-          print*,"rad_totarr",rad_totarr(2,6)
-          diff = .true.
-        endif
-        if(rad_totposreg .ne. rad_totarr(1,7)) then
-          print*,"rad_totposreg",rad_totposreg
-          print*,"rad_totarr",rad_totarr(1,7)
-          diff = .true.
-        endif
-        if(rad_etotposreg .ne. rad_totarr(2,7)) then
-          print*,"rad_etotposreg",rad_etotposreg
-          print*,"rad_totarr",rad_totarr(2,7)
-          diff = .true.
-        endif
-        if(rad_totnegreg .ne. rad_totarr(1,8)) then
-          print*,"rad_totnegreg",rad_totnegreg
-          print*,"rad_totarr",rad_totarr(1,8)
-          diff = .true.
-        endif
-        if(rad_etotnegreg .ne. rad_totarr(2,8)) then
-          print*,"rad_etotnegreg",rad_etotnegreg
-          print*,"rad_totarr",rad_totarr(2,8)
-          diff = .true.
-        endif
-
-        ! remnant contributions 9:15
-        if(rad_totrem .ne. rad_totarr(1,9)) then
-          print*,"rad_totrem",rad_totrem
-          print*,"rad_totarr",rad_totarr(1,9)
-          diff = .true.
-        endif
-        if(rad_etotrem .ne. rad_totarr(2,9)) then
-          print*,"rad_etotrem",rad_etotrem
-          print*,"rad_totarr",rad_totarr(2,9)
-          diff = .true.
-        endif
-        if(rad_totabsrem .ne. rad_totarr(1,10)) then
-          print*,"rad_totabsrem",rad_totabsrem
-          print*,"rad_totarr",rad_totarr(1,10)
-          diff = .true.
-        endif
-        if(rad_etotabsrem .ne. rad_totarr(2,10)) then
-          print*,"rad_etotabsrem",rad_etotabsrem
-          print*,"rad_totarr",rad_totarr(2,10)
-          diff = .true.
-        endif
-        if(rad_totposrem .ne. rad_totarr(1,11)) then
-          print*,"rad_totposrem",rad_totposrem
-          print*,"rad_totarr",rad_totarr(1,11)
-          diff = .true.
-        endif
-        if(rad_etotposrem .ne. rad_totarr(2,11)) then
-          print*,"rad_etotposrem",rad_etotposrem
-          print*,"rad_totarr",rad_totarr(2,11)
-          diff = .true.
-        endif
-        if(rad_totnegrem .ne. rad_totarr(1,12)) then
-          print*,"rad_totnegrem",rad_totnegrem
-          print*,"rad_totarr",rad_totarr(1,12)
-          diff = .true.
-        endif
-        if(rad_etotnegrem .ne. rad_totarr(2,12)) then
-          print*,"rad_etotnegrem",rad_etotnegrem
-          print*,"rad_totarr",rad_totarr(2,12)
-          diff = .true.
-        endif
-
-        if(rad_totbtlgen .ne. rad_totarr(1,13)) then
-          print*,"rad_totbtlgen",rad_totbtlgen
-          print*,"rad_totarr",rad_totarr(1,13)
-          diff = .true.
-        endif
-        if(rad_etotbtlgen .ne. rad_totarr(2,13)) then
-          print*,"rad_etotbtlgen",rad_etotbtlgen
-          print*,"rad_totarr",rad_totarr(2,13)
-          diff = .true.
-        endif
-        if(rad_totreggen .ne. rad_totarr(1,14)) then
-          print*,"rad_totreggen",rad_totreggen
-          print*,"rad_totarr",rad_totarr(1,14)
-          diff = .true.
-        endif
-        if(rad_etotreggen .ne. rad_totarr(2,14)) then
-          print*,"rad_etotreggen",rad_etotreggen
-          print*,"rad_totarr",rad_totarr(2,14)
-          diff = .true.
-        endif
-        if(rad_totremgen .ne. rad_totarr(1,15)) then
-          print*,"rad_totremgen",rad_totremgen
-          print*,"rad_totarr",rad_totarr(1,15)
-          diff = .true.
-        endif
-        if(rad_etotremgen .ne. rad_totarr(2,15)) then
-          print*,"rad_etotremgen",rad_etotremgen
-          print*,"rad_totarr",rad_totarr(2,15)
-          diff = .true.
-        endif
-
-        ! totals 16:17
-        if(rad_tot .ne. rad_totarr(1,16)) then
-          print*,"rad_tot",rad_tot
-          print*,"rad_totarr",rad_totarr(1,16)
-          diff = .true.
-        endif
-        if(rad_etot .ne. rad_totarr(2,16)) then
-          print*,"rad_etot",rad_etot
-          print*,"rad_totarr",rad_totarr(2,16)
-          diff = .true.
-        endif
-        if(rad_totgen .ne. rad_totarr(1,17)) then
-          print*,"rad_totgen",rad_totgen
-          print*,"rad_totarr",rad_totarr(1,17)
-          diff = .true.
-        endif
-        if(rad_etotgen .ne. rad_totarr(2,17)) then
-          print*,"rad_etotgen",rad_etotgen
-          print*,"rad_totarr",rad_totarr(2,17)
-          diff = .true.
-        endif
-
-        ! on-shell contributions
-        do ichan=1,nosres
-          if(rad_totosres(ichan) .ne. rad_osres_totarr(1,1,ichan)) then
-            print*,"rad_totosres",rad_totosres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(1,1,ichan)
-            diff = .true.
-          endif
-          if(rad_etotosres(ichan) .ne. rad_osres_totarr(2,1,ichan)) then
-            print*,"rad_etotosres(",ichan,")",rad_etotosres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(2,1,ichan)
-            diff = .true.
-          endif
-          if(rad_totabsosres(ichan) .ne. rad_osres_totarr(1,2,ichan)) then
-            print*,"rad_totabsosres(",ichan,")",rad_totabsosres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(1,2,ichan)
-            diff = .true.
-          endif
-          if(rad_etotabsosres(ichan) .ne. rad_osres_totarr(2,2,ichan)) then
-            print*,"rad_etotabsosres(",ichan,")",rad_etotabsosres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(2,2,ichan)
-            diff = .true.
-          endif
-          if(rad_totpososres(ichan) .ne. rad_osres_totarr(1,3,ichan)) then
-            print*,"rad_totpososres(",ichan,")",rad_totpososres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(1,3,ichan)
-            diff = .true.
-          endif
-          if(rad_etotpososres(ichan) .ne. rad_osres_totarr(2,3,ichan)) then
-            print*,"rad_etotpososres(",ichan,")",rad_etotpososres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(2,3,ichan)
-            diff = .true.
-          endif
-          if(rad_totnegosres(ichan) .ne. rad_osres_totarr(1,4,ichan)) then
-            print*,"rad_totnegosres(",ichan,")",rad_totnegosres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(1,4,ichan)
-            diff = .true.
-          endif
-          if(rad_etotnegosres(ichan) .ne. rad_osres_totarr(2,4,ichan)) then
-            print*,"rad_etotnegosres(",ichan,")",rad_etotnegosres(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(2,4,ichan)
-            diff = .true.
-          endif
-          if(rad_totosresgen(ichan) .ne. rad_osres_totarr(1,5,ichan)) then
-            print*,"rad_totosresgen(",ichan,")",rad_totosresgen(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(1,5,ichan)
-            diff = .true.
-          endif
-          if(rad_etotosresgen(ichan) .ne. rad_osres_totarr(2,5,ichan)) then
-            print*,"rad_etotosresgen(",ichan,")",rad_etotosresgen(ichan)
-            print*,"rad_osres_totarr",rad_osres_totarr(2,5,ichan)
-            diff = .true.
-          endif
-        enddo
-
-#ifdef DEBUG
-        if(diff) then
-          print*,"[DEBUG] differences in rad_totarr"
-          stop
-        endif
-        if(.not.diff) print*,"[DEBUG] no differences"
-#endif
-
-      end
-
-      
