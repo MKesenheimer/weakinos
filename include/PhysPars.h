@@ -12,13 +12,13 @@ c madgraph definitions
 
 c common definitions
 c SM parameters needed for neutralino pair production
-        double precision  par_alpha, par_gf
+        double precision  par_alpha,par_alphaMZ,par_gf
         double precision  par_Zmass,par_Wmass,par_Zwidth,par_Wwidth
         double precision  par_Zmass2,par_Wmass2
         double precision  par_MU,par_MD,par_MS,par_MC,par_MB,par_MT
         
         common/par_common/ 
-     &        par_alpha,par_gf,                ! fine structure and fermi constant
+     &        par_alpha,par_alphaMZ,par_gf,    ! fine structure and fermi constant
      &        par_Zmass,par_Zwidth,            ! mass of Z boson
      &        par_Wmass,par_Wwidth,            ! mass of W boson
      &        par_Zmass2,par_Wmass2,           ! squared masses
@@ -50,6 +50,5 @@ c complex unit
         parameter (ii = (0D0,1D0))
 
 c additional parameters
-
 
 c############### end PhysPars.h ########################################

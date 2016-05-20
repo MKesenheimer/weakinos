@@ -119,7 +119,7 @@ c modifies the jacobian.
         call set_ebe_couplings
         
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
-        call set_channel(chan,i,j,k,mi,mj,mk,mij) ! OK, but better check again!
+        call set_channel(chan,i,j,k,mi,mj,mk,mij)
 
         ! in case a weakino mass is negative
         mi = dabs(mi)
@@ -153,8 +153,8 @@ c modifies the jacobian.
         ampreal = (+amp-ampCT)
  
         if(isnan(ampreal)) then
-          print*,"got strange value for ampreal amplitude...",ampreal
-          stop
+          !print*,"got strange value for ampreal amplitude...",ampreal
+          ampreal = 0D0
         endif
  
         if (verbose) then

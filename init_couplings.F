@@ -257,6 +257,12 @@ c set the madgraph and formcalc couplings event by event
 #include "PhysPars.h"
 #include "pwhg_st.h"
 #include "pwhg_math.h"
+
+#ifdef DEBUGQ
+      st_alpha = 0.118D0
+      !pwhg_alphas = 0.118D0
+#endif
+
         ! MadGraph
         ! QCD coupling constant
         alphaS = st_alpha
@@ -352,9 +358,10 @@ c sets the PhysPars.h parameters
         par_Zmass   = dreal(SMInputs_MZ)
         par_Wmass   = dreal(Mass_MW)
         par_gf      = dreal(SMInputs_GF)
+        par_alphaMZ = 1d0/dreal(SMInputs_invAlfaMZ)
 #define SLHA_ALPHA
 #ifdef SLHA_ALPHA
-        par_alpha   = 1d0/dreal(SMInputs_invAlfaMZ)
+        par_alpha   = par_alphaMZ
 #else
         sinW        = dsqrt(1d0-par_Wmass**2/par_Zmass**2)
         par_alpha   = dsqrt(2d0)*par_Wmass**2*sinW**2*par_gf/pi
@@ -763,7 +770,7 @@ c MadGraphs couplings.f as well.
         Alfa2   = Alfa**2
         AlfaS   = SMInputs_AlfasMZ ! dummy value, gets overwritten by set_ebe_couplings
         AlfaS2  = AlfaS**2
-        AlfaMZ  = 1D0/1.27934000D2
+        AlfaMZ  = par_alphaMZ
         AlfaSMZ = SMInputs_AlfasMZ
         EL = dsqrt(4*pi*Alfa)
         GS = dsqrt(4*pi*AlfaS)

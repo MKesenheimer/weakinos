@@ -8,12 +8,12 @@
 #include "contains.h"
 
 
-	subroutine CalcRenConst
-	implicit none
+        subroutine CalcRenConst
+        implicit none
 
 #include "decl.h"
 
-	integer Sfe3
+        integer Sfe3
         double precision ltlambda
         common/debug/ltlambda
 
@@ -32,27 +32,27 @@
         RealType xm0,xz0
         
         CNull = (0d0, 0d0)
-        xz0 = 0 ! set Finite part in field renormalization constant equal to zero
-        xm0 = 0 ! set Finite part in mass renormalization constant equal to zero
+        xz0 = 0d0 ! set Finite part in field renormalization constant equal to zero
+        xm0 = 0d0 ! set Finite part in mass renormalization constant equal to zero
         
 c######################## common renormalization constants #############
         
-	dMChaOS1(1) = 0
-	dMChaOS1(2) = 0
-	dMNeuOS1(1) = 0
-	dZH1        = 0
-	dZH2        = 0
-	dMZsq1      = 0
-	dTB1        = 0
-	dZAA1       = 0
-	dZZA1       = 0
-	dMWsq1      = 0
-	dSB1        = 0
-	dCB1        = 0
+        dMChaOS1(1) = 0
+        dMChaOS1(2) = 0
+        dMNeuOS1(1) = 0
+        dZH1        = 0
+        dZH2        = 0
+        dMZsq1      = 0
+        dTB1        = 0
+        dZAA1       = 0
+        dZZA1       = 0
+        dMWsq1      = 0
+        dSB1        = 0
+        dCB1        = 0
         dSW1        = 0
-	dZAZ1       = 0
-	dZe1        = 0
-	dZZZ1       = 0
+        dZAZ1       = 0
+        dZe1        = 0
+        dZZZ1       = 0
         dZNeu1(1)   = 0
         dMino11     = 0
         dMino21     = 0
@@ -986,4 +986,4 @@ c######################## ddbar renormalization constants ##############
 
 #include "contains.h"
 
-	end
+        end

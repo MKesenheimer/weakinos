@@ -270,62 +270,37 @@ endif
 endif
 
 ### USER Files ###
-USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
-       init_processes.o init_couplings.o Reals_osres.o \
+USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o 	\
+       init_processes.o init_couplings.o Reals_osres.o 			\
        Real_osres_phsp.o phi1_2.o sigosres.o version.o
 
 ### Functions in Tools/functions/
 FUNC = funcprocess.o Print.o funcbasic.o off_to_on.o
 
 ### MadGraph mandatory files
-MMADOBJ = couplings.o hardstop.o printout.o read_slha.o \
+MMADOBJ = couplings.o hardstop.o printout.o read_slha.o 		\
 	set_general_couplings.o 
 
 ### Formcalc Files in Tools/FormcalcTools/###
 FORMCALC = VecSet.o
 
 ### PWHG FILES in ../ ###
-PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o	\
+PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o		\
 	test_Sudakov.o pt2maxreg.o maxrat.o Bornzerodamp.o		\
 	random.o boostrot.o bra_ket_subroutines.o			\
-	init_phys.o powheginput.o sigcollremn.o		\
+	init_phys.o powheginput.o sigcollremn.o				\
 	pwhg_bookhist-multi.o pwhg_analysis_driver.o checkmomzero.o	\
-	setstrongcoupl.o integrator.o mwarn.o		\
+	setstrongcoupl.o integrator.o mwarn.o				\
 	sigcollsoft.o validflav.o decidemerging.o          		\
-	loadstorenlo.o setlocalscales.o ubprojections.o      	\
+	loadstorenlo.o setlocalscales.o ubprojections.o			\
 	mint_upb.o reshufflemoms.o opencount.o
 
-# possible modified POWHEG-files
-# necessary for Stage 1-2:
-#PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
-#	sigborn.o sigreal.o sigsoftvirt.o			\
-#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-#	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
-#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
-#	pdfcalls.o newunit.o
-
-# necessary for Stage 1-2, with optional changes for SUSY-particles
-#PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
-#	sigborn.o sigreal.o sigsoftvirt_mod.o			\
-#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-#	LesHouchesreg.o gen_index.o lhefwrite.o		\
-#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
-#	pdfcalls.o newunit.o
-
-# necessary for Stage 1-4:
-#PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
-#	sigborn.o sigreal.o sigsoftvirt.o			\
-#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-#	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
-#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
-#	pdfcalls.o newunit_mod.o
-
-#tests
+# modified POWHEG-files
 PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
 	sigborn_mod.o sigreal_mod.o sigsoftvirt_mod.o			\
-	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 		\
+	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 			\
 	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
-	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o \
+	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o 	\
 	pdfcalls.o newunit_mod.o
 
 ### LHEF ###
@@ -342,7 +317,7 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
 # to which we applied a simple patch to enable slepton decays
 # (for clarity a separate patch file is included which is not needed otherwise)
 PYTHIA = boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
-	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o		\
+	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o	\
 	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
 	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
 ifeq ("$(USE_PYTHIA8)","yes")
@@ -351,7 +326,6 @@ ifeq ("$(USE_PYTHIA8)","yes")
 else
   PYTHIA += main-PYTHIA.o setup-PYTHIA-lhef.o
   PYTHIA += pythia-6.4.25-decay.o
-  #PYTHIA += pythia6428.o
 endif
 
 ### HERWIG ###
@@ -374,11 +348,11 @@ MADOBJ += b_cl_xIxI_001_001.o  b_cl_xIxI_006_001.o  b_sf_xIxI_001_003.o  b_sf_xI
 	b_cl_xIxI_004_002.o  b_cl_xIxI_009_002.o  b_sf_xIxI_004_004.o  b_sf_xIxI_009_004.o	\
 	b_cl_xIxI_005_001.o  b_cl_xIxI_010_001.o  b_sf_xIxI_005_003.o  b_sf_xIxI_010_003.o	\
 	b_cl_xIxI_005_002.o  b_cl_xIxI_010_002.o  b_sf_xIxI_005_004.o  b_sf_xIxI_010_004.o
-MADOBJ += sborn_cl_xIxI_001.o  sborn_cl_xIxI_007.o  sborn_sf_xIxI_002.o  sborn_sf_xIxI_008.o\
+MADOBJ += sborn_cl_xIxI_001.o  sborn_cl_xIxI_007.o  sborn_sf_xIxI_002.o  sborn_sf_xIxI_008.o	\
 	sborn_cl_xIxI_002.o  sborn_cl_xIxI_008.o  sborn_sf_xIxI_003.o  sborn_sf_xIxI_009.o	\
 	sborn_cl_xIxI_003.o  sborn_cl_xIxI_009.o  sborn_sf_xIxI_004.o  sborn_sf_xIxI_010.o	\
-	sborn_cl_xIxI_004.o  sborn_cl_xIxI_010.o  sborn_sf_xIxI_005.o			\
-	sborn_cl_xIxI_005.o  sborn_sf_xIxI_006.o			\
+	sborn_cl_xIxI_004.o  sborn_cl_xIxI_010.o  sborn_sf_xIxI_005.o				\
+	sborn_cl_xIxI_005.o  sborn_sf_xIxI_006.o						\
 	sborn_cl_xIxI_006.o  sborn_sf_xIxI_001.o  sborn_sf_xIxI_007.o
 
 # real Amplitudes
@@ -389,7 +363,7 @@ MADOBJ += r_ddx_xIxIg.o r_dg_xIxId.o r_dxd_xIxIg.o r_dxg_xIxIdx.o	\
 
 # on-shell subtraction scheme
 MADOBJ += sreal_proc_res.o
-MADOBJ += r_dg_xIxId_res.o r_dxg_xIxIdx_res.o r_gd_xIxId_res.o	\
+MADOBJ += r_dg_xIxId_res.o r_dxg_xIxIdx_res.o r_gd_xIxId_res.o		\
 	   r_gdx_xIxIdx_res.o r_gu_xIxIu_res.o r_gux_xIxIux_res.o 	\
 	   r_ug_xIxIu_res.o r_uxg_xIxIux_res.o
 
@@ -404,11 +378,11 @@ MADOBJ += b_cl_xIxJ_001_001.o  b_cl_xIxJ_006_001.o  b_sf_xIxJ_001_003.o  b_sf_xI
 	b_cl_xIxJ_004_002.o  b_cl_xIxJ_009_002.o  b_sf_xIxJ_004_004.o  b_sf_xIxJ_009_004.o	\
 	b_cl_xIxJ_005_001.o  b_cl_xIxJ_010_001.o  b_sf_xIxJ_005_003.o  b_sf_xIxJ_010_003.o	\
 	b_cl_xIxJ_005_002.o  b_cl_xIxJ_010_002.o  b_sf_xIxJ_005_004.o  b_sf_xIxJ_010_004.o
-MADOBJ += sborn_cl_xIxJ_001.o  sborn_cl_xIxJ_007.o  sborn_sf_xIxJ_002.o  sborn_sf_xIxJ_008.o\
+MADOBJ += sborn_cl_xIxJ_001.o  sborn_cl_xIxJ_007.o  sborn_sf_xIxJ_002.o  sborn_sf_xIxJ_008.o	\
 	sborn_cl_xIxJ_002.o  sborn_cl_xIxJ_008.o  sborn_sf_xIxJ_003.o  sborn_sf_xIxJ_009.o	\
 	sborn_cl_xIxJ_003.o  sborn_cl_xIxJ_009.o  sborn_sf_xIxJ_004.o  sborn_sf_xIxJ_010.o	\
-	sborn_cl_xIxJ_004.o  sborn_cl_xIxJ_010.o  sborn_sf_xIxJ_005.o			\
-	sborn_cl_xIxJ_005.o  sborn_sf_xIxJ_006.o			\
+	sborn_cl_xIxJ_004.o  sborn_cl_xIxJ_010.o  sborn_sf_xIxJ_005.o				\
+	sborn_cl_xIxJ_005.o  sborn_sf_xIxJ_006.o						\
 	sborn_cl_xIxJ_006.o  sborn_sf_xIxJ_001.o  sborn_sf_xIxJ_007.o
 
 # real Amplitudes
@@ -417,7 +391,7 @@ MADOBJ += r_ddx_xIxJg.o r_dg_xIxJd.o r_dxd_xIxJg.o r_dxg_xIxJdx.o	\
 	  r_ug_xIxJu.o r_uux_xIxJg.o  r_uxg_xIxJux.o r_uxu_xIxJg.o
 
 # on-shell subtraction scheme
-MADOBJ += r_dg_xIxJd_res.o r_dxg_xIxJdx_res.o r_gd_xIxJd_res.o	\
+MADOBJ += r_dg_xIxJd_res.o r_dxg_xIxJdx_res.o r_gd_xIxJd_res.o		\
 	   r_gdx_xIxJdx_res.o r_gu_xIxJu_res.o r_gux_xIxJux_res.o 	\
 	   r_ug_xIxJu_res.o r_uxg_xIxJux_res.o
 

@@ -107,8 +107,8 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
 #endif
         
         if(isnan(ampreal)) then
-          print*,"got strange value for ampreal amplitude...",ampreal
-          stop
+          !print*,"got strange value for ampreal amplitude...",ampreal
+          ampreal = 0D0
         endif
         
         if (verbose) then

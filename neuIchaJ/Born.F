@@ -456,8 +456,8 @@ c endif preprocessor condition "if defined(CHECK_FORM_MAD) || defined(MAD_BORN)"
 #endif
 
         if(isnan(born)) then
-          print*,"got strange value for born amplitude...",born
-          stop
+          !print*,"got strange value for born amplitude...",born
+          born = 0D0
         endif
 
 #ifdef DEBUG1

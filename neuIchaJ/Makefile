@@ -190,8 +190,7 @@ VIRTSUB = $(VIRT)/udbar_n1x1_squaredme $(VIRT)/dubar_n1x1_squaredme	\
 	$(VIRT)/udbar_n3x1_squaredme $(VIRT)/dubar_n3x1_squaredme	\
 	$(VIRT)/udbar_n3x2_squaredme $(VIRT)/dubar_n3x2_squaredme	\
 	$(VIRT)/udbar_n4x1_squaredme $(VIRT)/dubar_n4x1_squaredme	\
-	$(VIRT)/udbar_n4x2_squaredme $(VIRT)/dubar_n4x2_squaredme	\
-	$(VIRT)/udbar_n1x1_test_squaredme $(VIRT)/dubar_n1x1_test_squaredme
+	$(VIRT)/udbar_n4x2_squaredme $(VIRT)/dubar_n4x2_squaredme
 REALSUB  = $(REAL)/SubProcesses_nIxJ
 MODIFIED = $(WORKINGDIR)/POWHEG_mod
 SCRIPTS  = $(WORKINGDIR)/Scripts
@@ -277,62 +276,37 @@ endif
 endif
 
 ### USER Files ###
-USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o \
-       init_processes.o init_couplings.o Reals_osres.o \
+USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o	\
+       init_processes.o init_couplings.o Reals_osres.o			\
        Real_osres_phsp.o phi1_2.o sigosres.o version.o
 
 ### Functions in Tools/functions/
 FUNC = funcprocess.o Print.o funcbasic.o off_to_on.o
 
 ### MadGraph mandatory files
-MMADOBJ = couplings.o hardstop.o printout.o read_slha.o \
+MMADOBJ = couplings.o hardstop.o printout.o read_slha.o			\
 	set_general_couplings.o 
 
 ### Formcalc Files in Tools/FormcalcTools/###
 FORMCALC = VecSet.o
 
 ### PWHG FILES in ../ ###
-PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o	\
+PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o		\
 	test_Sudakov.o pt2maxreg.o maxrat.o Bornzerodamp.o		\
 	random.o boostrot.o bra_ket_subroutines.o			\
-	init_phys.o powheginput.o sigcollremn.o		\
+	init_phys.o powheginput.o sigcollremn.o				\
 	pwhg_bookhist-multi.o pwhg_analysis_driver.o checkmomzero.o	\
-	setstrongcoupl.o integrator.o mwarn.o		\
+	setstrongcoupl.o integrator.o mwarn.o				\
 	sigcollsoft.o validflav.o decidemerging.o          		\
-	loadstorenlo.o setlocalscales.o ubprojections.o      	\
+	loadstorenlo.o setlocalscales.o ubprojections.o      		\
 	mint_upb.o reshufflemoms.o opencount.o
 
-# possible modified POWHEG-files
-# necessary for Stage 1-2:
-#PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
-#	sigborn.o sigreal.o sigsoftvirt.o			\
-#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-#	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
-#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
-#	pdfcalls.o newunit.o
-
-# necessary for Stage 1-2, with optional changes for SUSY-particles
-#PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp.o	\
-#	sigborn.o sigreal.o sigsoftvirt_mod.o			\
-#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-#	LesHouchesreg.o gen_index.o lhefwrite.o		\
-#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
-#	pdfcalls.o newunit.o
-
-# necessary for Stage 1-4:
-#PWHG += cernroutines.o find_regions.o gen_real_phsp.o	\
-#	sigborn.o sigreal.o sigsoftvirt.o			\
-#	sigvirtual.o bbinit_mod.o LesHouches.o 		\
-#	LesHouchesreg.o gen_index.o lhefwrite_mod.o		\
-#	gen_radiation.o sigremnants_mod.o pwhgreweight.o \
-#	pdfcalls.o newunit_mod.o
-
-#tests
+# modified POWHEG-files
 PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
 	sigborn_mod.o sigreal_mod.o sigsoftvirt_mod.o			\
-	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 		\
+	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 			\
 	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
-	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o \
+	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o 	\
 	pdfcalls.o newunit_mod.o
 	
 ### LHEF ###
@@ -349,7 +323,7 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
 # to which we applied a simple patch to enable slepton decays
 # (for clarity a separate patch file is included which is not needed otherwise)
 PYTHIA = boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
-	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o		\
+	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o	\
 	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
 	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
 ifeq ("$(USE_PYTHIA8)","yes")
@@ -358,7 +332,6 @@ ifeq ("$(USE_PYTHIA8)","yes")
 else
   PYTHIA += main-PYTHIA.o setup-PYTHIA-lhef.o
   PYTHIA += pythia-6.4.25-decay.o
-  #PYTHIA += pythia6428-decay.o
 endif
 
 ### HERWIG ###
@@ -371,33 +344,33 @@ HERWIG = main-HERWIG.o setup-HERWIG-lhef.o herwig6510.o boostrot.o 	\
 
 # MadGraph born amplitudes
 MADOBJ += sborn_proc.o
-MADOBJ += b_cl_nIxJm_001_001.o  b_cl_nIxJm_003_001.o  b_sf_nIxJm_001_003.o  b_sf_nIxJm_003_003.o \
-	b_cl_nIxJm_001_002.o  b_cl_nIxJm_003_002.o  b_sf_nIxJm_001_004.o  b_sf_nIxJm_003_004.o \
-	b_cl_nIxJm_002_001.o  b_cl_nIxJm_004_001.o  b_sf_nIxJm_002_003.o  b_sf_nIxJm_004_003.o \
-	b_cl_nIxJm_002_002.o  b_cl_nIxJm_004_002.o  b_sf_nIxJm_002_004.o  b_sf_nIxJm_004_004.o \
-	b_cl_nIxJp_001_001.o  b_cl_nIxJp_003_001.o  b_sf_nIxJp_001_003.o  b_sf_nIxJp_003_003.o \
-	b_cl_nIxJp_001_002.o  b_cl_nIxJp_003_002.o  b_sf_nIxJp_001_004.o  b_sf_nIxJp_003_004.o \
-	b_cl_nIxJp_002_001.o  b_cl_nIxJp_004_001.o  b_sf_nIxJp_002_003.o  b_sf_nIxJp_004_003.o \
+MADOBJ += b_cl_nIxJm_001_001.o  b_cl_nIxJm_003_001.o  b_sf_nIxJm_001_003.o  b_sf_nIxJm_003_003.o	\
+	b_cl_nIxJm_001_002.o  b_cl_nIxJm_003_002.o  b_sf_nIxJm_001_004.o  b_sf_nIxJm_003_004.o		\
+	b_cl_nIxJm_002_001.o  b_cl_nIxJm_004_001.o  b_sf_nIxJm_002_003.o  b_sf_nIxJm_004_003.o		\
+	b_cl_nIxJm_002_002.o  b_cl_nIxJm_004_002.o  b_sf_nIxJm_002_004.o  b_sf_nIxJm_004_004.o		\
+	b_cl_nIxJp_001_001.o  b_cl_nIxJp_003_001.o  b_sf_nIxJp_001_003.o  b_sf_nIxJp_003_003.o		\
+	b_cl_nIxJp_001_002.o  b_cl_nIxJp_003_002.o  b_sf_nIxJp_001_004.o  b_sf_nIxJp_003_004.o		\
+	b_cl_nIxJp_002_001.o  b_cl_nIxJp_004_001.o  b_sf_nIxJp_002_003.o  b_sf_nIxJp_004_003.o		\
 	b_cl_nIxJp_002_002.o  b_cl_nIxJp_004_002.o  b_sf_nIxJp_002_004.o  b_sf_nIxJp_004_004.o
-MADOBJ += sborn_cl_nIxJm_001.o  sborn_cl_nIxJm_004.o  sborn_sf_nIxJm_002.o \
-	sborn_cl_nIxJm_002.o  sborn_sf_nIxJm_003.o \
-	sborn_cl_nIxJm_003.o  sborn_sf_nIxJm_001.o  sborn_sf_nIxJm_004.o \
-	sborn_cl_nIxJp_001.o  sborn_cl_nIxJp_004.o  sborn_sf_nIxJp_002.o \
-	sborn_cl_nIxJp_002.o  sborn_sf_nIxJp_003.o \
+MADOBJ += sborn_cl_nIxJm_001.o  sborn_cl_nIxJm_004.o  sborn_sf_nIxJm_002.o				\
+	sborn_cl_nIxJm_002.o  sborn_sf_nIxJm_003.o							\
+	sborn_cl_nIxJm_003.o  sborn_sf_nIxJm_001.o  sborn_sf_nIxJm_004.o				\
+	sborn_cl_nIxJp_001.o  sborn_cl_nIxJp_004.o  sborn_sf_nIxJp_002.o				\
+	sborn_cl_nIxJp_002.o  sborn_sf_nIxJp_003.o							\
 	sborn_cl_nIxJp_003.o  sborn_sf_nIxJp_001.o  sborn_sf_nIxJp_004.o
 
 # real Amplitudes
 MADOBJ += sreal_proc.o 
-MADOBJ += r_dg_nIxJu.o   r_gd_nIxJu.o    r_uxd_nIxJg.o \
-	r_dux_nIxJg.o  r_gux_nIxJdx.o  r_uxg_nIxJdx.o \
-	r_dxg_nIxJux.o   r_gdx_nIxJux.o    r_udx_nIxJg.o \
+MADOBJ += r_dg_nIxJu.o   r_gd_nIxJu.o    r_uxd_nIxJg.o			\
+	r_dux_nIxJg.o  r_gux_nIxJdx.o  r_uxg_nIxJdx.o			\
+	r_dxg_nIxJux.o   r_gdx_nIxJux.o    r_udx_nIxJg.o		\
 	r_dxu_nIxJg.o  r_gu_nIxJd.o  r_ug_nIxJd.o
 
 # on-shell subtraction scheme
 MADOBJ += sreal_proc_res.o
-MADOBJ += r_dg_nIxJu_res.o   r_gd_nIxJu_res.o \
-	r_gux_nIxJdx_res.o  r_uxg_nIxJdx_res.o \
-	r_dxg_nIxJux_res.o   r_gdx_nIxJux_res.o \
+MADOBJ += r_dg_nIxJu_res.o   r_gd_nIxJu_res.o				\
+	r_gux_nIxJdx_res.o  r_uxg_nIxJdx_res.o				\
+	r_dxg_nIxJux_res.o   r_gdx_nIxJux_res.o				\
 	r_gu_nIxJd_res.o  r_ug_nIxJd_res.o
 
 ### Virtual Amplitudes in Formcalc_Virtuals/ ###
@@ -529,16 +502,6 @@ VIRTUALS += udbar_n4x2_abbr0h.o udbar_n4x2_abbr0s.o                     \
           dubar_n4x2_self_Sfe5_Sfe6_Sfe7.o                              \
           dubar_n4x2_SquaredME.o dubar_n4x2_vert_Sfe5_Sfe6.o            \
           dubar_n4x2_vert.o dubar_n4x2_vert_Sfe5.o
-VIRTUALS += CalcRenConst_test.o udbar_n1x1_test_abbr0h.o udbar_n1x1_test_abbr0s.o \
-          udbar_n1x1_test_abbr1s.o \
-          udbar_n1x1_test_born.o \
-          udbar_n1x1_test_SquaredME.o \
-          udbar_n1x1_test_vert.o \
-          dubar_n1x1_test_abbr0h.o dubar_n1x1_test_abbr0s.o \
-          dubar_n1x1_test_abbr1s.o \
-          dubar_n1x1_test_born.o \
-          dubar_n1x1_test_SquaredME.o \
-          dubar_n1x1_test_vert.o
 
 SOURCESMAIN = $(PWHG) $(PDFPACK) $(USER) $(PWHGANALYSIS) $(FUNC) $(VIRTUALS)  \
 	$(FORMCALC) $(MMADOBJ) $(MADOBJ)

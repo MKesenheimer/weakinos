@@ -197,14 +197,12 @@ c just set xphi to zero - the jacobian will still be correct.
           print*, "warning: s is less than the sum of provided masses "//
      &            "m1 and m2"
           print*, "s, (m1+m2)**2 =",s,(m1+m2)**2
-          s   = 0D0
           jac = 0D0
           return
         ! no warning if not so bad phase space point
         ! but sort out to avoid NaNs
         else if ( (s .le. (m1+m2)**2) .and.
      &            (s .ge. ((1D0-tiny2)*(m1+m2)**2)) ) then
-          s   = 0D0
           jac = 0D0
           return
         endif
@@ -334,7 +332,7 @@ c psgen=2:     breit wigner in s2 and flat below resonance
         ! angles
         double precision phi,cosTh,sinTh
         ! energies abs. momenta and invariants
-        double precision E1,E2,Pabs,s,sqrts,s1,s2
+        double precision E1,E2,Pabs,s,sqrts,s2
         ! jacobians
         double precision jac,jc1
         ! variables for boosting into rest frame
@@ -362,7 +360,6 @@ c psgen=2:     breit wigner in s2 and flat below resonance
          print*, "warning: s is less than zero"
          print*, "s =",s
          print*, " => set s to 0 with jacobian 0"
-         s   = 0D0
          jac = 0D0
          return
         endif
@@ -378,7 +375,6 @@ c psgen=2:     breit wigner in s2 and flat below resonance
         jac   = jac*2D0*m_pi
 
         ! integration borders
-        s1    = m1**2
         s2max = (sqrts-m1)**2
 
         ! sort out bad phase space points

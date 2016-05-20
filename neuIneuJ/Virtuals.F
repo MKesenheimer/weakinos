@@ -444,8 +444,8 @@ c#define CHECKUV
         endif
 
         if(isnan(virtual)) then
-          print*,"got strange value for virtual amplitude...", virtual
-          stop
+          !print*,"got strange value for virtual amplitude...", virtual
+          virtual = 0D0
         endif
         
         ! Print informations

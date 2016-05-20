@@ -77,7 +77,7 @@ c and the Jacobi factor for the phase space volume
         kn_jacborn = kn_jacborn*jac
 
         ! center of mass momenta
-        kn_cmpborn(0,1) =  sqrt(kn_sborn)/2d0
+        kn_cmpborn(0,1) =  dsqrt(kn_sborn)/2d0
         kn_cmpborn(1,1) =  0d0
         kn_cmpborn(2,1) =  0d0
         kn_cmpborn(3,1) =  kn_cmpborn(0,1)
@@ -105,9 +105,9 @@ c and the Jacobi factor for the phase space volume
         beta = (kn_xb1-kn_xb2)/(kn_xb1+kn_xb2)
 
         ! set up boost vector
-        vec(1) = 0
-        vec(2) = 0
-        vec(3) = 1
+        vec(1) = 0D0
+        vec(2) = 0D0
+        vec(3) = 1D0
 
         ! calculate momenta kn_pborn in the laboratory frame
         ! boost kn_cmpborn (CM) -> kn_pborn (lab. frame)
