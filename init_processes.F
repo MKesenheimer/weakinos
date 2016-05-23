@@ -313,10 +313,8 @@ c     set process id using slepton types
         stop
  999    print*,'init_processes: increase maxprocborn'
         stop
-      end
-      
+      end      
 c############### end subroutine init_processes #########################
-
 
 c############### subroutine init_osres #################################
 c if the real-amplitudes are resonant split into a regular part and the 
@@ -433,7 +431,5 @@ c ur45: right handed down-type squark gets resonant with particles 4 & 5
 
         ! the rest of the variables defined in osres.h are set
         ! in init_couplings.f
-        
       end
-
 c############### end subroutine init_osres #############################
