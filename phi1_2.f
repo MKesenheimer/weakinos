@@ -359,7 +359,7 @@ c psgen=2:     breit wigner in s2 and flat below resonance
         if (s .le. 0D0) then
          print*, "warning: s is less than zero"
          print*, "s =",s
-         print*, " => set s to 0 with jacobian 0"
+         print*, " => set jacobian  to 0"
          jac = 0D0
          return
         endif

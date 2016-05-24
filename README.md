@@ -89,7 +89,7 @@ For example it is more costly to replace all preprocessor flags with
           ...
         endif
 
-statements, since the program has to check these if-query frequently.
+statements, since the program has to check these if-queries frequently.
 With the implemented flags the C preprocessor sorts out all unnecessary 
 code.
 

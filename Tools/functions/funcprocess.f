@@ -6,12 +6,9 @@ c 2012-07 AvM
 
 c############### decode_pair subroutine ###############################
 c decode two PDG ids for MSSM fermions from a single integer
-
       subroutine decode_pair(combination,ida,idb)
         implicit none
-
         integer combination,ida,idb,idaa,idbb
-
         idaa = mod(abs(combination),1000)
         idbb = abs(combination)/1000
         ida =  (idaa/100)*1000000 + mod(idaa,100)
@@ -24,28 +21,21 @@ c decode two PDG ids for MSSM fermions from a single integer
           stop
         endif  
       end
-
 c############### end decode_pair subroutine ############################
 
 c############### encode_pair subroutine ################################
 c encode two PDG ids for MSSM fermions into a single integer
 c (encodes 1000022,1000022 to 122122 or 1000024,-1000024 to -124124 etc.)
-
       integer function encode_pair(ida,idb)
         implicit none
-
         integer ida,idb,idaa,idbb,combination,idar,idbr
-
         idaa = (ida / 1000000)*100 + mod(ida,100)
         idbb = (idb / 1000000)*100 + mod(idb,100)
-        
         combination = abs(idaa) + 1000*abs(idbb)
-       
         ! encode unequal charge of particles
         if( (idaa .lt. 0D0) .or. (idbb .lt. 0D0) ) then
           combination = -combination
         endif
-
         ! check if reconstruction works, then we are fine in any case
         call decode_pair(combination,idar,idbr)
         if ((ida.ne.idar).or.(idb.ne.idbr)) then
@@ -55,10 +45,8 @@ c (encodes 1000022,1000022 to 122122 or 1000024,-1000024 to -124124 etc.)
           print*,"idb,idbb,idbr",idb,idbb,idbr
           stop  
         endif
-        
         encode_pair = combination
       end
-
 c############### end encode_pair subroutine ############################
 
 c############### check_4conservation subroutine ########################
@@ -69,12 +57,9 @@ c verbose = 1: Throw always a warning with less output
 c verbose = 2: Throw always a warning with more output
 c verbose = 3: hard check. Throw error and show all output
 c verbose = 4: No output at all, but set the variable lresult
-
       subroutine check_4conservation(p,nleg,verbose,lresult)
         implicit none
-        
 #include "nlegborn.h"
-
         integer nleg,i,j
         double precision p(0:3,nleg) ! momentum vectors
         double precision pi(0:3) ! sum of incoming momenta
@@ -84,7 +69,7 @@ c verbose = 4: No output at all, but set the variable lresult
         integer verbose
         logical first
         data first/.true./
-        
+
         ! reset lresult
         lresult = .true.
         
@@ -152,22 +137,19 @@ c verbose = 4: No output at all, but set the variable lresult
           enddo  
         enddo
       end
-
 c############### end check_4conservation subroutine ####################
 
 c############### subroutine set_squark_params ##########################
 c pick SUSY masses relevant for specific initial state
       subroutine set_process(id, M1, M2, M3, M4)
         implicit none
-
 #include "PhysPars.h"
-
         integer id(4)
         double precision M1, M2, M3, M4
-        
+
         M3 = par_Fin1mass
         M4 = par_Fin2mass
-        
+
         select case(abs(id(1)))
         case(1) ! d
           M1 = par_MD
@@ -213,9 +195,7 @@ c pick SUSY masses relevant for specific initial state
         print*,"M3",M3
         print*,"M4",M4
 #endif
-        
       end
-
 c############### end subroutine set_squark_params ######################
 
 c############### subroutine switchmom ##################################
