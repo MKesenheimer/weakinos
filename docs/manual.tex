@@ -1,0 +1,254 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amssymb,enumerate}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{graphics}
+\usepackage{xspace}
+\usepackage{epsfig}
+\usepackage{subfigure}
+
+\setlength\paperwidth  {210mm}%
+\setlength\paperheight {300mm}%	
+
+\textwidth 160mm%		% DEFAULT FOR LATEX209 IS a4
+\textheight 230mm%
+
+\voffset -1in
+\topmargin   .05\paperheight	% FROM TOP OF PAGE TO TOP OF HEADING (0=1inch)
+\headheight  .02\paperheight	% HEIGHT OF HEADING BOX.
+\headsep     .03\paperheight	% VERT. SPACE BETWEEN HEAD AND TEXT.
+\footskip    .07\paperheight	% FROM END OF TEX TO BASE OF FOOTER. (40pt)
+
+\hoffset -1in				% TO ADJUST WITH PAPER:
+	\oddsidemargin .13\paperwidth	% LEFT MARGIN FOR ODD PAGES (10)
+	\evensidemargin .15\paperwidth	% LEFT MARGIN FOR EVEN PAGES (30)
+	\marginparwidth .10\paperwidth	% TEXTWIDTH OF MARGINALNOTES
+	\reversemarginpar		% BECAUSE OF TITLEPAGE.
+
+\newcommand{\tmtextit}[1]{{\itshape{#1}}}
+\newcommand{\tmtexttt}[1]{{\ttfamily{#1}}}
+\newenvironment{enumeratenumeric}{\begin{enumerate}[ 1.] }{\end{enumerate}}
+\newcommand\sss{\mathchoice%
+{\displaystyle}%
+{\scriptstyle}%
+{\scriptscriptstyle}%
+{\scriptscriptstyle}%
+}
+\newcommand\PSn{\Phi_{n}}
+\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+
+\newcommand\POWHEG{{\tt POWHEG}}
+\newcommand\POWHEGBOX{{\tt POWHEG\;BOX}}
+\newcommand\POWHEGBOXvTWO{{\tt POWHEG\;BOX\;V2}}
+\newcommand\PYTHIA{{\tt PYTHIA}}
+\newcommand\POWHEGpPYTHIA{{\tt POWHEG+PYTHIA}}
+\newcommand\HERWIG{{\tt HERWIG}}
+
+
+\title{Manual for electroweakino pair production in the \POWHEGBOXvTWO{}}
+\date{}
+\author{}
+
+
+\begin{document}
+\maketitle
+%
+\noindent
+This manual summarizes the settings and input parameters that are specific to
+the implementation of electroweakino pair production at the LHC within the
+\POWHEGBOXvTWO{} framework. 
+%
+The parameters that are common to all \POWHEGBOXvTWO{} implementations are given in
+the documents {\tt manual-BOX.pdf} and {\tt Manyseeds.pdf}
+in the {\tt POWHEG-BOX-V2/Docs} directory.
+
+Electroweakino pair-production processes can be split into the sub-processes neutralino-pair, chargino-pair and neutralino-chargino production, which we put into the sub-folders {\tt neuIneuJ}, {\tt chaIchaJ} and {\tt neuIchaJ}, respectively. This makes the main directory tidier and the organization of the code simpler. In the following we refer to the directory {\tt POWHEG-BOX-V2/weakinos/} as the main directory and to the three folders {\tt neuIneuJ}, {\tt chaIchaJ} and {\tt neuIchaJ} within the main directory as the sub-folders.
+
+If you use our program, please cite Refs.~\cite{Baglio:2016,Nason:2004,Frixione:2007,Aliolo:2010}.
+
+\section*{Compiling the program}
+To get started, compile the static libraries {\tt libdhelas3.a} \cite{Murayama:1992gi}, {\tt liblooptools.a} \cite{Hahn:1998yk}, and {\tt libSLHA.a} \cite{Hahn:2006nq} for the operating system you are using. To this end, call the configuration scripts in the main directory by simply typing 
+\\[2ex]
+\hspace*{2cm}{\tt \$ ./configure.sh}
+\\[2ex]
+Afterwards you can compile the libraries by executing 
+\\[2ex]
+\hspace*{2cm}{\tt \$ make libdhelas3.a}
+\\
+\hspace*{2cm}{\tt \$ make liblooptools.a}
+\\
+\hspace*{2cm}{\tt \$ make libSLHA.a}
+\\[2ex] 
+or, in short, 
+\\[2ex]
+\hspace*{2cm}{\tt \$ make libs}
+\\[2ex]
+If you want to use your own libraries, copy them into the directory {\tt ./Tools/} or provide paths to the libraries in the {\tt makefile}.
+
+The neutralino-pair, chargino-pair and neutralino-chargino production processes are implemented as three independent programs. The respective process-dependent routines can be found in the sub-folders {\tt neuIneuJ}, {\tt chaIchaJ} and {\tt neuIchaJ}, which each contain a sample {\tt makefile}. In order to generate the executables change into the respective sub-folder and run
+\\[2ex]
+\hspace*{2cm}{\tt \$ make -j4 all}.
+\\[2ex]
+Per default the programs require {\tt fastjet} and {\tt lhapdf}, so make sure that {\tt fastjet-config} and {\tt lhapdf-config} are set correctly in your path, otherwise you have to adapt the {\tt makefile}.
+
+To test the program with default parameters type 
+\\[2ex]
+\hspace*{2cm}{\tt \$ make clean-results \&\& make -j4 do}
+\\[2ex]
+in the desired process sub-folder which will clean preceding results, compile and run the main executable in the provided {\tt testrun} directory.
+Use the flag {\tt -j$n$}, where $n$ is an integer, to compile on multiple cores. This will speed up the compilation significantly.
+
+The following commands can be used in the sub-folders {\tt neuIneuJ}, {\tt chaIchaJ}, or {\tt neuIchaJ} to clean the compiled executables and object files:
+\\[2ex]
+\hspace*{2cm}{\tt \$ make clean}
+\\[2ex]
+removes all object files in  {\tt ./build}, which has no effect on the compiled program. The command 
+\\[2ex]
+\hspace*{2cm}{\tt \$ make clean-results}
+\\[2ex]
+removes old results in {\tt ./testrun}, and 
+\\[2ex]
+\hspace*{2cm}{\tt \$ make clean-all}
+\\[2ex]
+removes old results, the object files and the compiled programs. To clean the code thoroughly from within the main directory use 
+\\[2ex]
+\hspace*{2cm}{\tt \$ make clean}
+\\[2ex]
+which will remove all object files, the libraries, and executables.
+
+Important note for Mac OSX and some Linux users: In order to link the object files properly with newer compiler versions it might be advisable to recompile all your own libraries using the {\tt -lstdc++} flag.
+
+\section*{Precompiler Flags}
+In the current code version several C preprocessor (cpp) flags are implemented. The preprocessor runs in traditional mode for gfortran. Any restrictions of the file format, especially the limits on line length, apply for preprocessed output as well, so it might be advisable to use the {\tt -ffree-line-length-none} or {\tt -ffixed-line-length-none} options (activated by default). If you want to change a preprocessor flag, it is imperative to run 
+\\[2ex]
+\hspace*{2cm}{\tt \$ make clean}
+\\[2ex]
+before recompiling the source code.
+
+The flags {\tt FORM\_BORN}, {\tt MAD\_BORN}, {\tt DR\_I}, {\tt DR\_II}, {\tt DSUB\_I}, {\tt DSUB\_II} are mandatory, you should not change them unless you know what you do. Please refer to the Makefile for more details.
+
+\section*{Model parameters}
+All parameters are read from a single slha-file in the run directories which is formated according to the SUSY Les Houches Accord ({\tt SLHA})~\cite{Skands:2003cj,Allanach:2008qq} and can be taken from standard SUSY spectrum generators. Runtime variables, such as integration points, number of events to generate, etc. have to be specified in {\tt powheg.input}. If you want to change the $Z$-mass, $Z$-width or $\alpha_{\rm em}$, etc. you can do this in {\tt powheg.input}, too.
+
+\section*{Running the executables and helpful scripts}
+In order to run the generated executables you have to provide a {\tt powheg.input} file, which contains the settings for different technical parameters, and a SLHA file containing the masses of the sparticles. Some sample files can be found in the sub-folders {\tt testrun} and {\tt testrun-clean} of the process directories {\tt neuIneuJ}, {\tt chaIchaJ} and {\tt neuIchaJ}. Copy these files to a directory of your choice and adapt the parameters as desired. Then either execute {\tt pwhg\_main\_ninj}, {\tt pwhg\_main\_xixj}, or {\tt pwhg\_main\_nixj} from within the folder which contains the input files.
+
+We have added several helpful shell scripts to the whole package, which can be used to generate results or clean old runs. The most important one is {\tt ./Scripts/runparallel.sh}, which is used to run the \POWHEGBOXvTWO{} executables fully automated in parallel mode. Type {\tt ./runparallel.sh -h} to get an overview of the full functionality of the script. This script uses standard shell commands, so it should work on every $\ast$NIX-based operating system.
+
+A few examples how to use the {\tt ./runparallel.sh} script are given in the following.
+\begin{itemize}
+\item Run the executable {\tt pwhg\_main\_nixj} in the directory {\tt testrun} on $4$ cores (default) and clean preceding results:
+\\[2ex]
+\hspace*{2cm}{\tt \$ ./runparallel.sh -c -d testrun -e pwhg\_main\_nixj}
+
+\item Run the executable {\tt pwhg\_main\_nixj} in {\tt testrun} on $4$ cores and overwrite some parameters for integration in {\tt powheg.input}:
+\\[2ex]
+\hspace*{2cm}{\tt \$ ./runparallel.sh -c -d testrun -e pwhg\_main\_nixj --itmx1 4 \textbackslash\\
+\hspace*{2cm} --itmx2 4 --itmx1osres 6 --itmx2osres 8 --ncall1 2000 \textbackslash\\
+\hspace*{2cm} --ncall2 2000 --ncall1osres 20000 --ncall2osres 20000}
+
+\item Copy the folder {\tt testrun\_clean}, rename it to {\tt run\_wevents} and generate events ({\tt nubound} and {\tt nevents} in {\tt powheg.input} must be greater than zero):
+\\[2ex]
+\hspace*{2cm}{\tt \$ ./runparallel.sh -g -c -e pwhg\_main\_nixj -d run\_wevents \textbackslash\\
+\hspace*{2cm} --genevents > log\_wevents}
+
+\item Generate a total of $20$Mio. events with high precision on a cluster with the MOAB submission system in the directory {\tt run\_mSUGRA\_n2x1+} distributed to $50$ jobs. The input file {\tt input\_mSUGRA\_1410.4999.slha} and the final states $\tilde{\chi}_2^0$ and $\tilde{\chi}_1^+$ are specified:
+\\[2ex]
+\hspace*{2cm}{\tt \$ nohup ./runparallel.sh -g -c -e pwhg\_main\_nixj \textbackslash\\
+\hspace*{2cm} -d run\_mSUGRA\_n2x1+ -p 50 --fin1 1000023 --fin2 1000024 \textbackslash\\
+\hspace*{2cm} --slha input\_mSUGRA\_1410.4999.slha --ncall1 200000  \textbackslash\\
+\hspace*{2cm} --ncall2 300000 --ncall1osres 20000 --ncall2osres 30000  \textbackslash\\
+\hspace*{2cm} --nevents 400000 --nubound 400000 --genevents  \textbackslash\\
+\hspace*{2cm} --usemsub --offset 0 > log\_run\_mSUGRA\_n2x1+ \&}
+
+\item Same for LO event generation:
+\\[2ex]
+\hspace*{2cm}{\tt \$ nohup ./runparallel.sh -g -c -e pwhg\_main\_nixj \textbackslash\\
+\hspace*{2cm} -d runLO\_mSUGRA\_n2x1+ -p 4 --fin1 1000023 --fin2 1000024 \textbackslash\\
+\hspace*{2cm} --slha input\_mSUGRA\_1410.4999.slha --ncall1 200000 \textbackslash\\
+\hspace*{2cm} --ncall2 300000 --ncall1osres 20000 --ncall2osres 30000 \textbackslash\\
+\hspace*{2cm} --lopdf 90400 --nevents 5000000 --nubound 5000000 --genevents \textbackslash\\
+\hspace*{2cm} --merge > log\_runLO\_mSUGRA\_n2x1+ \&}
+\end{itemize}
+
+To merge the event files, the script {\tt ./Scripts/merge.sh} could be used. If you want to calculate results for a different factorization or renormalization scale, but you don't want to generate new events, you can use your old events and reweight them with the script {\tt ./Scripts/reweight.sh}.
+
+\section*{Analyzing the events}
+It is straightforward to feed the combined event file {\tt pwgevents.lhe} into a generic shower Monte Carlo program, within the analysis framework of each experiment. We also provide a sample analysis that computes several histograms and stores them in {\tt gnuplot} output files. Doing
+\\[2ex]
+\hspace*{2cm}{\tt \$ ../lhef\_analysis}
+\\[2ex]
+analyzes the bare {\tt POWHEG BOX} output and writes histograms to the file {\tt pwgLHEF\_analysis.top}.
+
+Parton showers, decays, and further effects can be simulated when the events are handed over to \PYTHIA{}~\cite{Sjostrand:2006za} by
+\\[2ex]
+\hspace*{2cm}{\tt \$ ../main-PYTHIA-lhef}
+\\[2ex]
+The corresponding histograms can be found in {\tt pwgPOWHEG+PYTHIA-output.top}.
+
+Various settings of \PYTHIA{} can be modified by editing the file {\tt setup-PYTHIA-lhef.F} prior to compilation. \PYTHIA{} generates the decays according to the masses provided in the previous mentioned slha-file.
+
+\section*{Additional notes}
+In order to implement the on-shell subtraction scheme to regularize divergences in the real matrix elements (refer to \cite{Baglio:2016} for more details), we had to make several modifications to a few files provided by the \POWHEGBOXvTWO. Since the \POWHEGBOXvTWO{} is constantly being updated and changes to important routines could be made in the future, we are not able to guarantee the full functionality of our code with newer releases of the \POWHEGBOXvTWO. We have built our code on the \POWHEGBOXvTWO{} svn-revision $3154$. Within this revision our code was tested extensively, and compiling and running the code should work without problems. In case  non-circumventable problems during compilation with a newer revision occur, you can always revert the \POWHEGBOXvTWO{} to an older revision with the command
+\\[2ex]
+\hspace*{2cm}{\tt \$ svn update -r $3154$}
+\\[2ex]
+
+\begin{thebibliography}{99}
+
+\bibitem{Baglio:2016} J.~Baglio, B.~J\"ager, M.~Kesenheimer, {\em 
+  Electroweakino pair production at the LHC: NLO SUSY-QCD 
+  corrections and parton-shower effects}, arXiv:1605.06509 [hep-ph].
+
+\bibitem{Nason:2004} P.~Nason, {\em A New method for combining
+  NLO QCD with shower Monte Carlo algorithms}, 
+  JHEP 0411 (2004) 040, hep-ph/0409146.  
+
+\bibitem{Frixione:2007} S.~Frixione, P.~Nason and C.~Oleari, {\em 
+  Matching NLO QCD computations with Parton Shower simulations: 
+  the POWHEG method}, JHEP 0711 (2007) 070, arXiv:0709.2092. 
+
+\bibitem{Aliolo:2010} S.~Alioli, P.~Nason, C.~Oleari and E.~Re, {\em A 
+  general framework for implementing NLO calculations in shower Monte 
+  Carlo programs: the POWHEG BOX}, JHEP 1006 (2010) 043, arXiv:1002.2581.
+
+\bibitem{Murayama:1992gi} H.~Murayama, I.~Watanabe and K.~Hagiwara, {\em
+  HELAS: HELicity amplitude subroutines for Feynman diagram evaluations}, 
+  KEK-91-11 (1992).
+
+\bibitem{Hahn:1998yk} 
+  T.~Hahn and M.~Perez-Victoria,
+  {\em Automatized one loop calculations in four-dimensions and D-dimensions},
+  Comput.\ Phys.\ Commun.\  {\bf 118}, 153 (1999),
+  [hep-ph/9807565].
+
+\bibitem{Hahn:2006nq} 
+  T.~Hahn,
+  {\em SUSY Les Houches Accord 2 I/O made easy},
+  Comput.\ Phys.\ Commun.\  {\bf 180}, 1681 (2009),
+  [hep-ph/0605049].
+
+\bibitem{Skands:2003cj}
+  P.~Z.~Skands  {\it et al.},
+  {\em SUSY Les Houches accord: Interfacing SUSY spectrum calculators, decay packages, and event generators},  
+  % ``SUSY Les Houches accord 1,'' 
+  JHEP {\bf 0407} (2004) 036
+  [hep-ph/0311123].
+
+\bibitem{Allanach:2008qq}
+  B.~C.~Allanach  {\it et al.},
+  {\em SUSY Les Houches Accord 2}, 
+  Comput.\ Phys.\ Commun.\  {\bf 180} (2009)~8
+  [arXiv:0801.0045 [hep-ph]].
+
+\bibitem{Sjostrand:2006za}
+  T.~Sjostrand, S.~Mrenna, P.~Z.~Skands,
+  {\em PYTHIA 6.4 Physics and Manual},
+  JHEP {\bf 0605 } (2006)  026
+  [hep-ph/0603175]. 
+
+\end{thebibliography}
+
+
+\end{document}
