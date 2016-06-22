@@ -282,6 +282,10 @@ c set the madgraph and formcalc couplings event by event
         Alfa = par_alpha
         Alfa2   = Alfa**2
         EL = dsqrt(Alfa*4d0*pi)
+
+        ! set the MadGraph SUSY-QCD couplings
+        call INIT_SUSY_QCD(G)
+
         ! initialize the counter term wich cures the susy breaking
         ! introduced by DR
         call init_susy_restore
