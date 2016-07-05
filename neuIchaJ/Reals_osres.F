@@ -13,7 +13,6 @@ c the corrfac factor accounts for the restriction of the pahse-space and
 c modifies the jacobian.
       subroutine  setosresreal(p,rflav,chan,ampreal)
         implicit none
-
 #include "PhysPars.h"
 #include "nlegborn.h"
 #include "pwhg_flst.h"
@@ -21,7 +20,6 @@ c modifies the jacobian.
 #include "pwhg_st.h"
 #include "Flags.h"
 #include "osres.h"
-
         double precision p(0:3,nlegreal),p_in(0:3,nlegreal)
         double precision p_os(0:3,nlegreal)
         integer rflav(nlegreal), dflav(nlegreal)
@@ -120,7 +118,7 @@ c modifies the jacobian.
         
         ! set the channel-related indices i,j,k and masses mi,mj,mk,mij
         call set_channel(chan,i,j,k,mi,mj,mk,mij)
-
+        
         ! in case a weakino mass is negative
         mi = dabs(mi)
         mj = dabs(mj)
@@ -133,7 +131,7 @@ c modifies the jacobian.
 
         ! this is |M_R(res)|**2 (still with on-shell resonances)
         call sreal_proc_res(p,rflav,chan,amp)
-
+        
         ! calculate the on-shell counter terms BW*corrfac*|M_R^OS(res)|**2
         ! (don't subtract anything if the squark is off-shell, but if 
         ! the quark is on-shell subtract the divergent part) 
@@ -146,12 +144,12 @@ c modifies the jacobian.
           ampCT = corrfac(s12,mi,mj,mk,sij,mij)*ampCT             ! rescale the counter term to fit into the new ps
         else
           ampCT = 0D0
-        endif  
+        endif
 
         ! calculate the total resonant amplitude and substract the
         ! on-shell counter terms -> no on-shell resonances anymore
         ampreal = (+amp-ampCT)
- 
+
         if(isnan(ampreal)) then
           !print*,"got strange value for ampreal amplitude...",ampreal
           ampreal = 0D0
@@ -179,7 +177,5 @@ c modifies the jacobian.
 #else
         ampreal = 0d0
 #endif
-
       end
-      
 c############### end subroutine setosresreal ###########################

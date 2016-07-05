@@ -255,15 +255,6 @@ c (diagram removal type II)
       MATRIX_DG_NIXJU = MATRIX_DG_NIXJU - MATRIX_RESONANT
 #endif
 
-c if DSUB_II is used, the resonant matrix element |M_R|**2 will be added
-c back in subroutine setosresreal
-#if defined(DSUB_II) || defined(DSUB_II_TEST)
-      MATRIX_DG_NIXJU = MATRIX_DG_NIXJU
-     &                - MATRIX_DG_NIXJU_RES(p,NHEL,IC,"ul35")
-     &                - MATRIX_DG_NIXJU_RES(p,NHEL,IC,"dl45")
-!     &                - MATRIX_DG_NIXJU_RES(p,NHEL,IC,"allr")
-#endif
-
 c delete the on-shell contributions of the resonant diagrams but keep
 c the interference term and the off-shell contributions
 #ifdef DSUB_I

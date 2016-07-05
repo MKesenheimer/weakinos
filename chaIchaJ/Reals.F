@@ -1,5 +1,5 @@
 c############### Reals.f ###############################################
-c last modified by MK, 02.12.2015
+c last modified by MK, 02.12.2016
 c adapted from dislepton
 c weakino pair production
 c real emission contributions at NLO SQCD:
@@ -16,10 +16,8 @@ c |M_NR|**2 + 2 M_R* M_NR.
 c The remaining terms and the on-shell counter terms are added back
 c in subroutine setosresreal:
 c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
-
       subroutine setreal(p,rflav,ampreal)
         implicit none
-
 #include "PhysPars.h"
 #include "nlegborn.h"
 #include "pwhg_flst.h"
@@ -27,7 +25,6 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
 #include "pwhg_st.h"
 #include "Flags.h"
 #include "osres.h"
-
         double precision p(0:3,nlegreal),p_in(0:3,nlegreal)
         integer rflav(nlegreal), dflav(nlegreal)
         ! the real amplitudes
@@ -85,26 +82,31 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         ! calculate the couplings for this PS point
         call set_ebe_couplings
         
-        ! get the real amplitude from MadGraph
+        ! get the real amplitude from MadGraph...
         call sreal_proc(p,rflav,amp)
+        
+        ! ...and subtract the resonant amplitudes
+#if defined(DSUB_II) || defined(DSUB_II_TEST)
+        do ichan=1,nosres
+          amposres = 0D0
+          call sreal_proc_res(p,rflav,osresID(ichan),amposres)
+          amp = amp - amposres
+        enddo
+#endif
 
-        ! Cancel as/(2pi) associated with amp2. It will be put back by real_ampsq
-        ampreal = amp/(st_alpha/(2d0*pi))
-          
 #ifdef DSUB_II_TEST
         ! test the DSUB_II scheme (here without the correct jacobian)
         ! this gives the same result as with flag DSUB_I set
         ! if the real amplitude is zero, do not subtract anything
-        !if(.not.(ampreal.eq.0d0)) then
-          do ichan=1,nosres
-            amposres = 0D0
-            call setosresreal(p,rflav,osresID(ichan),amposres)
-            ! Note: amposres has the factor as/(2pi)
-            ! included, so cancel as/(2pi) here
-            ampreal = ampreal + amposres/(st_alpha/(2d0*pi))
-          enddo
-        !endif
+        do ichan=1,nosres
+          amposres = 0D0
+          call setosresreal(p,rflav,osresID(ichan),amposres)
+          amp = amp + amposres
+        enddo
 #endif
+
+        ! Cancel as/(2pi) associated with amp2. It will be put back by real_ampsq
+        ampreal = amp/(st_alpha/(2d0*pi))
         
         if(isnan(ampreal)) then
           !print*,"got strange value for ampreal amplitude...",ampreal
@@ -129,7 +131,5 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
           counter = counter + 1
         endif
 #endif
-
       end
-
 c############### end subroutine setreal ################################
