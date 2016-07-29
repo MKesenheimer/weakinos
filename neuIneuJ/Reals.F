@@ -29,7 +29,7 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         integer rflav(nlegreal), dflav(nlegreal)
         ! the real amplitudes
         double precision ampreal
-#ifdef DSUB_II_TEST
+#if defined(DSUB_II) || defined(DSUB_II_TEST)
         ! the real resonant amplitudes (testing)
         double precision amposres
         integer ichan
