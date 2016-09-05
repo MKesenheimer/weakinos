@@ -47,6 +47,9 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         logical init_real
         data init_real/.true./
 #ifdef DEBUGQ
+        double precision s35, s45
+#endif
+#ifdef DEBUGQ
 #define DEBUG1
         ! debugging
         integer counter
@@ -95,6 +98,7 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
 #endif
 
 #ifdef DSUB_II_TEST
+        ! ...add back the regulated resonant amplitudes
         ! test the DSUB_II scheme (here without the correct jacobian)
         ! this gives the same result as with flag DSUB_I set
         ! if the real amplitude is zero, do not subtract anything
@@ -129,6 +133,18 @@ c |M_R|**2 - BW*corrfac*|M_R^OS|**2.
         if(counter .lt. 5) then
           print*,"real = ", ampreal
           counter = counter + 1
+        endif
+#endif
+
+#ifdef DEBUGQ
+        ! fill histograms
+        if(dsqrt(p(1,5)**2+p(2,5)**2).gt.10D0) then
+          s35 = momsum2sq(p(0:3,3),p(0:3,5))
+          s45 = momsum2sq(p(0:3,4),p(0:3,5))
+          call histogram("sqrt(s35)",100,400D0,800D0,dsqrt(s35),ampreal)
+          call histogram("sqrt(s45)",100,400D0,800D0,dsqrt(s45),ampreal)
+          call histogram("int(s35)",1,100D0,1000D0,dsqrt(s35),ampreal)
+          call histogram("int(s45)",1,100D0,1000D0,dsqrt(s45),ampreal)
         endif
 #endif
       end
