@@ -30,7 +30,8 @@ c ! MK: added
       character * 200 string
       real * 8 powheginput
       external powheginput
-      call lhefreadevlhrwgt(iunin,iunrwgt,iret,stringin)
+      
+      call lhefreadevnew(iunin,iunrwgt,iret,stringin)
       if(iret.lt.0) then
          write(*,*) ' End of event file! Aborting ...'
          call exit(-1)
@@ -68,30 +69,23 @@ c ! MK: added
       write(string,*) '#new weight,renfact,facfact,pdf1,pdf2',
      1        xwgtup*newweight/rad_currentweight,st_renfact,
      2        st_facfact,pdf_ndns1,pdf_ndns2,' ',whichpdfpk()
-      call pwhg_io_write(iunrwgt,trim(adjustl(string)))
-c      write(iunrwgt,'(a)') trim(adjustl(string))
+      write(iunrwgt,'(a)') trim(adjustl(string))
 
       if(adjustl(stringin).eq.'<rwgt>') then
-         call pwhg_io_write(iunrwgt,trim(adjustl(stringin)))
-c         write(iunrwgt,'(a)') trim(stringin)
+         write(iunrwgt,'(a)') trim(stringin)
          do k=1,1000000
-            call pwhg_io_read(iunin,stringin,iret)
-            if(iret /= 0) goto 999
-c            read(unit=iunin,fmt='(a)',end=999,err=999) stringin
+            read(unit=iunin,fmt='(a)',end=999,err=999) stringin
             if(stringin.ne.'</rwgt>') then
-               call pwhg_io_write(iunrwgt,trim(stringin))
-c               write(iunrwgt,'(a)') trim(stringin)
+               write(iunrwgt,'(a)') trim(stringin)
             else
                call lhrwgt_writeweight
      1              (iunrwgt,xwgtup*newweight/rad_currentweight)
-               call pwhg_io_write(iunrwgt,trim(stringin))
-c               write(iunrwgt,'(a)') trim(stringin)
+               write(iunrwgt,'(a)') trim(stringin)
                return
             endif
          enddo
       else
-         call pwhg_io_write(iunrwgt,trim(stringin))
-c         write(iunrwgt,'(a)') trim(stringin)
+         write(iunrwgt,'(a)') trim(stringin)
       endif
       return
  999  continue
@@ -152,42 +146,27 @@ c MK: added
      &         xmmmosres,ifoldosres,2,mcalls,icalls,xx)
       end
 
+
       subroutine openoutputrw(iunrwgt)
       implicit none
-      include 'pwhg_flg.h'
-      include 'pwhg_rnd.h'
       integer iunrwgt
       character * 20 pwgprefix
-      character * 200 file
-      integer lprefix,iret
+      integer lprefix
       common/cpwgprefix/pwgprefix,lprefix
-      real * 8 powheginput
-      logical exist
+      include 'pwhg_rnd.h'
+      call newunit(iunrwgt)
       if(rnd_cwhichseed.ne.'none') then
-         file=pwgprefix(1:lprefix)//'events-rwgt-'
+         open(unit=iunrwgt,file=pwgprefix(1:lprefix)//'events-rwgt-'
      1        //rnd_cwhichseed//'.lhe'
+     2     ,status='unknown')
       else
-         file=pwgprefix(1:lprefix)//'events-rwgt.lhe'
-      endif
-      if(powheginput("#clobberlhe").ne.1) then
-         inquire(file=file,exist=exist)
-         if(exist) then
-            write(*,*) 'pwhg_main: error, file ',trim(file),
-     1           ' exists! will not overwrite, exiting ...'
-            call exit(-1)
-         endif
-      endif
-      call pwhg_io_open_write(trim(file),iunrwgt,
-     1     flg_compress_lhe,iret)
-      if(iret /= 0) then
-         write(*,*) ' could not open ',trim(file),' for writing'
-         write(*,*) ' exiting ...'
-         call exit(-1)
+         open(unit=iunrwgt,file=pwgprefix(1:lprefix)//'events-rwgt.lhe'
+     1     ,status='unknown')
       endif
       end
 
 c...reads event information from a les houches events file on unit nlf. 
-      subroutine lhefreadevlhrwgt(nlf,nuo,iret,string)
+      subroutine lhefreadevnew(nlf,nuo,iret,string)
       implicit none
       integer nlf,nuo,iret
       character * 500 string
@@ -196,30 +175,21 @@ c...reads event information from a les houches events file on unit nlf.
       iret=0
  1    continue
       string=' '
-      call pwhg_io_read(nlf,string,iret)
-      if(iret /= 0) goto 666
-c     read(nlf,fmt='(a)',err=777,end=666) string
-      call pwhg_io_write(nuo,trim(string))
-c      write(nuo,'(a)') trim(string)
+      read(nlf,fmt='(a)',err=777,end=666) string
+      write(nuo,'(a)') trim(string)
       if(string.eq.'</LesHouchesEvents>') then
          goto 998
       endif
       if(string(1:6).eq.'<event') then
-c on error try next event. The error may be cause by merging
+c on error try next event. The error may be caused by merging
 c truncated event files. On EOF return with no event found
-         call pwhg_io_read(nlf,string,iret)
-         if(iret /= 0) goto 666
-c         read(nlf,fmt='(a)',err=777,end=666) string
-         call pwhg_io_write(nuo,trim(string))
-c         write(nuo,'(a)') trim(string)
+         read(nlf,fmt='(a)',err=777,end=666) string
+         write(nuo,'(a)') trim(string)
          read(string,fmt=*,end=998,err=1)
      1        nup,idprup,xwgtup,scalup,aqedup,aqcdup
          do i=1,nup
-            call pwhg_io_read(nlf,string,iret)
-            if(iret /= 0) goto 666
-c            read(nlf,'(a)',err=777,end=666) string
-            call pwhg_io_write(nuo,trim(string))
-c            write(nuo,'(a)') trim(string)
+            read(nlf,'(a)',err=777,end=666) string
+            write(nuo,'(a)') trim(string)
             read(string,fmt=*,end=998,err=1)
      1           idup(i),istup(i),mothup(1,i),
      &           mothup(2,i),icolup(1,i),icolup(2,i),(pup(j,i),j=1,5),
@@ -256,14 +226,10 @@ c no event found:
       implicit none
       integer iunin,iunout
       character * 500 string
-      integer iret
  1    continue
       string=' '
-      call pwhg_io_read(iunin,string,iret)
-      if(iret /= 0) goto 998
-c      read(iunin,fmt='(a)',err=998,end=998) string
-      call pwhg_io_write(iunout,trim(string))
-c      write(iunout,'(a)') trim(string)
+      read(iunin,fmt='(a)',err=998,end=998) string
+      write(iunout,'(a)') trim(string)
       if(string.eq.'</LesHouchesEvents>') then
          goto 998
       endif
@@ -293,9 +259,7 @@ c !  MK: added
       common/cgenrand/gen_seed,gen_n1,gen_n2
       readrw = .false.
  1    continue
-      call pwhg_io_read(nlf,string,iret)
-      if(iret /= 0) goto 998
-c      read(unit=nlf,fmt='(a)',end=998) string
+      read(unit=nlf,fmt='(a)',end=998) string
       if(string.eq.'<rwgt>'.or.
      1     string.eq.'</event>') then
 c Don't write the end event record; first we must output the new weight
@@ -312,19 +276,14 @@ c Don't write the end event record; first we must output the new weight
          return
       endif
       if(string.eq.'# Start extra-info-previous-event') then
-         call pwhg_io_write(nou,trim(string))
-c         write(nou,'(a)') trim(string)
-         call pwhg_io_read(nlf,string,iret)
-c         read(nlf,'(a)') string
-         call pwhg_io_write(nou,trim(string))
-c         write(nou,'(a)') trim(string)
+         write(nou,'(a)') trim(string)
+         read(nlf,'(a)') string
+         write(nou,'(a)') trim(string)
          read(string(3:),*) rad_kinreg
-         call pwhg_io_read(nlf,string,iret)
-c         read(nlf,'(a)') string
+         read(nlf,'(a)') string
          read(string(3:),*) rad_type
       endif
-      call pwhg_io_write(nou,trim(string))
-c      write(nou,'(a)') trim(string)
+      write(nou,'(a)') trim(string)
       if(flg_newweight) then
 c read a string; if it starts with #rwgt, read first rad_type from the
 c string, then all other information, depending upon rad_type.
@@ -380,12 +339,9 @@ c Les Houches standard for reweighting
       integer iun
       include 'pwhg_lhrwgt.h'
       double precision weight
-      character * 100 string
-      integer iret
-      write(string,'(a,e11.5,a)')
+      write(iun,'(a,e16.9,a)')
      1     "<wgt id='"//trim(adjustl(lhrwgt_id))//"'> ",
      2     weight,' </wgt>'
-      call pwhg_io_write(iun,trim(string))
       end
 
       subroutine lhrwgt_writeheader(iun)
@@ -393,19 +349,16 @@ c Les Houches standard for reweighting
       integer iun
       include 'pwhg_lhrwgt.h'
       character * 200 tmpstring
-      character * 200 string
       integer j,iret
       logical written,in_group
 c This flag is set to true when the current weight has
 c been written out
       written = .false.
-      call pwhg_io_write(iun,'<initrwgt>')
-c      write(iun,'(a)') '<initrwgt>'
+      write(iun,'(a)') '<initrwgt>'
       if(lhrwgt_group_name.eq.' ') then
 c Write all lines firs
          do j=1,lhrwgt_nheader
-            call pwhg_io_write(iun,trim(lhrwgt_header(j)))
-c           write(iun,'(a)') trim(lhrwgt_header(j))
+            write(iun,'(a)') trim(lhrwgt_header(j))
          enddo
       else
 c this flag is set to true when we are writing out weights in
@@ -415,16 +368,14 @@ c the current group
             if(.not.written.and.in_group
      1           .and.adjustl(lhrwgt_header(j)).eq.'</weightgroup>')
      2           then
-               write(string,'(a)') "<weight id='"//
+               write(iun,'(a)') "<weight id='"//
      1              trim(adjustl(lhrwgt_id))//
      2              "'>"//' '//trim(adjustl(lhrwgt_descr))
      3              //' </weight>'
-               call pwhg_io_write(iun,trim(string))
                in_group = .false.
                written = .true.
             endif
-            call pwhg_io_write(iun,trim(lhrwgt_header(j)))
-c            write(iun,'(a)') trim(lhrwgt_header(j))
+            write(iun,'(a)') trim(lhrwgt_header(j))
             tmpstring = adjustl(lhrwgt_header(j))
             if(tmpstring(1:18).eq.'<weightgroup name=') then
                tmpstring = tmpstring(19:)
@@ -436,26 +387,22 @@ c            write(iun,'(a)') trim(lhrwgt_header(j))
       if(.not.written) then
          if(lhrwgt_group_name.ne.' ') then
             if(lhrwgt_group_combine.ne.' ') then
-               write(string,'(a)') "<weightgroup name='"
+               write(iun,'(a)') "<weightgroup name='"
      1              //trim(lhrwgt_group_name)//"' combine='"
      1              //trim(lhrwgt_group_combine)//"'>"
-               call pwhg_io_write(iun,trim(string))
             else
-               write(string,'(a)') "<weightgroup name='"
+               write(iun,'(a)') "<weightgroup name='"
      1              //trim(lhrwgt_group_name)//"'>"
-               call pwhg_io_write(iun,trim(string))
             endif
          endif
-         write(string,'(a)') "<weight id='"//
+         write(iun,'(a)') "<weight id='"//
      1        trim(adjustl(lhrwgt_id))//
      1        "'>"//' '//trim(adjustl(lhrwgt_descr))//' </weight>'
-         call pwhg_io_write(iun,trim(string))
          if(lhrwgt_group_name.ne.' ') then
-            call pwhg_io_write(iun,'</weightgroup>')
+            write(iun,'(a)') '</weightgroup>'
          endif
       endif
-      call pwhg_io_write(iun,'</initrwgt>')
-c      write(iun,'(a)') '</initrwgt>'
+      write(iun,'(a)') '</initrwgt>'
       end
 
       subroutine lhrwgt_checkheader
@@ -476,27 +423,25 @@ c      write(iun,'(a)') '</initrwgt>'
       enddo
       end
 
-      subroutine lhrwgt_readheader_rw(iun)
+      subroutine lhrwgt_readheader(iun)
       implicit none
       include 'pwhg_lhrwgt.h'
       integer iun
       character * (lhrwgt_max_header_columns+200) string,string0
-      integer j,k,iret
+      integer j,k
       do j=1,1000000
-         call pwhg_io_read(iun,string0,iret)
-c     read(iun,'(a)') string0
+         read(iun,'(a)') string0
          string=adjustl(string0)
          if(string.eq.'<initrwgt>') then
             lhrwgt_nheader = 0
             do k=1,1000000
-               call pwhg_io_read(iun,string0,iret)
-c               read(iun,'(a)') string0
+               read(iun,'(a)') string0
                string=adjustl(string0)
                if(string.ne.'</initrwgt>') then
                   lhrwgt_nheader = lhrwgt_nheader + 1
                   if(lhrwgt_nheader.gt.lhrwgt_maxnheader) then
                      write(*,*) '******** ERROR ******'
-                     write(*,*) ' lhrwgt_readheader_rw: '
+                     write(*,*) ' lhrwgt_readheader: '
                      write(*,*) 
      1                    ' found too many strings in header'
                      write(*,*) ' increase lhrwgt_maxnheader'
@@ -507,7 +452,7 @@ c check that the string fits
                   if(len(trim(string0)).gt.
      1                 lhrwgt_max_header_columns) then
                      write(*,*) '******** ERROR ******'
-                     write(*,*) ' lhrwgt_readheader_rw: '
+                     write(*,*) ' lhrwgt_readheader: '
                      write(*,*) 
      1                    ' found too long a string in the header'
                      write(*,*) 
@@ -521,13 +466,13 @@ c check that the string fits
                endif
             enddo
             write(*,*) '******** ERROR ******'
-            write(*,*) ' lhrwgt_readheader_rw: '
+            write(*,*) ' lhrwgt_readheader: '
             write(*,*) ' didn;t find the end of the header'
             call exit(-1)
          endif
       enddo
       write(*,*) '******** ERROR ******'
-      write(*,*) ' lhrwgt_readheader_rw: '
+      write(*,*) ' lhrwgt_readheader: '
       write(*,*) ' didn;t find the header'
       call exit(-1)
       end
@@ -537,22 +482,19 @@ c check that the string fits
       include 'pwhg_lhrwgt.h'
       integer iunin,iunout
       character * (400) string,string0
-      integer j,k,iret
+      integer j,k
       logical written,in_group
       do j=1,1000000
-         call pwhg_io_read(iunin,string0,iret)
-         if(iret /= 0) goto 999
-c         read(unit=iunin,fmt='(a)',end=999,err=999) string0
+         read(unit=iunin,fmt='(a)',end=999,err=999) string0
          string=adjustl(string0)
          if(string.eq.'<initrwgt>') then
-            call pwhg_io_backspace(iunin)
-            call lhrwgt_readheader_rw(iunin)
+            backspace(iunin)
+            call lhrwgt_readheader(iunin)
             call lhrwgt_checkheader
             call lhrwgt_writeheader(iunout)
             return
          else
-            call pwhg_io_write(iunout,trim(string0))
-c     write(iunout,'(a)') trim(string0)
+            write(iunout,'(a)') trim(string0)
          endif
       enddo
  999  continue
@@ -578,33 +520,23 @@ c     write(iunout,'(a)') trim(string0)
       include 'pwhg_lhrwgt.h'
       INTEGER IUN
       if(lhrwgt_id.ne.' ') then
-c     write(iun,'(a)') '<initrwgt>'
-         call pwhg_io_write(iun,'<initrwgt>')
+         write(iun,'(a)') '<initrwgt>'
          if(lhrwgt_group_name.ne.' ') then
             if(lhrwgt_group_combine.ne.' ') then
-               call pwhg_io_write(iun,"<weightgroup name='"
+               write(iun,'(a)') "<weightgroup name='"
      1              //trim(lhrwgt_group_name)//"' combine='"
-     1              //trim(lhrwgt_group_combine)//"'>")
-c               write(iun,'(a)') "<weightgroup name='"
-c     1              //trim(lahrwgt_group_name)//"' combine='"
-c     1              //trim(lhrwgt_group_combine)//"'>"
+     1              //trim(lhrwgt_group_combine)//"'>"
             else
-               call pwhg_io_write(iun,"<weightgroup name='"
-     1              //trim(lhrwgt_group_name)//"'>")
-c               write(iun,'(a)') "<weightgroup name='"
-c     1              //trim(lhrwgt_group_name)//"'>"
+               write(iun,'(a)') "<weightgroup name='"
+     1              //trim(lhrwgt_group_name)//"'>"
             endif
          endif
-         call pwhg_io_write(iun,"<weight id='"//trim(lhrwgt_id)
-     1       //"'> "//trim(lhrwgt_descr)//" </weight>")
-c         write(iun,'(a)') "<weight id='"//trim(lhrwgt_id)
-c     1       //"'> "//trim(lhrwgt_descr)//" </weight>"
+         write(iun,'(a)') "<weight id='"//trim(lhrwgt_id)
+     1       //"'> "//trim(lhrwgt_descr)//" </weight>"
          if(lhrwgt_group_name.ne.' ') then
-             call pwhg_io_write(iun,"</weightgroup>")
-c     write(iun,'(a)') "</weightgroup>"
+             write(iun,'(a)') "</weightgroup>"
           endif
-          call pwhg_io_write(iun,"</initrwgt>")
-c         write(iun,'(a)') "</initrwgt>"
+         write(iun,'(a)') "</initrwgt>"
       endif
       end
 
@@ -612,12 +544,11 @@ c         write(iun,'(a)') "</initrwgt>"
       implicit none
       integer nlf
       double precision weight
-      character(len=300) string
       include 'pwhg_lhrwgt.h'
-      write(string,'(a,e16.9,a)')"<wgt id='"//trim(lhrwgt_id)//"'> ",
-     1     weight,' </wgt>'
-      call pwhg_io_write(nlf,trim(string))
+      write(nlf,'(a,e16.9,a)')"<wgt id='"//trim(lhrwgt_id)//"'> ",
+     1     weight,' </wgt>' 
       end
+
 c From here to the end of file are the subroutines needed for full reweighting,
 c that also includes the effect of the change in pdf's in the hardest radiation
 
@@ -627,15 +558,13 @@ c In this case, we set the pdf's used for generating the file, that may
 c be needed for reweighting.
       implicit none
       integer nlf
-      character * 300 string
+      character * 100 string
       character * 3 whichpdf
       include 'pwhg_pdf.h'
-      integer iret,j,ndns1,ndns2,lhans1,lhans2
-      call pwhg_io_rewind(nlf)
+      integer j,ndns1,ndns2,lhans1,lhans2
+      rewind(nlf)
       do j=1,1000000
-         call pwhg_io_read(nlf,string,iret)
-         if(iret /= 0) goto 999
-         string = adjustl(string)
+         read(unit=nlf,fmt='(a)',end=999,err=999) string
          if(string(1:5) .eq. 'ndns1') then
             read(string(6:),*) ndns1
          elseif(string(1:5) .eq. 'ndns2') then
@@ -658,7 +587,7 @@ c be needed for reweighting.
                write(*,*) ' psf package ',trim(adjustl(string))
                call exit(-1)
             endif
-            call pwhg_io_rewind(nlf)
+            rewind(nlf)
             if(pdf_ndns1lhe .ne. pdf_ndns2lhe) then
                write(*,*)
      1      ' readpowheginputinfo: got two different pdf sets',
@@ -746,6 +675,7 @@ c alpha(kt2)/alpha_old(kt2) * (Lumreal(kt2)/Lumreal_old(kt2)) * (Lumborn_old(kt2
 c 
 
       if(ini) then
+         npdforig = pdf_ndns1lhe
          mode = powheginput("#fullrwgtmode")
          if(mode.lt.0) mode = 4
          if(pdf_ndns1.ne.pdf_ndns2) then
@@ -753,10 +683,9 @@ c
             write(*,*) " for the two beams ! exiting ..."
             call exit(-1)
          endif
+         npdf = pdf_ndns1
          ini = .false.
       endif
-      npdf = pdf_ndns1
-      npdforig = pdf_ndns1lhe
 
       x1r = pup(4,1)/ebmup(1)
       x2r = pup(4,2)/ebmup(2)
@@ -1034,6 +963,7 @@ c we divide by two simply because we multiply by 2 in the main program
       ! MK: added
       double precision simplesudakov0
       !external simplesudakov0
+
       lam5 = lam50
       q2low = q2low0
       q2high = q2high0

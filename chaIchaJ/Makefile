@@ -285,15 +285,16 @@ MMADOBJ = couplings.o hardstop.o printout.o read_slha.o 		\
 FORMCALC = VecSet.o
 
 ### PWHG FILES in ../ ###
-PWHG = pwhg_main.o pwhg_init.o btilde.o utils.o gen_Born_phsp.o		\
+PWHG = pwhg_init.o btilde.o utils.o gen_Born_phsp.o		\
 	test_Sudakov.o pt2maxreg.o maxrat.o Bornzerodamp.o		\
 	random.o boostrot.o bra_ket_subroutines.o			\
 	init_phys.o powheginput.o sigcollremn.o				\
 	pwhg_bookhist-multi.o pwhg_analysis_driver.o checkmomzero.o	\
 	setstrongcoupl.o integrator.o mwarn.o				\
 	sigcollsoft.o validflav.o decidemerging.o          		\
-	loadstorenlo.o setlocalscales.o ubprojections.o			\
-	mint_upb.o reshufflemoms.o opencount.o
+	loadstorenlo.o setlocalscales.o ubprojections.o      		\
+	mint_upb.o reshufflemoms.o opencount.o \
+	lhefread.o pwhg_io_interface.o rwl_weightlists.o rwl_setup_param_weights.o
 
 # modified POWHEG-files
 PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
@@ -301,15 +302,16 @@ PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
 	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 			\
 	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
 	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o 	\
-	pdfcalls.o newunit_mod.o
+	pdfcalls.o newunit_mod.o pwhg_main_mod.o
 
 ### LHEF ###
 # analyze LHEF output
 LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
-     opencount.o powheginput.o pwhg_bookhist-multi.o 			\
-     lhefread.o newunit_mod.o pwhg_analysis_driver.o 			\
-     funcprocess.o init_couplings.o Print.o				\
-     bra_ket_subroutines.o off_to_on.o funcbasic.o
+	opencount.o powheginput.o pwhg_bookhist-multi.o 			\
+	lhefread.o newunit_mod.o pwhg_analysis_driver.o 			\
+	funcprocess.o init_couplings.o Print.o				\
+	bra_ket_subroutines.o off_to_on.o funcbasic.o \
+	pwhg_io_interface.o rwl_weightlists.o
 
 ### PYTHIA ###
 # target to read event file, shower events with PYTHIA + analysis
@@ -319,7 +321,8 @@ LHEF = lhef_analysis.o boostrot.o random.o cernroutines_mod.o		\
 PYTHIA = boostrot.o powheginput.o init_couplings.o funcprocess.o 	\
 	pwhg_bookhist-multi.o lhefread.o newunit_mod.o pdfdummies.o	\
 	pwhg_analysis_driver.o random.o cernroutines_mod.o opencount.o	\
-	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o
+	bra_ket_subroutines.o off_to_on.o funcbasic.o Print.o \
+	pwhg_io_interface.o rwl_weightlists.o
 ifeq ("$(USE_PYTHIA8)","yes")
   # TODO:
   PYTHIA += main-PYTHIA_mod.o
@@ -475,6 +478,9 @@ LIBS += $(TOOLS)/libdhelas3.a
 
 ### Libraries for linking c++ code
 LIBS += -ldl -lstdc++
+
+### for compressing lhe files
+LIBS += -lz
 
 ########################################################################
 ## combine all flags, libraries and includes
