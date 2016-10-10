@@ -42,11 +42,9 @@ c          pk
 
       subroutine off_to_on(p,chan,p_OS)
         implicit none
-
 #include "nexternal.inc"
 #include "nlegborn.h"
 #include "pwhg_kn.h"
-
         ! momenta from PS-generator, on-shell momenta
         double precision p(0:3,nexternal),p_OS(0:3,nexternal)
         ! mass at resonance, mass of particle i,j,k

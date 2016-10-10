@@ -551,8 +551,8 @@ c version.
         
         if( (dabs(par_Fin1mass) + dabs(par_Fin2mass)) .lt. par_Zmass )
      &  then
-          print*, "Final state masses low, W/Z decays might "//
-     &            "be more suitable"
+          print*, "Final state masses low. On-shell W/Z production "//
+     &            "followed by weakino decays might be more suitable."
           stop
         endif
         
