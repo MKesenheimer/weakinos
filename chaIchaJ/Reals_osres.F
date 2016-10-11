@@ -11,7 +11,7 @@ c by on-shell counter terms) evaluated at a phase space point where
 c sij = mij**2 holds.
 c the corrfac factor accounts for the restriction of the pahse-space and
 c modifies the jacobian.
-      subroutine  setosresreal(p,rflav,chan,ampreal)
+      subroutine setosresreal(p,rflav,chan,ampreal)
         implicit none
 #include "PhysPars.h"
 #include "nlegborn.h"

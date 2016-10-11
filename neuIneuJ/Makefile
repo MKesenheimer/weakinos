@@ -304,12 +304,12 @@ PWHG = pwhg_init.o btilde.o utils.o gen_Born_phsp.o		\
 	lhefread.o pwhg_io_interface.o rwl_weightlists.o rwl_setup_param_weights.o
 
 # modified POWHEG-files
-PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
-	sigborn_mod.o sigreal_mod.o sigsoftvirt_mod.o			\
-	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 			\
-	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
-	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o 	\
-	pdfcalls.o newunit_mod.o pwhg_main_mod.o
+ PWHG += cernroutines_mod.o find_regions_mod.o gen_real_phsp_mod.o	\
+ 	sigborn_mod.o sigreal_mod.o sigsoftvirt_mod.o			\
+ 	sigvirtual_mod.o bbinit_mod.o LesHouches_mod.o 			\
+ 	LesHouchesreg_mod.o gen_index_mod.o lhefwrite_mod.o		\
+ 	gen_radiation_mod.o sigremnants_mod.o pwhgreweight_mod.o 	\
+ 	pdfcalls.o newunit_mod.o pwhg_main_mod.o
 
 ### LHEF ###
 # analyze LHEF output

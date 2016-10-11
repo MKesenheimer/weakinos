@@ -401,6 +401,7 @@ c in the powheg.input file; useful to catch mispelled keywords
       subroutine rwl_compute_new_weight(weight)
       implicit none
       real * 8 weight
+      logical savelogical
       include 'nlegborn.h'
       include 'pwhg_flst.h'
       include 'pwhg_rad.h'
@@ -411,6 +412,7 @@ c ! MK: added
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
+#include "Flags.h"
       real * 8 newweight
       logical pwhg_isfinite
       call setrandom(rwl_seed,rwl_n1,rwl_n2)
@@ -434,8 +436,11 @@ c ! MK: added
       ! the indices for the on-shell resonances by 3.
       ! => rad_type = ichan + 3 
       elseif((rwl_type.ge.4) .and. (rwl_type.le.(nosres+3))) then
+         savelogical=flg_btilde
+         flg_btilde=.false.
          call gen_sigosresrw
          newweight=rad_osres_arr(rad_realosres,rwl_type-3)
+         flg_btilde=savelogical
       !=================================================================
       else
          write(*,*) 'Error in rwl_compute_new_weight, '//

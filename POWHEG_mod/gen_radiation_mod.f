@@ -11,6 +11,7 @@ c bigger changes over a whole section are marked with !===...
       include 'pwhg_flg.h'
       include 'pwhg_kn.h'
       include 'pwhg_rad.h'
+      include 'pwhg_rwl.h'
       include 'LesHouches.h'
 c MK: added
 #include "osres.h"
@@ -99,8 +100,10 @@ c if negative weight, flip the sign of weight
 c rad_type=1 for btilde events (used only for debugging purposes)
          rad_type=1
          call increasecnt("btilde event")
-c CH: commented
-c      else
+         rwl_type = rad_type
+         rwl_index = rad_ubornidx
+         rwl_weight = rad_btilde_arr(rad_ubornidx)
+     $        *rad_btilde_sign(rad_ubornidx)
       ! regular or remnant contribution
       elseif(ran1.gt.(rad_totosresgen_sum/rad_totgen)) then ! MK: changed
          ! CH: set the flg_btilde to true for normal remnant part
@@ -142,6 +145,9 @@ c     rad_type=2 for remnants
               weight=-weight
             endif
             call increasecnt("remnant event")
+            rwl_type = rad_type
+            rwl_index = rad_realalr
+            rwl_weight = rad_damp_rem_arr(rad_realalr)
          else
 c     set st_muren2 for scalup value for regular contributions
             rad_pt2max=max(rad_ptsqmin,pt2max_regular())
@@ -153,6 +159,9 @@ c rad_type=3 for regular contributions
               weight=-weight
             endif
             call increasecnt("regular event")
+            rwl_type = rad_type
+            rwl_index = rad_realreg
+            rwl_weight = rad_reg_arr(rad_realreg)
          endif
 c=======================================================================        
 c CH, MK: new part here:
@@ -198,11 +207,12 @@ c CH, MK: new part here:
             stop
          endif   
          call increasecnt("osres event")
+         rwl_type = rad_type
+         rwl_index = rad_realosres
+         rwl_weight = rad_osres_arr(rad_realosres,iret-2)
+     &               *rad_osres_sign(rad_realosres,iret-2)
+c======================================================================= 
       endif
-c======================================================================= 
-c CH: add test-function defined in LesHouches.f:
-c            call displeshouches
-c======================================================================= 
       if(flg_weightedev) then
          call born_suppression(suppfact)
          if(suppfact.eq.0) then
@@ -211,6 +221,10 @@ c=======================================================================
             call exit(-1)
          endif
          weight=weight/suppfact
+      endif
+c     correct for bound violations
+      if(flg_ubexcess_correct) then
+         weight = weight * rad_genubexceeded
       endif
 c If at the end the event is not generated for some reason (nup=0)
 c restart from here

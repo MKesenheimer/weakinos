@@ -93,21 +93,15 @@ testplots      1     ! write data for gnuplot histograms to *.top
 #storemintupb   0    ! whether to save btilde calls to set up upper bounding envelope (TODO: funktioniert bislang nicht, POWHEG hängt sich bei der Berechnung eines failure estimate auf)
 ewi           1d-2   ! regulator for on-shell divergences
 
-! old reweighting
-storeinfo_rwgt 1     ! write informations into the event file that are necessary for reweighting
-lhrwgt_id '000'      ! reweighting id
-#compute_rwgt  1     ! reweight the events corresponding to different pdf's or scale choice
-
 ! new POWHEG-BOX-V2 features (rev. >3306)
 compress_lhe 1      ! activate lhe compression 
-#rwl_file 'filename' ! file containing the xml description of the weights
-#rwl_file '-'
-#rwl_add 1
-#<initrwgt>
-#<weightgroup name='FAC'>
-#<weight id='1'>renscfact=1 facscfact=1</weight>
-#</weightgroup>
-#</initrwgt>
+#rwl_add 1          ! uncomment if you want to reweight the events
+rwl_file '-'
+<initrwgt>
+<weightgroup name='FAC'>
+<weight id='1'>renscfact=1 facscfact=1</weight>
+</weightgroup>
+</initrwgt>
  
 iseed         5602   ! (default 5602) initialize random number sequence
 #pdfreweight    1    ! (default 0) write extra pdf infos on LHEF

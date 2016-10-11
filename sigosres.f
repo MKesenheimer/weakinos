@@ -20,7 +20,6 @@ c return value: output, 0: success; 1: retval0 was not computed
 c                   (this function does not support an avatar function)
       function sigosres(xx,ww1,ifirst,imode,retval,retval0)
         implicit none
-
 #include "nlegborn.h"
 #include "pwhg_flst.h"
 #include "pwhg_kn.h"
@@ -28,12 +27,10 @@ c                   (this function does not support an avatar function)
 #include "pwhg_flg.h"
 #include "pwhg_math.h"
 #include "PhysPars.h"
-
 c keep this order
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
-
         integer sigosres,imode
         double precision retval,retval0,xx(ndiminteg),ww1
         double precision yy(ndiminteg)
@@ -103,19 +100,16 @@ c############### subroutine sigreal_osres ##############################
 c contributions from real graphs that do not have a singular region
       subroutine sigreal_osres(xjac,sig,r0,ichan)
         implicit none
-        
 #include "nlegborn.h"
 #include "pwhg_flst.h"
 #include "pwhg_kn.h"
 #include "pwhg_rad.h"
 #include "pwhg_flg.h"
 #include "pwhg_pdf.h"
-
 c keep this order
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
-
         double precision xjac,sig,r0(maxprocreal)
         integer lset,lsetpr,iret
         integer nmomset
@@ -208,10 +202,8 @@ c slightliy modified copy of compare_vecs_reg
 c make sure to avoid 0-amplitudes correctly
       subroutine compare_vecs_osres(nmomset,lset,res,lsetpr,cprop,iret)
         implicit none
-
 #include "nlegborn.h"
 #include "pwhg_flst.h"
-
         double precision ep
         parameter (ep=1d-12)
         integer nmomset,lset,lsetpr,iret,j,k
@@ -270,18 +262,14 @@ c############### subroutine addupweightsosres ##########################
 c the following routines are similar to the btilde-case...
       subroutine addupweightsosres(sigosres)
         implicit none
-
 #include "nlegborn.h"
 #include "pwhg_flst.h"
 # include "pwhg_rad.h"
-
 c keep this order
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
-
         double precision sigosres
-
         double precision dtotosres(cnosres),dtotabsosres(cnosres)
         double precision dtotpososres(cnosres),dtotnegosres(cnosres)
         double precision totosres(cnosres),etotosres(cnosres)
@@ -289,7 +277,6 @@ c keep this order
         double precision totpososres(cnosres),etotpososres(cnosres)
         double precision totnegosres(cnosres),etotnegosres(cnosres)
         integer ncalls,i,j
-
         common/cadduptotalsosres/totosres,etotosres,totabsosres
         common/cadduptotalsosres/etotabsosres,totpososres
         common/cadduptotalsosres/etotpososres,totnegosres,etotnegosres
@@ -345,15 +332,12 @@ c############### subroutine addupweightsosres ##########################
 c set all new totals concerning regulars/remnants/osres to zero
       subroutine resettotalsosres
         implicit none
-
 #include "osres.h"
-
         double precision totosres(cnosres),etotosres(cnosres)
         double precision totabsosres(cnosres),etotabsosres(cnosres)
         double precision totpososres(cnosres),etotpososres(cnosres)
         double precision totnegosres(cnosres),etotnegosres(cnosres)
         integer ncalls,j
-
         common/cadduptotalsosres/totosres,etotosres,totabsosres
         common/cadduptotalsosres/etotabsosres,totpososres
         common/cadduptotalsosres/etotpososres,totnegosres,etotnegosres
@@ -379,25 +363,20 @@ c############### subroutine finaltotalsosres ###########################
 c similar to corresponding routine in btilde
       subroutine finaltotalsosres
         implicit none
-
 #include "nlegborn.h"
 #include "pwhg_flst.h"
 #include "pwhg_rad.h"
-
 c keep this order
 #include "osres.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
-
         double precision calc_error
         external calc_error
-
         double precision totosres(cnosres),etotosres(cnosres)
         double precision totabsosres(cnosres),etotabsosres(cnosres)
         double precision totpososres(cnosres),etotpososres(cnosres)
         double precision totnegosres(cnosres),etotnegosres(cnosres)
         integer ncalls,j
-
         common/cadduptotalsosres/totosres,etotosres,totabsosres
         common/cadduptotalsosres/etotabsosres,totpososres
         common/cadduptotalsosres/etotpososres,totnegosres,etotnegosres

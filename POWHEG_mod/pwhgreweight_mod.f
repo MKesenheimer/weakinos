@@ -17,6 +17,7 @@ c bigger changes over a whole section are marked with !===...
       include 'LesHouches.h'
 c ! MK: added
 #include "osres.h"
+#include "Flags.h"
 #include "pwhg_flst_add.h"
 #include "pwhg_rad_add.h"
       integer maxev
@@ -138,10 +139,9 @@ c         write(iunrwgt,'(a)') trim(stringin)
       include 'pwhg_flst.h'
       include 'cgengrids.h'
 c MK: added
-#include "osres.h"
 #include "pwhg_flst_add.h"
+#include "Flags.h"
 #include "cgengrids_add.h"
-#include "pwhg_rad_add.h"
       real * 8 xx(ndiminteg)
       integer mcalls,icalls
       real * 8 sigosres
@@ -150,8 +150,8 @@ c MK: added
       icalls=0
       call gen(sigosres,ndiminteg,xgridosres,ymaxosres,ymaxratosres,
      &         xmmmosres,ifoldosres,2,mcalls,icalls,xx)
-      end
-
+      end      
+      
       subroutine openoutputrw(iunrwgt)
       implicit none
       include 'pwhg_flg.h'
