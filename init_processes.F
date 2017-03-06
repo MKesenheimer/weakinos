@@ -321,15 +321,15 @@ c if the real-amplitudes are resonant split into a regular part and the
 c IR-divergent parts: this routine provides the corresponding flavor 
 c lists and stores it in flst_osres
 c this list should not be confused with flst_realres.
-c dl35: left handed up-type squark gets resonant with particles 3 & 5
-c dl45: left handed up-type squark gets resonant with particles 4 & 5
-c ul35: left handed down-type squark gets resonant with particles 3 & 5
-c ul45: left handed down-type squark gets resonant with particles 4 & 5
+c dl35: left handed d-type squark gets resonant with particles 3 & 5
+c dl45: left handed d-type squark gets resonant with particles 4 & 5
+c ul35: left handed u-type squark gets resonant with particles 3 & 5
+c ul45: left handed u-type squark gets resonant with particles 4 & 5
 c (only required for neutralino pair production:)
-c dr35: right handed up-type squark gets resonant with particles 3 & 5
-c dr45: right handed up-type squark gets resonant with particles 4 & 5
-c ur35: right handed down-type squark gets resonant with particles 3 & 5
-c ur45: right handed down-type squark gets resonant with particles 4 & 5
+c dr35: right handed d-type squark gets resonant with particles 3 & 5
+c dr45: right handed d-type squark gets resonant with particles 4 & 5
+c ur35: right handed u-type squark gets resonant with particles 3 & 5
+c ur45: right handed u-type squark gets resonant with particles 4 & 5
       subroutine init_processes_osres
         implicit none
 #include "nlegborn.h"
