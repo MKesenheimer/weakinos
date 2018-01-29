@@ -119,7 +119,7 @@ ins = InsertFields[top, process];
 (*All Self Energies*)
 (*DoPaint[ins, "selfAll"];*)
 
-ins = DiagramSelect[ins,(FieldMemberQ[FieldPoints[##],FieldPoint[_][_,_,V[5,{_}]]] || FieldMemberQ[LoopFields[##],F[15,{_}]]
+ins = DiagramSelect[ins,(MemberQ[FieldPoints[##],FieldPoint[_][_,_,V[5,{_}]]] || FieldMemberQ[LoopFields[##],F[15,{_}]]
 						|| FieldMemberQ[LoopFields[##], S[13,{_,_,_}]] || FieldMemberQ[LoopFields[##], S[14,{_,_,_}]] || FieldMemberQ[LoopFields[##], V[5,{_}]]) &]; (*Diagram contains g, sg*)
 
 ins = DiagramSelect[ins,(FreeQ[FieldPoints[##],FieldPoint[_][_,_,V[3]]]) &]; (*Diagram does not contain W*)
@@ -135,6 +135,7 @@ ins = DiagramSelect[ins,FreeQ[FieldPoints[##],FieldPoint[_][_,_,V[2],V[2]]] &]; 
 ins = DiagramSelect[ins,FreeQ[FieldPoints[##],FieldPoint[_][_,_,V[2],V[1]]] &]; (*Diagram does not contain 2Photons*)
 
 DoPaint[ins, "self"];
+Quit[];
 self = CalcFeynAmp[CreateFeynAmp[ins], counterSelf];
 self = self//.{Alfa2->0}
 

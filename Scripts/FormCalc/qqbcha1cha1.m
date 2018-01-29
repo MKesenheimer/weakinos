@@ -111,7 +111,6 @@ counterVert = CreateFeynAmp[insVert];
 
 
 Print["Self Energies"]
-
 top = CreateTopologies[1, 2 -> 2, SelfEnergiesOnly];
 ins = InsertFields[top, process];
 

@@ -23,7 +23,7 @@ chainA '1000037->1000022,24;24->-11,12;'
 chainB '-1000037->1000022,-24;-24->11,-12;'
 
 ! physics
-incomingflavors 5    ! (default 5) number of incoming flavor
+incomingflavors 4    ! (default 4) number of incoming flavor
 
 ! by default, these parameters are set according to the SLHA input file.
 ! however, they may be set to explicit values here.

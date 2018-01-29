@@ -96,36 +96,79 @@ C
       DATA(NHEL(IHEL,  32),IHEL=1, 5) / 1, 1, 1, 1, 1/
       DATA(  IC(IHEL,  1),IHEL=1, 5) / 1, 2, 3, 4, 5/
       DATA(IDEN(IHEL),IHEL=  1,  1) /  96/
+C
+C Additional goodhel check
+C
+      INTEGER NTRY1,NTRY2
+      DATA NTRY1,NTRY2 /0,0/
+      LOGICAL GOODHEL1(NCOMB,NCROSS), GOODHEL2(NCOMB,NCROSS)
+      DATA GOODHEL1/THEL*.FALSE./
+      DATA GOODHEL2/THEL*.FALSE./
 C ----------
 C BEGIN CODE
 C ----------
-      NTRY=NTRY+1
-      DO IPROC=1,NCROSS
-      CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
-      DO IHEL=1,NEXTERNAL
-         JC(IHEL) = +1
-      ENDDO
-       
-          DO IHEL=1,NGRAPHS
-              amp2(ihel)=0d0
-          ENDDO
-          DO IHEL=1,int(jamp2(0))
-              jamp2(ihel)=0d0
-          ENDDO
-      ANS(IPROC) = 0D0
-          DO IHEL=1,NCOMB
-             IF(GOODHEL(IHEL,IPROC) .OR. NTRY .LT. 2) THEN
-                 T=MATRIX_GDX_NIXJUX_RES(P,NHEL(1,IHEL),JC(1),CHAN)            
-               ANS(IPROC)=ANS(IPROC)+T
-               IF(T .NE. 0D0 .AND. .NOT.    GOODHEL(IHEL,IPROC)) THEN
-                   GOODHEL(IHEL,IPROC)=.TRUE.
-                   NGOOD = NGOOD +1
-                   IGOOD(NGOOD) = IHEL
+      if(CHAN.eq."ul35") then
+
+        NTRY1=NTRY1+1
+        DO IPROC=1,NCROSS
+        CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
+        DO IHEL=1,NEXTERNAL
+           JC(IHEL) = +1
+        ENDDO
+         
+            DO IHEL=1,NGRAPHS
+                amp2(ihel)=0d0
+            ENDDO
+            DO IHEL=1,int(jamp2(0))
+                jamp2(ihel)=0d0
+            ENDDO
+        ANS(IPROC) = 0D0
+            DO IHEL=1,NCOMB
+               IF(GOODHEL1(IHEL,IPROC) .OR. NTRY1 .LT. 2) THEN
+                   T=MATRIX_GDX_NIXJUX_RES(P,NHEL(1,IHEL),JC(1),CHAN)
+                 ANS(IPROC)=ANS(IPROC)+T
+                 IF(T .NE. 0D0 .AND. .NOT.    GOODHEL1(IHEL,IPROC)) THEN
+                     GOODHEL1(IHEL,IPROC)=.TRUE.
+                     NGOOD = NGOOD +1
+                     IGOOD(NGOOD) = IHEL
+                 ENDIF
                ENDIF
-             ENDIF
-          ENDDO
-      ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
-      ENDDO
+            ENDDO
+            ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC)) 
+        ENDDO
+
+      else if(CHAN.eq."dl45") then
+
+        NTRY2=NTRY2+1
+        DO IPROC=1,NCROSS
+        CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
+        DO IHEL=1,NEXTERNAL
+           JC(IHEL) = +1
+        ENDDO
+         
+            DO IHEL=1,NGRAPHS
+                amp2(ihel)=0d0
+            ENDDO
+            DO IHEL=1,int(jamp2(0))
+                jamp2(ihel)=0d0
+            ENDDO
+        ANS(IPROC) = 0D0
+            DO IHEL=1,NCOMB
+               IF(GOODHEL2(IHEL,IPROC) .OR. NTRY2 .LT. 2) THEN
+                   T=MATRIX_GDX_NIXJUX_RES(P,NHEL(1,IHEL),JC(1),CHAN)
+                 ANS(IPROC)=ANS(IPROC)+T
+                 IF(T .NE. 0D0 .AND. .NOT.    GOODHEL2(IHEL,IPROC)) THEN
+                     GOODHEL2(IHEL,IPROC)=.TRUE.
+                     NGOOD = NGOOD +1
+                     IGOOD(NGOOD) = IHEL
+                 ENDIF
+               ENDIF
+            ENDDO
+            ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
+        ENDDO
+
+      endif
+
       END
        
        
@@ -222,12 +265,7 @@ C ----------
       ! S45 = MUL^2
       else if (CHAN.eq."dl45") then
         JAMP(1) = -AMP(7)-AMP(8)
-      ! both resonant channels
-      else if (CHAN.eq."allr") then
-        JAMP(1) = -AMP(2)-AMP(3)-AMP(7)-AMP(8)
       else
-        !print*,"error in r_gdx_nixjux_res.f"
-        !stop
         JAMP(1) = 1D-99
       endif
 

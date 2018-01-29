@@ -25,11 +25,10 @@
       if( chan.ne."ul35" .and. chan.ne."ul45" .and.
      &    chan.ne."ur35" .and. chan.ne."ur45" .and.
      &    chan.ne."dl35" .and. chan.ne."dl45" .and.
-     &    chan.ne."dr35" .and. chan.ne."dr45" .and.
-     &    chan.ne."allr ") then
+     &    chan.ne."dr35" .and. chan.ne."dr45") then
         print*,"wrong channel number: ", chan
         print*,"choose ul35, ul45, ur35, ur45, dl35, dl45, dr35, "//
-     &         "dr45 or allr."
+     &         "dr45."
         stop
       endif
 

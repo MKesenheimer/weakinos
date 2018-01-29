@@ -23,10 +23,9 @@
       
       ! here: only left handed squarks can become resonant
       if( chan.ne."ul35" .and. chan.ne."ul45" .and. 
-     &    chan.ne."dl35" .and. chan.ne."dl45" .and.
-     &    chan.ne."allr ") then
+     &    chan.ne."dl35" .and. chan.ne."dl45") then
         print*,"wrong channel number: ", chan
-        print*,"choose ul35, ul45, dl35, dl45 or allr."
+        print*,"choose ul35, ul45, dl35, dl45."
         stop
       endif
 

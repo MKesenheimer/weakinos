@@ -99,40 +99,159 @@ C
       DATA(NHEL(IHEL,  32),IHEL=1, 5) / 1, 1, 1, 1, 1/
       DATA(  IC(IHEL,  1),IHEL=1, 5) / 1, 2, 3, 4, 5/
       DATA(IDEN(IHEL),IHEL=  1,  1) /  96/
+C
+C Additional goodhel check
+C
+      INTEGER NTRY1,NTRY2,NTRY3,NTRY4 
+      DATA NTRY1,NTRY2,NTRY3,NTRY4 /0,0,0,0/
+      LOGICAL GOODHEL1(NCOMB,NCROSS), GOODHEL2(NCOMB,NCROSS)
+      LOGICAL GOODHEL3(NCOMB,NCROSS), GOODHEL4(NCOMB,NCROSS)
+      DATA GOODHEL1/THEL*.FALSE./
+      DATA GOODHEL2/THEL*.FALSE./
+      DATA GOODHEL3/THEL*.FALSE./
+      DATA GOODHEL4/THEL*.FALSE./
+
 C ----------
 C BEGIN CODE
 C ----------
-      NTRY=NTRY+1
-      DO IPROC=1,NCROSS
-      CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
-      DO IHEL=1,NEXTERNAL
-         JC(IHEL) = +1
-      ENDDO
-       
-          DO IHEL=1,NGRAPHS
-              amp2(ihel)=0d0
-          ENDDO
-          DO IHEL=1,int(jamp2(0))
-              jamp2(ihel)=0d0
-          ENDDO
-      ANS(IPROC) = 0D0
-          DO IHEL=1,NCOMB
-             IF(GOODHEL(IHEL,IPROC) .OR. NTRY .LT. 2) THEN
-                 T=MATRIX_GD_NINJD_RES(P,NHEL(1,IHEL),JC(1),CHAN)
-               ANS(IPROC)=ANS(IPROC)+T
-               IF(T .NE. 0D0 .AND. .NOT.    GOODHEL(IHEL,IPROC)) THEN
-                   GOODHEL(IHEL,IPROC)=.TRUE.
-                   NGOOD = NGOOD +1
-                   IGOOD(NGOOD) = IHEL
+      if(CHAN.eq."dl35") then
+
+        NTRY1=NTRY1+1
+        DO IPROC=1,NCROSS
+        CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
+        DO IHEL=1,NEXTERNAL
+           JC(IHEL) = +1
+        ENDDO
+         
+            DO IHEL=1,NGRAPHS
+                amp2(ihel)=0d0
+            ENDDO
+            DO IHEL=1,int(jamp2(0))
+                jamp2(ihel)=0d0
+            ENDDO
+        ANS(IPROC) = 0D0
+            DO IHEL=1,NCOMB
+               IF(GOODHEL1(IHEL,IPROC) .OR. NTRY1 .LT. 2) THEN
+                   T=MATRIX_GD_NINJD_RES(P,NHEL(1,IHEL),JC(1),CHAN)
+                 ANS(IPROC)=ANS(IPROC)+T
+                 IF(T .NE. 0D0 .AND. .NOT.    GOODHEL1(IHEL,IPROC)) THEN
+                     GOODHEL1(IHEL,IPROC)=.TRUE.
+                     NGOOD = NGOOD +1
+                     IGOOD(NGOOD) = IHEL
+                 ENDIF
                ENDIF
-             ENDIF
-          ENDDO
-      if(final1.eq.final2) then ! equal final states
-        ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC)*2)
-      else
-        ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
-      endif  
-      ENDDO
+            ENDDO
+        if(final1.eq.final2) then ! equal final states
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC)*2)
+        else
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
+        endif  
+        ENDDO
+
+      else if(CHAN.eq."dr35") then
+
+        NTRY2=NTRY2+1
+        DO IPROC=1,NCROSS
+        CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
+        DO IHEL=1,NEXTERNAL
+           JC(IHEL) = +1
+        ENDDO
+         
+            DO IHEL=1,NGRAPHS
+                amp2(ihel)=0d0
+            ENDDO
+            DO IHEL=1,int(jamp2(0))
+                jamp2(ihel)=0d0
+            ENDDO
+        ANS(IPROC) = 0D0
+            DO IHEL=1,NCOMB
+               IF(GOODHEL2(IHEL,IPROC) .OR. NTRY2 .LT. 2) THEN
+                   T=MATRIX_GD_NINJD_RES(P,NHEL(1,IHEL),JC(1),CHAN)
+                 ANS(IPROC)=ANS(IPROC)+T
+                 IF(T .NE. 0D0 .AND. .NOT.    GOODHEL2(IHEL,IPROC)) THEN
+                     GOODHEL2(IHEL,IPROC)=.TRUE.
+                     NGOOD = NGOOD +1
+                     IGOOD(NGOOD) = IHEL
+                 ENDIF
+               ENDIF
+            ENDDO
+        if(final1.eq.final2) then ! equal final states
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC)*2)
+        else
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
+        endif  
+        ENDDO
+
+      else if(CHAN.eq."dl45") then
+
+        NTRY3=NTRY3+1
+        DO IPROC=1,NCROSS
+        CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
+        DO IHEL=1,NEXTERNAL
+           JC(IHEL) = +1
+        ENDDO
+         
+            DO IHEL=1,NGRAPHS
+                amp2(ihel)=0d0
+            ENDDO
+            DO IHEL=1,int(jamp2(0))
+                jamp2(ihel)=0d0
+            ENDDO
+        ANS(IPROC) = 0D0
+            DO IHEL=1,NCOMB
+               IF(GOODHEL3(IHEL,IPROC) .OR. NTRY3 .LT. 2) THEN
+                   T=MATRIX_GD_NINJD_RES(P,NHEL(1,IHEL),JC(1),CHAN)
+                 ANS(IPROC)=ANS(IPROC)+T
+                 IF(T .NE. 0D0 .AND. .NOT.    GOODHEL3(IHEL,IPROC)) THEN
+                     GOODHEL3(IHEL,IPROC)=.TRUE.
+                     NGOOD = NGOOD +1
+                     IGOOD(NGOOD) = IHEL
+                 ENDIF
+               ENDIF
+            ENDDO
+        if(final1.eq.final2) then ! equal final states
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC)*2)
+        else
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
+        endif  
+        ENDDO
+
+      else if(CHAN.eq."dr45") then
+
+        NTRY4=NTRY4+1
+        DO IPROC=1,NCROSS
+        CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
+        DO IHEL=1,NEXTERNAL
+           JC(IHEL) = +1
+        ENDDO
+         
+            DO IHEL=1,NGRAPHS
+                amp2(ihel)=0d0
+            ENDDO
+            DO IHEL=1,int(jamp2(0))
+                jamp2(ihel)=0d0
+            ENDDO
+        ANS(IPROC) = 0D0
+            DO IHEL=1,NCOMB
+               IF(GOODHEL4(IHEL,IPROC) .OR. NTRY4 .LT. 2) THEN
+                   T=MATRIX_GD_NINJD_RES(P,NHEL(1,IHEL),JC(1),CHAN)
+                 ANS(IPROC)=ANS(IPROC)+T
+                 IF(T .NE. 0D0 .AND. .NOT.    GOODHEL4(IHEL,IPROC)) THEN
+                     GOODHEL4(IHEL,IPROC)=.TRUE.
+                     NGOOD = NGOOD +1
+                     IGOOD(NGOOD) = IHEL
+                 ENDIF
+               ENDIF
+            ENDDO
+        if(final1.eq.final2) then ! equal final states
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC)*2)
+        else
+          ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
+        endif  
+        ENDDO
+
+      endif
+
       END
 
 
@@ -262,13 +381,7 @@ C ----------
       ! S45 = MDR^2
       else if(CHAN.eq."dr45") then
         JAMP(1) = -AMP(4)-AMP(6)
-      ! all resonant channels
-      else if(CHAN.eq."allr") then
-        JAMP(1) = +AMP(9)+AMP(11)+AMP(10)+AMP(12)
-     &            -AMP(3)-AMP(5)-AMP(4)-AMP(6)
       else
-        ! der Fortrancompiler macht seltsame Sachen, wenn hier eine
-        ! exakte Null steht, deshalb hier sehr kleine Zahl
         JAMP(1) = 1D-99
       endif
 

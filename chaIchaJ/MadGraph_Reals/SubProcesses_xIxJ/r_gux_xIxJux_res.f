@@ -96,36 +96,48 @@ C
       DATA(NHEL(IHEL,  32),IHEL=1, 5) / 1, 1, 1, 1, 1/
       DATA(  IC(IHEL,  1),IHEL=1, 5) / 1, 2, 3, 4, 5/
       DATA(IDEN(IHEL),IHEL=  1,  1) /  96/
+C
+C Additional goodhel check
+C
+      INTEGER NTRY1
+      DATA NTRY1 /0/
+      LOGICAL GOODHEL1(NCOMB,NCROSS)
+      DATA GOODHEL1/THEL*.FALSE./
 C ----------
 C BEGIN CODE
 C ----------
-      NTRY=NTRY+1
-      DO IPROC=1,NCROSS
-      CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
-      DO IHEL=1,NEXTERNAL
-         JC(IHEL) = +1
-      ENDDO
-       
-          DO IHEL=1,NGRAPHS
-              amp2(ihel)=0d0
-          ENDDO
-          DO IHEL=1,int(jamp2(0))
-              jamp2(ihel)=0d0
-          ENDDO
-      ANS(IPROC) = 0D0
-          DO IHEL=1,NCOMB
-             IF(GOODHEL(IHEL,IPROC) .OR. NTRY .LT. 2) THEN
-                 T=MATRIX_GUX_XIXJUX_RES(P,NHEL(1,IHEL),JC(1),CHAN)
-               ANS(IPROC)=ANS(IPROC)+T
-               IF(T .NE. 0D0 .AND. .NOT.    GOODHEL(IHEL,IPROC)) THEN
-                   GOODHEL(IHEL,IPROC)=.TRUE.
-                   NGOOD = NGOOD +1
-                   IGOOD(NGOOD) = IHEL
+      if(CHAN.eq."dl35") then
+
+        NTRY1=NTRY1+1
+        DO IPROC=1,NCROSS
+        CALL SWITCHMOM(P1,P,IC(1,IPROC),JC,NEXTERNAL)
+        DO IHEL=1,NEXTERNAL
+           JC(IHEL) = +1
+        ENDDO
+         
+            DO IHEL=1,NGRAPHS
+                amp2(ihel)=0d0
+            ENDDO
+            DO IHEL=1,int(jamp2(0))
+                jamp2(ihel)=0d0
+            ENDDO
+        ANS(IPROC) = 0D0
+            DO IHEL=1,NCOMB
+               IF(GOODHEL1(IHEL,IPROC) .OR. NTRY1 .LT. 2) THEN
+                   T=MATRIX_GUX_XIXJUX_RES(P,NHEL(1,IHEL),JC(1),CHAN)
+                 ANS(IPROC)=ANS(IPROC)+T
+                 IF(T .NE. 0D0 .AND. .NOT.    GOODHEL1(IHEL,IPROC)) THEN
+                     GOODHEL1(IHEL,IPROC)=.TRUE.
+                     NGOOD = NGOOD +1
+                     IGOOD(NGOOD) = IHEL
+                 ENDIF
                ENDIF
-             ENDIF
-          ENDDO
-      ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
-      ENDDO
+            ENDDO
+            ANS(IPROC)=ANS(IPROC)/DBLE(IDEN(IPROC))
+        ENDDO
+
+      endif
+
       END
 
 
@@ -209,9 +221,6 @@ C ----------
 
       ! S35 = MDL^2
       if(CHAN.eq."dl35") then
-        JAMP(1) = +AMP(4)+AMP(5)
-      ! all resonant channels  
-      else if (CHAN.eq."allr") then
         JAMP(1) = +AMP(4)+AMP(5)
       else
         ! der Fortrancompiler macht seltsame Sachen, wenn hier eine
