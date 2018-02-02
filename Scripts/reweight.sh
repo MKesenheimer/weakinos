@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (C) Matthias Kesenheimer - All Rights Reserved
+# Written by Matthias Kesenheimer <m.kesenheimer@gmx.net>, 2017
 #
 # Examples:
 # ./reweight.sh -e pwhg_main_nixj -d testrun1 -r 1 --muf 0.5 --merge

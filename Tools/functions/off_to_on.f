@@ -1,3 +1,6 @@
+c Copyright (C) Matthias Kesenheimer - All Rights Reserved
+c Written by Matthias Kesenheimer <m.kesenheimer@gmx.net>, 2015
+c
 c############### subroutine off_to_on ##################################
 c remaps p to on-shell momenta
 c sufficient for diagram subtraction scheme

@@ -1,6 +1,10 @@
 ########################################################################
 #                          -*- Makefile -*-                            #
 ########################################################################
+# Copyright (C) Matthias Kesenheimer - All Rights Reserved             #
+# Written by Matthias Kesenheimer <m.kesenheimer@gmx.net>, 2017        #
+########################################################################
+#
 ## Flags
 
 ## Compiler and addional compiler Flags

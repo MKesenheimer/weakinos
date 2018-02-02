@@ -1,3 +1,7 @@
+c MK: copied and modified version of main-PYTHIA.f, revision 3154
+c changes marked with "! CH, MK:" or "! MK:"
+c bigger changes over a whole section are marked with !===...
+
       program main_pythia
       implicit none
       include 'LesHouches.h'

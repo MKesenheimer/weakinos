@@ -1,3 +1,15 @@
+c Copyright (C) Matthias Kesenheimer - All Rights Reserved
+c Written by Matthias Kesenheimer <m.kesenheimer@gmx.net>, 2017
+
+c subroutines to fill simple histograms. Example code to call and fill
+c the histograms:
+c
+c    ! fill histograms
+c    s35 = momsum2sq(p(0:3,3),p(0:3,5))
+c    s45 = momsum2sq(p(0:3,4),p(0:3,5))
+c    call histogram("sqrt(s35)",90,100D0,1000D0,dsqrt(s35),weight)
+c    call histogram("sqrt(s45)",90,100D0,1000D0,dsqrt(s45),weight)
+
 c############### generate histograms ###################################
       subroutine histogram(name,nbins,xm,xp,xval,weight)
         implicit none
@@ -6,7 +18,7 @@ c############### generate histograms ###################################
         integer k,nbins
         double precision xm,xp
         double precision xval,weight
-        integer st,ind,iun,ncalls(nhistsmax)
+        integer ind,iun,ncalls(nhistsmax)
         integer hits(nhistsmax,0:nbinsmax)
         double precision x(nhistsmax,0:nbinsmax)
         double precision ysum(nhistsmax,0:nbinsmax)
@@ -46,6 +58,7 @@ c############### generate histograms ###################################
         
         ncalls(ind) = ncalls(ind) + 1
         if(mod(ncalls(ind),1000).eq.0) then
+          !print*,"write histograms..."
           do k=0,(nbins-1)
             if(hits(ind,k).gt.0) then
               ymean(ind,k) = ysum(ind,k)/hits(ind,k)
@@ -69,6 +82,9 @@ c############### generate histograms ###################################
         character*(*) name
         integer ind,iun
         integer i
+        logical warning
+        data warning /.true./
+        save warning
         do i=1,nhistsmax
           if(trim(histlist(i)).eq.trim(name)) then
             ind = i
@@ -77,8 +93,18 @@ c############### generate histograms ###################################
           endif  
         enddo
         nhists = nhists + 1
-        histlist(nhists) = name
-        !call newunit(iun)
+        if(nhists.gt.nhistsmax) then
+          nhists = nhistsmax
+          if(warning) then
+            print*,"warning: too many histograms..."
+            do i=1,nhistsmax
+              print*,i,trim(histlist(i))
+            enddo
+            warning = .false.
+            endif
+          return
+        endif
+        histlist(nhists) = trim(name)
         iun = ind + 50
         unitlist(nhists) = iun
         ind = nhists

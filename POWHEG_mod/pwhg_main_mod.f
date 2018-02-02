@@ -1,3 +1,6 @@
+c MK: copied and modified version of pwhg_main.f, revision 3154
+c changes marked with "! MK:"
+
       implicit none
       include 'LesHouches.h'
       include 'nlegborn.h'

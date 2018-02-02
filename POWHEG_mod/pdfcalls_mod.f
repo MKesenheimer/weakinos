@@ -1,10 +1,21 @@
+c MK: copied and modified version of pdfcalls.f, revision 3154
+c changes marked with "! MK:"
+
       subroutine pdfcall(ih,x,pdf)
       implicit none
       include 'pwhg_pdf.h'
       integer ih
       real * 8 x,pdf(-pdf_nparton:pdf_nparton)
       include 'pwhg_st.h'
-      
+      if(x .ge. 1) then
+         if(x-1 .gt. 1d-4) then
+            write(*,*) 'pdfcall: warning, x=',x
+            write(*,*) 'returning pdf=0'
+         endif
+         pdf = 0
+         return
+      endif
+
 #ifdef DEBUGQ
       !x = 2.0393373472149643D-3
       x = 1.6480036108839822D-3
@@ -36,13 +47,25 @@
       !pdf(0) = 0D0
       ! u, d, s, c, b, t pdfs equal to zero
       !pdf(1) = 0D0
-      pdf(2) = 0D0      
+      !pdf(2) = 0D0      
+      !pdf(3) = 0D0
+      !pdf(4) = 0D0
+      !pdf(5) = 0D0
+      !pdf(6) = 0D0
+      !pdf(-1) = 0D0  
+      !pdf(-2) = 0D0  
+      !pdf(-3) = 0D0
+      !pdf(-4) = 0D0
+      !pdf(-5) = 0D0
+      !pdf(-6) = 0D0
+      ! test u ubar -> u ubar
+      pdf(0) = 0D0
+      pdf(1) = 0D0    
       pdf(3) = 0D0
       pdf(4) = 0D0
       pdf(5) = 0D0
       pdf(6) = 0D0
-      pdf(-1) = 0D0  
-      pdf(-2) = 0D0  
+      pdf(-1) = 0D0   
       pdf(-3) = 0D0
       pdf(-4) = 0D0
       pdf(-5) = 0D0
@@ -68,30 +91,6 @@
       print*,"pdf(6)",pdf(6)
       stop
 #endif
-
-#ifdef DEBUGQ
-      ! gluon pdf equal zero (test for no gluons in the initial state)
-      !pdf(0) = 0D0
-      ! u, d, s, c, b, t pdfs equal to zero
-      !pdf(1) = 0D0
-      pdf(2) = 0D0      
-      pdf(3) = 0D0
-      pdf(4) = 0D0
-      pdf(5) = 0D0
-      pdf(6) = 0D0
-      pdf(-1) = 0D0  
-      pdf(-2) = 0D0  
-      pdf(-3) = 0D0
-      pdf(-4) = 0D0
-      pdf(-5) = 0D0
-      pdf(-6) = 0D0
-#endif
-
-#ifdef DEBUGQ
-      ! gluon pdf equal zero (test for no gluons in the initial state)
-      pdf(0) = 0D0
-#endif
-      
       end
 
 

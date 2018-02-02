@@ -1,6 +1,10 @@
 ########################################################################
 #                          -*- Makefile -*-                            #
 ########################################################################
+# Copyright (C) Matthias Kesenheimer - All Rights Reserved             #
+# Written by Matthias Kesenheimer <m.kesenheimer@gmx.net>, 2017        #
+########################################################################
+#
 # General Conventions for Makefiles
 SHELL = /bin/sh
 .SUFFIXES:
@@ -278,7 +282,7 @@ endif
 ### USER Files ###
 USER = Born.o Born_phsp.o Born_lh.o Reals.o Reals_lh.o Virtuals.o	\
        init_processes.o init_couplings.o Reals_osres.o			\
-       Real_osres_phsp.o phi1_2.o sigosres.o version.o
+       Real_osres_phsp.o phsp_routines.o sigosres.o version.o
 
 ### Functions in Tools/functions/
 FUNC = funcprocess.o Print.o funcbasic.o off_to_on.o

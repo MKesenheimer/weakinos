@@ -1,4 +1,6 @@
 c#####################Print Model Parameters############################
+c Copyright (C) Matthias Kesenheimer - All Rights Reserved
+c Written by Matthias Kesenheimer <m.kesenheimer@gmx.net>, 2015
 c prints all model paramters from madgraph and formcalc
 
 c############### subroutine printFormcalcModelParameters ###############

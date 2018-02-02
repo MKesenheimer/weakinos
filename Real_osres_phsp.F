@@ -70,7 +70,7 @@ c -> do so by modifying the jacobian kn_jacborn.
         minmass = mi+mj+mk
         ! generate the x1-x2-phase space
         ! x1x2phspace(sbeams,minmass,xx,x1,x2,s,jac)
-        call x1x2phspace(kn_sbeams,minmass,xx(1:2),kn_x1,kn_x2,
+        call x1x2phspace(2,kn_sbeams,minmass,xx(1:2),kn_x1,kn_x2,
      &                   kn_sreal,jac)
         kn_jacreal = kn_jacreal*jac
         ! for convenience

@@ -72,7 +72,7 @@ c and the Jacobi factor for the phase space volume
         ! calculate the parton momentum fractions kn_xb1, kn_xb2
         ! the squared CM energy of the Born process sborn
         ! and the jacobi factor of the PS volume
-        call x1x2phspace(kn_sbeams,kn_minmass,xborn(1:2),kn_xb1,kn_xb2,
+        call x1x2phspace(2,kn_sbeams,kn_minmass,xborn(1:2),kn_xb1,kn_xb2,
      &                   kn_sborn,jac)
         kn_jacborn = kn_jacborn*jac
 

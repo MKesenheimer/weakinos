@@ -1,3 +1,6 @@
+c MK: copied and modified version of newunit.f, revision 3154
+c changes marked with "! MK:"
+
       subroutine newunit(iun)
       implicit none
       integer iun
